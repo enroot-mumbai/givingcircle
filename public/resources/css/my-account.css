@@ -1,0 +1,1063 @@
+.top-links li.logged > a > .fa-bell-o {font-family: 'FontAwesome';top:0;font-size: 20px;}
+.myaccount-banner > figure {position: relative;margin-bottom: 0;}
+.myaccount-banner > figure:before {content:'';background: rgba(15, 41, 145, .4);position: absolute;top: 0;width: 100%;height: 100%;z-index: 1;}
+.myaccount-banner > figure:hover img {transform: scale(1) translate(0, 0);}
+.myaccount-banner > figure > figcaption {position: absolute;top:0;width:100%;}
+.myaccount-banner > figure > figcaption .top-cap-dtls {width: 100%;display: inline-block;height: 350px;position: relative;}
+.user-info {width:100%;display:inline-block;position: relative;z-index: 9;}
+.user-info .user-edit {text-align:center;position: relative;right:0;display: inline-block;vertical-align: top;padding-right:0px;max-width: 200px;background: #fff;width: 200px;height: 200px;border-radius: 100%;}
+.user-info .user-edit:after {content: '';width: 200px;height: 200px;position: absolute;border-radius: 200px;left: 4px;top: 6px;background: #f05235;z-index: -1;}
+.user-info .user-edit > figure {margin-bottom: 0;height:200px;line-height: 200px;overflow: hidden;border-radius: 100%;}
+.user-info .user-edit > figure > img {width: 100%;height: 100%;}
+.user-info .user-edit > .fa {margin-top: -30px;position: absolute;left: 0;width: 100%;font-size: 17px;padding: 10px 0;}
+.fc-user-x2 {background: url('/resources/images/my-account/icon-user.png');width: 100px;height: 100px;display: inline-block;}
+.my-account .fixed-buttons {display:none}
+
+
+
+.avatar-upload {position: absolute;max-width: 50px;margin: 0px auto;bottom: -70px;left:0;}
+.avatar-edit {position: absolute;right: 12px;top: 10px;}
+.avatar-edit input {display: none;}
+.avatar-edit input + label {display: inline-block;width: 34px;height: 34px;margin-bottom: 0;border-radius: 100%;z-index: 99;cursor: pointer;font-weight: normal;transition: all .2s ease-in-out;position: absolute;bottom: 0;left: 50%;transform: translateX(-50%);width: 100%;}
+.avatar-edit input:hover {background: #f1f1f1;border-color: #d6d6d6;}
+.avatar-edit input:after { content: "\f040";font-family: 'FontAwesome';color: #757575;position: absolute;top: 10px;left: 0;right: 0;text-align: center;margin: auto;}
+.avatar-preview {width: 200px;height: 200px;position: relative;border-radius: 100%;}
+.avatar-preview > div {width: 100%;height: 100%;border-radius: 100%;background-size: cover;background-repeat: no-repeat;background-position: center;}
+.avatar-preview > div > i {margin-top:35px;}
+.avatar-preview.imageadded > div > i {display: none;}
+#imagePreview2 {width:100%;height:350px;object-fit: cover;background-size: 100%;}
+#imagePreview2 > img {width:100%;height:100%;object-fit: cover;}
+.myaccount-banner {height: 350px;}
+.myaccount-banner > figure label {position: absolute;margin-top: 15%;right: 1%;z-index: 9;cursor: pointer;background: #fff;border-radius: 100%;padding: 2px;width: 30px;height: 30px;text-align: center;font-size: 17px;}
+.myaccount-banner .banner-image > input {display: none;}
+.myaccount-banner .banner-image .banner-preview > div {width:100%;height:100%;object-fit: cover;}
+.myaccount-banner .user-dtls {padding-left:220px;position: absolute;bottom:30px;width:100%;z-index: 9;}
+.myaccount-banner .user-dtls > h4 {color:#fff;display: inline-block;}
+.myaccount-banner .user-dtls .social-share-btn{color: #fff;font-size: 20px;margin-left:10px;}
+.myaccount-banner .user-dtls .whatsapp-btn {background: url(/resources/images/common/whatsapp.png) no-repeat center top;width: 55px;height: 56px;right: 0;position: absolute;}
+.wrapper.myaccount {width: 100%;display: inline-block;overflow: hidden;min-height: 500px;/* z-index: 9; */position: relative;padding-top: 10px;background: #F5F8F6;}
+.wrapper.myaccount .container:before {content: '';border: 100px solid #F05235;width: 1058px;height: 1058px;position: absolute;left: -420px;top: -140px;border-radius: 100%;}
+.wrapper.myaccount .btn-primary-o {padding: 14px 25px;border:1px solid #090808;color:#090808;}
+.wrapper.myaccount .btn-primary-o:hover {color:#fff;}
+.cust-tabs {width:100%;display:inline-block;padding-left:215px;position: relative;margin-bottom: 100px;}
+.cust-tabs > ul {position: absolute;top:0;left:0;margin:0;padding:0;list-style-type: none;margin-top:40px;width: 215px;}
+.cust-tabs > ul> li {border-bottom: 1px solid #303030;display: inline-block;width: 100%;vertical-align: top;}
+.cust-tabs > ul> li.active a,
+.cust-tabs.personal-info > ul> li.individual a,
+.cust-tabs.events > ul> li>.events-nav>li> a,
+.cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav> a{color:#F05235}
+.cust-tabs > ul> li.active a:before,
+.cust-tabs > ul> li a:hover:before {content:'';width: 10px;height: 100%;background: #f05235;display: inline-block;position: absolute;right: 0;top: 0;}
+.cust-tabs > ul> li > ul {margin:0;padding:0;list-style-type: none;padding-left:30px}
+.cust-tabs > ul> li > ul >li{position: relative;border-top: 1px solid #303030;}
+.cust-tabs > ul> li > ul >li>a {display: table;color: #303030;padding: 20px 0;position: relative;width: 100%;}
+.cust-tabs > ul> li > ul.events-nav {display: none;}
+.cust-tabs.projects.activated li.project-nav .events-nav,
+.cust-tabs.crowdfunding > ul> li > ul.events-nav {display: inline-block;width:100%}
+/* .cust-tabs.projects.activated li.project-nav .events-nav .crowdfunding-nav,
+.cust-tabs.events.activated li.project-nav .events-nav .crowdfunding-nav {display: none;} */
+.cust-tabs.events.activated li.project-nav .events-nav {display: inline-block;width:100%;}
+.cust-tabs > ul> li > ul >li>a>i {display: table-cell;}
+.cust-tabs > ul> li > ul >li>a>span {font-weight: 600;display: table-cell;line-height: 35px;padding-left: 10px;}
+.cust-tabs > ul> li > ul >li.crowdfunding-nav >a>span {font-weight: 600;display: table-cell;line-height: 40px;padding-left: 10px;}
+.cust-tabs.projects > ul> li.project-nav > a:before, .cust-tabs.projects > ul> li.project-nav > a:hover:before,
+.cust-tabs.personal-info > ul> li.individual > a:before, .cust-tabs.personal-info > ul> li.individual > a:hover:before,
+.cust-tabs.events > ul> li>.events-nav>li > a:before, .cust-tabs.events > ul> li>.events-nav>li > a:hover:before,
+.cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav  > a:before, .cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav > a:hover:before {content: '';width: 10px;height: 100%;background: #f05235;display: inline-block;position: absolute;right: 0;top: 0;}
+.cust-tabs.projects > ul> li.project-nav > a:after, .cust-tabs.projects > ul> li.project-nav > a:hover:after,
+.cust-tabs.personal-info > ul> li.individual > a:after, .cust-tabs.individual > ul> li.project-nav > a:hover:after,
+.cust-tabs.events > ul> li>.events-nav>li > a:after, .cust-tabs.events > ul> li>.events-nav>li > a:hover:after,
+.cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav > a:after, .cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav > a:hover:after {content: '';border-top: 10px solid transparent;display: inline-block;width: 10px;right: -20px;position: absolute;border-right: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #f05235;top: 50%;transform: translateY(-50%);z-index: 99;}
+.cust-tabs.projects > ul> li.project-nav > a,
+.cust-tabs > ul> li > ul.events-nav.active > a{color: #F05235;}
+.cust-tabs > ul> li.active a:after,
+.cust-tabs > ul> li a:hover:after {content:'';border-top: 10px solid transparent;display: inline-block;width: 10px;right: -20px;position: absolute;border-right: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #f05235;top: 50%;transform: translateY(-50%);z-index: 99;}
+.cust-tabs > ul> li a:hover{color:#F05235}
+.cust-tabs > ul> li > a {display: table;color:#303030;padding: 20px 0;position: relative;width: 100%;}
+.cust-tabs > ul> li > a > span {font-weight:600;display: table-cell;line-height: 30px;padding-left: 10px;}
+.cust-tabs > ul> li > a > i {display: table-cell;}
+.cust-tabs .tab-content {background: #fff;border-radius: 20px;margin-top:10px;padding: 30px 35px 30px 50px;box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.15);min-height: 500px;position: relative;}
+
+.fc-user2{background: url('/resources/images/my-account/icon-individual-black.png');width: 27px;height: 30px; transition: all 0.5s ease;}
+.fc-social-profile{background: url('/resources/images/my-account/icon-socialprofile.png');width: 30px;height: 30px;transition: all 0.5s ease;}
+.fc-projects{background: url('/resources/images/my-account/icon-project.png');width: 31px;height: 30px;transition: all 0.5s ease;}
+.fc-settings{background: url('/resources/images/my-account/icon-gear-gray.png');width: 28px;height: 28px;transition: all 0.5s ease;}
+.fc-contact{background: url('/resources/images/my-account/icon-contactList.png');width: 26px;height: 28px;transition: all 0.5s ease;}
+
+
+
+.cust-tabs > ul> li > a > i.fa-bar-chart {font-size: 22px;width:25px;vertical-align: middle;}
+.cust-tabs > ul> li.active .fc-user2,
+.cust-tabs.personal-info > ul> li.individual .fc-user2{background: url('/resources/images/my-account/icon-individual-orange.png');width: 27px;height: 30px; transition: all 0.5s ease;}
+.cust-tabs > ul> li.active .fc-social-profile,
+.cust-tabs > ul> li a:hover .fc-social-profile{background: url('/resources/images/my-account/icon-socialprofile-orange.png');width: 30px;height: 30px;transition: all 0.5s ease;}
+.cust-tabs.projects > ul> li.project-nav .fc-projects,
+.cust-tabs > ul> li.active .fc-projects,
+.cust-tabs > ul> li a:hover .fc-projects{background: url('/resources/images/my-account/icon-project-orange.png');width: 31px;height: 30px;transition: all 0.5s ease;}
+.cust-tabs > ul> li a .fc-projects-projects{background: url('/resources/images/common/icons/event-icon-black.png');width: 42px;height: 35px;transition: all 0.5s ease;}
+.cust-tabs > ul> li a:hover .fc-projects-projects,
+.cust-tabs.events > ul> li>.events-nav>li.active a .fc-projects-projects,
+.cust-tabs.events > ul> li>.events-nav>li a .fc-projects-projects{background: url('/resources/images/common/icons/event-icon-orange.png');width: 42px;height: 35px;transition: all 0.5s ease;}
+.cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav a .fc-projects-crowdfunding{background: url('/resources/images/common/icons/Icon-Crowdfunding-orange-lg.png');width: 40px;height: 40px;transition: all 0.5s ease;background-size: 100%;}
+.cust-tabs.projects  > ul> li>.events-nav>li.crowdfunding-nav a .fc-projects-crowdfunding{background: url('/resources/images/common/icons/Icon-Crowdfunding-lg.png');width: 40px;height: 40px;transition: all 0.5s ease;background-size: 100%;}
+.cust-tabs.projects  > ul> li>.events-nav>li.crowdfunding-nav a:hover .fc-projects-crowdfunding{background: url('/resources/images/common/icons/Icon-Crowdfunding-orange-lg.png');width: 40px;height: 40px;transition: all 0.5s ease;background-size: 100%;}
+
+.cust-tabs > ul> li a:hover .fc-settings{background: url('/resources/images/my-account/icon-gear-gray-orange.png');width: 28px;height: 28px;transition: all 0.5s ease;}
+.cust-tabs > ul> li.active .fc-settings {background: url('/resources/images/my-account/icon-gear-gray-orange.png');width: 26px;height: 28px;transition: all 0.5s ease;}
+.cust-tabs > ul> li a:hover .fc-contact{background: url('/resources/images/my-account/icon-contactList-orange.png');width: 26px;height: 28px;transition: all 0.5s ease;}
+.cust-tabs > ul> li.active .fc-contact {background: url('/resources/images/my-account/icon-contactList-orange.png');width: 26px;height: 28px;transition: all 0.5s ease;}
+.cust-tabs .ic.menu{right: inherit;left: 0;display: none;}
+.cust-tabs .ic.menu .line {background-color: #000;transition: all 0.5s ease;}
+
+.wrapper.myaccount h3 {font-size: 26px;font-weight: 700;display: inline-block;line-height: 50px;margin-bottom: 30px;position: relative;}
+.wrapper.myaccount h3:after {content: '';border-bottom: solid 3px #F05235;position: absolute;left: 0;bottom: 0;width: 60%;display: inline-block;margin-bottom: -10px;}
+.wrapper.myaccount ul.steps{margin:0 0 40px 0; padding:0; list-style: none; display: flex;counter-reset: step-num}
+.wrapper.myaccount ul.steps > li{text-align: center;flex: auto;font-size: 12px;font-weight: 500;color: #303030;position: relative;z-index: 1;}
+.wrapper.myaccount ul.steps > li + li{margin-left: 28px;z-index: 0;}
+.wrapper.myaccount ul.steps > li > .num{padding: 2px 0;border-radius: 100%;background: #F5F8F6;border: solid 1px #303030;display: block;text-align: center;width: 26px;height: 26px;color: #303030;font-size: 14px;font-weight: 600;margin: 0px auto 3px;}
+.wrapper.myaccount ul.steps > li > .num:before{content: counter(step-num); counter-increment: step-num;}
+.wrapper.myaccount ul.steps > li.active{color: #F05235;display: block;}
+/*.wrapper.myaccount ul.steps > li.active:after{content:'';border-bottom: 9px #fff solid;border-right: 9px transparent solid;border-top: 9px transparent solid;border-left: 9px transparent solid;position: absolute;bottom: -40px;left: 50%;transform: translateX(-50%);}*/
+.wrapper.myaccount ul.steps > li.active > .num{background: #F05235;border: solid 2px #fff;color:#fff;}
+.wrapper.myaccount ul.steps > li.completed{color: #333E69;}
+.wrapper.myaccount ul.steps > li.completed > .num{background: #333E69;border: solid 2px #fff;color: #333E69;}
+.wrapper.myaccount ul.steps > li.completed > .num:before{color: #333E69;}
+.wrapper.myaccount ul.steps > li.completed > .num:after{display: block;content: '';width: 8px;height: 13px;border: solid white;border-width: 0 3px 3px 0;transform: rotate(45deg);border-color: #fff;margin-left: 7px;margin-top: -20px;}
+.wrapper.myaccount ul.steps > li.completed + li:before{border-top: #707070 3px dashed;}
+.wrapper.myaccount .register-form{background: #fff;border-radius: 5px;padding: 50px 70px 33px 70px;max-width: 855px;margin: 0 auto;}
+.wrapper.myaccount ul.steps > li + li:before{content:'';border-top: #707070 1px dashed;position: absolute;top: 13px;width: 100%;left: -152px;z-index: -1;}
+
+.wrapper.myaccount .progress{position: relative;overflow: initial;border-radius: 5px;background: #F05235;border: solid #333E69 1px;height: 10px;width: 252px;}
+.wrapper.myaccount .progress-bar{border-top-left-radius: 5px;border-bottom-left-radius: 5px;background: #333E69;}
+.wrapper.myaccount .progress-bar .number{position: absolute;right: 0;top: -15px;color: #303030;font-size: 18px;}
+
+.wrapper.myaccount .progerss-status {width: 450px;position: absolute;top: 30px;right: 20px;}
+.wrapper.myaccount .progerss-status > ul {margin:0;padding:0;list-style-type: none;}
+.wrapper.myaccount .progerss-status > ul > li {display: inline-block;position: relative;}
+.wrapper.myaccount .progerss-status > ul > li + li {margin-left:20px;}
+.wrapper.myaccount .progerss-status > ul > li + li::before {content: '';width: 1px;height: 100%;background: rgba(48,48,48,.30);position: absolute;left: 0;margin-left: -10px;}
+.wrapper.myaccount .progerss-status.typ2 {width: 150px;}
+.wrapper.myaccount .progerss-status > ul > li > span {display:block;font-size: 14px;font-weight: 500;}
+.wrapper.myaccount .progerss-status > ul > li > span.progress-bar-sec {padding-right: 50px;position: relative;}
+.wrapper.myaccount .progerss-status > ul > li > span.progress-bar-sec .number {position: absolute;right:0;top:0;margin-top: -8px;font-size: 18px;font-weight: 700;color: #333E69;}
+.wrapper.myaccount .progerss-status > ul > li > h4 {font-size: 14px;font-weight: 700;margin-bottom: 5px;}
+
+.wrapper.myaccount .progress-bar.twenty-percent {width:20%;}
+.wrapper.myaccount .progress-bar.sixty-five-percent {width: 65%;}
+.wrapper.myaccount .progress-bar.thirty-percent {width: 30%;}
+.wrapper.myaccount .progerss-status > ul > li > span.active {font-size: 14px;font-weight: 700;color:#333E69}
+.wrapper.myaccount .progerss-status > ul > li > span.active > i {padding-right:5px;}
+.wrapper.myaccount .form {width:100%;max-width: 100%;}
+.wrapper.myaccount .form label > span {color:rgba(48,48,48,.50);font-style: italic;}
+.wrapper.myaccount .form label.static-lbl {position: relative;width: 100%;top: 0;display: inline-block;margin: 0;clear: both;padding: 10px 0;}
+.wrapper.myaccount .form .form-group label.custom-file-label.clicked {top: 13px;font-size: 16px;height: 41px;padding: 0.3rem 0;} */
+.wrapper.myaccount .form-control {border: 1px solid #707070;border-radius: 25px;padding: 0;color: #303030;font-size: 14px;font-weight: 500;height: 50px;line-height: 50px;padding: 5px 30px 5px 20px;position:relative;}
+.wrapper.myaccount select.form-control {line-height: normal;width:100%;}
+.wrapper.myaccount .form-control::placeholder {color: rgb(48 48 48 / 0.5) !important;}
+.wrapper.myaccount .form-control:disabled {background: #F5F8F6;}
+.wrapper.myaccount .radio-inline .custom-control {border:1px solid #ddd;border-radius:30px;display: inline-block;padding: 10px 30px;}
+.wrapper.myaccount .radio-inline .custom-control > label,
+.wrapper.myaccount .checkbox-inline .custom-control > label {position: relative;top:0;line-height: 34px;font-size: 14px;}
+.wrapper.myaccount .checkbox-inline {margin:0;padding:0;list-style-type: none;}
+.wrapper.myaccount .checkbox-inline.column-2 li {width:auto;display:inline-block;min-width: 43%;}
+.wrapper.myaccount .checkbox-inline .custom-control > label {margin-left:0;padding-left:10px;}
+.wrapper.myaccount .checkbox-inline .custom-control-label::before {width: 25px;height: 25px;}
+.wrapper.myaccount .checkbox-inline .custom-control-label::after {width: 25px;height: 25px;}
+.wrapper.myaccount .radio-inline .custom-control.custom-radio .custom-control-label::before {width: 25px;height: 25px;left: -32px;}
+.wrapper.myaccount .radio-inline .custom-control.custom-radio .custom-control-label::after {width: 25px;height: 25px;left: -32px;}
+.cust-tabs .tab-content h6{font-size: 14px;}
+.cust-tabs .tab-content h6.dbl-line-height {line-height: 20px;margin-bottom: 20px;}
+.time-availability {margin:0;padding:0;list-style-type: none;}
+.time-availability > li {position: relative;display:inline-block;width:100%;}
+.time-availability > li .slot-sec {min-width: 36%;width: 36%;display:inline-block;vertical-align: top;position: relative;}
+.time-availability > li .days-sec::before {content:'OR';width:20px;height:20px;border-radius: 100%;background: #090808;color:#fff;position: absolute;left: -30px;top: 50%;margin-right: -20px;padding: 2px;z-index: 9;font-weight: 500;font-size: 12px;transform: translateY(-50%);}
+.time-availability > li .days-sec:after {content:'';width:1px;height:100%;background: #000;position: absolute;top:50%;transform: translateY(-50%);left: 0;margin-left: -20px;}
+.time-availability > li .slot-sec .checkbox-inline li {padding-left: 90px;position: relative;line-height: 55px;}
+.time-availability > li .slot-sec .checkbox-inline li + li {margin-top:10px;}
+.time-availability > li .slot-sec .checkbox-inline li > label {position: absolute;left: 0;top: 50%;margin: 0;transform: translateY(-50%);font-weight: 600;}
+.time-availability > li .days-sec.centerBlock {border:0}
+.time-availability > li .days-sec.centerBlock .multiCheckbtn a {padding:15px 0}
+.time-availability > li .days-sec {min-width: 60%;width:60%;display:inline-block;vertical-align: top;position: relative;}
+.time-availability > li .days-sec ul {margin:0;padding:0;list-style-type: none;}
+.time-availability > li .days-sec ul > li {display: inline-block;width:90%}
+.time-availability > li .days-sec ul > li + li {margin-top:10px;}
+.time-availability > li .days-sec ul > li > ul > li {display: inline-block;width:auto;float:left;border-top: 1px solid #000;border-bottom: 1px solid #000;}
+.time-availability > li .days-sec ul > li > ul > li + li {border-left: 1px solid #000;}
+.time-availability > li .days-sec ul > li > ul > li a {padding: 12px 10px;display:inline-block;color: #000;text-transform: uppercase;}
+.time-availability > li .days-sec ul > li > ul > li a:hover {background: #F05235;color: #fff;}
+.time-availability > li .days-sec ul > li > ul > li:first-child {border-top-left-radius: 40px;border-bottom-left-radius: 40px;border-left: 1px solid #000;overflow: hidden;}
+.time-availability > li .days-sec ul > li > ul > li:last-child {border-top-right-radius: 40px;border-bottom-right-radius: 40px;border-right: 1px solid #000;overflow: hidden;}
+.wrapper.myaccount .form label.active {position: relative;top: 0;left: 0;margin: 0;font-weight:600;font-size: 15px;}
+.wrapper.myaccount .form label.active span {font-weight:400;color:rgba(48,48,48,1);font-style: normal;}
+.wrapper.myaccount  .btn-sec {position: relative;text-align: center;}
+.wrapper.myaccount  .btn-sec .btn-primary.btn-continue {width: 300px;min-height: 50px;padding: 13px 25px;}
+.wrapper.myaccount  .checkbox-label {padding-left: 0px;width: 100%;color: #303030;font-weight: 500;line-height: 18px;margin-bottom: 0;position: relative;top:0;}
+.wrapper.myaccount .checkbox-label.clicked {top:0;font-size: 14px;}
+.wrapper.myaccount input[type="checkbox"] ~ .checkmark {width: 25px;height: 25px;border-radius: 5px;top: -3px;left: 0;position: absolute;}
+.wrapper.myaccount input[type="checkbox"]:checked ~ .checkmark:after {width: 9px;height: 16px;border-width: 0 4px 4px 0;margin-left: 7px;margin-top: 2px;}
+.wrapper.myaccount .create-element .start-project {background: none;padding-bottom:0;}
+.wrapper.myaccount .create-element .start-project .interest-area {padding-left:0}
+.wrapper.myaccount .create-element .start-project .interest-area .select-interest {margin: 0 -5px 25px -50px;width: 111%;display:inline-block;}
+.wrapper.myaccount .create-element .start-project .interest-area .select-interest > li {width: 17%;display: inline-block;min-height: 165px;}
+.wrapper.myaccount .create-element .start-project .interest-area .select-interest > li .text {margin:0 auto;width: 135px;}
+.wrapper.myaccount .create-element .start-project .interest-area .select-interest > li .text.txt-sm {width: 70px;}
+.wrapper.myaccount .create-element .start-project .interest-area .select-interest > li .text.txt-lg {width:180px;}
+.wrapper.myaccount .create-element .start-project .interest-area .select-interest > li .text .txt-normal {font-weight:300;}
+.wrapper.myaccount .btn-sec .back-link {font-size: 14px;font-weight: bold;color: #000;position: absolute;left: 0;top: 15px;}
+.wrapper.myaccount .btn-sec .back-link:hover {color: #F05235;}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li {width: 17%;display: inline-block;min-height: 165px;}
+.wrapper.myaccount .create-element .start-project .skills .select-interest {margin: 0 -5px 25px -5px;padding: 0;list-style: none;display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;overflow: hidden;}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li .icon {margin: 0 -5px 25px -5px;width: 70px;height: 70px;border-radius: 100%; text-align: center;padding-top: 10px; position: relative; transition: ease all 0.5s;margin: 0 auto;border:1px solid #707070}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li .icon .img {position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a.active .icon,
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a:hover .icon{background: #333E69;}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a:hover .icon .img .icon-img-hover {display:inline-block}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a:hover .icon .img .icon-img {display:none}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a .icon .img .icon-img-hover {display:none}
+
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a.active .icon {background: #333E69;}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a.active .icon .img .icon-img {display: none;}
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li a.active .icon .img .icon-img-hover {display: inline-block;}
+
+.wrapper.myaccount .create-element .start-project .skills .select-interest > li .text {display: block;color: #303030;font-size: 12px;font-weight: 600;text-transform: uppercase;text-align: center;width: 170px;margin: 5px auto;transition: ease all 0.5s;}
+
+
+.my-account .modal .btn-close{width: 30px;height: 30px;position: absolute;right: 5px;top: 5px;border-radius: 100%;font-size: 24px;line-height: 30px;color: #fff;vertical-align: top;}
+.my-account .modal .btn-close:after{content:'';width: 3px;height: 19px;-ms-transform: rotate(40deg);transform: rotate(40deg);position: absolute;left: 14px;top: 3px;background: #000;border-radius: 50px; transition:ease 0.5s all;}
+.my-account .modal .btn-close:before{content:'';width: 3px;height: 19px;-ms-transform: rotate(135deg);transform: rotate(135deg);position: absolute;left: 15px;top: 3px;background: #000;border-radius: 50px; transition:ease 0.5s all;}
+.my-account .modal .btn-close:hover:after{background:#F05235;}
+.my-account .modal .btn-close:hover:before{background:#F05235;}
+.my-account .modal .modal-content{border:0;border-radius: 20px;overflow: hidden;background: #F5F8F6;}
+.my-account .modal .modal-lg{max-width:1000px;}
+.my-account .modal .modal-body{padding: 0;position: relative;display: table; width: 100%;}
+
+.my-account .modal .checkbox-label{position: relative;}
+
+.my-account .modal .left-section {width: 207px;display: table-cell;vertical-align: top;padding: 40px 34px; background: #fff;}
+.my-account .modal .icon {width: 100px;height: 100px;border-radius: 100%;text-align: center;padding-top: 10px;position: relative;transition: ease all 0.5s;margin: 0 auto;}
+.my-account .modal .icon .num {font-size: 26px;font-weight: 600;color:#fff;display: block;line-height: normal; transition: ease all 0.5s;}
+.my-account .modal .icon .img{width: 100%;display: block;margin-top: 0px;}
+.my-account .modal .icon .img > img{margin-top: 3px;vertical-align:middle;width:40%;}
+.my-account .modal .text{display: block;color: #303030;font-size: 12px;font-weight: 600;text-transform: uppercase;text-align: center;transition: ease all 0.5s;margin-top: 5px;}
+
+
+.my-account .modal .right-section {display: table-cell;vertical-align: top;padding: 30px 90px 30px 60px;}
+.my-account .modal .right-section ul{margin: 0;padding:0;list-style: none;width: 100%; margin-bottom:30px;}
+.my-account .modal .right-section ul > li {margin-top:9px;}
+.my-account .modal .right-section .modal-title{font-size: 26px;font-weight: 600;position: relative;padding-bottom: 20px;margin-bottom: 20px;}
+.my-account .modal .right-section .modal-title:before{content:'';width: 100px;height: 3px;background: #F05235;display: block;position: absolute;bottom: 0;}
+.my-account .modal .right-section input[type="checkbox"] ~ .checkmark{width: 25px;height: 25px;border-radius: 5px;top: 11px;left: 20px;}
+.my-account .modal .right-section input[type="checkbox"]:checked ~ .checkmark:after{width: 9px;height: 16px;border-width: 0 4px 4px 0;margin-left: 7px;margin-top: 2px;}
+.my-account .modal .right-section .checkbox-label{margin-bottom:0;background: #fff;padding: 15px 10px 15px 55px;border: dashed 1px #707070;border-radius: 10px;width: 100%;color: #303030;font-weight: 500;line-height: 18px;}
+.my-account .modal .right-section .checkbox-label.checked{background: #ffe9e5;}
+.my-account .modal .right-section .btn{min-width:150px;padding: 13px 25px;}
+
+.my-account .modal .right-section.demo{padding:30px 60px 30px 60px;}
+.my-account .modal .right-section.demo .demo-container {text-align: center;position: relative;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay {position: absolute;left: 11px;top: 184px;width: 100%;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay > div > div{font-size: 12px;font-weight: 600;color: #000;width: 100%;text-align: right;padding-right: 82px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo{position: absolute;left: -60px;top: -107px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text1 {background: url('/resources/images/common/create-project/arrow1.png') no-repeat right;margin-bottom: 40px;padding-right: 71px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text2 {background: url('/resources/images/common/create-project/arrow2.png') no-repeat right;margin-bottom: 128px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text3 {background: url('/resources/images/common/create-project/arrow3.png') no-repeat right;margin-bottom: 43px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text4 {background: url('/resources/images/common/create-project/arrow4.png') no-repeat right;margin-bottom: 41px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text5 {background: url('/resources/images/common/create-project/arrow5.png') no-repeat right;margin-bottom: 44px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text6 {background: url('/resources/images/common/create-project/arrow6.png') no-repeat right;margin-bottom: 73px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .left-demo .text7 {background: url('/resources/images/common/create-project/arrow7.png') no-repeat right;margin-bottom:50px}
+
+.my-account .modal .right-section.demo .demo-container .demo-overlay .right-demo{position: absolute;right: 100px;z-index: 9;height: 62px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .right-demo > div{text-align:left;/* padding-left: 380px; */padding: 0;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .right-demo .text8 {background: url('/resources/images/common/create-project/arrow8.png') no-repeat left top;height: 42px;position: absolute;top: -12px;left: -385px;width: 462px;text-align: right;padding-top: 31px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .right-demo .text9 {background: url('/resources/images/common/create-project/arrow9.png') no-repeat left top;height: 56px;position: absolute;top: -13px;left: -452px;width: 525px;text-align: right;padding-top: 45px;}
+.my-account .modal .right-section.demo .demo-container .demo-overlay .right-demo .text10 {background: url('/resources/images/common/create-project/arrow10.png') no-repeat left top;height: 62px;position: absolute;top: 2px;left: -410px;width: 456px;text-align: right;padding-top: 50px;}
+
+.my-account .cust-row > [class^="col"] {margin-bottom:20px;}
+.form .form-group.mob-number {padding-bottom: 10px;}
+.profile-completed {max-width:350px;margin: 0 auto 20px;text-align: center;}
+.profile-completed > h4 {font-size: 18px;font-weight:600;color:#333E69;position: relative;padding-bottom: 20px;margin-top:20px}
+.profile-completed > h4:after {content:'';background: #333E69;border-radius: 10px;width: 100%;height:10px;position: absolute;left: 0;bottom: 0;}
+.personal-info-dtls {margin:0;padding:0;list-style-type: none;}
+.personal-info-dtls > li {width:100%;display:inline-block;position: relative;padding-left:150px;}
+.personal-info-dtls > li {border-bottom:1px solid #707070;padding-bottom:20px;margin-bottom:20px;}
+.personal-info-dtls > li.no-bdr {border-bottom:0;padding-bottom: 0;margin-bottom: 0;}
+.personal-info-dtls > li > .lbl-sec {margin-left:-150px;position: absolute;width: 150px;}
+.personal-info-dtls > li > .lbl-sec > label {font-size: 18px;font-weight: 600;color:#303030}
+.personal-info-dtls > li > .dtls-sec label {font-size: 14px;font-weight:600;margin-bottom: 0;}
+.personal-info-dtls > li > .dtls-sec label > em {font-weight:400;font-style: normal;}
+.personal-info-dtls > li > .dtls-sec label > b {font-weight:700;}
+.personal-info-dtls > li > .dtls-sec span {display:block;font-weight:500;}
+.personal-info-dtls > li > .dtls-sec span.certificate {display: inline-block;position: relative;}
+.personal-info-dtls > li > .dtls-sec span.certificate .zoom {width: 20px;height: 20px;background:#fff;border-radius:100%;position: absolute;bottom: 10px;right: 10px;text-align: center;padding:2px;}
+.personal-info-dtls > li > .dtls-sec span > ul {margin:0;padding:0;list-style-type: none;max-width: 200px;}
+.personal-info-dtls > li > .dtls-sec span > ul > li {display:inline-block;position: relative;width: 100%;padding-left: 90px;}
+.personal-info-dtls > li > .dtls-sec span > ul > li > span {width: 120px;position: absolute;top: 0;left: 0;}
+.personal-info-dtls > li > .dtls-sec span > ul > li > span>span {position: relative;}
+.my-account .personal-info-dtls .edit {position: absolute;top: 0;right: 0;}
+.my-account .personal-info-dtls .edit > i {padding-right:5px;}
+
+.my-account .row-grid-3 {margin-bottom:1rem}
+.my-account .personal-info-dtls a {color: #000000;display: block;text-align: right;font-weight: 400;font-size: 14px;padding: 5px 0;}
+.wrapper.myaccount .create-element .start-project.typ2 {padding-top: 0;}
+.wrapper.myaccount .create-element .start-project.typ2 .skills {padding-right:250px;position: relative;}
+.wrapper.myaccount .create-element .start-project.typ2 .skills .add-remove {position: absolute;top:0;right:0;min-width: 200px;display: inline-block;text-align: right;}
+.wrapper.myaccount .create-element .start-project.typ2 .skills .add-remove > a {display:inline-block}
+.wrapper.myaccount .create-element .start-project.typ2 .skills .add-remove > a > i {padding-right: 5px;}
+.wrapper.myaccount .create-element .start-project.typ2 .skills .add-remove > a + a {padding-left:10px;}
+.wrapper.myaccount .create-element .start-project.typ2 .skills .select-interest > li .text {width:100%;}
+.wrapper.myaccount .create-element .start-project.typ2 .skills .select-interest > li {min-height: auto;}
+.wrapper.myaccount .create-element .start-project.typ2 .content {background: #fff;padding: 0px 20px 15px 20px;font-size: 15px;font-weight: 500;color: #333333;vertical-align: middle;display: table-cell;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select {display: table;}
+.wrapper.myaccount .create-element .start-project.typ2 .content > li + li {margin-top:10px;padding-top:10px;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon {width: 60px;height: 60px;border-radius: 100%;text-align: center;padding-top: 10px;position: relative;transition: ease all 0.5s;margin: 0 auto;display: inline-block;vertical-align: top;margin-right: 10px;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon.one {background: #DDA73A;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon.two {background: #C7212F;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon.three {background: #27BFE6;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select > .title {display: table-cell;vertical-align: middle;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon .num {font-size: 15px;font-weight: bold;color: #fff;display: block;line-height: normal;transition: ease all 0.5s;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon .img {width: 31px;display: block;margin: 0px auto;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon .img > img {margin-top: 3px;vertical-align: middle;width: 100%;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select > .title > ul {margin: 0;padding: 0;list-style: none;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select > .title > ul > li {padding-left: 15px;position: relative;font-size: 14px;font-weight: 500;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select > .title > ul > li:before {content: '';width: 10px;height: 10px;border-radius: 100%;position: absolute;left: 0;top: 4px;background: #F05235;}
+.wrapper.myaccount .create-element .start-project.typ2 .content .area-select .icon.three .img > img {width:auto;}
+.wrapper.myaccount .btn-sec .btn-primary {/*width: 180px;*/padding: 13px 15px;}
+.wrapper.myaccount .btn-sec.top-btns .btn-primary {width: 180px;}
+.wrapper.myaccount .btn-sec.btm-btns .btn-primary {width: 220px;}
+.wrapper.myaccount .btn-sec .btn-primary + .btn-primary {margin-left:30px;}
+.my-account .modal .modal-certificate .modal-body {padding:30px;}
+.my-account .modal .modal-certificate .modal-body > img {width: 100%;}
+.my-account .modal .modal-certificate .btn-close {z-index: 9;}
+#menu-close {display:none;}
+.empty-socail-profile {width:100%;display:inline-block;text-align: center;}
+.empty-socail-profile h5 {font-size: 18px;margin: 20px 0 10px;}
+.empty-socail-profile p {font-size: 14px;font-weight:500;}
+.cust-tabs .tab-content .empty-socail-profile h5 {color: #333E69;}
+.cust-tabs .tab-content h5{font-size: 18px;color:#303030;}
+.rounded-box {width:100%;display: table;border:1px solid #333E69;border-radius:20px;margin: 20px 0 40px;}
+.rounded-box > div {display:table-cell;vertical-align: middle;padding:20px;}
+.rounded-box > div + div {border-left:1px dotted rgba(48,48,48,0.5)}
+.rounded-box > div:nth-child(1){width:443px;background: #F5F8F6;border-top-left-radius: 20px;border-bottom-left-radius: 20px;}
+.rounded-box > div:nth-child(3) {min-width: 160px;width: 200px;}
+.rounded-box > div > ul {width:100%;display: table;padding:0;margin:0}
+.rounded-box > div > ul > li {display: table-cell;vertical-align: top;}
+.rounded-box > div > ul.half-circle {padding:0;}
+.rounded-box > div > ul.half-circle > li {width:127px;height:127px;position: relative;}
+.rounded-box > div > ul.half-circle > li.active > .num {background: #f5f8f6;width: 100%;height: 50%;display: inline-block;vertical-align: top;position: absolute;z-index: 9;font-size: 36px;text-align: center;font-weight: 500;color: rgba(48,48,48,1);}
+.rounded-box > div > ul.half-circle > li > .num {background: #f5f8f6;width: 97%;height: 50%;display: inline-block;vertical-align: top;position: absolute;z-index: 9;font-size: 36px;text-align: center;font-weight: 500;color: rgba(48,48,48,.5);}
+.rounded-box > div > ul.half-circle > li > .name {/* background: #f5f8f6; */width: 97%;height: 50%;display: inline-block;vertical-align: top;/* border-top-left-radius: 100%; *//* border-top-right-radius: 100%; */position: absolute;z-index: 9;font-size: 14px;text-align: center;font-weight: 500;color: #fff;bottom: 0;margin-bottom: -10px;}
+.rounded-box > div > ul.half-circle > li.active::before {content:'';width: 80%;height: 80%;border-radius: 100%;position: absolute;top: 12%;background: #F05235;left: 8%;z-index: 9;/* transform: translate(-50%, -50%); *//* border: 10px solid #ffffff; */box-shadow: 0px 2px 2px 2px #ddd;}
+.rounded-box > div > ul.half-circle > li::before {content:'';width: 80%;height: 80%;border-radius: 100%;position: absolute;top: 12%;background: #333E69;left: 8%;z-index: 9;/* transform: translate(-50%, -50%); *//* border: 10px solid #ffffff; */box-shadow: 0px 2px 2px 2px #ddd;}
+.rounded-box > div > ul.half-circle > li::after {content:'';width:127px;height:127px;border:1px solid rgba(48,48,48);border-radius: 100%;position: absolute;top: 0;left: 0;background: #ffffff;box-shadow: 2px 2px 2px #ddd;}
+.rounded-box > div > ul.half-circle > li + li {margin-left:30px;}
+.cust-tabs .tab-content .rounded-box > div > h5 {font-size: 18px;font-weight:600;text-transform: uppercase;color: #F05235;margin-bottom: 10px;}
+.rounded-box > div > ul.impact-list > li > span {width:100%;display: block;}
+.rounded-box > div > ul.impact-list > li > span.time {font-size: 14px;font-weight:600;color:#303030}
+.rounded-box > div > ul.impact-list > li > span.counter {font-size: 36px;font-weight:500;color:rgba(48,48,48,.5)}
+.rounded-box > div > ul.impact-list > li > span.events-tl {font-size: 14px;font-weight:600;color:#303030;position: relative;}
+.rounded-box > div > ul.impact-list > li > span.events-tl:after {content:'';border-bottom: 3px solid #F05235;position: absolute;left: 0;bottom: -4px;width: 30%;}
+.rounded-box > div > ul.time-amt {display: inline-block;width:100%;vertical-align: middle;padding-left: 30px;}
+.rounded-box > div > ul.time-amt > li {display: inline-block;width: 100%;font-size: 36px;color:rgba(48,48,48,.5);font-weight: 200;}
+.rounded-box > div > ul.time-amt > li > span {font-size: 36px;color:rgba(48,48,48,.5);font-weight:500}
+.rounded-cust-tbl {border: 1px solid #333E69;border-radius: 20px;padding: 20px;margin:20px 0}
+.rounded-cust-tbl .table thead {border-bottom: 1px solid #707070;}
+.rounded-cust-tbl .table thead th {border: 0;padding:10px 5px;}
+.rounded-cust-tbl .table tbody tr td {border:0;border-bottom: 1px solid #707070;font-size: 14px;font-weight:500;padding:10px 5px;}
+.rounded-cust-tbl .table tbody tr td:first-child {text-align: center;}
+.rounded-cust-tbl .table tbody tr td em {font-size: 12px;font-weight: 500;}
+.rounded-cust-tbl .table tbody tr td label {font-size: 14px;font-weight: 600;display: block;margin: 0;}
+.rounded-cust-tbl .table tbody tr td > .fa {font-family: 'FontAwesome';}
+.rounded-cust-tbl .table tbody tr:last-child td {border:0;border-bottom: 0;}
+.rounded-cust-tbl .table .col-sr-no {width:40px;min-width: 40px;}
+.rounded-cust-tbl .table .col-date {width:60px;min-width: 70px;}
+.rounded-cust-tbl .table .col-category {width:60px;min-width: 60px;}
+.rounded-cust-tbl .table .col-typ {width:60px;min-width: 60px;}
+.rounded-cust-tbl .table .col-amt {width:60px;min-width: 60px;}
+.rounded-cust-tbl .table .col-receipt {width:60px;min-width: 60px;}
+.rounded-cust-tbl .table .col-status {width:60px;min-width: 60px;}
+
+.wrapper.myaccount .feature-list {list-style:none ; margin:0; padding: 20px 0;}
+.wrapper.myaccount .feature-list > li {display:inline-block;padding-right: 10px;padding-left: 0;position: relative;width: 19%;vertical-align: top;}
+.wrapper.myaccount .feature-list > li > .icn > i {text-align: center;width: 38px;height: 38px;position: absolute;left: 50%;top: 50%;margin: 0 auto;background-position: center;background-size: 100%;transform: translate(-50%, -50%);
+}
+.wrapper.myaccount .feature-list > li > .icn{text-align: center;width: 57px;height: 57px;position: relative;/* left: 0px; *//* top: 0; */margin: 0 auto;background-position: center;display: inline-block;border: 1px dashed #333;border-radius: 100%;/* margin: 10px; */}
+.wrapper.myaccount .feature-list > li > span {display: block;width: 100%;}
+.wrapper.myaccount .feature-list > li > span.sm-width {max-width: 100px;margin: 0 auto}
+.wrapper.myaccount .feature-list > li + li{margin-top: 0;}
+.wrapper.myaccount .feature-list > li + li > .icn:before{content: '';position: absolute;border-top: dashed 1px #333;top: 50%;left: -224%;width: 220%;height: 1px;}
+.wrapper.myaccount .feature-list > li.active{color: #F05235; font-weight: bold;}
+.wrapper.myaccount .feature-list > li.active > .icn {background: #F05235;}
+.wrapper.myaccount .feature-list > li.active > .icn > i {background: url(/resources/images/common/icons/fc-plan-wht.png) no-repeat;background-size: 100%;width: 35px;}
+.wrapper.myaccount .feature-list > li.completed{color: #000;}
+.wrapper.myaccount .feature-list > li.completed > .icn {background: #fff;border: 1px dashed rgba(48,48,48,0.5);opacity: 1;}
+.wrapper.myaccount .feature-list > li.completed > .icn > i {background: url(/resources/images/common/icons/fc-inspiration.png) no-repeat;background-size: 100%;width: 35px;opacity: 0.5;}
+.wrapper.myaccount .feature-list > li.completed > .icn::after{content: '\f00c';font-family: 'FontAwesome';font-size: 20px;top: 50%;position: absolute;left: 50%;transform: translate(-50%, -50%);
+    opacity: 1;color: #000;}
+.wrapper.myaccount .feature-list > li.completed > span {opacity: 0.5;}
+
+.wrapper.myaccount .head-sec a {line-height: 36px;}
+.wrapper.myaccount .changeMakers.projects {margin-top:0;}
+.wrapper.myaccount .changeMakers.projects .head-sec,
+.wrapper.myaccount .head-sec  {position: relative;margin-bottom: 15px;}
+.wrapper.myaccount .changeMakers.projects .head-sec .btn-create,
+.wrapper.myaccount .head-sec .btn-create {min-width:220px;color: #fff;position: absolute;right: 0;top:0px;padding: 6px 20px;font-size: 14px;}
+.wrapper.myaccount .changeMakers.projects .card .card-body {display: table-cell;vertical-align: top;padding-right:0px;padding-bottom: 20px;padding:0px}
+.wrapper.myaccount .changeMakers.projects .card{border: 0;box-shadow: none;-webkit-box-shadow: none;-moz-box-shadow: none;margin: 0;display: table;width: 100%;vertical-align: top;
+    cursor: default;margin-bottom: 40px;overflow: visible;}
+.wrapper.myaccount .changeMakers.projects .card:hover {background: none;}
+.wrapper.myaccount .changeMakers .card .card-body h5 {display: inline-block;padding-right: 10px;}
+.wrapper.myaccount .changeMakers .card .card-body .status h4 {font-size: 16px;color:#333E69;position: relative;display: inline-block;border-bottom: 3px solid #333E69;margin-top:0px;}
+.wrapper.myaccount .changeMakers .card .card-body .project-name {display:block;width:100%;margin:10px 0;}
+.wrapper.myaccount .changeMakers .card .card-body .project-name h2 {font-size: 26px;color:#303030;padding-left: 10px;padding-bottom: 10px;display:inline-block;border-left:1px solid #F05235;border-bottom: 1px solid #F05235;}
+.wrapper.myaccount .changeMakers .card .card-body h4 {font-size: 14px;line-height: 18px;font-weight: 500;color: #303030;margin-bottom: 10px;display: block;padding-left:0px;position: relative;margin-top: 10px;}
+.wrapper.myaccount .first-table > ul {width: 100%;border: 1px rgb(48 48 48 / 0.5) dashed;display: block;padding:0;}
+.wrapper.myaccount .first-table:after{top:35px;}
+.wrapper.myaccount .first-table > ul > li{display: inline-block;vertical-align: middle;font-size: 14px;font-weight: 400;}
+.wrapper.myaccount .first-table > ul > li:first-child{padding:30px 20px 0 0px;}
+.wrapper.myaccount .first-table > ul > li + li {border-left: 1px rgb(48 48 48 / 0.5) dashed;}
+.wrapper.myaccount .first-table > ul > li > .member-event-list li {display: inline-block;position: relative;padding-left: 15px;color: #303030;}
+.wrapper.myaccount .first-table > ul > li .impact-list{display: block;padding: 2px 30px;}
+.wrapper.myaccount .first-table > ul > li .impact-list > li{display: inline-block;vertical-align: middle;}
+.wrapper.myaccount .first-table > ul > li .impact-list > li + li{margin-left: 29px;}
+.wrapper.myaccount .first-table > ul > li .impact-list > li b.orange{font-size:14px; font-weight:600; text-transform:uppercase;color:#f05235;}
+.wrapper.myaccount .first-table > ul > li .impact-list > li > span{display:block;padding-top: 5px;}
+.wrapper.myaccount .first-table > ul > li.total-hrs{padding: 0 20px;}
+.wrapper.myaccount .first-table > ul > li.total-hrs ul{list-style-type: none;padding: 0;}
+.wrapper.myaccount .first-table > ul > li.total-hrs ul  li{font-size: 26px;font-weight: 300;color: rgba(48,48,48,.5);}
+.wrapper.myaccount .changeMakers.projects .member-event-list li .number {color: rgba(48,48,48,.5);font-weight:500;}
+.wrapper.myaccount .first-table > ul > li .impact-list > li > span.number {color: rgba(48,48,48,.5);font-weight:500;font-size: 26px;line-height: 20px;}
+.wrapper.myaccount .changeMakers .card .card-body .recomend-share {display: inline-block;width: 100%;padding-left: 55px;position: relative;}
+.wrapper.myaccount .changeMakers .card .card-body .recomend-share > h4 {font-style: italic;font-size: 14px;font-weight: 400;}
+.wrapper.myaccount .changeMakers .card .card-body .recomend-share .fc-reccomend-report {width:51px;height:51px;background-size: 100%;left: -60px;top: -10px;}
+.wrapper.myaccount .changeMakers  .my-story {margin:0;padding:15px 0;display:inline-block;width:100%;}
+.wrapper.myaccount .changeMakers  .my-story li {display: inline-block;position: relative; padding-right:20px;}
+.wrapper.myaccount .changeMakers  .my-story li a{padding-left:20px;color: #333E69;font-size: 14px;font-weight: 500;}
+.wrapper.myaccount .changeMakers .my-story li a > span {color:#000;padding-right:10px;}
+.wrapper.myaccount .changeMakers  .my-story li a:hover{color:#F05235}
+.wrapper.myaccount .changeMakers  .my-story li i{margin-right:0px;font-size: 17px;position: absolute;left: 0;top: 0px;}
+.fc-copy-link{background: url('/resources/images/my-account/copy-link.png') no-repeat;width: 17px;height: 20px;transition: all 0.5s ease;background-size: 100%;}
+.fc-connect-with-me{background: url('/resources/images/common/icons/fc-connect-with-me.png');width: 16px;height: 16px;background-size: 100%;transition: all 0.5s ease;}
+.wrapper.myaccount .changeMakers .share-links {width:100%;position: relative;padding-right:220px;}
+.wrapper.myaccount .changeMakers .share-links ul {margin:0;padding:0;list-style-type: none;}
+.wrapper.myaccount .changeMakers .share-links ul > li {display:inline-block;width: 32%;padding-bottom: 5px;}
+.wrapper.myaccount .changeMakers .share-links ul > li > a {font-size: 14px;font-weight:500;padding:0;color:#000;line-height: 24px;padding-left: 25px;position: relative;}
+.wrapper.myaccount .changeMakers .share-links ul > li > a > i {padding-right:0px;margin-left: -25px;position: absolute;margin-top: 2px;}
+.wrapper.myaccount .changeMakers .share-links ul > li.share-sec .social-media .fa-close {color:#000;line-height: normal;}
+.wrapper.myaccount .changeMakers .share-links ul > li.share-sec .social-media ul {padding:18px 5px 3px 5px}
+.wrapper.myaccount .changeMakers .share-links ul > li.share-sec .social-media ul>li {width:auto;}
+.wrapper.myaccount .changeMakers .share-links ul > li.share-sec .social-media ul>li> a > i {margin-left:0;}
+i.icon-supporters{background: url(/resources/images/common/icons/icon-supporters.png) no-repeat;background-size: 100%;width: 23px;height: 18px;display: inline-block;}
+.wrapper.myaccount .changeMakers .card .card-body .status.not-activated h4 {color:#F05235;border-bottom: 3px solid #F05235;font-weight: 700;}
+.wrapper.myaccount .changeMakers .card .card-body .status.not-activated h6 {font-size: 18px;color:#F05235;margin-bottom: 20px;}
+.btn-view-project {border: 1px solid #090808;padding: 13px 20px;border-radius: 2rem;display: inline-block;color: #000;}
+.btn-view-project:hover {background: #F05235;color:#fff;border:1px solid #F05235;}
+.wrapper.myaccount .changeMakers.projects .head-sec a.btn {position: absolute;right:0;top:0;}
+.wrapper.myaccount .changeMakers.projects .head-sec.share-links a.btn {top:20px}
+.wrapper.myaccount .changeMakers.projects a.btn-primary-o {padding: 0px 20px;border-radius: 25px;min-width: 90px;min-height: 36px;font-size: 14px;font-weight: 500;text-align: center;line-height: 35px;}
+
+.wrapper.myaccount .filter-panel.typ2 {padding-bottom: 0;}
+.wrapper.myaccount .filter-panel{margin-bottom: 10px;padding-bottom: 20px;}
+.wrapper.myaccount .filter-panel form .form-group{margin: 0;}
+.wrapper.myaccount .filter-panel form .cust-select{display: inline-flex;}
+.wrapper.myaccount .filter-panel form .form-group .form-control {padding-left: 10px;border: solid 1px #707070 !important;color: #000;padding-bottom: 10px;text-indent: 10px;font-size: 14px;font-weight: 500;line-height: 3.7;border: solid 1px #707070;border-radius: 25px;color: #000;padding-bottom: 10px;height: 50px;text-indent: 10px;padding: 10px;width: 100%;}
+.wrapper.myaccount .filter-panel form .form-group select.form-control{padding-top:5px}
+.wrapper.myaccount .filter-panel form .form-group .form-control:focus { box-shadow: none;}
+.wrapper.myaccount .filter-panel form .form-group input::placeholder {/*color:#000;*/font-weight: 400}
+.wrapper.myaccount .filter-panel form .form-group label {position: absolute;top: 14px;color: #303030;font-size: 14px;line-height: normal;transition: 0.4s ease all;font-weight: 500;margin-left: 20px;margin-bottom: 0;z-index: 9;width: auto;}
+.wrapper.myaccount .filter-panel form .form-group label.clicked {top: 9px;font-size: 12px;color: rgb(48 48 48 / 0.5);font-weight: 500;}
+.wrapper.myaccount .filter-panel .search-panel {width: 280px;float: right;}
+.wrapper.myaccount .filter-panel .search-panel.lg-width {width:370px;}
+.wrapper.myaccount .filter-panel .search-panel .search-input,
+.wrapper.myaccount .filter-panel .search-panel .search-input:focus{width: 100%;height: 50px;line-height: normal;border-radius: 30px;box-shadow: none;border:solid 1px #000;padding-left: 15px;padding-right: 25px;min-width: 100%;}
+.wrapper.myaccount .filter-panel .search-panel .search-input-btn{position:absolute;right: 2px;top: 10px;font-size: 14px;color: #000000;}
+.wrapper.myaccount .filter-panel .search-panel .search-input::placeholder{font-weight:500; color:#000; line-height:normal;}
+
+.tbl-borderless .table thead th {border-top:1px solid #707070;border-bottom:1px solid #707070;padding: 15px 10px;border-left:0;border-right:0;}
+.tbl-borderless .table tbody td {padding: 25px 10px 10px;border-left:0;border-right:0;vertical-align: top;}
+.cap-letter {width:40px;height:40px;background: rgba(48,48,48,0.3);text-transform:uppercase;display: inline-block;border-radius: 100%;text-align: center;padding: 5px;font-weight: 500;font-size: 26px;color: #fff;line-height: 30px;}
+.member-list {margin:0;padding:0;list-style-type: none;width: 100%;display: inline-block;}
+.member-list > li {display: inline-block;padding-left: 45px;position: relative;margin:0px 0;width:100%;}
+.member-list > li > .cap-letter,
+.member-list > li > .name-checkbox {position: absolute;left:0;top: 0;margin-top: -10px;}
+.member-list > li > .name-checkbox {margin: 0px 7px;}
+.member-list > li > i {position: absolute;left: 10px;top: 12px;margin-top: -8px;}
+.member-list > li > i{font-family: 'FontAwesome';font-size: 12px;}
+.member-list > li:first-child {line-height: 18px;/* vertical-align: top; */display: block;padding-bottom: 15px;}
+.wrapper.myaccount .filter-panel.typ2 form .cust-select {width:110px;}
+.wrapper.myaccount .filter-panel.typ2 form .cust-select.resources {width: 120px;}
+.wrapper.myaccount .changeMakers.projects .btn-sec .btn-primary + .btn-primary {margin-left: 15px;width: auto;padding: 13px 25px;}
+.cust-tbl th:first-child,
+.cust-tbl td:first-child {padding-left:0 !important;}
+.cust-tbl .col-name{min-width: 260px;width: 260px;}
+.cust-tbl .col-status{min-width: 180px;width: 190px;}
+.cust-tbl .col-resources{min-width: 80px;width: 80px;}
+.cust-tbl .col-events{min-width: 150px;width: 100px;}
+.cust-tbl .col-projects{min-width: 140px;width: 100px;}
+.tbl-li-list {margin:0;padding:0;list-style-type: none;float: right;min-width: 300px;max-width: 270px;}
+.tbl-li-list > li + li{border-top: 1px solid #ddd;padding-top: 10px;margin-top:10px;}
+.tbl-li-list > li ul {margin:0;padding:0;list-style-type: none;}
+.tbl-li-list > li ul > li {display: inline-block;padding-bottom:10px;font-weight: 600;}
+.tbl-li-list > li ul > li.reject {color:#F05235}
+.tbl-li-list > li ul > li > .fa-circle {font-size: 10px;color:#303030}
+.tbl-li-list > li ul > li .btn-block{padding-left:12px}
+.wrapper.myaccount .main-form-group textarea.form-control.lg-height {height: 250px;}
+.wrapper.myaccount .main-form-group textarea.form-control {height: 90px;line-height: 20px;padding: 10px 20px 10px 20px;resize: none;text-indent: 0;border: solid 1px #707070;border-radius: 25px;}
+.wrapper.myaccount .main-form-group .textarea-instru > small:nth-child(2) {float: right;}
+.wrapper.myaccount .main-form-group .textarea-instru > small {font-size: 12px;font-weight: normal;margin-top: 2px;}
+.tbl-messgelist .col-sr-no{min-width: 60px;width: 50px;}
+.tbl-messgelist .col-date{min-width: 100px;width:80px;}
+.tbl-messgelist .col-message{min-width: auto;width: auto;}
+.tbl-messgelist .col-to{min-width: 160px;width:80px;}
+.uploadedDocument {width:100%;display:inline-block;margin:20px 0;}
+.uploadedDocument > label {font-size: 14px;font-weight:600;}
+.uploadedDocument .custom-file-upload .custom-file{height: 70px;z-index: 0;}
+.uploadedDocument .custom-file-upload .custom-file-label{border-radius: 25px;border:solid 1px #707070 !important;padding: 14px 95px 14px 18px;height: 50px;text-overflow: ellipsis;white-space: nowrap;/* overflow: hidden; */}
+.uploadedDocument .custom-file-upload .custom-file-input{height:50px;padding:10px; cursor: pointer;}
+.uploadedDocument .custom-file-upload .custom-file-input ~ .custom-file-label::after{content:"Browse File";border-top-right-radius: 25px;border-bottom-right-radius: 25px;background: none;color: #605454;font-size:14px;font-weight:500;padding: 13px 40px 13px 30px;display: block;height: auto;border: 0;bottom: 0;border-left: 1px solid #707070;}
+.uploadedDocument .custom-file-upload small{font-size: 12px;}
+
+.wrapper.myaccount .events-filter > .button-group {border-bottom: 1px solid #F05235;}
+.wrapper.myaccount .events-filter > .button-group > h5 {display:inline-block;float: left;padding: 0.5em 0;max-width: 200px;min-width: 200px;}
+.wrapper.myaccount .events-filter .button:focus {outline: 0;box-shadow: none;}
+.wrapper.myaccount .events-filter .button {display: inline-block;background: #fff;border: none;border-radius: 7px;color: #222;font-size: 18px;cursor: pointer;font-weight: 600;}
+.wrapper.myaccount .events-filter .button:active,.wrapper.myaccount .events-filter .button.is-checked {background-color: none;}
+.wrapper.myaccount .events-filter .button.is-checked {color: #f05235;border-bottom: 5px solid #f05235;}
+.wrapper.myaccount .events-filter .button-group:after {content: '';display: block;clear: both;}
+.wrapper.myaccount .events-filter .button-group .button {float: left;border-radius: 0;margin-left: 25px;margin-right: 25px;padding: 9px 0;}
+.wrapper.myaccount .events-filter .button-group .button:first-child { border-radius: 0.5em 0 0 0.5em; }
+.wrapper.myaccount .events-filter .button-group .button:last-child { border-radius: 0 0.5em 0.5em 0; }
+.wrapper.myaccount .events-filter .filter-panel {display: inline-block;width: 100%;padding: 10px 0;margin: 10px 0;}
+.wrapper.myaccount .events-filter  .filter-panel .search-panel {width: 720px;}
+.wrapper.myaccount .events-filter  .filter-panel .search-panel .input-group {width: 480px;display: inline-block;float: right;}
+.wrapper.myaccount .events-filter  .filter-panel  .search-panel .cust-calender {display: inline-block;width:212px;}
+.wrapper.myaccount .events-filter  .filter-panel  .search-panel .cust-calender::placeholder {color:#000}
+.wrapper.myaccount .events-filter  .filter-panel  .search-panel .cust-calender .form-control {border: solid 1px #000;border-radius: 25px;height: 50px;font-weight: 500;font-size: 14px;color: #000;}
+.wrapper.myaccount .changeMakers.projects .events-filter .card {border-right: solid 1px #303030;border-bottom: solid 1px #303030;border-top-left-radius: 0;border-top-right-radius: 0;border-bottom-left-radius: 0;border-bottom-right-radius: 5rem;overflow: visible;}
+.wrapper.myaccount .changeMakers.projects .events-filter .card:last-child {margin-bottom: 0;}
+.wrapper.myaccount .changeMakers.projects .events-filter .card .card-body {padding-right:20px}
+.wrapper.myaccount .changeMakers.projects .events-filter .card-image figure {border-radius:10px;height:150px;z-index: 0;}
+.wrapper.myaccount .changeMakers.projects .events-filter .card-image:after {display:none}
+
+
+.wrapper.myaccount .events-filter .card .card-body .status h4 {padding-bottom: 5px;border-color: #F05235;text-transform: uppercase;font-size: 14px;font-weight: 600;}
+.block-elements {display:inline-block;width:100%;}
+.wrapper.myaccount .changeMakers .card .card-body .block-elements > b{font-size: 12px;display:block;margin-bottom: 10px;}
+.wrapper.myaccount .changeMakers .card .card-body .block-elements h5,
+.wrapper.myaccount .changeMakers .card .card-body .block-elements h4 {font-size: 14px;display:block;}
+.wrapper.myaccount .changeMakers .card .card-body .share-links {border-top:1px solid rgba(48,48,48,0.3);padding-top: 20px;padding-right: 210px;}
+.wrapper.myaccount .changeMakers .card .card-body .share-links.pdr0 {padding-right: 0;}
+.wrapper.myaccount .changeMakers .card .card-body .share-links.tbdr0 {border-top:0;padding-top:0;}
+.wrapper.myaccount .changeMakers .card .card-body .share-links.tbdr0 .btn-create {margin-top:0;top:0;}
+.wrapper.myaccount .changeMakers .card .card-body .share-links .btn-create {margin-top:10px}
+.icon-publish {background: url(/resources/images/my-account/icon-publish.png) no-repeat;background-size: 100%;width: 18px;height: 18px;display: inline-block;}
+.icon-copy {background: url(/resources/images/my-account/icon-copy.png) no-repeat;background-size: 100%;width: 16px;height: 20px;display: inline-block;}
+.icon-qr {background: url(/resources/images/my-account/icon-qr.png) no-repeat;background-size: 100%;width: 18px;height: 18px;display: inline-block;}
+.icon-deactivate {background: url(/resources/images/my-account/icon-deactivate.png) no-repeat;background-size: 100%;width: 16px;height: 16px;display: inline-block;}
+.icon-broadcast {background: url(/resources/images/my-account/icon-broadcast.png) no-repeat;background-size: 100%;width: 20px;height: 16px;display: inline-block;}
+
+.wrapper.myaccount .changeMakers .events-filter .share-links ul > li {width: 27%;}
+.wrapper.myaccount .changeMakers .events-filter .share-links ul > li:nth-child(1),
+.wrapper.myaccount .changeMakers .events-filter .share-links ul > li:nth-child(5),
+.wrapper.myaccount .changeMakers .events-filter .share-links ul > li:nth-child(9) {width:15%;}
+.wrapper.myaccount .changeMakers .events-filter .share-links ul > li .tooltip {color: #F05235;}
+
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls {margin-top:-20px;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls h5 {color:#F05235;font-size: 12px;text-transform: uppercase;display: inline-block;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls h4 {color:#303030;font-size: 18px;margin-bottom: 10px;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls b {font-size: 12px;font-weight: 600;margin-bottom: 5px;display: inline-block;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls ul {margin:0;padding:0;list-style-type: none;border-bottom: 1px solid rgba(48,48,48,0.5);padding-bottom: 10px;margin-bottom:20px}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls ul > li {display:inline-block;font-size: 12px;font-weight:600;margin-right:10px}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls ul > li.orange-txt {color:#F05235;}
+.name-checkbox {position: relative;padding-left:40px}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist thead .name-checkbox input[type="checkbox"] ~ .checkmark{left: 7px;top: -10px;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist .table-hover tbody tr.active {background-color: #F5F8F6;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist .table-hover tbody tr.active .member-list > li > .cap-letter {display: none;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist .table-hover tbody tr:hover .member-list > li > .cap-letter {display: none;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist .table-hover tbody tr .member-list > li > .name-checkbox {display: none;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist .table-hover tbody tr:hover .member-list > li > .name-checkbox,
+.wrapper.myaccount .tbl-borderless.tbl-memberlist .table-hover tbody tr.active .member-list > li > .name-checkbox {display: inline-block;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist input[type="checkbox"]:checked ~ .checkmark,
+.name-checkbox input[type="checkbox"]:checked ~ .checkmark {background: #333E69;}
+.wrapper.myaccount .tbl-borderless.tbl-memberlist input[type="checkbox"]:checked ~ .checkmark:after,
+.name-checkbox input[type="checkbox"]:checked ~ .checkmark:after {border-color:#fff;}
+.participant-count {position: absolute;left: 0;top: 10px;}
+.cust-tbl.tbl-memberlist table.dataTable thead .sorting .sort-order::before,
+.cust-tbl.tbl-memberlist table.dataTable thead .sorting_asc .sort-order::before,
+.cust-tbl.tbl-memberlist table.dataTable thead .sorting_desc .sort-order::before,
+.cust-tbl table.dataTable thead .sorting_asc .sort-order::before,
+.cust-tbl table.dataTable thead .sorting_desc .sort-order::before {content: "\f0dc";font-family: 'FontAwesome';right: 5px;position: absolute;font-weight: 200;}
+.cust-tbl.tbl-memberlist table.dataTable thead .sorting .sort-order,
+.cust-tbl.tbl-memberlist table.dataTable thead .sorting_asc .sort-order,
+.cust-tbl.tbl-memberlist table.dataTable thead .sorting_desc .sort-order,
+.cust-tbl table.dataTable thead .sorting_asc .sort-order,
+.cust-tbl table.dataTable thead .sorting_desc .sort-order {background: none;position: relative;padding-right:20px;}
+.tbl-memberlist ::-webkit-scrollbar {width: 3px;margin-left: 20px;}
+.tbl-memberlist ::-webkit-scrollbar-track{ background: #303030; }
+.tbl-memberlist ::-webkit-scrollbar-thumb {background: #707070; }
+.tbl-memberlist ::-webkit-scrollbar-thumb:hover{ background: #707070;}
+.tbl-memberlist .dataTables_wrapper {max-height: 700px; overflow: auto;}
+.participated-lbl {font-size: 14px;font-weight:600;margin: 10px 0 10px 80px;}
+.status {font-size: 14px;color:#333E69;font-weight: 600;padding-left: 0px;display: inline-block;position: relative;}
+.status.status.not-activated {padding-left:0;}
+.status.participated {padding-left: 15px;}
+.status.participated::before {content:'\f00c';font-family: 'FontAwesome';margin-left: -15px;position: absolute;}
+.status.not-participated {font-size: 14px;color:#F05235;font-weight: 600;padding-left: 15px;display: inline-block;position: relative;}
+.status.not-participated::before {content:'\f111';font-family: 'FontAwesome';margin-left: -15px;position: absolute;font-size: 10px;margin-top: 2px;}
+.tl-resources {width: 150px;display: inline-block;}
+.tbl-li-list > li ul > li.pending {color: #F05235;}
+.tbl-li-list > li ul > li.pending > .fa-circle {font-size: 10px;color: #F05235;}
+.tbl-li-list > li ul > li.accepted {color: #333E69;}
+.tbl-li-list > li ul > li.accepted > .fa-circle {font-size: 10px;color: #333E69;}
+.icn-volunteer {background: url(/resources/images/my-account/icon-volunteer.png) no-repeat;background-size: 100%;width: 31px;height: 26px;display: inline-block;}
+.icn-material {background: url(/resources/images/my-account/icon-clothing.png) no-repeat;background-size: 100%;width: 32px;height: 26px;display: inline-block;}
+.paricipant-status {position: relative;padding-left: 84px;}
+.paricipant-status > span {margin-left:-85px;position: absolute;font-size: 14px;font-weight: 600;line-height: 40px;}
+.paricipant-status > span.accepted {color:#333E69}
+.paricipant-status > span.pending {color:#F05235}
+.paricipant-status > ul {margin:0;padding:0;list-style-type: none;}
+.paricipant-status > ul > li {display:inline-block;font-size: 14px;font-weight: 400;line-height: 40px;vertical-align: top;padding-left: 31px;}
+.paricipant-status > ul > li > i {margin-top: 5px;position: absolute;margin-left: -31px;text-align: center;}
+.paricipant-status > ul > li > i.fa-rupee {font-size: 26px;padding-left: 12px;margin-top: 5px;}
+.add-lead {font-size: 14px;color:#333E69;font-weight:400;padding: 5px;}
+.add-lead:hover {background: #3d4871;padding: 5px;border-radius: 5px;color: #fff;}
+.add-lead > i {font-size: 12px;}
+.remove-lead {padding-left:20px;font-size: 14px;color:#333E69;}
+.lead-added {padding-left:0px;font-size: 14px;color:#333E69;}
+.tooltip .tooltiptext.right{left:inherit;right:0;}
+.tooltip .tooltiptext.right::after {left:inherit;right:5px;}
+.cust-tabs .tab-content h5.no-lead {border-top:1px solid #707070;padding-top:10px;margin-top:10px;display: inline-block;width: 100%;padding-bottom: 10px;margin-bottom: 10px;}
+.tbl-memberlist table.dataTable tbody tr.selected {background-color: #F5F8F6;}
+.qr-code-list {margin:0;padding:0;list-style-type: none;}
+.qr-code-list > li .tbl-style {width:100%;display: table;}
+.qr-code-list > li .tbl-style > div {display: table-cell;vertical-align: middle;}
+.qr-code-list > li .tbl-style > div:nth-child(1) {width:200px;}
+.qr-code-list > li > h4 {font-size: 18px;font-weight:600;margin-bottom: 10px;}
+.wrapper.myaccount .changeMakers.projects .qr-code-list > li .tbl-style > div a.btn-primary-o {display: block;min-width:90px;width:90px;padding:0;}
+.wrapper.myaccount .changeMakers.projects .qr-code-list > li .tbl-style > div a + a {margin-top:10px;}
+.qr-code-list > li + li {border-top:1px solid #ddd;padding-top:20px;margin-top:20px;}
+.collection-centers {margin:0;padding:0;list-style-type: none;max-width: 340px;}
+.collection-centers > li {position: relative;padding-left: 15px;}
+.collection-centers > li::before {content:'\f111';font-family: 'FontAwesome';position: absolute;left: 0;font-size: 10px;margin-top: 2px;}
+.collection-centers > li address {font-size: 14px;font-weight:500;padding-top: 10px;}
+.collection-centers > li > b {font-weight:600;}
+.semi-bold {font-weight:600;padding-bottom:10px;display: inline-block;}
+.collection-centers > li + li {border-top:1px solid #ddd;padding-top:10px;margin-top:20px;}
+.wrapper.myaccount .events-filter.typ2 .filter-panel {padding:0;margin:0;padding-bottom: 10px;}
+.wrapper.myaccount .events-filter.typ2 .filter-panel  h5 {padding:10px 0}
+.wrapper.myaccount .events-filter.typ2 .status {padding-left:0;}
+.wrapper.myaccount .events-filter.typ2 h4 + h4 {margin-left:20px}
+.wrapper.myaccount .events-filter.typ2 .card .card-body h5.orange {font-size: 18px;font-weight: 600;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls.typ2 h5 {font-size: 14px;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls.typ2 h5 + h5 {margin-left:20px;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls.typ2 ul > li {display: block;}
+.wrapper.myaccount .cust-tabs .tab-content .changeMakers.projects .event-dtls.typ2 ul > li.orange-txt {font-size: 18px;font-weight:600}
+.cust-input {position: relative;}
+.cust-input > .form-control {text-indent: 30px;padding:0}
+.cust-input > i {position: absolute;top:50%;left:0;transform: translateY(-50%);margin-left: 20px;}
+.wrapper.myaccount .changeMakers.projects .head-sec .btn-sec {position: absolute;right: 0;top: 0;}
+.wrapper.myaccount .changeMakers.projects .head-sec .btn-sec > .btn {position: relative;min-width: 175px;color: #fff;padding: 6px 20px;font-size: 14px;}
+.setting-icn {width:119px;height:119px;border-radius:100%;background: #F5F8F6;display: inline-block;padding: 20px 28px;}
+.wrapper.myaccount .curve-list {margin-bottom: 3rem;}
+.wrapper.myaccount .curve-list .card.element-item {overflow: hidden;}
+.wrapper.myaccount .curve-list .card:after {content: '';width: 326px;height: 326px;border: 50px solid rgba(48,48,48,.1);display: inline-block;border-radius: 100%;position: absolute;right: -140px;bottom: -160px;}
+.wrapper.myaccount .curve-list .card {border-right: solid 1px #303030;box-shadow:none;border-bottom: solid 1px #303030;border-top-left-radius: 0;border-top-right-radius: 0;border-bottom-left-radius: 0;border-bottom-right-radius: 5rem;overflow: visible;margin: 0 0 2rem;
+    border-top: 0;border-left: 0;}
+.wrapper.myaccount .curve-list .card:hover {background: none;}
+.wrapper.myaccount .curve-list .card:last-child {margin-bottom: 0;}
+.wrapper.myaccount .curve-list .card .card-body {padding-right:20px}
+.wrapper.myaccount .curve-list .card-image figure {border-radius:10px;height:150px;z-index: 0;}
+.wrapper.myaccount .curve-list .card-image:after {display:none}
+
+
+.wrapper.myaccount .changeMakers.projects .card.rounded-bdr {border-right: solid 1px #303030;box-shadow: none;border-bottom: solid 1px #303030;border-top-left-radius: 0;border-top-right-radius: 0;
+    border-bottom-left-radius: 0;border-bottom-right-radius: 5rem;overflow: visible;margin: 0 0 2rem;border-top: 0;border-left: 0;padding-right: 2rem;}
+.wrapper.myaccount .changeMakers.projects .card.rounded-bdr .status {padding-left:0;}
+.wrapper.myaccount .changeMakers.projects .card.rounded-bdr .status > span {font-size: 14px;font-weight:500;padding-left:10px}
+.tbl-borderless.tbl-joined-event .table thead th.col-sr-no {width: 50px;min-width: 50px;}
+.tbl-borderless.tbl-joined-event .table thead th.col-join-date {width: 90px;}
+.tbl-borderless.tbl-joined-event .table thead th.col-event-name {width: 150px;}
+.tbl-borderless.tbl-joined-event .table thead th.col-resources {width: 120px;}
+.tbl-borderless.tbl-joined-event .table thead th.col-join-event-dtls {width: 200px;}
+.joined-event-dtls {margin:0;padding:0;list-style-type: none;}
+.joined-event-dtls > li {width:32%;display:inline-block;}
+.joined-event-dtls > li > b {display: block;width:100%;}
+.joined-event-dtls > li.full-width {width:100%;display: inline-block;padding-top:10px;}
+.share-options {margin:0;padding:0;list-style-type: none;}
+.joined-event-dtls > li address b {display: block;}
+.joined-event-dtls > li label {display: block;margin:0}
+.share-options > li {display:block;}
+.share-options > li + li {margin-top:5px;}
+.share-options > li > a {display:block;font-size: 14px;font-weight: 500;padding: 0;color: #000;}
+.icn-exit {background: url(/resources/images/my-account/icon-exit.png) no-repeat;background-size: 100%;width: 16px;height: 15px;display: inline-block;}
+.txt-orange{color: #F05235;font-weight:600;}
+.txt-orange-bdr {font-size: 16px;color: #333E69;position: relative;display: inline-block;border-bottom: 3px solid #F05235;margin-top:0;padding-bottom: 5px;text-transform: uppercase;
+    font-weight: 600;}
+.tbl-borderless.tbl-joined-event small {font-size: 12px;font-weight: 500;}
+
+.logged.my-account .top-links li>a.notification {
+    display: inline-block;
+}
+.notification_popup{width:370px;display: inline-block;background: rgb(70,197,250);background: #f5f8f6;padding: 0;border-radius: 5px;position: absolute;z-index: 9;margin-top: 42px;right: 0px;margin-left: 0;padding-bottom:0;height: auto;z-index: 9;position: absolute;overflow: visible;box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.15);}
+.notification_popup:before {content:'';border-top: 10px solid transparent;border-right: 10px solid transparent;border-bottom: 10px solid #ffffff;border-left: 10px solid transparent;position: absolute;top: -20px;right: 28%;transform: translateX(-50%);/* box-shadow: 3px 3px 3px #ddd; */}
+.notification_popup .notification_popup_box {width:100%;display:inline-block;background: #fff;padding: 0;}
+.notification_popup .notification_popup_box > h2 {font-size: 18px;color: #303030;margin-bottom: 0;padding: 10px;}
+.notification_popup .notification_popup_box .close {position: absolute;right: 4px;width: 23px;font-size:20px;height: 23px;background: #fff;top: 0;border-radius: 0;opacity: 1;border: 0;color: #333;text-shadow: none;}
+.notification_popup .notification_popup_box .close:focus{outline:0;}
+.notification_popup .notification_popup_box .close:hover {opacity: 1;}
+.notification_popup .notification_popup_box > ul {margin:0;padding: 0 20px 0 10px;list-style-type: none;background: #F5F8F6;}
+.notification_popup .notification_popup_box > ul > li {width:100%;display: inline-block;font-size:13px;border-bottom:1px solid #E4E4E4;padding-bottom:10px;margin-left: 0;margin-top: 10px;padding-left: 10px;position: relative;}
+.notification_popup .notification_popup_box > ul > li:before {content:'';width:7px;height:7px;background: #333E69;border-radius:100%;position: absolute;margin-left: -10px;margin-top: 4px;}
+.notification_popup .notification_popup_box > ul > li > div {position: relative;}
+.notification_popup .notification_popup_box > ul > li > div > b {display:block;font-weight: 600;font-size: 12px;color: #333E69;}
+.notification_popup .notification_popup_box > ul > li > div > span {color: #303030;font-style: italic;font-weight: 500;}
+.notification_popup .notification_popup_box > ul > li > div > span.date {position: absolute;top:0;right:0;font-style: normal;}
+.notification_popup .notification_popup_box > ul > li > div > span > b {font-style: normal;font-weight: 600;font-size:12px;}
+.notification_popup .notification_popup_box > ul > li > div > span > b.orange {font-weight: 600;color:#F05235;font-style: normal;font-size: 12px;}
+.notification_popup .notofication_popup_box > ul > li + li {margin-left:0;margin-top:10px}
+.notification_popup .notification_popup_box{max-height: 320px;overflow-y: auto;text-align: left;border-radius: 5px;}
+.notification_popup ::-webkit-scrollbar {width: 3px;}
+.notification_popup ::-webkit-scrollbar-track{ background: #707070;}
+.notification_popup ::-webkit-scrollbar-thumb {background: #707070;}
+.notification_popup ::-webkit-scrollbar-thumb:hover{ background: #707070;}
+.top-links li > a.notification span.badge {border-radius:100%;width: 20px;height: 20px;background: #F05235;line-height: 16px;position: absolute;top: -8px;left: 5px;font-size: 10px;font-weight: 600;}
+.notification_popup .notification_popup_box > h2 span.badge {position: relative;border-radius:100%;width: 20px;height: 20px;background: #F05235;line-height: 16px;font-size: 10px;font-weight: 600;}
+.notification_popup .btn-sec {text-align: center;padding:10px 0;display: inline-block;width:100%;}
+.notification_popup .btn-sec .btn {border: 1px solid #090808;color: #090808;}
+.notification_popup .btn-sec .btn:hover {color: #fff;}
+
+.my-account.static .wrapper.myaccount .listing-page .refine-search{max-width: 268px;min-width: 268px;background: #F5F8F6;font-size: 14px;padding: 15px;}
+.my-account.static .wrapper.myaccount .listing-page .refine-search:before{content:'';background: #F5F8F6; width:200%; height:100%; position:absolute;left:-200%; top:0}
+.my-account.static .wrapper.myaccount .listing-page .refine-search .background-express .content-area{width:100%;padding: 10px;}
+.my-account.static .wrapper.myaccount .refine-search > label {margin-bottom: 20px;font-size: 14px;width:100%;font-weight: 600;border-bottom: 1px solid #707070;padding-bottom: 15px;position:relative;padding-left:20px;}
+.my-account.static .wrapper.myaccount .refine-search > label a {float:right;font-size: 0.875rem;color: #000000;font-weight: 500;}
+.my-account.static .wrapper.myaccount .refine-search > label a:hover {color: #F05235;}
+.my-account.static .wrapper.myaccount .fc-refine-search {content:'';height: 2px;width: 10px;display: block;position: absolute;left: 0;top: 4px;background: #000000;}
+.my-account.static .wrapper.myaccount .fc-refine-search:before {content:'';height: 2px;width: 8px;display: block;position: absolute;left: 0;top: 4px;background: #000000;}
+.my-account.static .wrapper.myaccount .fc-refine-search:after {content:'';height: 2px;width: 5px;display: block;position: absolute;left: 0;top: 8px;background: #000000;}
+.my-account.static .wrapper.myaccount .refine-search ul {margin:0;padding:0;list-style: none;z-index: 0;}
+.my-account.static .wrapper.myaccount .refine-search ul li{z-index: 0;}
+.my-account.static .wrapper.myaccount .refine-search ul li label {width:100%;display:block;font-size: 0.875rem;padding-left: 27px;position: relative;padding-right: 20px;color: #000;margin-bottom: 10px; cursor: pointer;font-weight: 400;}
+.my-account.static .wrapper.myaccount .refine-search ul li label input[type="checkbox"] {margin-left: -27px;position: absolute;top: 2px;}
+.my-account.static .wrapper.myaccount .refine-search ul li label input[type="checkbox"] ~ .checkmark {position: absolute;top: 1px;left: 0;height: 16px;width: 16px;border: solid 1px #707070;background-color: #fff;border-radius: 3px;}
+.my-account.static .wrapper.myaccount .refine-search ul li label  input[type="radio"]:checked ~ .checkmark {background-color: #333E69;border: solid 5px #fff;padding: 7.5px;}
+.my-account.static .wrapper.myaccount .refine-search ul li label input[type="checkbox"]:checked ~ .checkmark:after {width: 6px;height: 11px;border-width: 0 3px 3px 0;margin-left: 4px;margin-top: 0px;}
+
+.refine-search .categories{margin:0;padding: 0;list-style: none;margin-bottom: 40px;padding-bottom: 30px;border-bottom: 0;}
+.refine-search .categories > li + li{margin-top:20px;}
+.refine-search .categories > li > h5{font-size:14px; font-weight:500; color:#000000; margin-bottom:10px;}
+.refine-search .categories li > ul.category {max-height: 300px; overflow: auto;}
+/* .refine-search ::-webkit-scrollbar {width: 5px;}
+.refine-search ::-webkit-scrollbar-track{ background: #303030; }
+.refine-search ::-webkit-scrollbar-thumb {background: #F05235; }
+.refine-search ::-webkit-scrollbar-thumb:hover{ background: #F05235;} */
+.my-account.static {background: #fff;}
+.my-account.static .wrapper.myaccount {background: #fff;padding-bottom: 0;min-height: 100%;}
+.my-account.static .wrapper.myaccount .container:before {display: none;}
+.my-account.static .wrapper.myaccount .listing-page .changeMakers.events .head-sec {margin-bottom: 0;}
+.my-account.static .wrapper.myaccount .listing-page .changeMakers.events .head-sec > h2 {padding-bottom: 0;}
+.my-account.static .wrapper.myaccount .listing-page .changeMakers.events .search-sec .search-input {box-shadow: none;}
+.my-account.static .wrapper.myaccount .filter-panel {border-bottom: 0;}
+.my-account.static .wrapper.myaccount .filter-panel .search-panel .search-input-btn {position: absolute;right: 2px;top: 0;font-size: 14px;color: #000000;left: inherit;line-height: 37px;}
+
+
+.box-shadow {width: 100%;border-radius: 25px;box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 10%);padding:0 40px;}
+.notification-listing {width: 100%;display: inline-block;font-size: 13px;border-bottom: 1px solid #E4E4E4;padding-bottom: 10px;margin-left: 0;margin-top: 10px;padding-left: 10px;position: relative;list-style-type: none;}
+.notification-listing li:before {content: '';width: 7px;height: 7px;background: #333E69;border-radius: 100%;position: absolute;margin-left: -10px;margin-top: 4px;}
+.notification-listing > li{border-top:1px solid #ddd;padding-top: 20px;padding-bottom: 20px;padding-left: 20px;}
+.notification-listing > li > div > b {display: block;font-weight: 600;font-size: 14px;color: #333E69;}
+.notification-listing > li > div > span {color: #303030;font-style: italic;font-weight: 500;font-size: 14px;}
+.notification-listing > li > div > span.date {position: absolute;top: 0;right: 20px;font-style: normal;font-size: 12px;}
+.notification-listing > li > div > span > b.orange {font-weight: 600;color: #F05235;font-style: normal;font-size: 14px;}
+.notification-listing > li > div {position: relative;}
+.notification-listing > li > div > span > b {font-style: normal;font-weight: 600;font-size: 14px;}
+.notification-listing > li.selected {background: #F5F8F6;}
+.import-contacts {width:420px;background: #F5F8F6;border:1px solid rgba(48,48,48,.3);border-radius: 10px;padding:10px;position: relative;margin-top:20px;z-index: 9;}
+.import-contacts .uploadedDocument .custom-file-upload .custom-file-label {border:0 !important;background: none;margin-top: 30px;width: 100%;padding: 20px;font-weight: 600;}
+.import-contacts .uploadedDocument .custom-file-upload .custom-file-input ~ .custom-file-label::after {border:solid 1px #707070 !important;border-left:0;border-radius: 25px;height: 40px;margin-top: -30px;width: 120px;line-height: 40px;padding: 0;margin-right: 30px;}
+.import-contacts .uploadedDocument > label {position: absolute;left: 0;margin-left: 7%;margin-top: 10px;}
+
+.cust-tbl.tbl-capmaignlist .col-sr-no{min-width: 60px;width: 60px;}
+.cust-tbl.tbl-capmaignlist .col-date{min-width: 130px;width: 130px;}
+.cust-tbl.tbl-capmaignlist .col-name{min-width: 160px;width: 80px;}
+.cust-tbl.tbl-capmaignlist .col-mobile{min-width: 150px;width: 100px;}
+.cust-tbl.tbl-capmaignlist .col-email{min-width: 140px;width: 100px;}
+.cust-tbl.tbl-capmaignlist .col-amt{min-width: 140px;width: 100px;}
+.wrapper.myaccount .btn-sec.btm-btns .btn-primary.disabled,
+.wrapper.myaccount .btn-sec .btn-primary.disabled {opacity: 0.5;background-color: #F05235;border-color:#F05235}
+.wrapper.myaccount .changeMakers.projects .head-sec a.close {line-height: normal;}
+.wrapper.myaccount .changeMakers.projects .head-sec .btn-sec .import-contacts .btn {position: relative;color:#fff;padding: 13px 15px;font-size:14px;line-height:normal;width: 220px;}
+.import-contacts .uploadedDocument .custom-file-upload .custom-file-label:focus,
+.import-contacts .uploadedDocument .custom-file-upload .custom-file-input {outline: 0;box-shadow: none;}
+.import-contacts .uploadedDocument .custom-file-upload .custom-file-label {box-shadow: none;}
+.import-contacts .close {cursor: pointer;}
+.icon-building {background: url('/resources/images/common/icons/icon-building.png');width: 82px;height: 82px;display: inline-block;}
+.cust-tabs > ul> li.organazation {display: none;}
+.organazation-account .cust-tabs > ul> li.organazation {display: inline-block;}
+.organazation-account .cust-tabs > ul> li.individual {display: none;}
+#ui-datepicker-div {z-index:9 !important;}
+.filter-sec .fa-close {display: none;}
+
+/* .wrapper.myaccount .events-filter .filter-panel .search-panel .cust-calender:after {
+    content: '\f073';
+    font-family: 'FontAwesome';
+    position: absolute;
+    font-size: 16px;
+    right: 11px;
+    top: 11px;
+    display: block;
+} */
+.upload-logo {text-align: center;width:150px;float: right;}
+.upload-logo .input-images-1{width:145px}
+.upload-logo .image-uploader .uploaded .uploaded-image img {left: 0;}
+
+.share-sec .social-media.typ2 {left: inherit;right:-140px;}
+.share-sec .social-media.typ2 ul {padding-top:18px;display: inline-block;min-width: 330px;}
+.share-sec .social-media.typ2 ul li {display: inline-block !important;}
+
+.wrapper.myaccount .events-filter .filter-panel .search-panel.typ2 .input-group {width: 370px;float: none;}
+.wrapper.myaccount .events-filter .filter-panel .search-panel.typ2 .btn-clear-filter {color:#000;padding:15px;border-radius:30px;border:1px solid #fff;}
+.wrapper.myaccount .events-filter .filter-panel .search-panel.typ2 .btn-clear-filter:hover {border:1px solid #000;border-radius:30px;}
+
+
+@media screen and (max-width: 1024px){
+    .myaccount-banner   ,
+    .myaccount-banner > figure > figcaption .top-cap-dtls {height: 293px;}
+    #imagePreview2 {width: 100%;height: 293px;}
+    .time-availability > li .slot-sec {min-width: 46%;width:46%;}
+    .time-availability > li .days-sec {min-width: 53%;width:53%}
+    .time-availability > li .days-sec ul > li {width:100%;}
+    .wrapper.myaccount .checkbox-inline.column-2 li {min-width: 100%;}
+    .rounded-box > div {padding:10px;}
+    .rounded-box > div:nth-child(1) {min-width: 410px;}
+    .rounded-box > div > ul.time-amt {padding-left:0;}
+    .rounded-box > div:nth-child(3) {min-width: 130px;width: 120px;}
+    .rounded-box > div > ul.half-circle > li > .num {width:100%;}
+    .wrapper.myaccount .container:before {left:-560px;}
+    .wrapper.myaccount .feature-list > li + li > .icn:before {left: -140%;width: 140%;}
+    .wrapper.myaccount .first-table > ul > li > .member-event-list li {display: block;}
+    .wrapper.myaccount .changeMakers.projects .member-event-list li + li {margin-left:0;}
+    .wrapper.myaccount .first-table > ul > li .impact-list > li + li {margin-left: 10px;}
+    .wrapper.myaccount .first-table > ul > li .impact-list {padding: 2px 10px;}
+    .wrapper.myaccount .changeMakers .share-links ul > li {display:inline-block;width: 49%;}
+    .wrapper.myaccount .events-filter .button-group .button {margin-left: 15px;margin-right: 15px;}
+}
+
+@media screen and (max-width: 991px){
+    .myaccount-banner {height: 100%;}
+    #imagePreview2 {width: 100%;height: 233px;}
+    .user-info .user-edit,
+    .avatar-preview,
+    .user-info .user-edit:after {width:160px;height:160px;}
+    .wrapper.myaccount .btn-primary-o {padding: 10px 15px;}
+    .user-info .user-edit {margin-top:-100px;}
+    .myaccount-banner .user-dtls {width:100%;padding-left: 170px;}
+    .wrapper.myaccount .progerss-status {width: 450px;position: relative;top: 0;right: 0;}
+    .wrapper.myaccount .btn-block {position: relative;z-index: 9;}
+    .wrapper.myaccount ul.steps > li + li {margin-left:0;}
+    .wrapper.myaccount ul.steps > li + li:before {left: -72px;}
+    .wrapper.myaccount .create-element .start-project .skills .select-interest > li {width: 32%;}
+    .wrapper.myaccount .create-element .start-project .interest-area .select-interest > li {width: 26%;}
+    .myaccount-banner > figure > figcaption .top-cap-dtls {height:250px;}
+    .form .form-group.mob-number {padding-bottom: 0;}
+    .wrapper.myaccount .radio-inline .custom-control {padding: 10px 27px;margin: 0;}
+    .cust-tabs .tab-content h6.dbl-line-height {margin-bottom: 1.5rem;line-height: 1.2;}
+    .wrapper.myaccount .checkbox-inline.column-2 li {min-width: 49%;}
+    .cust-tabs .tab-content {padding:30px 20px}
+    .personal-info-dtls > li {padding-left: 100px;}
+    .personal-info-dtls > li > .lbl-sec {margin-left: -100px;width: 100px;}
+    .personal-info-dtls > li > .dtls-sec span {word-break: break-word;}
+    .wrapper.myaccount .create-element .start-project.typ2 .skills {padding-right:0px;}
+    .wrapper.myaccount .create-element .start-project.typ2 {padding-top: 20px;}
+    .wrapper.myaccount .create-element .start-project.typ2 .skills .add-remove {margin-top:-30px;}
+    .rounded-box {display:inline-block;width:100%;}
+    .rounded-box > div:nth-child(1) {display:block;width:100%;min-width:100%;border-top-right-radius: 20px;border-bottom-left-radius:0}
+    .rounded-box > div + div {width: 50%;display: inline-block;border-left:0;}
+    .rounded-box > div:last-child {border-left: 1px dotted rgba(48,48,48,0.5);}
+    .rounded-box > div > ul.half-circle > li::after {width: 147px;}
+    .rounded-cust-tbl .table .col-sr-no {min-width: 70px;}
+    .rounded-cust-tbl .table .col-receipt {min-width: 150px;}
+    .rounded-cust-tbl .table .col-typ {min-width:140px;}
+    .rounded-box > div:nth-child(3) { min-width: 160px;}
+    .wrapper.myaccount .btn-sec .btn-primary {margin-bottom: 15px;}
+    .wrapper.myaccount .feature-list > li + li > .icn:before {left: -70%;width: 70%;}
+    .wrapper.myaccount .changeMakers.projects .card {width:100%;display:inline-block}
+    .wrapper.myaccount .changeMakers.projects .card-image {display: inline-block;}
+    .wrapper.myaccount .changeMakers.projects .card .card-body {width:66%;display:inline-block}
+    .wrapper.myaccount .changeMakers.projects .head-sec.share-links {padding-right: 0;}
+    .wrapper.myaccount .changeMakers.projects .head-sec.share-links .btn-create {position: relative;}
+    .wrapper.myaccount .first-table > ul > li {width: 100%;}
+    .wrapper.myaccount .first-table > ul > li + li {border-top: 1px rgb(48 48 48 / 0.5) dashed; border-left:0;}
+    .wrapper.myaccount .first-table > ul > li:first-child {padding: 10px 0px 0 63px;text-align: left;}
+    .wrapper.myaccount .first-table > ul > li.total-hrs {text-align: left;padding-left: 76px;}
+    .wrapper.myaccount .events-filter .filter-panel .search-panel {width: 100%;}
+    .wrapper.myaccount .changeMakers .my-story li a {word-break: break-word;}
+    .wrapper.myaccount .changeMakers .events-filter .share-links ul > li,
+    .wrapper.myaccount .changeMakers .events-filter .share-links ul > li:nth-child(1), .wrapper.myaccount .changeMakers .events-filter .share-links ul > li:nth-child(5), .wrapper.myaccount .changeMakers .events-filter .share-links ul > li:nth-child(9) {width: 47%;}
+    .wrapper.myaccount .events-filter > .button-group > h5 {max-width:auto;min-width:auto;margin-right:10px}
+    .wrapper.myaccount .events-filter .button-group .button {margin-left:3px;margin-right:3px;font-size: 16px;}
+    .wrapper.myaccount .changeMakers .card .card-body .project-name h2 {font-size: 24px;}
+    .wrapper.myaccount .events-filter .filter-panel .search-panel .cust-calender {width:192px;}
+    .wrapper.myaccount .events-filter .filter-panel .search-panel .input-group {width:290px}
+}
+
+@media screen and (max-width: 767px){
+    .myaccount-banner {height: 100%;}
+    #imagePreview2 {width: 100%;height: 210px;}
+    #imagePreview2 > img {height: 210px;object-fit: cover;}
+    .user-info .user-edit, .avatar-preview, .user-info .user-edit:after { width: 100px; height: 100px;}
+    .fc-user-x2 {background: url(/resources/images/my-account/icon-user.png);width: 50px; height: 50px;display: inline-block;background-size: 100%;}
+    .myaccount-banner .user-dtls {padding-left:130px;}
+    .myaccount-banner .user-dtls > h4 {font-size: 18px;}
+    .user-info .user-edit {margin-top: -80px;}
+    .cust-tabs {padding-left: 0px;}
+    .cust-tabs > ul {width:55px;}
+    .cust-tabs > ul> li > a {padding: 10px 12px;}
+    .cust-tabs .ic.menu{right: inherit;left: 0;display: inline-block;top: -70px;z-index: 999999999;}
+    /* .sidebar-menu {display:none} */
+    .cust-tabs .tab-content {padding: 30px 20px;}
+    .wrapper.myaccount .progerss-status {width: 100%;position: static;}
+    .wrapper.myaccount .progerss-status > ul > li {width:100%;}
+    .wrapper.myaccount .progerss-status > ul > li + li {margin-left:0;margin-top: 10px;padding-top: 10px;}
+    .wrapper.myaccount .progerss-status > ul > li + li::before{width:100%;height:1px;top: 0;left: 0;margin: 0;}
+    /* .cust-tabs.menuFixed {position: fixed;z-index: 9;left:0;top:0;} */
+    .cust-tabs > ul.sidebar-menu {width:0;transition: all 0.5s ease;}
+    .cust-tabs> ul.sidebar-menu.menuFixed  {position:fixed;display:inline-block;top:0px;width: 100%;z-index: 999;background: #ffd5c3;height: 100%;padding-top:0px;margin-top:0px;right:0%;transition: all 0.5s ease;}
+    .row-sm > [class^="col"] {margin-bottom:10px;}
+    .row-sm > [class^="col"]:last-child{margin-bottom: 0;}
+    .row-xs > [class^="col"] {margin-bottom:5px;}
+    .row-xs > [class^="col"]:last-child{margin-bottom: 0;}
+    .form .form-group{padding-bottom:10px}
+    .time-availability > li .slot-sec,
+    .time-availability > li .days-sec{width: 100%;}
+    .time-availability > li .days-sec::before {top: 0;left: 50%;transform: translateX(-50%);}
+    .time-availability > li .days-sec {padding-top:30px;}
+    .time-availability > li .days-sec:after {width: 100%;height: 1px;top: 10px;margin: 0;}
+    .wrapper.myaccount .checkbox-label {margin: 0;padding-left: 20px;}
+    .myaccount-banner > figure > figcaption .top-cap-dtls {height: 210px;}
+    .avatar-upload {bottom:-30px}
+    .myaccount-banner > figure label {margin-top:25%;}
+    .myaccount-banner .user-dtls .whatsapp-btn {width:25px;height:25px;background-size: 100%;}
+    .wrapper.myaccount .container:before {border: 40px solid #F05235;left: -770px;}
+    .wrapper.myaccount .create-element .start-project .skills .select-interest > li {width: 48%;}
+    .wrapper.myaccount .btn-sec .btn-continue {width: 200px;}
+    .wrapper.myaccount .create-element .start-project .interest-area .select-interest {margin: 0 -5px 25px 0px;width: 100%;}
+    .wrapper.myaccount .create-element .start-project .interest-area .select-interest > li {width: 40%;}
+    .wrapper.myaccount .create-element .start-project {padding-top:0;}
+    .wrapper.myaccount .create-element .start-project .interest-area {padding-top:0;}
+    .my-account .modal .left-section {display: block;width: auto;padding: 30px;}
+    .my-account .modal .right-section {display:block;padding: 30px;}
+    .personal-info-dtls > li {padding-left: 0px;}
+    .personal-info-dtls > li > .lbl-sec {margin-left:0px;width: 100%;position: relative;}
+    .wrapper.myaccount .create-element .start-project.typ2 {padding-left:0;}
+    .wrapper.myaccount .create-element .start-project.typ2 .content {padding:0;}
+    .wrapper.myaccount .btn-sec .btn-primary + .btn-primary {margin-left:0;margin-top:0px;}
+    .profile-completed > h4 {font-size: 17px;}
+    .my-account-menu {display: inline-block;position: absolute;left: 240px;top: 0;padding: 0;}
+    .my-account-menu .ic.menu {padding: 0;left: -140px;z-index: 99;top:5px;}
+    .my-account-menu .ic.menu.open {z-index: 999;top:10px !important;left: 130px;}
+    .my-account-menu .ic.menu .line {background-color: #0f0f0f !important;}
+    #menu-close {display:inline-block;}
+    .mob-menu-added header {z-index: 9999;background: none;}
+    .mob-menu-added header nav,
+    .mob-menu-added header .top-links {display:none}
+    .rounded-box > div > ul.half-circle > li::after {width: 107px;height: 107px;}
+    .rounded-box > div > ul.half-circle > li::before,
+    .rounded-box > div > ul.half-circle > li.active::before{width: 80%;height: 64%;}
+    .rounded-box > div > ul.half-circle > li > .name {font-size: 12px;margin-bottom: -4px;}
+    .wrapper.myaccount .feature-list > li + li > .icn:before {left: -20%;width: 20%;}
+    .wrapper.myaccount .changeMakers.projects .card .card-body {width:100%;}
+    .wrapper.myaccount .changeMakers.projects .card-image {display: inline-block;text-align: center;width: 100%;margin-bottom: 20px;}
+    .wrapper.myaccount .changeMakers.projects {margin-bottom: 0;}
+    .tbl-borderless.cust-tbl .table thead {display: none;}
+    .tbl-borderless.cust-tbl .table td {padding-left: 110px !important;position: relative;padding: 5px 0;text-indent: 0 !important;display: block;text-align: left !important;font-size: 12px;min-height: auto;border-bottom: 0;}
+    .tbl-borderless.cust-tbl .table td:before {margin-left: -110px;position: absolute;font-weight: 600;width: 105px;background: #ecf7fd;height: 100%;top: 0px;padding-top: 5px;padding-left: 0.5rem;border-right: 1px solid #dee2e6;border-left: 1px solid #dee2e6;left: 112px;text-align: left;font-size: 12px;}
+    .tbl-borderless.cust-tbl .table tbody tr {margin-bottom: 20px;display: block;border-bottom: 1px solid #dee2e6;}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table td:nth-child(1):before {content: 'Name';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table td:nth-child(2):before {content: 'Mobile Number';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table td:nth-child(3):before {content: 'Email ID';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table td:nth-child(4):before {content: 'Project';}
+
+
+    .tbl-borderless .table tbody td {border-right: 1px solid #dee2e6;}
+    .member-list > li > .cap-letter {margin-top: -2px}
+    .member-list > li:first-child {line-height: 28px;padding-bottom: 0;}
+    .member-list > li {padding-left: 35px;}
+    .cap-letter {width:30px;height:30px;line-height: 23px;font-size: 22px;}
+    .wrapper.myaccount .changeMakers.projects .btn-sec .btn-primary + .btn-primary,
+    .wrapper.myaccount .changeMakers.projects .btn-sec .btn-blue {margin-top:0;width:100%;margin-left:0;}
+
+    .tbl-borderless.cust-tbl.tbl-request-toJoin .table td:nth-child(1):before {content: 'Name / Mobile /Email ID';}
+    .tbl-borderless.cust-tbl.tbl-request-toJoin .table td:nth-child(2):before {content: 'Project';}
+    .tbl-borderless.cust-tbl.tbl-request-toJoin .table td:nth-child(3):before {content: 'Event';}
+    .tbl-borderless.cust-tbl.tbl-request-toJoin .table td:nth-child(4):before {content: 'Resources / Status / Action';}
+    .tbl-borderless.cust-tbl .table td:last-child {min-height: 100px;}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table td:last-child {min-height: auto;}
+    .tbl-borderless.cust-tbl .table td.merged-row {min-height: 240px;}
+    .tbl-li-list {min-width: 100%;max-width: 100%;}
+    header.fixedHeader .my-account-menu .ic.menu {top:5px}
+    .wrapper.myaccount .btn-sec .btn-primary {width:100%;margin-bottom: 10px;}
+    .wrapper.myaccount .events-filter .filter-panel .search-panel .cust-calender {width:100%;}
+    .wrapper.myaccount .events-filter .filter-panel .search-panel .input-group {width:100%;margin-top:10px;}
+    .wrapper.myaccount .changeMakers.projects .events-filter .card-image figure {width:100%;}
+    .wrapper.myaccount .events-filter .button-group .button,
+    .wrapper.myaccount .events-filter > .button-group > h5 {width:100%;}
+
+
+    .tbl-borderless.cust-tbl .table.participant-viewlist td:nth-child(1):before {content: 'Name';}
+    .tbl-borderless.cust-tbl .table.participant-viewlist td:nth-child(2):before {content: 'Mobile Number';}
+    .tbl-borderless.cust-tbl .table.participant-viewlist td:nth-child(3):before {content: 'Email ID';}
+    .tbl-borderless.cust-tbl .table.participant-viewlist td:nth-child(4):before {content: 'Resources / Status / Action';}
+    .tbl-borderless.cust-tbl .table.participant-viewlist .tbl-li-list > li + li {padding-top:5px;margin-top:0px;}
+    .tbl-borderless.cust-tbl .table.participant-viewlist td.merged-row {min-height: 180px;}
+
+    .tbl-borderless.cust-tbl.tbl-messgelist .table td:nth-child(1):before {content: 'Sr. No.';}
+    .tbl-borderless.cust-tbl.tbl-messgelist .table td:nth-child(2):before {content: 'Date';}
+    .tbl-borderless.cust-tbl.tbl-messgelist .table td:nth-child(3):before {content: 'Message';}
+    .tbl-borderless.cust-tbl.tbl-messgelist .table td:nth-child(4):before {content: 'To';}
+    .tbl-borderless.cust-tbl.tbl-messgelist .table td:last-child {min-height: auto;}
+    .uploadedDocument .custom-file-upload .custom-file-input ~ .custom-file-label::after {padding:13px 20px 13px 10px}
+    .uploadedDocument .custom-file-upload .custom-file-label {padding:14px 115px 14px 18px;overflow: hidden;}
+    .wrapper.myaccount h3 {font-size: 23px;}
+    .wrapper.myaccount .filter-panel .search-panel.lg-width {width: 100%;}
+    #view-memberlist {width:220px}
+
+    .tbl-borderless.cust-tbl.tbl-memberlist .table#example2 td:nth-child(1):before {content: 'Sr. No.';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table#example2 td:nth-child(2):before {content: 'Name';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table#example2 td:nth-child(3):before {content: 'Mobile Number';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table#example2 td:nth-child(4):before {content: 'Email ID';}
+    .tbl-borderless.cust-tbl.tbl-memberlist .table#example2 td:nth-child(5):before {content: 'Action';}
+    .wrapper.myaccount .changeMakers.projects .head-sec .btn-create, .wrapper.myaccount .head-sec .btn-create { min-width: 160px;}
+    .wrapper.myaccount .changeMakers .card .card-body .project-name h2 {font-size: 21px;}
+
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(1):before {content: 'Sr. No.';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(2):before {content: 'Date';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(3):before {content: 'Name';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(4):before {content: 'Mobile ';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(5):before {content: 'Email';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(6):before {content: 'Target Amount';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:nth-child(7):before {content: 'Action';}
+    .tbl-borderless.cust-tbl.tbl-capmaignlist .table td:last-child {min-height: auto;}
+    .wrapper.myaccount .changeMakers.projects .head-sec .btn-sec {position: relative;}
+    .cust-tabs > ul> li.active a:after, .cust-tabs > ul> li a:hover:after {display: none;}
+    .tbl-borderless.cust-tbl.tbl-memberlist #example_wrapper .table td:nth-child(4):before {content: 'Action';}
+    .import-contacts {width: 100%;}
+    .import-contacts .uploadedDocument .custom-file-upload .custom-file {height:70px}
+    .import-contacts .uploadedDocument .custom-file-upload .custom-file-input ~ .custom-file-label::after {margin-top: 0;width: 100%;max-width: 160px;margin: 0 auto;left: 50%;transform: translateX(-50%);}
+    .import-contacts .uploadedDocument > label {position: static;left: 0;margin-left: 0;margin-top: 0;}
+    .import-contacts .uploadedDocument .custom-file-upload .custom-file-label {margin-top: 0;line-height: 120px;height: 80px;padding: 0;}
+    .wrapper.myaccount .curve-list .card.element-item {padding-right: 20px;padding-bottom: 30px;}
+    .wrapper.myaccount .curve-list .card:after {content: '';width: 276px;height: 276px;border: 30px solid rgba(48,48,48,.1);display: inline-block;border-radius: 100%;position: absolute;right: -180px;bottom: -160px;}
+    .setting-icn {margin-bottom: 20px;}
+
+    .tbl-borderless.cust-tbl.tbl-joined-event .table td:nth-child(1):before {content: 'Sr. No.';}
+    .tbl-borderless.cust-tbl.tbl-joined-event .table td:nth-child(2):before {content: 'Join Date';}
+    .tbl-borderless.cust-tbl.tbl-joined-event .table td:nth-child(3):before {content: 'Event Name';}
+    .tbl-borderless.cust-tbl.tbl-joined-event .table td:nth-child(4):before {content: 'Resources';}
+    .tbl-borderless.cust-tbl.tbl-joined-event .table td:nth-child(5):before {content: 'Joined Event Details';}
+    .share-options > li {display: inline-block;}
+    .share-options > li + li {margin-top:0;margin-left:10px}
+    .m-hide {display: none;}
+    .mob-filter {position: fixed;bottom: 0;width: 100%;left: 0;background: #f05235;z-index: 9;margin: 0;padding: 10px;color: #fff;}
+    .filter-sec {display: none  ;}
+    .filter-sec.filter-fixed {display: inline-block;height: 100%;position: fixed;top: 0;left: 0;width: 100%;background: #ff8c77;z-index: 999;margin:0;transition: all .2s ease-in-out}
+    .filter-sec.filter-fixed .fa-close {color:#fff;font-size: 20px;float:right;transition: all .2s ease-in-out;display: inline-block;}
+}
