@@ -1,0 +1,516 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    {% set otherBanners = [] %}
+    {% for page in get_cms_page(get_parameter('company_id')) %}
+        {% if app.request.get('_route') == page.pageRoute%}
+            {% set banners = get_cms_page_banner(page.id) %}
+            {% set hasTopBanner = false %}
+            {% if banners is not empty %}
+                <section class="banner-carousel slider-item inner-banner">
+                    <div id="mainBanner" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% set counter = 0 %}
+                            {% for banner in banners %}
+                                {% if banner.bannerPosition == 'top' %}
+                                    {% if banner.bannerUrl is not empty %}
+                                        {% set bannerTargetUrl = banner.bannerUrl %}
+                                    {% else %}
+                                        {% set bannerTargetUrl = "#" %}
+                                    {% endif %}
+                                    <div class="carousel-item {% if counter == 0 %}active{% endif %}">
+                                        <a href="{{ bannerTargetUrl }}">
+                                        {%  if (banner.bannerMediaType == 'image') %}
+                                            <figure>
+                                                <img class="desktop-purpose" src="{{ asset('images/files') }}/{{ banner.bannerDesktopImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                                                <img class="tab-purpose" src="{{ asset('images/files') }}/{{ banner.bannerTabletImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                                                <img class="mobile-purpose" src="{{ asset('images/files') }}/{{ banner.bannerMobileImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                                                <figcaption>
+                                                    <div class="container">
+                                                        {% if banner.bannerDescription|striptags is not empty %}
+                                                            <div class="caption">
+                                                                {{ banner.bannerDescription|raw }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </figcaption>
+                                            </figure>
+                                        {% else %}
+                                            {{ banner.bannerVideoPath|raw }}
+                                        {% endif %}
+                                        </a>
+                                    </div>
+                                    {% set counter = counter + 1 %}
+                                {% else %}
+                                    {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if counter > 1 %}
+                            <a class="carousel-control-prev" href="#mainBanner" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#mainBanner" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                        {#<div class="search-sec">
+                            {{ include('portal/layout/_header_search.html.twig')  }}
+                        </div>#}
+                    </div>
+                </section>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="row listing-page">
+                <div class="col-auto refine-search">
+                    <label><i class="fc-refine-search"></i> Refine Search <a href="#" class="clearAll"><i class="fas fa-sync"></i>
+                            Clear
+                            All</a> </label>
+                    <ul class="categories">
+                        <li>
+                            <h5>Type</h5>
+                            <ul class="type">
+                                {% for mstHighLight in arrMstHighLights %}
+                                <li>
+                                    <label class="checkbox-label" for="mstHighLight{{ mstHighLight.id }}">
+                                        <span class="labelText">{{ mstHighLight.highlight }}</span>
+                                        <input type="checkbox" name="mstHighLight" id="mstHighLight{{ mstHighLight.id
+                                        }}" value="{{ mstHighLight.id }}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <div class="tooltip"><i class="fas fa-info-circle"></i>
+                                        <span class="tooltiptext">{{ mstHighLight.description }}</span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <h5>Category</h5>
+                            <ul class="category">
+                                {% for interest in areaInterests %}
+                                    <li>
+                                        <label class="checkbox-label" for="areaOfInterest{{ interest.id }}">{{
+                                            interest.areaInterest }}
+                                            <input type="checkbox" name="areaOfInterest" id="areaOfInterest{{
+                                            interest.id }}" value="{{ interest.id }}">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                {% endfor %}
+
+                            </ul>
+                        </li>
+                    </ul>
+                    {% if otherBanners|length > 0 and otherBanners['left'] is defined and otherBanners['left'] is not empty %}
+                        <div class="express-donate-parallax" data-aos="fade-down" data-aos-delay="200"
+                             data-image-src="{{ asset('images/files/') ~ otherBanners['left'].bannerDesktopImage}}">
+                            {{ otherBanners['left'].bannerDescription|default('<h2><br><br><br><br><br><br><br></h2>')|raw }}
+                            {% if otherBanners['left'].bannerUrl is not empty %}
+                                <a href="{{ otherBanners['left'].bannerUrl }}" class="btn btn-primary">Express
+                                    Donate</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col right-list">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Change Maker Projects</li>
+                        </ol>
+                    </nav>
+                    <section class="changeMakers projects" data-aos="fade-down"
+                             data-aos-delay="200">
+                        <div class="head-sec">
+                            <h2 data-aos="fade-right" data-aos-delay="200">Change Maker Projects</h2>
+
+                            {#{% set countData = get_count_data() %}#}
+
+                            <h3><span id="projectCnt">{{ arrCircleList|length }} Projects</span> Found</h3>
+                            <div class="float-right d-none d-md-block">
+                                <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary">Be a Change Maker</a>
+                            </div>
+                        </div>
+                        <div class="search-sec">
+                            <div class="input-group">
+                                <input type="text" class="search-input" id="searchText" placeholder="Search by Name, Location, Project">
+                                <a href="javascript:void(0);" class="btn search-input-btn srch-btn-filter"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div id="section_change_makers_prj">
+                            <div class="">
+                                {% set key = 1 %}
+                                {% for circle in arrCircleList  %}
+                                    <div class="card">
+                                        <div class="card-image">
+                                            <figure>
+                                                <img src="{{ asset('images') }}/{{ circle.profileImagePath }}" alt="">
+                                            </figure>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <h4>{{ circle.circle }}</h4>
+                                            <h5><i class="fas fa-map-marker-alt"></i> {{ circle.mstCity }}, {{ circle.mstState }}, {{ circle.mstCountry }}</h5>
+                                            <h5 class="orange"><em>{% for interest in circle.trnAreaOfInterests %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</em></h5>
+                                            <p>{{ circle.circleInformation |truncate(180)|raw  }}</p>
+                                            {% set fundEventCount = get_fund_event_count(get_parameter('company_id'),circle.id ) %}
+                                            {% set nCount = get_circle_count_data(circle.id) %}
+                                            <ul class="member-event-list">
+                                                <li>
+                                                    <i class="fc-member-icon"></i>
+                                                    <div class="number">{{ nCount.memberCount }}</div>
+                                                    <div class="task">Members</div>
+                                                </li>
+                                                <li>
+                                                    <i class="fc-event-icon"></i>
+                                                    <div class="number">{{ nCount.eventCount }}</div>
+                                                    <div class="task">Events</div>
+                                                </li>
+                                            </ul>
+                                            <div class="share-btn-section">
+                                                <ul class="share-view">
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="fc-book-open"></i>
+                                                            <b>{{ nCount.readCount|default(0) }}</b>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);" class="circleLike" circleId = "{{ circle.id
+                                                        }}">
+                                                            <i class="far fa-thumbs-up"></i>
+                                                            <b id="circleLike_{{ circle.id }}">{{ nCount.likeCount|default(0) }}</b>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ path('project-details', {'id': circle.id}) }}#comments">
+                                                            <i class="far fa-comment"></i>
+                                                            <b>{{ nCount.commentCount|default(0) }}</b>
+                                                        </a>
+                                                    </li>
+                                                    <li class="share-sec">
+                                                        <a href="javascript:void(0);" class="social-share-btn"><i
+                                                                    class="fas fa-share-alt"></i></a>
+                                                        <div class="social-media">
+                                                            <a href="#" class="fa fa-close"></a>
+                                                            <ul>
+                                                                <li><a onclick="getArticleShareCount('{{ circle.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                                <li><a onclick="getArticleShareCount('{{ circle.id }}')" href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                                <li><a onclick="getArticleShareCount('{{ circle.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                                <li><a onclick="getArticleShareCount('{{ circle.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="inline-links">
+                                                    <li>
+                                                        <a href="{{ path('project-details', {'id': circle.id}) }}"
+                                                           class="btn-primary">View</a>
+                                                    </li>
+                                                    {#<li>
+                                                        {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                            <a href="#">Join</a>
+                                                        {% else %}
+                                                            <a href="#" class="btn-primary">Request To Join</a>
+                                                        {% endif %}
+                                                    </li>#}
+                                                    {% if fundEventCount > 0 %}
+                                                        {# if fund event exists #}
+
+                                                        {% if fundEventCount > 1 %}
+                                                            {# if more than 1 fund event exists #}
+
+                                                            {% if app.user %}
+                                                                {#{% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                                    {% set isUserJoined = true %}
+                                                                {% else %}#}
+                                                                    {% set isUserJoined = get_user_join_status( get_parameter('company_id'), app.user.id, circle.id) %}
+                                                                {#{% endif %}#}
+
+                                                                {% set requestStatus = '' %}
+                                                                {% set requestStatus = get_pending_request_status( get_parameter('company_id'), app.user.id, circle.id) %}
+
+                                                                {% if isUserJoined == true %}
+                                                                    {# if user logged in and joined - show button - throw to list #}
+                                                                    <li>
+                                                                        <a href="{{ path('event-listing', { 'project_name':circle.circle }) }}">Donate</a>
+                                                                    </li>
+                                                                {% else %}
+                                                                    {# if user logged in and not joined project - don't show button #}
+                                                                    <li>
+                                                                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                                            <a href="{{ path('donate-after-login', { 'circle': circle.id, 'type' : 'Open', 'project_name':circle.circle }) }}">Donate</a>
+                                                                    {% else %}
+                                                                        <a href="javascript:void(0);" onclick="alert('Please submit Request to Join inorder to proceed')">Donate</a>
+                                                                    {% endif %}
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {# if user not logged in - show button - throw to list #}
+                                                                <li>
+                                                                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                                        <a href="{{ path('donate-before-login', { 'circle': circle.id, 'type': circle.mstJoinBy.joinBy, 'project_name':circle.circle }) }}">Donate</a>
+                                                                    {% else %}
+                                                                        <a href="javascript:void(0);" onclick="alert('Please submit Request to Join inorder to proceed')">Donate</a>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% endif %}
+
+                                                        {% else %}
+                                                            {# if only one fund event - get event id #}
+                                                            {% set fundEventId = get_fund_event_id(get_parameter('company_id'),circle.id ) %}
+
+                                                            {% if app.user %}
+                                                                {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                                    {% set isUserJoined = true %}
+                                                                {% else %}
+                                                                    {% set isUserJoined = get_user_join_status( get_parameter('company_id'), app.user.id, circle.id) %}
+                                                                {% endif %}
+                                                                {% if isUserJoined == true %}
+                                                                    {# if user logged in and joined - show button - throw to detail page #}
+                                                                    <li>
+                                                                        <a href="{{ path('event-details', { 'id': fundEventId }) }}">Donate</a>
+                                                                    </li>
+                                                                {% else %}
+                                                                    {# if user logged in and not joined project - don't show button #}
+                                                                    <li>
+                                                                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                                        <a href="{{ path('donate-after-login', { 'circle': circle.id, 'type' : 'Open', 'id': fundEventId }) }}">Donate</a>
+                                                                    {% else %}
+                                                                        <a href="javascript:void(0);" onclick="alert('Please submit Request to Join inorder to proceed')">Donate</a>
+                                                                    {% endif %}
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {# if user not logged in - show button - throw to detail page #}
+                                                                <li>
+                                                                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                                        <a href="{{ path('donate-before-login', { 'circle': circle.id, 'type': circle.mstJoinBy.joinBy, 'id': fundEventId }) }}">Donate</a>
+                                                                    {% else %}
+                                                                        <a href="javascript:void(0);" onclick="alert('Please submit Request to Join inorder to proceed')">Donate</a>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% endif %}
+
+                                                        {% endif %}
+                                                        {% else %}
+                                                            {# if no fund event created - don't show button  #}
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                            {% set trendingEvents = get_trending_circle_events(circle.id) %}
+                                            <div class="table-data">
+                                                {% if trendingEvents|length > 0 %}
+                                                <h4>Trending Events</h4>
+                                                <ul>
+                                                    {% for eventData in trendingEvents %}
+{#                                                        {{ dump(eventData) }}#}
+                                                        <li>
+                                                            <div class="head">
+                                                                {{ eventData.name }}
+                                                            </div>
+                                                            <div class="desc">
+                                                        <span class="date-place">
+                                                            {{ eventData.fromDate|date('l d M Y') }}
+                                                            {{ eventData.mstCity }}, {{ eventData.mstState }}, {{
+                                                            eventData.mstCountry }}
+                                                        </span>
+                                                                {#<span class="time">
+                                                            11:00 am to 3:00 pm
+                                                        </span>#}
+                                                            </div>
+                                                            <div class="category">
+                                                                {% for mstEventProductType in eventData
+                                                                .mstEventProductType %}{{ mstEventProductType.eventProductType }}{% if not loop.last %},{% endif %} {% endfor %}
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
+                                                {% if nCount.eventCount > 0 %}
+                                                    <a href="{{ path('show_project_events', { 'project':circle.id }) }}" class="text-link">More Events</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if key % 3 == 0 %}
+                                        {% if otherBanners|length > 0 and otherBanners['middle'] is defined and otherBanners['middle'] is not empty %}
+                                            <div class="background-express" data-image-src="{{ asset('images/files/') ~ otherBanners['middle'].bannerDesktopImage}}">
+                                                <div class="content-area" data-aos="fade-down" data-aos-delay="200">
+                                                    {{ otherBanners['middle'].bannerDescription|default('<h2><br><br><br></h2>')|raw }}
+                                                    {% if otherBanners['middle'].bannerUrl is not empty %}
+                                                        <a href="{{ otherBanners['middle'].bannerUrl }}" class="btn btn-primary">Express
+                                                            Donate</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
+                                        {#<div class="background-express">
+                                            <div class="content-area">
+                                                <h2 data-aos="fade-down" data-aos-delay="200">Purvi raised <span
+                                                            class="price">&#x20B9; 23,78,790</span> for
+                                                    Pushpesh's <br>Cancer treatment in just 26 days.</h2>
+                                                <a href="#" class="btn btn-primary" data-aos="fade-down"
+                                                   data-aos-delay="200">Express
+                                                    Donate</a>
+                                            </div>
+                                        </div>#}
+                                    {% endif %}
+                                    {% set key = key + 1 %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="btn-create-sticky cm-listing">
+            <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary">Be a Change Maker</a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            var windowWidth = $(document).width();
+
+            // $($('.refine-search .categories li > ul.type > li .tooltip').get().reverse()).each(function (index) {
+            //     $(this).css('z-index', index + 10);
+            // });
+            
+            if(windowWidth > 990){
+                $($('.refine-search .categories li > ul.type > li .tooltip').get().reverse()).each(function (index) {
+                    $(this).css('z-index', index + 10);
+                });
+
+                $('.labelText').each(function(item){
+                    $(this).parent('label').siblings('.tooltip').css('left', $(this).width() + 35);
+                });
+            } 
+            if(windowWidth < 450){
+                $($('.refine-search .categories li > ul.type > li .tooltip').get().reverse()).each(function (index) {
+                    $(this).css('z-index', index + 10);
+                });
+            };
+
+            $(".background-express").css('background-image', function () {
+                var bg = ('url(' + $(this).data("image-src") + ')');
+                return bg;
+            });
+            $(".express-donate-parallax").css('background-image', function () {
+                var bg = ('url(' + $(this).data("image-src") + ')');
+                return bg;
+            });
+
+            $('.social-share-btn').on('click', function (e) {
+                e.preventDefault();
+                $(this).children('.fa-share-alt').addClass('toggle');
+                $(this).siblings('.social-media').slideToggle();
+            });
+            $('.share-link').on('click', function (e) {
+                e.preventDefault();
+                $(this).siblings('.share-sec').find('.social-media').slideToggle();
+            });
+            $('.fa-close').on('click', function (e) {
+                e.preventDefault();
+                $(this).parent('.social-media').slideToggle();
+                $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+            });
+            $('.social-share-btn').on('click', function (e) {
+                e.preventDefault();
+                $(this).parents('ul.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+            });
+
+            $("[name='mstHighLight']").change(function () {
+                getFilter();
+            });
+
+            $("[name='areaOfInterest']").change(function () {
+                getFilter();
+            });
+
+            $('.clearAll').on('click', function () {
+                $('.categories input[type=checkbox]').each(function () {
+                    $(this).prop('checked', false);
+                });
+                getFilter();
+            });
+
+            $(document).on('click','.srch-btn-filter',function(){
+                getFilter();
+            });
+
+            $(document).on('click','.circleLike',function(){
+                var data = {};
+                var circleId = data['id'] = $(this).attr("circleId");
+                jQuery.ajax({
+                    url: "{{ path('circle-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#circleLike_"+circleId).text(data.count);
+                    }
+                });
+            });
+        });
+
+
+        function getFilter() {
+            var areaOfInterest = [];
+            var mstHighLight = [];
+            $.each($("input[name='areaOfInterest']:checked"), function(){
+                areaOfInterest.push(parseInt($(this).val()));
+            });
+            $.each($("input[name='mstHighLight']:checked"), function(){
+                mstHighLight.push(parseInt($(this).val()));
+            });
+            var srchText = $("#searchText").val();
+
+            var data = {};
+            if(mstHighLight.length > 0) {
+                data['highlightId'] = mstHighLight;
+            }
+            if(areaOfInterest.length > 0) {
+                data['interestId'] = areaOfInterest;
+            }
+            data['searchText'] = $("#searchText").val();
+            jQuery.ajax({
+                url: "{{ path('change-makers-project-list-filter') }}",
+                data: data,
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    var result = $("#section_change_makers_prj");
+                    result.html('');
+                    result.html(data);
+                    //$("#searchText").val(data['searchText']);
+                    if($("#srchlistCnt").val() == 1) {
+                        $("#projectCnt").html($("#srchlistCnt").val()+" Project");
+                    } else {
+                        $("#projectCnt").html($("#srchlistCnt").val()+" Projects");
+                    }
+
+                    AOS.init({
+                        delay: 50,
+                        duration: 800,
+                    });
+                }
+            });
+        }
+        var pathToArticleShare = "{{ path('circle-share') }}";
+
+
+    </script>
+{% endblock %}

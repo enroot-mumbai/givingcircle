@@ -1,0 +1,21 @@
+<div class="tab-content">
+    <h3>Social Profile</h3>
+    <div class="empty-socail-profile aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+        <img src="/resources/images/my-account/icon-EmptyBox.png">
+        <h5>Let's Enrich Your Profile</h5>
+        <p>Create Projects, Create Events, Make Donations to Grow your profile</p>
+        <img src="/resources/images/my-account/empty-social-profile.png">
+    </div>
+    {% set isMandatoryFilled = check_if_all_mandatory_filled() %}
+    <div class="btn-sec mt-3 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+        {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and isMandatoryFilled == true %}
+            <a href="{{ path('create-project') }}" class="btn btn-primary">Create Your Own Project</a>
+            <a href="{{ path('contribute-to-a-change') }}" class="btn btn-primary">Contribute to a Change</a>
+            <a href="{{ path('express-donate-listing') }}" class="btn btn-primary">Express Donate</a>
+        {% else %}
+            <a href="javascript:void(0);" class="btn btn-primary">Create Your Own Project</a>
+            <a href="javascript:void(0);" class="btn btn-primary">Contribute To A Change</a>
+            <a href="javascript:void(0);" class="btn btn-primary">Express Donate</a>
+        {% endif %}
+    </div>
+</div>

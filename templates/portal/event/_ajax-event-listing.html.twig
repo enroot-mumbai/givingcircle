@@ -1,0 +1,178 @@
+<div class="row">
+    {% for eventData in arrEventList %}
+        {% set eventproducttype = [] %}
+        {% for mstEventProductType in eventData.mstEventProductType %}
+            {% set eventproducttype = eventproducttype|merge([mstEventProductType.eventProductType]) %}
+        {% endfor %}
+        {% set validButtons = get_valid_event_buttons('event_list',
+            eventData.id, eventData.trnCircle.id, eventproducttype, eventData.trnCircle.mstJoinBy, eventData.isTargetAchieved, eventData.mstStatus.status ) %}
+
+        <div class="col-xl-4 col-sm-6">
+            <div class="card " data-aos="fade-right" data-aos-delay="200">
+                <figure>
+                    {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                        eventData.profileImage != 'files/'  %}
+                        <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                    {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                        eventData.backgroundImagePath != 'files/' %}
+                        <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                    {% else %}
+                        {% set break = false %}
+                        {% for trnProductMedia in eventData.trnProductMedia %}
+                            {% if trnProductMedia.mediaType == 'image' and
+                                break == false %}
+                                {% set break = true %}
+                                <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                </figure>
+                <div class="card-body">
+                    <a href="{{ path('event-details', {'id' : eventData.id }) }}">
+                        <div class="status">
+                            {% if arrEventUpComingOrOnGoingDetails is defined and
+                                arrEventUpComingOrOnGoingDetails is not empty and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                                {{ arrEventUpComingOrOnGoingDetails[eventData.id]['eventUpComingOrOnGoing'] }}
+                            {% endif %}
+                        </div>
+                        <h4>{{ eventData.name }}</h4>
+                        <h5>by {{ eventData.trnCircle }}</h5>
+                        <h5 class="orange">{% for mstEventProductType in eventData
+                                .mstEventProductType %}{{ mstEventProductType
+                            .eventProductType }}{% if not loop.last %}, {% endif %} {% endfor %}</h5>
+                        <h6 class="eventStatus"><i class="fa fa-unlock"></i> Open</h6>
+                        <ul class="timing">
+                            <li><i class="fa fa-calendar-o"></i>
+                                {% if arrEventUpComingOrOnGoingDetails is defined and
+                                    arrEventUpComingOrOnGoingDetails is not empty and
+                                    arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                                    arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                                    and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                                    {% if arrEventUpComingOrOnGoingDetails[eventData
+                                        .id]['eventUpComingOrOnGoing'] == 'UPCOMING' %}
+                                        {{ arrEventUpComingOrOnGoingDetails[eventData
+                                            .id]['startDate'] |date('l d M Y') }}
+                                    {% elseif arrEventUpComingOrOnGoingDetails[eventData
+                                        .id]['eventUpComingOrOnGoing'] == 'ONGOING' or arrEventUpComingOrOnGoingDetails[eventData
+                                        .id]['eventUpComingOrOnGoing'] == 'PAST'  %}
+                                        {{ arrEventUpComingOrOnGoingDetails[eventData
+                                            .id]['endDate'] |date('l d M Y') }}
+                                    {% endif %}
+                                {% endif %}
+                            </li>
+                            {% if arrEventUpComingOrOnGoingDetails is defined and
+                                arrEventUpComingOrOnGoingDetails is not empty and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                                and arrEventUpComingOrOnGoingDetails[eventData.id] !=
+                                '' and arrEventUpComingOrOnGoingDetails[eventData
+                                .id]['startTime'] is not null and arrEventUpComingOrOnGoingDetails[eventData
+                                .id]['startTime'] != '' %}
+                                <li><i class="fa fa-clock-o"></i>
+                                    {{ arrEventUpComingOrOnGoingDetails[eventData
+                                        .id]['startTime']| date('h:i A') }} to
+                                    {{ arrEventUpComingOrOnGoingDetails[eventData
+                                        .id]['endTime'] | date('h:i A')}}
+                                </li>
+                            {% endif %}
+                            <li><i class="fa fa-map-marker"></i> {{ eventData.mstCity }}, {{ eventData.mstState }}, {{
+                                eventData.mstCountry }}</li>
+                        </ul>
+                    </a>
+                    <ul class="inline-links">
+                        {% if validButtons['view']['isValid'] == true %}
+                            <li>
+                                <a href="{{ path(validButtons['view']['path']['key'], validButtons['view']['path']['value']) }}"
+                                   class="btn-primary">{{ validButtons['view']['label'] }}</a>
+                            </li>
+                        {% endif %}
+                        {% if validButtons['donate']['isValid'] == true %}
+                            <li>
+                                {% set donatePath = validButtons['donate']['path'] %}
+                                {% if validButtons['donate']['path']['key'] is defined %}
+                                    {% set donatePath = path(validButtons['donate']['path']['key'],
+                                        validButtons['donate']['path']['value']) %}
+                                {% endif %}
+                                <a href="{{ donatePath }}">
+                                    {{ validButtons['donate']['label'] }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {#<li>
+                            <a href="{{ path('event-details', {'id' : eventData.id }) }}"
+                               class="btn-primary">View</a>
+                        </li>
+                        {% if eventData.trnCircle.mstJoinBy == 'Open' %}
+                            <li>
+                                <a href="#">Join</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="#">Request to Join</a>
+                            </li>
+                        {% endif %}
+                        {% for mstEventProductType in eventData
+                            .mstEventProductType %}
+                            {% if mstEventProductType.eventProductType == 'Fundraiser' %}
+                                <li>
+                                    <a href="{{ path('fund-details', {'id': eventData
+                                        .id}) }}#fundRaiserContribute">Donate</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}#}
+                    </ul>
+                    <ul class="share-view">
+                        <li>
+                            <a href="#" class="eventLike" eventId = "{{ eventData.id
+                            }}">
+                                <i class="far fa-thumbs-up"></i>
+                                <b id="eventLike_{{ eventData.id }}">{{ eventData.likeCount|default('0') }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('event-details', {'id' : eventData.id }) }}#comments">
+                                <i class="far fa-comment"></i>
+                                <b>{{ eventData.commentCount|default('0') }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="social-share-btn"><i
+                                        class="fas fa-share-alt"></i></a>
+                        </li>
+                    </ul>
+                    <div class="share-sec">
+                        <div class="share-sec">
+                            <div class="social-media">
+                                <a href="#" class="fa fa-close"></a>
+                                <ul>
+                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                    <li><a href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                    <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if (loop.index % 6) == 0  %}
+            <div class="col-sm-12">
+                <div class="background-express">
+                    <div class="content-area">
+                        <h2 data-aos="fade-down" data-aos-delay="200">Purvi raised <span
+                                    class="price">&#x20B9; 23,78,790</span> for
+                            Pushpesh's <br>Cancer treatment in just 26 days.</h2>
+                        <a href="{{ path('express-donate-listing') }}" class="btn btn-primary"
+                           data-aos="fade-down" data-aos-delay="200">Express
+                            Donate</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

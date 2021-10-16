@@ -1,0 +1,34 @@
+<div class="inline-elements event-dtls typ2">
+    {% if eventData.trnCircle.appUser.appUserInfo.mstUserMemberType.userMemberType == 'Organization' and eventData.trnCircle.appUser.trnOrganizationDetails[0].registrationNo80G is not empty %}
+        <h5>80G - Tax Benefit</h5>
+    {% endif %}
+    {% if eventData is defined and eventData.trnFundRaiserCircleEventDetails is defined and eventData.trnFundRaiserCircleEventDetails is not empty and
+        eventData.trnFundRaiserCircleEventDetails[0] is defined and eventData.trnFundRaiserCircleEventDetails[0] is not empty
+        and eventData.trnFundRaiserCircleEventDetails[0].isUrgent == 1 %}
+        <h5>Urgent </h5>
+    {% endif %}
+    <h4>{{ eventData.name  | upper}}</h4>
+    <b>By {{ eventData.trnCircle | upper }}</b>
+    <ul>
+        <li class="orange-txt">Goal  <i class="fa fa-rupee"></i> {{ eventData.trnCrowdFundEvents[0].targetAmount | default(0) |number_format(2, '.', ',') }}</li>
+        <li><i class="far fa-calendar"></i>
+            {% if arrEventUpComingOrOnGoingDetails is defined and
+                arrEventUpComingOrOnGoingDetails is not empty and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                {{ arrEventUpComingOrOnGoingDetails[eventData
+                    .id]['startDate'] |date('l d M Y') }}
+            {% endif %}
+            -  <i class="far fa-calendar"></i>
+            {% if arrEventUpComingOrOnGoingDetails is defined and
+                arrEventUpComingOrOnGoingDetails is not empty and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                {{ arrEventUpComingOrOnGoingDetails[eventData
+                    .id]['endDate'] |date('l d M Y') }}
+            {% endif %}
+        </li>
+    </ul>
+</div>

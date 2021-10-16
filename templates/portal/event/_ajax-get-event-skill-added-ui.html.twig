@@ -1,0 +1,94 @@
+{% if arrSkillAdded is defined and arrSkillAdded is not empty %}
+    {% set addskillSlug = arrSkillAdded|lower|replace({' ':'_'}) %}
+
+    <li>
+        <ul class="skillSet">
+            <li>{{ arrSkillAdded }}{#{{ mstSkillSet.skillSet }}#}</li>
+            <li>
+                <div class="form-group">
+                    <div class="cust-select">
+                        <select class="form-control" required id="noHours_{{ addskillSlug }}" name="noHours[{{ addskillSlug }}]">
+                            <option value="">No. of Hours</option>
+                            {% for hours in arrHours %}
+                                <option value="{{ hours }}">{{ hours }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="inline-label">
+                    <label for="Daily_{{ addskillSlug }}" class="">
+                        Daily
+                        <input type="radio" value="Daily" id="Daily_{{ addskillSlug }}" name="skillSet[{{ addskillSlug }}]">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label for="Weekly_{{ addskillSlug }}" class="">
+                        Weekly
+                        <input type="radio" value="Weekly" id="Weekly_{{ addskillSlug }}" name="skillSet[{{ addskillSlug }}]">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label for="Monthly_{{ addskillSlug }}" class="">
+                        Monthly
+                        <input type="radio" value="Monthly" id="Monthly_{{ addskillSlug }}" name="skillSet[{{ addskillSlug }}]">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </li>
+            <li>
+                <a href="javascript:void(0);" skillid={{ addskillSlug }} class="deleteSkill"><i class="fa fa-trash-o"></i></a>
+            </li>
+            <input type="hidden" value="{{ arrSkillAdded }}" id="hdnSubEventType_{{ addskillSlug }}" name="hdnSubEventType[]" />
+        </ul>
+    </li>
+
+{% else %}
+    {% for skillSlug,skillData in arrCopySkillData %}
+
+        <li>
+            <ul class="skillSet">
+                <li>{{ skillData['subEventName'] }}</li>
+                <li>
+                    <div class="form-group">
+                        <div class="cust-select">
+                            <select class="form-control" required id="noHours_{{ skillSlug }}" name="noHours[{{ skillSlug }}]">
+                                <option value="">No. of Hours</option>
+                                {% for hours in arrHours %}
+                                    <option {% if hours == skillData['hours'] %}selected{% endif %} value="{{ hours }}">
+                                        {{ hours }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="inline-label">
+                        <label for="Daily_{{ skillSlug }}" class="">
+                            Daily
+                            <input type="radio" value="Daily" id="Daily_{{ skillSlug }}" name="skillSet[{{ skillSlug }}]"
+                                    {% if skillData['subEventReccuringBy'] == 'Daily' %}checked{% endif %} >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label for="Weekly_{{ skillSlug }}" class="">
+                            Weekly
+                            <input type="radio" value="Weekly" id="Weekly_{{ skillSlug }}" name="skillSet[{{ skillSlug }}]"
+                                    {% if skillData['subEventReccuringBy'] == 'Weekly' %}checked{% endif %} >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label for="Monthly_{{ skillSlug }}" class="">
+                            Monthly
+                            <input type="radio" value="Monthly" id="Monthly_{{ skillSlug }}" name="skillSet[{{ skillSlug }}]"
+                                    {% if skillData['subEventReccuringBy'] == 'Monthly' %}checked{% endif %} >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" skillid={{ skillSlug }} class="deleteSkill"><i class="fa fa-trash-o"></i></a>
+                </li>
+                <input type="hidden" value="{{ skillData['subEventName'] }}" id="hdnSubEventType_{{ skillSlug }}" name="hdnSubEventType[]" />
+            </ul>
+        </li>
+    {% endfor %}
+{% endif %}

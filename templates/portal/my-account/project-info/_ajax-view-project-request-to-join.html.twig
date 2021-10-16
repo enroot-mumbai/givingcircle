@@ -1,0 +1,89 @@
+<table class="table" id="example">
+    <thead>
+    <tr>
+        <th class="col-name"><label class="sort-order">Name / Mobile /Email ID</label></th>
+        <th class="col-projects"><label class="sort-order">Project</label></th>
+        <th class="col-events"><label class="sort-order">Event</label></th>
+        <th class="col-status"><label class="sort-order">Resources &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status /
+                Action</label></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for requestData in projectRequestToJoinMemberListData %}
+        <tr name="requestedMemberData">
+            <td>
+                <ul class="member-list">
+                    <li>
+                        <span class="cap-letter">A</span>
+                        {{ requestData.appUser.appUserInfo.userFirstName | capitalize }}
+                        {{ requestData.appUser.appUserInfo.userLastName | capitalize }}
+                    </li>
+                    <li><i class="fa fa-phone"></i> +91 {{ requestData.appUser.appUserInfo.mobileCountryCode }} {{ requestData.appUser.appUserInfo.userMobileNumber }}</li>
+                    <li><i class="fa fa-envelope-o"></i>{{ requestData.appUser.appUserInfo.userEmail }}</li>
+
+                </ul>
+            </td>
+            <td>{{ requestData.project.name | upper }}</td>
+            <td>{{ requestData.event.name | upper }}</td>
+            <td >
+                <ul class="tbl-li-list">
+                    <li>
+                        <div class="row row-xs">
+                            <div class="col-md-12">
+                                <ul>
+                                    {% for  resourceName,resourceData in requestData.eventResource %}
+                                        <li>
+                                            <div class="row row-xs">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        {% if resourceName != '0' %}
+                                                            {{ resourceName | ucwords }}
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <ul>
+                                                        {%  if resourceData.mstStatus == 'Pending Activation' %}
+                                                            <li>
+                                                                <i class="fa fa-circle"></i>
+                                                                Request to Join
+                                                            </li>
+                                                        {% else  %}
+                                                            <li class="reject">
+                                                                <i class="fa fa-close"></i>
+                                                                Reject
+                                                            </li>
+                                                        {% endif %}
+                                                        <li>
+                                                            <div class="btn-block" style="width: 200px;">
+                                                                {% if resourceName != '0' %}
+                                                                    <a href="javascript:void(0);" name="btnAcceptRequest" requestid = "{{ resourceData.id }}" class="btn btn-primary-o
+                                                                                                    {%  if resourceData.mstStatus == 'Pending Activation' %} {% else  %} disabled {% endif %} ">Accept</a>
+                                                                    <a href="javascript:void(0);"  name="btnRejectRequest"  requestid = "{{ resourceData.id }}"
+                                                                       class="btn btn-primary-o">Reject</a>
+                                                                {% else %}
+                                                                    <a href="javascript:void(0);" name="btnAcceptRequestProject" requestid = "{{ resourceData.id }}" class="btn btn-primary-o
+                                                                                                    {%  if resourceData.mstStatus == 'Pending Activation' %} {% else  %} disabled {% endif %} ">Accept</a>
+                                                                    <a href="javascript:void(0);"  name="btnRejectRequestProject"  requestid = "{{ resourceData.id }}"
+                                                                       class="btn btn-primary-o">Reject</a>
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

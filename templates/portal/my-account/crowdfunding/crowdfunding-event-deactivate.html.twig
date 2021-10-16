@@ -1,0 +1,104 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs crowdfunding activated">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec">
+                            <h3>Deactivate Event</h3>
+                            <a href="{{ path('my-account-crowdfunding-event-info') }}" class="btn btn-primary-o"><i class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                        {{ include('portal/my-account/crowdfunding/crowdfunding-details.html.twig') }}
+
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <p class="">
+                                    Send a message to the event participants informing them of the closure of the event.
+                                    You can also include a thank you message for volunteering and contribution.
+                                </p>
+                                <form method="POST" id="frmDeactivateEventReason">
+                                    <div class="main-form-group">
+                                        <textarea class="form-control lg-height" name="deactivateEventReason" placeholder="e.g. Thank You for your participation and contribution"  onkeyup='checkWordLen(this);'></textarea>
+                                        <div class="textarea-instru">
+                                            <small>A maximum of 50 words only </small>
+                                            <small class="text-right ml-auto">Word count - <b class="words-left">0</b><b>/50</b>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="btn-sec mt-3 mb-5 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                                    <a href="javascript:void(0);" id="sendDeactivateMessage" class="btn btn-primary"
+                                       projectid="{{ eventData.id }}"  data-toggle="modal" data-target="#selectAreaModal">
+                                        Send Deactivate Message
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="selectAreaModal" tabindex="-1" aria-labelledby="selectAreaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <a href="#" class="btn-close" data-dismiss="modal" aria-label="Close"></a>
+                    <div class="left-section">
+                        <div class="card-image">
+                            <figure>
+                                {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                                    eventData.profileImage != 'files/'  %}
+                                    <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                                    eventData.backgroundImagePath != 'files/' %}
+                                    <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                {% else %}
+                                    {% set break = false %}
+                                    {% for trnProductMedia in eventData.trnProductMedia %}
+                                        {% if trnProductMedia.mediaType == 'image' and
+                                            break == false %}
+                                            {% set break = true %}
+                                            <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </figure>
+                        </div>
+                        <div class="text">
+                            {{ eventData.name  | upper}}
+                        </div>
+                    </div>
+                    <div class="right-section">
+                        <h2 class="modal-title" id="selectAreaLabel">Are you sure you want to deactivate this
+                            Event?</h2>
+                        <div class="text-center">
+                            <a href="javascript:void(0);" id="btnDeactivateEvent" projectid="{{ eventData.id }}"
+                               class="btn btn-primary">Ok</a>
+                            <a href="javascript:void(0);" onclick="$('.btn-close').click()" class="btn btn-primary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('assets/js/portal/my-account/crowdfunding-event-deactivate.js') }}"></script>
+{% endblock %}

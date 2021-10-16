@@ -1,0 +1,47 @@
+<div class="inline-elements event-dtls">
+    <h5>
+        {% if arrEventUpComingOrOnGoingDetails is defined and
+            arrEventUpComingOrOnGoingDetails is not empty and
+            arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+            arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+            and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+            {{ arrEventUpComingOrOnGoingDetails[eventData.id]['eventUpComingOrOnGoing'] }}
+        {% endif %}
+    </h5>
+    <h4>{{ eventData.name  | upper}}</h4>
+    <b>By {{ eventData.trnCircle | upper }}</b>
+    <ul>
+        <li>
+            {% if eventData.trnCircle.mstJoinBy == 'Open' %}
+                <i class="fa fa-unlock"></i> {{ eventData.trnCircle.mstJoinBy }}
+            {% else %}
+                <i class="fa fa-lock"></i> {{ eventData.trnCircle.mstJoinBy }}
+            {% endif %}
+        </li>
+        <li class="orange-txt">
+            {% for mstEventProductType in eventData.mstEventProductType %}
+                {{ mstEventProductType.eventProductType }}
+                {% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </li>
+        <li><i class="far fa-calendar"></i>
+            {% if arrEventUpComingOrOnGoingDetails is defined and
+                arrEventUpComingOrOnGoingDetails is not empty and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                {{ arrEventUpComingOrOnGoingDetails[eventData
+                    .id]['startDate'] |date('l d M Y') }}
+            {% endif %}  -  <i class="far fa-calendar"></i>
+            {% if arrEventUpComingOrOnGoingDetails is defined and
+                arrEventUpComingOrOnGoingDetails is not empty and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                {{ arrEventUpComingOrOnGoingDetails[eventData
+                    .id]['endDate'] |date('l d M Y') }}
+            {% endif %}
+        </li>
+        <li><i class="fas fa-map-marker-alt"></i>  {{ eventData.mstCity }}, {{ eventData.mstState }}, {{eventData.mstCountry }}</li>
+    </ul>
+</div>

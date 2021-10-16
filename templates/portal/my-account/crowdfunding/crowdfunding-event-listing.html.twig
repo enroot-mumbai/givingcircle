@@ -1,0 +1,243 @@
+<div class="events-filter typ2" xmlns="http://www.w3.org/1999/html">
+    <form id="frmSearch">
+        <div class="filter-panel">
+            <div class="row row-sm">
+                <div class="col-lg-3 col-md-12">
+                    <h5 id="totalEvents">Total Events ({{ arrOwnCrowdfundingEventData|length + distributedEvents|length }})
+                    </h5>
+                </div>
+                <div class="col-lg-9 col-md-12">
+                    <div class="filter-panel">
+                        <div class="search-panel typ2">
+                            <div class="cust-calender">
+                                <input type="text" id="campaignStartDate" class="form-control"  name="daterange"  placeholder="Filter
+                                by Date Range">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="search-input"  id="quicksearch"  placeholder="Search by Project Name, Event Name">
+                                <a href="javascript:void(0);" class="btn search-input-btn"><i class="fa fa-search"></i></a>
+                            </div>
+                            <a href="#" class="btn-clear-filter"><i class="fa fa-refresh"></i> Clear Filter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- <input type="text" id="quicksearch" placeholder="Search" /> -->
+    <div class="grid" id="crowdFundingEvents">
+        {% for eventData in arrOwnCrowdfundingEventData %}
+            <div class="card element-item  upcoming">
+            <div class="card-image">
+                <figure>
+                    {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                        eventData.profileImage != 'files/'  %}
+                        <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                    {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                        eventData.backgroundImagePath != 'files/' %}
+                        <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                    {% else %}
+                        {% set break = false %}
+                        {% for trnProductMedia in eventData.trnProductMedia %}
+                            {% if trnProductMedia.mediaType == 'image' and
+                                break == false %}
+                                {% set break = true %}
+                                <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </figure>
+            </div>
+            <div class="card-body">
+                <div class="status">
+                    <h4  style="color: #F05235;">{{ eventData.mstStatus }}</h4>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="status">
+                    {% if eventData.trnCircle.appUser.appUserInfo.mstUserMemberType
+                        .userMemberType == 'Organization' and eventData.trnCircle.appUser.trnOrganizationDetails[0].registrationNo80G is not empty %}
+                        <h4>80G - Tax Benefit</h4>
+                    {% endif %}
+                    {% if eventData is defined and eventData
+                        .trnFundRaiserCircleEventDetails is defined and eventData
+                        .trnFundRaiserCircleEventDetails is not empty and
+                        eventData.trnFundRaiserCircleEventDetails[0] is defined
+                        and eventData.trnFundRaiserCircleEventDetails[0] is not
+                        empty and eventData.trnFundRaiserCircleEventDetails[0]
+                        .isUrgent == 1 %}
+                        <h4>Urgent </h4>
+                    {% endif %}
+                </div>
+                {% if eventData.mstStatus =='Rejected' %}
+                    <h6>Rejection Reason: <strong style="color: #F05235;">{{ eventData.reasonToReject | ucwords}}</strong></h6>
+                {% endif %}
+                <div class="project-name">
+                    <h2>{{ eventData.name  | upper}}</h2>
+                </div>
+                <div class="block-elements">
+                    <b>By {{ eventData.trnCircle | upper }}</b>
+                    <h5 class="orange">Goal  <i class="fa fa-rupee"></i>{{ eventData.trnCrowdFundEvents[0].targetAmount | default(0) |number_format(2, '.', ',') }}</h5>
+                    <h4><i class="far fa-calendar"></i>
+                        {% if arrEventUpComingOrOnGoingDetails is defined and
+                            arrEventUpComingOrOnGoingDetails is not empty and
+                            arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                            arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                            and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                            {{ arrEventUpComingOrOnGoingDetails[eventData
+                                .id]['startDate'] |date('l d M Y') }}
+                        {% endif %}
+                        -  <i class="far fa-calendar"></i>
+                        {% if arrEventUpComingOrOnGoingDetails is defined and
+                            arrEventUpComingOrOnGoingDetails is not empty and
+                            arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                            arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                            and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                            {{ arrEventUpComingOrOnGoingDetails[eventData
+                                .id]['endDate'] |date('l d M Y') }}
+                        {% endif %}
+                    </h4>
+                </div>
+                <ul class="my-story">
+                    <li><a href="{{ path('crowd-funding-event-details', {'id': eventData.id}) }}"><i
+                                    class="fc-connect-with-me"></i> <span>Link</span> {{ url('crowd-funding-event-details', {'id': eventData.id}) }}</a></li>
+                    <li><a href="javascript:void(0);" onclick="setClipboard('{{ url('crowd-funding-event-details', {'id': eventData.id}) }}')"><i class="fc-copy-link"></i> Copy Link</a></li>
+                </ul>
+                <div class="head-sec share-links pdr0">
+                    <ul>
+                        <li><a href="{{ path('crowd-funding-event-details', {'id': eventData.id}) }}"><i class="fa fa-bars"></i> View</a></li>
+                        {% if eventData.mstStatus == 'Activated' %}
+                            <li class="share-sec">
+                                <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i>Share</a>
+                                <div class="social-media" style="width: 200px;">
+                                    <a href="#" class="fa fa-close"></a>
+                                    <ul>
+                                        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                        <li><a href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('crowd-funding-event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                        <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('crowd-funding-event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                        <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li><a href="{{ path('my-account-crowdfunding-distribute-campaign', {'id': eventData.id}) }}"><i class="icon-supporters"></i>  Distribute Campaign</a></li>
+                        {% endif %}
+                        {# <li><a href="{{ path('my-account-edit-crowdfunding-event', {'id': eventData.id}) }}"
+                                target="_blank"><i class="fa fa-pencil-alt"></i>
+                                Edit</a></li> #}
+                        {% if eventData.mstStatus == 'Activated' %}
+                            <li><a href="{{ path('my-account-crowdfunding-updates', {'id': eventData.id}) }}"><i class="icon-broadcast"></i>  Updates</a></li>
+                        {% endif %}
+                            <li><a href="{{ path('my-account-crowdfunding-donation-event', {'id': eventData.id}) }}" style="width: 150px"><i class="icon-publish"></i>Donation</a></li>
+                        {% if eventData.mstStatus == 'Activated' %}
+                            <li><a href="{{ path('my-account-crowdfunding-event-deactivate', {'id': eventData.id})
+                                }}" style="width: 150px"><i class="icon-deactivate"></i>  Deactivate Event</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for eventData in distributedEvents %}
+            <div class="card element-item  upcoming">
+                <div class="card-image">
+                    <figure>
+                        {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                            eventData.profileImage != 'files/'  %}
+                            <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                        {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                            eventData.backgroundImagePath != 'files/' %}
+                            <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                        {% else %}
+                            {% set break = false %}
+                            {% for trnProductMedia in eventData.trnProductMedia %}
+                                {% if trnProductMedia.mediaType == 'image' and
+                                    break == false %}
+                                    {% set break = true %}
+                                    <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </figure>
+                </div>
+                <div class="card-body">
+                    <div class="status">
+                        <h4  style="color: #F05235;">{{ eventData.mstStatus }}</h4>
+                    </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="status">
+                        {% if eventData.trnCircle.appUser.appUserInfo.mstUserMemberType
+                            .userMemberType == 'Organization' and eventData.trnCircle.appUser.trnOrganizationDetails[0].registrationNo80G is not empty %}
+                            <h4>80G - Tax Benefit</h4>
+                        {% endif %}
+                        {% if eventData is defined and eventData
+                            .trnFundRaiserCircleEventDetails is defined and eventData
+                            .trnFundRaiserCircleEventDetails is not empty and
+                            eventData.trnFundRaiserCircleEventDetails[0] is defined
+                            and eventData.trnFundRaiserCircleEventDetails[0] is not
+                            empty and eventData.trnFundRaiserCircleEventDetails[0]
+                            .isUrgent == 1 %}
+                            <h4>Urgent </h4>
+                        {% endif %}
+                    </div>
+                    {% if eventData.mstStatus =='Rejected' %}
+                        <h6>Rejection Reason: <strong style="color: #F05235;">{{ eventData.reasonToReject | ucwords}}</strong></h6>
+                    {% endif %}
+                    <div class="project-name">
+                        <h2>{{ eventData.name  | upper}}</h2>
+                    </div>
+                    <h4>Distributed Event of <strong>{{ eventData.parentTrnCircleEvents.name  | upper }}</strong></h4>
+                    <div class="block-elements">
+                        <b>By {{ eventData.trnCircle | upper }}</b>
+                        <h5 class="orange">Goal  <i class="fa fa-rupee"></i>{{ eventData.trnCrowdFundEvents[0].targetAmount | default(0) |number_format(2, '.', ',') }}</h5>
+                        <h4><i class="far fa-calendar"></i>
+                            {% if arrEventUpComingOrOnGoingDetails is defined and
+                                arrEventUpComingOrOnGoingDetails is not empty and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                                {{ arrEventUpComingOrOnGoingDetails[eventData
+                                    .id]['startDate'] |date('l d M Y') }}
+                            {% endif %}
+                            -  <i class="far fa-calendar"></i>
+                            {% if arrEventUpComingOrOnGoingDetails is defined and
+                                arrEventUpComingOrOnGoingDetails is not empty and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                                arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                                and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                                {{ arrEventUpComingOrOnGoingDetails[eventData
+                                    .id]['endDate'] |date('l d M Y') }}
+                            {% endif %}
+                        </h4>
+                    </div>
+                    <ul class="my-story">
+                        <li><a href="{{ path('crowd-funding-event-details', {'id': eventData.id}) }}"><i
+                                        class="fc-connect-with-me"></i> <span>Link</span> {{ url('crowd-funding-event-details', {'id': eventData.id}) }}</a></li>
+                        <li><a href="javascript:void(0);" onclick="setClipboard('{{ url('crowd-funding-event-details', {'id': eventData.id}) }}')"><i class="fc-copy-link"></i> Copy Link</a></li>
+                    </ul>
+                    <div class="head-sec share-links pdr0">
+                        <ul>
+                            <li><a href="{{ path('crowd-funding-event-details', {'id': eventData.id}) }}"><i class="fa fa-bars"></i> View</a></li>
+                            {% if eventData.mstStatus == 'Activated' %}
+                                <li class="share-sec">
+                                    <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i>Share</a>
+                                    <div class="social-media" style="width: 200px;">
+                                        <a href="#" class="fa fa-close"></a>
+                                        <ul>
+                                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                            <li><a href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('crowd-funding-event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('crowd-funding-event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                            <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            {% endif %}
+                                <li><a href="{{ path('my-account-crowdfunding-donation-event', {'id': eventData.id}) }}" style="width: 150px"><i class="icon-publish"></i>Donation</a></li>
+                            {% if eventData.mstStatus == 'Activated' %}
+                                <li><a href="{{ path('my-account-crowdfunding-distribute-campaign', {'id': eventData.id}) }}"><i class="icon-supporters"></i>  Distribute Campaign</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>

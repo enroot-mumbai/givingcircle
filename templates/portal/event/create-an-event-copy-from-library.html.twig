@@ -1,0 +1,107 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    {% set pageContentCMS = get_cms_page_content_by_slugname('create-an-event') %}
+    {#    {{ render(controller('App\\Controller\\Portal\\EventController::bannerSection')) }}#}
+    {{ include('portal/event/event-banner.html.twig') }}
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="start-project col-lg order-lg-2" id="start-project">
+                    <div class="head-sec">
+                        <h2>Start Your Event Now</h2>
+                        {#<div class="tips-button">
+                            <a href="{{ path('create-event-tip') }}"><i class="tips-icon"></i> Tips for Event Creation</a>
+                        </div>#}
+                        <div class="tips-button" data-aos="fade-right" data-aos-delay="200">
+                            <a href="#" data-toggle="modal" data-target="#tips-event-creation"><i class="tips-icon"></i> Tips for Event Creation</a>
+                        </div>
+                    </div>
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\EventController::createEventSteps',
+                        { 'currentIndex': -1 }
+                    )) }}
+                    <div class="project-details copy-event">
+                        <h3 data-aos="fade-right" data-aos-delay="200">Copy from Event Library</h3>
+                        <div class="back-button top">
+                            <a href="{{ path('create-an-event') }}" data-aos="fade-right" data-aos-delay="200"><i
+                                        class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-sm-4 recordCounter" data-aos="fade-right" data-aos-delay="200">
+                                Total Records : <b id="totalEventCount">{{ arrEventList|length }}</b>
+                            </div>
+                            <div class="col-auto">
+                                <div class="search-sec">
+                                    <label for="searchEvent" data-aos="fade-right" data-aos-delay="200">Search Event
+                                        By</label>
+                                    <input type="text" class="search-input" id="searchEvent" name="searchEvent"
+                                           placeholder="Name, Resources, Status" data-aos="fade-right"
+                                           data-aos-delay="200">
+                                    <a href="#" class="btn search-input-btn" data-aos="fade-right"
+                                       data-aos-delay="200"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-list">
+                            <div class="row row-md" id="eventListCopy">
+                                {% for eventData in arrEventList %}
+                                    <div class="col-sm-6">
+                                        <div class="card" data-aos="fade-right" data-aos-delay="200">
+                                            <div class="card-body">
+                                                <div class="status">
+                                                    {% if arrEventUpComingOrOnGoingDetails is defined and
+                                                        arrEventUpComingOrOnGoingDetails is not empty and
+                                                        arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                                                        arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                                                        and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                                                        {{ arrEventUpComingOrOnGoingDetails[eventData.id]['eventUpComingOrOnGoing'] }}
+                                                    {% endif %}
+                                                </div>
+                                                <h4>{{ eventData.name }}</h4>
+                                                <h5>{{ eventData.trnCircle }}</h5>
+                                                <h5 class="orange">
+                                                    {% for mstEventProductType in eventData.mstEventProductType %}
+                                                        {{ mstEventProductType.eventProductType }}
+                                                    {% endfor %}
+                                                </h5>
+                                                <ul class="inline-links">
+                                                    <li>
+                                                        <a href="{{ path('create-an-event-copy-from-library-review', {'id' : eventData.id }) }}">View</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ path('create-an-event-copied', {'id' : eventData.id }) }}" class="btn-primary">Copy</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="back-button bottom">
+                            <a href="{{ path('create-an-event') }}" data-aos="fade-right" data-aos-delay="200"><i
+                                        class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                    </div>
+                </div>
+                {#{{ render(controller('App\\Controller\\Portal\\EventController::featureSection')) }}#}
+                {{ include('portal/event/event-feature-section.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+    {{ include('portal/event/create-event-tips.html.twig') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/autocomplete.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('assets/js/portal/event/event-copy.js') }}"></script>
+<script>
+    var ajaxSearchCopyEventURL = "{{ path('ajax-event-copy-from-library') }}";
+</script>
+
+
+{% endblock %}

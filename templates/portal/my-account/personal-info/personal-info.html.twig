@@ -1,0 +1,160 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success-cf alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <h3>Personal Info</h3>
+                    <div class="progerss-status">
+                        <ul>
+                            <li>
+                                <h4>Your Profile Completeness</h4>
+                                <span class="progress-bar-sec">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{
+                                        profileCompleteness }}%" aria-valuenow="{{
+                                        profileCompleteness }}"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="number">{{ profileCompleteness }}%</div>
+                                </span>
+                            </li>
+                            <li>
+                                <span>Account Status</span>
+                                <span class="active">
+                                    <i class="fa fa-check"></i>Active
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <p>To begin setting up your account fill out your personal details below.</p>
+
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\MyAccountController::myAccountProfileSteps',
+                        { 'active': 'about' }
+                    )) }}
+
+                    {{ include('portal/my-account/personal-info/about-form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('resources/js/easy-responsive-tabs.js')}}"></script>
+    <script src="{{asset('resources/js/jquery-ui.js')}}"></script>
+    <script src="{{asset('resources/js/image-uploader.min.js')}}"></script>
+    <script>
+        var arrMorningAvailability   = new Array();
+        var arrAfternoonAvailability = new Array();
+        var arrEveningAvailability   = new Array();
+        var preloadedGallery         = new Array();
+
+        {% for timeSlot, days in arrAvailability %}
+            {% if timeSlot== 'morning'  %}
+                {% for day in days %}
+                    arrMorningAvailability.push('{{ day }}');
+                {% endfor %}
+            {% elseif timeSlot== 'afternoon' %}
+                {% for day in days %}
+                    arrAfternoonAvailability.push('{{ day }}');
+                {% endfor %}
+            {% elseif timeSlot== 'evening' %}
+                {% for day in days %}
+                    arrEveningAvailability.push('{{ day }}');
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+        var imageGallery = new Array();
+        {% set i = 1 %}
+        {% if arrVolunteerDocuments is defined and arrVolunteerDocuments is not empty %}
+            {% for id in arrVolunteerDocuments %}
+                imageGallery.push("{{ id }}");
+                var item = {};
+                item.id = "{{ i }}";
+                item.src = "{{ asset('images/files') }}/{{ id }}";
+                preloadedGallery.push(item);
+            {% set i = i + 1 %}
+            {% endfor %}
+        {% endif %}
+
+        var fieldForReadOnly = [];
+        var fieldAddForReadOnly = [];
+        //Fields to make read only.
+        {% if appUser.appUserInfo.mstSalutation is defined and appUser.appUserInfo.mstSalutation is not empty and
+            appUser.appUserInfo.mstSalutation != ''%}
+        {% else %}
+            fieldForReadOnly.push('app_user_my_account_about_appUserInfo_mstSalutation');
+        {% endif %}
+        {% if appUser.appUserInfo.mstCountry is defined and appUser.appUserInfo.mstCountry is not empty and
+            appUser.appUserInfo.mstCountry != ''%}
+        {% else %}
+            fieldForReadOnly.push('app_user_my_account_about_appUserInfo_mstCountry');
+        {% endif %}
+        {% if appUser.appUserInfo.mstState is defined and appUser.appUserInfo.mstState is not empty and
+            appUser.appUserInfo.mstState != ''%}
+        {% else %}
+            fieldForReadOnly.push('app_user_my_account_about_appUserInfo_mstState');
+        {% endif %}
+        {% if appUser.appUserInfo.mstCity is defined and appUser.appUserInfo.mstCity is not empty and
+            appUser.appUserInfo.mstCity != ''%}
+        {% else %}
+            fieldForReadOnly.push('app_user_my_account_about_appUserInfo_mstCity');
+        {% endif %}
+        {% if appUser.appUserInfo.mobileCountryCode is defined and appUser.appUserInfo.mobileCountryCode is not empty and
+            appUser.appUserInfo.mobileCountryCode != ''%}
+        {% else %}
+            fieldForReadOnly.push('app_user_my_account_about_appUserInfo_mobileCountryCode');
+        {% endif %}
+        {% if appUser.appUserInfo.userMobileNumber is defined and appUser.appUserInfo.userMobileNumber is not empty and
+            appUser.appUserInfo.userMobileNumber != ''%}
+        {% else %}
+            fieldForReadOnly.push('app_user_my_account_about_appUserInfo_userMobileNumber');
+        {% endif %}
+        {% if trnBankDetail.bankName is defined and trnBankDetail.bankName is not empty and
+            trnBankDetail.bankName != ''%}
+            fieldAddForReadOnly.push('app_user_my_account_about_trnBankDetails_0_bankName');
+        {% endif %}
+        {% if trnBankDetail.accountHolderName is defined and trnBankDetail.accountHolderName is not empty and
+            trnBankDetail.accountHolderName != ''%}
+            fieldAddForReadOnly.push('app_user_my_account_about_trnBankDetails_0_accountHolderName');
+        {% endif %}
+        {% if trnBankDetail.accountNumber is defined and trnBankDetail.accountNumber is not empty and
+            trnBankDetail.accountNumber != ''%}
+            fieldAddForReadOnly.push('app_user_my_account_about_trnBankDetails_0_accountNumber');
+        {% endif %}
+        {% if trnBankDetail.ifscCode is defined and trnBankDetail.ifscCode is not empty and
+            trnBankDetail.ifscCode != ''%}
+            fieldAddForReadOnly.push('app_user_my_account_about_trnBankDetails_0_ifscCode');
+        {% endif %}
+        {% if trnBankDetail.mstBankAccountType is defined and trnBankDetail.mstBankAccountType is not empty and
+            trnBankDetail.mstBankAccountType != ''%}
+            fieldAddForReadOnly.push('app_user_my_account_about_trnBankDetails_0_mstBankAccountType');
+        {% endif %}
+
+    </script>
+    <script src="{{ asset('assets/js/portal/my-account/personal-info.js?z=3') }}"></script>
+{% endblock %}

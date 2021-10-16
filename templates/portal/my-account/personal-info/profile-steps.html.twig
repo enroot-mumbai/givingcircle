@@ -1,0 +1,17 @@
+<ul class="steps">
+    <li class="{% if active is defined and active is not empty and active == 'about' %} active {% else  %} completed {% endif %} aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+        <span class="num"></span>
+        About
+    </li>
+    <li class="{% if active is defined and active is not empty and active == 'skills' %} active {% elseif active is
+        defined and active is not empty and active == 'interestArea'%} completed {% endif %}
+    aos-init
+     aos-animate" data-aos="fade-right" data-aos-delay="200">
+        <span class="num"></span>
+        Skills
+    </li>
+    <li class="{% if active is defined and active is not empty and active == 'interestArea' %} active {% endif %} aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+        <span class="num"></span>
+        Interest Area
+    </li>
+</ul>

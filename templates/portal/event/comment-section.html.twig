@@ -1,0 +1,266 @@
+{% set commentCount = get_event_comment_count(events.id) %}
+
+{% set pageContentByPage = get_cms_page_content_by_page('event-details') %}
+{% set banners = get_cms_page_banner(pageContentByPage.id) %}
+    {% set otherBanners = [] %}
+    {% set hasTopBanner = false %}
+
+    {% for banner in banners %}
+        {% if banner.bannerPosition == 'top' %}
+            {% set hasTopBanner = true %}
+        {% else %}
+            {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+        {% endif %}
+    {% endfor %}
+<section class="listing-page latest-events comment-section">
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="comment-left">
+                    <div id="loginMsg" class="message alert-warning font-weight-bolder text-center" style="display: none;">Please Login to post a comment</div>
+                    <h2 id="comments">Comments</h2>
+                    <ul class="comment-counter">
+                        <li>
+                            <a href="javascript:void(0);" class="circleLike" eventId="{{ events.id }}">
+                                <i class="far fa-thumbs-up"></i> <b class="circleLike_{{ events.id }}"> {{ events.likeCount|default(0) }} </b> Likes
+                            </a>
+                        </li>
+                        <li>
+                            {% if app.user %}
+                                <a href="javascript:void(0)">
+                            {% else %}
+                                <a href="javascript:void(0)" onclick="getLoginMsg()">
+                            {% endif %}
+                                <i class="far fa-comment"></i> <b>{{ commentCount }} Comments</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-share-alt"></i> <b>{{ events.shareCount|default(0) }} Share</b>
+                            </a>
+                        </li>
+                    </ul>
+                        <div class="comment-area">
+                            <div class="message alert-success" id="cmtmessage"></div>
+                            <div class="input-group">
+                                {{ form_start(form, {'attr': {'id': 'commentForm', 'methos':'post'}}) }}
+                                <input type="hidden" id="commenteventId" value="{{ events.id }}">
+                                {{ form_widget(form.comment) }}
+
+                                {% if app.user %}
+                                    <button type="submit" class="btn btn-primary commentbutton float-right">Post</button>
+                                {% else %}
+                                    <button type="button" onclick="getLoginMsg()" class="btn btn-primary float-right">Post</button>
+                                {% endif %}
+
+{#                                {{ form_row(form._token) }}#}
+                                {{ form_end(form, {'render_rest': false}) }}
+
+                            </div>
+                        </div>
+                        {#
+                        {% else %}
+                        <div class="comment-area">
+                            <h4>Login to post a comment...</h4>
+                        </div>
+                        #}
+
+                    <ul class="comment-list">
+                        {% set circle_comments = get_circle_comments(null, 1, events.id) %}
+                        {#{% set article_comments = get_cms_article_comments(article.id, 1) %}#}
+                        {% if circle_comments is not empty %}
+                            {% for comment in circle_comments['comment'] %}
+                                <li>
+                                    <div class="image-sec">
+                                        <figure>
+                                            {% if(comment.userimage is not empty) %}
+                                                <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                     alt="{{ comment.name }}" title="{{ comment.name }}">
+                                            {% elseif(comment.userinitials is not empty) %}
+                                                <div>{{ comment.userinitials }}</div>
+                                            {% endif %}
+                                        </figure>
+                                    </div>
+                                    <div class="comment-box" style="width: 100%">
+                                        <div class="author-box">
+                                            <h3 class="author-tl">
+                                                <b>{{ comment.name }}</b>
+                                            </h3>
+                                            <p>{{ comment.comment }}</p>
+                                        </div>
+                                        <ul class="like-reply-list">
+                                            <li><a onclick="getLikeCount({{ comment.id }}, 'comment_{{ comment.id }}')" href="#">Like</a></li>
+                                            {% if app.user %}
+                                                <li><a href="#" onclick="showReplyBlock('{{ comment.id }}')" class="reply-btn">Reply</a></li>
+                                            {% endif %}
+                                            <li>{{ comment.createtime|time_diff}}</li>
+                                        </ul>
+                                        {# <div id="commentreply" class="mt-2"></div>
+                                                    <input type="hidden" id="comment" value="{{ comment.id }}">
+                                        #}
+                                        <div class="message alert-success" id="replymessage{{ comment.id }}"></div>
+                                        <div class="reply-box" id="replybox{{ comment.id }}">
+                                            <div id="replypostarea{{ comment.id }}" class="replypostarea" style="width: 100%; display: flow-root;">
+                                                <div class="image-sec float-left">
+                                                    <figure>
+                                                        {% if app.user %}
+                                                            <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}"
+                                                                 alt="{{ app.user.userName|default('') }}"
+                                                                 title="{{ app.user.userName|default('') }}">
+                                                        {% endif %}
+                                                    </figure>
+                                                </div>
+                                                <div class="reply-area float-left" id="replyarea{{ comment.id }}" style="width: 90%;">
+                                                    <div class="input-group">
+
+                                                        {% set rp_form =  reply_form.createView %}
+                                                        {{ form_start(rp_form, {'attr': {'id': 'replyForm-'~comment.id, 'method':'post', 'class':'replyFrm' }}) }}
+                                                        {{ form_widget(rp_form.comment, { 'id': 'reply_box_'~comment.id, 'attr': {'placeholder': 'Write your reply...' } } ) }}
+
+                                                        <button type="submit" class="btn btn-primary replybutton">Post</button>
+
+                                                        {{ form_row(rp_form._token) }}
+                                                        {{ form_end(rp_form, {'render_rest': false}) }}
+                                                        {#                                                                    <input type="text" id="reply_box_{{ comment.id }}" class="search-input" placeholder="Write your reply...">#}
+                                                        {#                                                                    <a href="#" onclick="postComment('{{ comment.id }}')" class="btn btn-primary post-reply">Post</a>#}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% if circle_comments['reply'][comment.id] is defined %}
+                                            <div style="width: 100%;  display: flow-root;">
+
+                                                    {% for reply in circle_comments['reply'][comment.id] %}
+                                                        <div class="author-box" style="margin-top: 10px">
+                                                            <div class="image-sec">
+                                                                <figure>
+                                                                    {% if(comment.userimage is not empty) %}
+                                                                        <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                                             alt="{{ comment.name }}" title="{{ comment.name }}">
+                                                                    {% elseif(comment.userinitials is not empty) %}
+                                                                        <div>{{ comment.userinitials }}</div>
+                                                                    {% endif %}
+                                                                </figure>
+                                                            </div>
+                                                            <div class="comment-box">
+                                                                <div class="author-box">
+                                                                    <h3 class="author-tl">
+                                                                        <b>{{ reply.name }}</b>
+                                                                    </h3>
+                                                                    <p>{{ reply.comment }}</p>
+                                                                </div>
+                                                                <ul class="like-reply-list">
+                                                                    {#                                                              <li><a href="#">Like</a></li>#}
+                                                                    {#                                                              <li><a href="#">Reply</a></li>#}
+                                                                    <li>{{ reply.createtime|time_diff}}</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="like-counter"><i class="far fa-thumbs-up"></i> <b><span id="comment_{{ comment.id }}">{{ comment.likeCount|default(0) }}</span></b>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-auto right-list">
+                {#<div class="changeMakers">
+                    <div class="card">
+                        <figure data-aos="fade-down" data-aos-delay="200"><img
+                                    src="/resources/images/common/fund-raiser.jpg" alt="Save my son from Leukemia"
+                                    title="Save my son from Leukemia"></figure>
+                        <div class="card-body" data-aos="fade-right" data-aos-delay="200">
+                            <a href="#">
+                                <div class="status">Tax Benefit</div>
+                                <div class="status">Urgent </div>
+                                <h5 class="orange">Medical</h5>
+                                <h4>Save my son from Leukemia</h4>
+                                <h6>by Afroz</h6>
+                                <div class="fund-raiser">
+                                    <h4><span class="rupee-icon">&#x20B9;</span> 17,55,250 <b>Raised</b></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar w-50" role="progressbar" aria-valuenow="50"
+                                             aria-valuemin="0" aria-valuemax="100">
+                                            <div class="number">48%</div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-between fund-status">
+                                        <div class="col">
+                                            <b>37 days left</b>
+                                        </div>
+                                        <div class="col text-right">
+                                            <b>1254 Supporters</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <ul class="inline-links">
+                                <li>
+                                    <a href="/projects-details.shtml" class="btn-primary">Donate</a>
+                                </li>
+                                <li>
+                                    <div class="share-sec">
+                                        <a href="javascript:;" class="social-share-btn"><i
+                                                    class="fas fa-share-alt"></i></a>
+                                        <div class="social-media">
+                                            <a href="#" class="fa fa-close"></a>
+                                            <ul>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-facebook"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-linkedin"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-twitter"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-whatsapp"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>#}
+
+                {% if otherBanners|length > 0 and otherBanners['right'] is defined and otherBanners['right'] is not empty %}
+                    <div class="express-donate-parallax" data-aos="fade-down" data-aos-delay="200"
+                         data-image-src="{{ asset('images/files/') ~ otherBanners['right'].bannerDesktopImage}}">
+                        {{ otherBanners['right'].bannerDescription|default('<h2><br><br><br><br><br><br><br></h2>')|raw }}
+
+                        {% if otherBanners['right'].bannerUrl is not empty %}
+                            <a href="{{ otherBanners['right'].bannerUrl }}" class="btn btn-primary">Express
+                                Donate</a>
+                        {% endif %}
+
+                    </div>
+                {% endif %}
+
+                {#<div class="express-donate-parallax" data-aos="fade-down" data-aos-delay="200">
+                    <h2 data-aos="fade-down" data-aos-delay="200">Purvi raised <span class="price">&#x20B9;
+                                    23,78,790</span> for
+                        Pushpesh's <br>Cancer treatment in just 26 days.</h2>
+                    <a href="#" class="btn btn-primary" data-aos="fade-down" data-aos-delay="200">Express
+                        Donate</a>
+                </div>#}
+            </div>
+        </div>
+    </div>
+</section>

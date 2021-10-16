@@ -1,0 +1,17 @@
+{% for donor in arrAllDonor %}
+    <li>
+        <figure>
+            {{ donor.userFirstName |slice(0, 1) }}
+        </figure>
+        <div class="heading">
+            {% if donor.isAnonymousDonation == 1  %}
+                Anonymous Donation
+            {% else %}
+                {{ donor.userFirstName }} {{ donor.userLastName }}
+            {% endif %}
+        </div>
+        <div class="price">
+            <i class="fa fa-rupee"></i> {{ donor.transactionAmount | number_format(2, '.', ',') }}
+        </div>
+    </li>
+{% endfor %}

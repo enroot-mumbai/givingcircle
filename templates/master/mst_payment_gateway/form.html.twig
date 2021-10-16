@@ -1,0 +1,73 @@
+{% extends 'layout/content.html.twig' %}
+{% macro PGOption(form) %}
+    <div class="col-sm-12 attribute ">
+        <div class="row mt-3">
+            <div class="col-sm-3">
+                {{ form_row(form.paymentGatewayEnv) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.paymentKey) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.paymentKeyValue) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.isActive) }}
+            </div>
+        </div>
+        <div class="col-sm-4 removebutton mb-4"> <br>
+            <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove Pair</button>
+        </div>
+    </div>
+{% endmacro %}
+    {% import _self as formMacro %}
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.paymentGateway) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.isActive) }}
+                </div>
+            </div>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Option Value Section'|upper }}</h3>
+            </div>
+            <div class="row" data-prototype="{{ formMacro.PGOption(form.mstPaymentGatewayDetails.vars.prototype)|e
+                ('html_attr') }}">
+                <div class="col" id="pgOption" >
+                    {% for row in form.mstPaymentGatewayDetails %}
+                        {{ formMacro.PGOption(row) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <button type="button" id="addContent" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> Add Pair</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_end(form) }}
+    <br>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/master/mst_payment_gateway/index.js') }}"></script>
+{% endblock %}

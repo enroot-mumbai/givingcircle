@@ -1,0 +1,117 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <div class="wrapper">
+        {{ render(controller(
+            'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingHeaderSection',
+            { 'id': trnCircleEvents.id }
+        )) }}
+        <div class="container crowdFund">
+            <div class="row">
+                <div class="col left-list">
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingBannerSection',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+                    <div id="demoTab">
+                        <ul class="resp-tabs-list">
+                            <li><i class="fa fa-pencil"></i> The Appeal </li>
+                            <li><i class="fa fc-icon"></i> The Project View </li>
+                            <li><i class="fa fa-comment-o"></i>
+                                <a href="mailto:{{ trnCircleEvents.appUser.appUserInfo.userEmail }}?subject={{ trnCircleEvents.name|raw }}-Connect with Campaign Owner&cc={{ get_gc_email() }}">Connect with Campaign Owner</a>
+                            </li>
+                        </ul>
+
+                        <div class="resp-tabs-container">
+                            {{ render(controller(
+                                'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingAppealSection',
+                                { 'id': trnCircleEvents.id }
+                            )) }}
+
+                            {{ render(controller(
+                                'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingCampaignRaiserSection',
+                                { 'id': trnCircleEvents.id }
+                            )) }}
+                            <div> ....... </div>
+                        </div>
+                    </div>
+                    {#
+                    <section class="comment-section">
+                        {{ render(controller(
+                            'App\\Controller\\Portal\\EventDetailsController::commentSection',
+                            { 'id': trnCircleEvents.id }
+                        )) }}
+                    </section> #}
+                    {{ include('portal/crowdfunding-event/crowd-funding-comment-section.html.twig', {'events': trnCircleEvents}) }}
+
+
+                </div>
+                <div class="col-auto right-list">
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingFundRaiser',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingCampaignOrganizerDetails',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingProjectGlimpses',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+
+                    {% if (trnCircleEvents.trnCrowdFundEvents[0].isDistributedEvent == true or trnCircleEvents.parentTrnCircleEvents is not empty) %}
+                        {{ render(controller(
+                            'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingTeam',
+                            { 'id': trnCircleEvents.id }
+                        )) }}
+                    {% endif %}
+
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingTopDonors',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingSupporters',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingCmStories',
+                        { 'id': trnCircleEvents.id }
+                    )) }}
+                    <a href="mailto:{{ trnCircleEvents.appUser.appUserInfo.userEmail }}?subject={{ trnCircleEvents.name|raw }}-Report Fundraiser&cc={{ get_gc_email() }}" class="btn btn-secondary btn-report">Report Fundraiser</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ render(controller(
+        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingFormContribute',
+        { 'id': trnCircleEvents.id }
+    )) }}
+    {{ render(controller(
+        'App\\Controller\\Portal\\CrowdFundingEventDetailsController::crowdFundingModal',
+        { 'id': trnCircleEvents.id }
+    )) }}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/captcha.basic.min.js') }}"></script>
+    <script>
+        var minimumContributionAmount = parseFloat("{{ trnCrowdFundEvents.minimumContribution }}");
+        var crowdFundingGetAllSupporters = "{{ path('crowd-funding-get-all-supporters', {'id':  trnCircleEvents.id}) }}";
+        var updateCircleLikeCountUrl    = "{{ path('circle-like') }}";
+        var ajaxEventLikeURL = "{{ path('event-like') }}";
+        var commentPath = "{{ path('event-comment') }}";
+        var eventCommentLike = "{{ path('event-comment-like') }}";
+        var pathToEventShare = "{{ path('event-share') }}";
+        var pathToCircleShare = "{{ path('circle-share') }}";
+        var addOfflineTransferDetails = "{{ path('crowd-funding-offline-order-details') }}";
+    </script>
+    <script src="{{ asset('assets/js/portal/crowdfunding/crowdfunding-details.js?z=1') }}"></script>
+    <script src="{{ asset('assets/js/portal/event/event-comment.js') }}"></script>
+{% endblock %}

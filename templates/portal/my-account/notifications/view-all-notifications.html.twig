@@ -1,0 +1,144 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/daterangepicker.css')}}">
+{% endblock %}
+{% block portal_content %}
+
+    <div class="wrapper myaccount">
+        <div class="container">
+            <div class="row listing-page">
+                <div class="col-auto refine-search">
+                    <label><i class="fc-refine-search"></i> Filter By <a href="javascript:void(0);" class="clearAll"><i
+                                    class="fas fa-sync"></i> Clear All</a> </label>
+                    <ul class="categories">
+                        <li>
+                            <ul class="category">
+                                <li>
+                                    <label class="radio-label" for="all-notifications">All Notifications
+                                        <input type="radio" name="mstNotificationStatus" value ="All" id="all-notifications">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="radio-label" for="unread-notifications">Unread Notifications
+                                        (<span id="spanUnreadNotification">2</span>)
+                                        <input type="radio" name="mstNotificationStatus" value ="Unread"
+                                               id="unread-notifications">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="radio-label" for="read-notifications">Read Notifications
+                                        <input type="radio" name="mstNotificationStatus" value ="Read"
+                                               id="read-notifications">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <div class="w-100 p-2"></div>
+                                </li>
+                                <li>
+                                    <label class="checkbox-label" for="Projects">Projects
+                                        <input type="checkbox" id="Projects" value="projects" name="projects_event">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox-label" for="Events">Events
+                                        <input type="checkbox" id="Events" value="events" name="projects_event">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h5>Resources</h5>
+                            <ul class="category">
+                                {% for mstEventProductType in arrMstEventProductType %}
+                                    <li>
+                                        <label class="checkbox-label" for="mstProductType_{{ mstEventProductType.id }}">{{ mstEventProductType.eventProductType }}
+                                            <input type="checkbox" id="mstProductType_{{ mstEventProductType.id }}"
+                                                   name="mstEventProductType" value="{{ mstEventProductType.id }}" >
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="date-range">
+                                <input type="text" name="daterange" class="form-control" placeholder="Filter By Daterange">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col right-list">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/index.shtml"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Notifications</li>
+                        </ol>
+                    </nav>
+                    <section class="changeMakers events" data-aos="fade-down" data-aos-delay="200">
+                        <div class="head-sec">
+                            <h2 data-aos="fade-right" data-aos-delay="200">Notifications</h2>
+                        </div>
+                        <p>
+                            All your notifications in one place! Keep track of all incoming and outgoing communication, volunteering requests, material donations, fund contributions and more
+                        </p>
+                        <div class="box-shadow events-filter">
+                            <div class="filter-panel">
+                                <div class="search-panel">
+                                    <div class="input-group">
+                                        <input type="text" class="search-input"  id="quicksearch"  placeholder="Search by Project Name, Event Name, Location, Resources">
+                                        <a href="javascript:void(0);" class="btn search-input-btn"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="notification-listing">
+                                {%  for notificationData in arrLatestNotification %}
+                                    <li
+                                        {% if notificationData.mstNotificationStatus is defined and notificationData
+                                            .mstNotificationStatus is not empty and notificationData
+                                            .mstNotificationStatus is not null and notificationData
+                                            .mstNotificationStatus == 'Unread' %}
+                                            class="selected" style="cursor: pointer" notificationid="{{ notificationData.id }}"
+                                            id="liNotification_{{ notificationData.id }}" name="liNotification"
+                                        {% endif %}
+                                    >
+                                        <div>
+                                            {% if notificationData.trnCircle is defined and notificationData
+                                                .trnCircle is not empty and notificationData.trnCircle is not null %}
+                                                <b>{{ notificationData.trnCircle | capitalize }}</b>
+                                            {% else %}
+                                                <b>&nbsp;</b>
+                                            {% endif %}
+                                            <span> {{ notificationData.notification | raw }} </span>
+                                            <span class="date">{{ notificationData.date | date('d M Y') }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('resources/js/moment.min.js') }}"></script>
+    <script src="{{ asset('resources/js/daterangepicker.min.js') }}"></script>
+    <script>
+        var markNotificationAsReadURL   = "{{ path('my-account-mark-notification-as-read') }}";
+        var ajaxViewAllNotificationsURL = "{{ path('my-account-ajax-view-all-notifications') }}";
+    </script>
+    <script src="{{ asset('assets/js/portal/my-account/view-all-notifications.js?z=4') }}"></script>
+{% endblock %}

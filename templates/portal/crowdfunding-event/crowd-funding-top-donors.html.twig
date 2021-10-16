@@ -1,0 +1,40 @@
+<section>
+    <h3><i class="icon-topdonors"></i> Top Donors</h3>
+    <ul class="topDonors">
+        {% for donor in arrTopDonors %}
+            <li>
+                <figure>R</figure>
+                <div class="heading">
+                    {% if donor.isAnonymousDonation == 1  %}
+                        Anonymous Donation
+                    {% else %}
+                        {{ donor.userFirstName }} {{ donor.userLastName }}
+                    {% endif %}
+                </div>
+                <div class="price">
+                    <i class="fa fa-rupee"></i> {{ donor.transactionAmount | number_format(2, '.', ',') }}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="donateShareBlock">
+        {% if trnCircleEvents.isTargetAchieved == true %}
+            <a href="#" class="btn btn-primary donate-now disabled">Donate Now</a>
+        {% else %}
+            <a href="#" class="btn btn-primary donate-now">Donate Now</a>
+        {% endif %}
+
+        <div class="contributeBox">
+            <div class="enter-amount">
+                <label class="" for="enterAmount">Enter Your Preferred Amount</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="enterAmount">
+                    <div class="input-group-append">
+                        <a href="#" class="btn btn-enter btn-contribute">Continue</a>
+                    </div>
+                </div>
+                <label><em>Minimum Amount Contribution <i class="fa fa-rupee"></i> {{ trnCrowdFundEvents.minimumContribution |number_format(2, '.', ',') }}</em></label>
+            </div>
+        </div>
+    </div>
+</section>

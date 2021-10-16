@@ -1,0 +1,23 @@
+{% for key,fundRaiserSubEvent in fundRaiserSubEvents %}
+    <li>
+        <ul>
+            <li>{{ fundRaiserSubEvent.subEventTimePeriodSupported }}</li>
+            <li>{{ fundRaiserSubEvent.subEventNoOfBeneficiaries }}</li>
+            <li>{% if fundRaiserSubEvent.subEventCurrency == 'Indian Rupee' or fundRaiserSubEvent.subEventCurrency == 'INR' or fundRaiserSubEvent.subEventCurrency == 1
+                %}
+                    <i class="fa fa-rupee"></i>
+                {% elseif fundRaiserSubEvent.subEventCurrency == ' United States Dollar' or fundRaiserSubEvent
+                    .subEventCurrency == 2  %}
+                    <i class="fa fa-dollar"></i>
+                {% else %}
+                    {{ fundRaiserSubEvent.subEventCurrency  }}
+                {% endif%}
+                    {{ fundRaiserSubEvent.subEventAmount }}</li>
+            <li>{{ fundRaiserSubEvent.subEventRemarks }}</li>
+            <li>
+                <a href="javascript:void(0);" class="deleteSkill" key="{{ key }}"><i class="fa fa-trash-o"></i></a>
+            </li>
+        </ul>
+    </li>
+{% endfor %}
+

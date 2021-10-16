@@ -1,0 +1,308 @@
+{% extends 'layout/content.html.twig' %}
+{% macro recurringContent(form) %}
+    <div class="col-sm-12 trnCircleEventRecurringDetails">
+        <div class="row mt-3">
+            <div class="col-sm-3 recurringDetails">
+                {{ form_row(form.mstRecurringBy) }}
+            </div>
+
+            <div class="col-sm-3">
+                {{ form_row(form.mstDaysOfWeek) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.numberOfDays) }}
+            </div>
+        </div>
+        <div style="display: none;" class="col-sm-4 removebutton mb-4"> <br>
+            <button type="button" class="btn btn-danger btn-sm removeRecurringDetails"><i class="fa
+            fa-trash"></i> Remove Content
+                Block</button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro subeventsContent(form) %}
+    <div class="col-sm-12 trnFundRaiserCircleEventSubEvents">
+        <div class="row mt-3">
+            <div class="col-sm-3">
+                {{ form_row(form.subEventName) }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-3">
+                {{ form_row(form.mstCurrencySubEvent) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.subEventTargetAmount) }}
+            </div>
+        </div>
+        <div class="col-sm-4 removebutton mb-4"> <br>
+            <button type="button" class="btn btn-danger btn-sm"><i class="fa
+            fa-trash"></i> Remove Content
+                Block</button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as formMacro %}
+
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.purposeOfRaisingFunds) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.causeOfFundRaiser) }}
+                </div>
+            </div>
+            <div class="card-header mt-2 eventAddress">
+                <h3 class="card-title">{{'label.how_much_funds_do_you_want_to_raise'|trans|upper}}</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.targetAmount) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstCurrencyTargetAmount) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.forWhomRaisingFundFor) }}
+                </div>
+            </div>
+
+            {#<div class="card-header mt-2 eventAddress">
+                <h3 class="card-title">{{'label.set_up_minimum_contribution_limit'|trans|upper}}</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.minContributionAmount) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstCurrencyMinContribution) }}
+                </div>
+            </div>#}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.tellAStory) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.mstEventOccurrence) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.fromDate) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.toDate) }}
+                </div>
+            </div>
+
+            <div style="display: none;"  class="card-header mt-2 recurringDetails">
+                <h3 class="card-title">{{ 'Recurring Details'|upper }}</h3>
+            </div>
+            <div style="display: none;"  class="row recurringDetails" data-prototype="{{ formMacro.recurringContent(form
+                .trnCircleEventRecurringDetails
+                .vars.prototype)|e('html_attr') }}">
+                <div class="col" id="circleEventRecurringDetailsContent" >
+                    {% for row in form.trnCircleEventRecurringDetails %}
+                        {{ formMacro.recurringContent(row) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row" style="display: none;">
+                <div class="col-sm-3">
+                    <button type="button" id="addCircleEventRecurringDetails" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> Add Content Block</button>
+                </div>
+            </div>
+
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Event Sub Type'|upper }}</h3>
+            </div>
+            <div class="row" data-prototype="{{ formMacro.subeventsContent(form.trnFundRaiserCircleEventSubEvents
+                .vars.prototype)|e('html_attr') }}">
+                <div class="col" id="circleEventSubEvents" >
+                    {% for row in form.trnFundRaiserCircleEventSubEvents %}
+                        {{ formMacro.subeventsContent(row) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <button type="button" id="addcircleEventSubEvents" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> Add Content Block</button>
+                </div>
+            </div>
+            <br/>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Distributed Event' }}</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.isDistributedEvent) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_end(form) }}
+    <br>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <link href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}" type="text/javascript"></script>
+    {#    <script src="{{ asset('assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>#}
+    <script src="{{ asset('assets/js/transaction/circle_event/index.js') }}"></script>
+    <script>
+        $(function () {
+            // Summernote
+            $(".textarea").summernote({
+                height: 200,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+
+                callbacks: {
+                    onKeydown: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if (t.length >= 300) {
+                            //delete key
+                            if (e.keyCode != 8)
+                                e.preventDefault();
+                            // add other keys ...
+                        }
+                    },
+                    onKeyup: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if(t.length > 1800) {
+                            alert('Maximum 300 words are allowed');
+                            return false;
+                        }
+                    },
+                    /*onPaste: function(e) {
+                        var t = e.currentTarget.innerText;
+                        console.log(t);
+                        if(t.length > 1800) {
+                            alert('Maximum 300 words are allowed');
+                        } else {
+                            var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                            e.preventDefault();
+                            var all = t + bufferText;
+                            document.execCommand('insertText', false, all.trim().substring(0, 1800));
+                        }
+                    }*/
+                }
+            });
+
+            if (jQuery("#trn_fund_raiser_circle_event_details_mstEventOccurrence").find("option:selected").text().toLowerCase() == 'recurring')
+                jQuery('.recurringDetails').show();
+            {% if circle_event  is defined and circle_event is not empty and circle_event.fromDate is not empty
+                and circle_event.toDate is not empty %}
+                $("#trn_fund_raiser_circle_event_details_fromDate").val("{{ circle_event.fromDate|date('Y-m-d') }}");
+                $("#trn_fund_raiser_circle_event_details_toDate").val("{{ circle_event.toDate|date('Y-m-d') }}");
+            {% endif %}
+        })
+
+        jQuery(document).on('click', '.btn-danger', function (e) {
+            jQuery(this).parent().parent().remove()
+        });
+
+        //Fund Raiser Cirle Event Recurring Details
+        jQuery("#trn_fund_raiser_circle_event_details_mstEventOccurrence").change(function () {
+            switch(jQuery(this).find("option:selected").text().toLowerCase()) {
+                case 'recurring':{
+                    jQuery('.recurringDetails').show();
+                    jQuery("#addCircleEventRecurringDetails").click();
+                    break;
+                }
+                default:{
+                    jQuery('.recurringDetails').hide();
+                    jQuery( ".removeRecurringDetails" ).each(function( index ) {
+                        jQuery(this).click();
+                    });
+                    break;
+                }
+            }
+        });
+
+        $collectionHolderEventRecDetails = jQuery('#circleEventRecurringDetailsContent').parent();
+        $collectionHolderEventRecDetails.data('index', jQuery('#circleEventRecurringDetailsContent').find('.trnCircleEventRecurringDetails').length);
+
+        jQuery("#addCircleEventRecurringDetails").on('click', function (e) {
+            addRowContentFormEventRecDetails($collectionHolderEventRecDetails);
+        });
+
+        function addRowContentFormEventRecDetails($collectionHolderEventRecDetails) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolderEventRecDetails.data('prototype');
+
+            // get the new index
+            var index = $collectionHolderEventRecDetails.data('index');
+            var newForm = prototype;
+            newForm = newForm.replace(/__name__/g, index);
+            // increase the index with one for the next item
+            $collectionHolderEventRecDetails.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            jQuery("#circleEventRecurringDetailsContent").append(newForm);
+            $('select').select2({
+                theme: 'bootstrap4'
+            });
+
+        }
+        //Fund Raiser Event Recurring Details Ends
+
+        //Fund Raiser Event Sub Events
+        $collectionHolderSubEvent = jQuery('#circleEventSubEvents').parent();
+        $collectionHolderSubEvent.data('index', jQuery('#circleEventSubEvents').find('.trnFundRaiserCircleEventSubEvents').length);
+
+        jQuery("#addcircleEventSubEvents").on('click', function (e) {
+            addRowContentFormSubEvent($collectionHolderSubEvent);
+        });
+
+        function addRowContentFormSubEvent($collectionHolderSubEvent) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolderSubEvent.data('prototype');
+
+            // get the new index
+            var index = $collectionHolderSubEvent.data('index');
+            var newForm = prototype;
+            newForm = newForm.replace(/__name__/g, index);
+            // increase the index with one for the next item
+            $collectionHolderSubEvent.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            jQuery("#circleEventSubEvents").append(newForm);
+            $('select').select2({
+                theme: 'bootstrap4'
+            });
+        }
+        //Fund Raiser Event Sub Events Ends
+    </script>
+{% endblock %}

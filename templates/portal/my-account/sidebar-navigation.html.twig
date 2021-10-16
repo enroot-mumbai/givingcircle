@@ -1,0 +1,72 @@
+<ul class="sidebar-menu">
+    {% set isMandatoryFilled = check_if_all_mandatory_filled() %}
+    <li class="individual">
+        <a href="{{ path('personal-info') }}">
+            <i class="fa fc-user2 social-profile"></i>
+            {% if appUser is defined and appUser.appUserInfo.mstUserMemberType == 'Organization' %}
+                <span>Organization Info</span>
+            {% else %}
+                <span>Personal Info</span>
+            {% endif %}
+        </a>
+    </li>
+    <li>
+        <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+            isMandatoryFilled == true %}  href="{{ path('social-profile') }}"  {% else %} href="javascript:void(0);"
+            onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+            <i class="fa fc-social-profile"></i>
+            <span>Social Profile</span>
+        </a>
+    </li>
+    <li class="project-nav">
+        <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+            isMandatoryFilled == true %} href="{{ path('my-accounts-projects') }}" {% else %} href="javascript:void(0);"
+            onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+            <i class="fa fc-projects"></i>
+            <span>Projects</span>
+        </a>
+        <ul class="events-nav">
+            <li>
+                <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+                    isMandatoryFilled == true %}  href="{{ path('event-info') }}" {% else %} href="javascript:void(0);"
+                    onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+                    <i class="fa fc-projects-projects"></i>
+                    <span>Events</span>
+                </a>
+            </li>
+            <li class="crowdfunding-nav">
+                <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+                       isMandatoryFilled == true %} href="{{ path('my-account-crowdfunding-event-info') }}" {% else %} href="javascript:void(0);"
+                    onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+                    <i class="fa fc-projects-crowdfunding"></i>
+                    <span>Crowdfunding</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li >
+        <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+            isMandatoryFilled == true %} href="{{ path('contact-book') }}" {% else %} href="javascript:void(0);"
+            onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+            <i class="fa fc-contact"></i>
+            <span>Contact Book</span>
+        </a>
+
+    </li>
+    <li>
+        <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+            isMandatoryFilled == true %} href="{{ path('my-account-reports') }}" {% else %} href="javascript:void(0);"
+            onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+            <i class="fa fa-bar-chart"></i>
+            <span>Reports</span>
+        </a>
+    </li>
+    <li>
+        <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+               isMandatoryFilled == true %} href="{{ path('my-account-settings') }}" {% else %} href="javascript:void(0);"
+            onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
+            <i class="fa fc-settings"></i>
+            <span>Settings</span>
+        </a>
+    </li>
+</ul>

@@ -1,0 +1,219 @@
+{% extends 'layout/content.html.twig' %}
+
+{% macro areaOfInterest(form) %}
+    <div class="col-sm-12 trnAreaOfInterest">
+        <div class="row mt-3">
+            <div class="col-sm-3">
+                {{ form_row(form.areaInterestPrimary) }}
+            </div>
+            <div class="col-sm-6">
+                {{ form_row(form.areaInterestSecondary) }}
+            </div>
+        </div>
+        <div class="col-sm-4 removebutton mb-4"> <br>
+            <button type="button" class="btn btn-danger btn-sm"><i class="fa
+            fa-trash"></i> Remove Content
+                Block</button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as formMacro %}
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.orgCompany) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.appUser) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.circle) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstJoinBy) }}
+                </div>
+            </div>
+            {# Area Of Interest Centre #}
+            <div class="card-header mt-2 divAreaOfInterest" style="display: none;">
+                <h3 class="card-title">{{ 'Area of Interest'|upper }}</h3>
+            </div>
+            <div class="row" data-prototype="{{ formMacro.areaOfInterest(form.trnAreaOfInterests
+                .vars.prototype)|e('html_attr') }}">
+                <div class="col" id="circleAreaOfInterest" >
+                    {% for row in form.trnAreaOfInterests %}
+                        {{ formMacro.areaOfInterest(row) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 divAreaOfInterest" style="display: none;">
+                    <button type="button" id="addcircleAreaOfInterest" class="btn btn-dark btn-sm"><i class="fa
+                    fa-plus"></i> Add Area of Interest</button>
+                </div>
+            </div>
+            {# Area Of Interest Centre #}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.circleInformation) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.howGoalWillBeAchieved) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.impactStatement) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.suggestedKeywords) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.mstCountry) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstState) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstCity) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3" style="display: none;">
+                    {{ form_row(form.locationLatitude) }}
+                </div>
+                <div class="col-sm-3" style="display: none;">
+                    {{ form_row(form.locationLongitude) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstStatus) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.reasonToReject) }}
+                </div>
+            </div>
+            {#<div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.beneficiaryBankName) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.beneficiaryAccountHolderName) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.beneficiaryBankAccountNumber) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.beneficiaryIfscCode) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstBankAccountTypeBeneficiary) }}
+                </div>
+            </div>#}
+            <div style="display: none;" class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.isActive) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_end(form) }}
+    <br>
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <link href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}" type="text/javascript"></script>
+    {#    <script src="{{ asset('assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>#}
+    <script src="{{ asset('assets/js/transaction/circle/index.js?z=1') }}"></script>
+    <script>
+        var trn_circle_appUser = '';
+        $(function () {
+            // Summernote
+            $(".textarea").summernote({
+                height: 200,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+
+                callbacks: {
+                    onKeydown: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if (t.length >= 300) {
+                            //delete key
+                            if (e.keyCode != 8)
+                                e.preventDefault();
+                            // add other keys ...
+                        }
+                    },
+                    onKeyup: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if(t.length > 1800) {
+                            alert('Maximum 300 words are allowed');
+                            return false;
+                        }
+                    },
+                    /*onPaste: function(e) {
+                        var t = e.currentTarget.innerText;
+                        console.log(t);
+                        if(t.length > 1800) {
+                            alert('Maximum 300 words are allowed');
+                        } else {
+                            var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                            e.preventDefault();
+                            var all = t + bufferText;
+                            document.execCommand('insertText', false, all.trim().substring(0, 1800));
+                        }
+                    }*/
+                }
+            });
+
+            if(jQuery("#trn_circle_orgCompany").val() != '' ){
+                trn_circle_appUser = jQuery("#trn_circle_appUser").val();
+                jQuery("#trn_circle_orgCompany").trigger('change');
+            }
+            jQuery(document).on('click', '.btn-danger', function (e) {
+                jQuery(this).parent().parent().remove()
+            });
+
+            $('#trn_circle_mstStatus').change(function (){
+
+                if($(this).children("option:selected").text() == 'Rejected') {
+                    $('label[for=trn_circle_reasonToReject]').addClass('required');
+                    $("#trn_circle_reasonToReject").prop('required', true);
+                } else {
+                    $('label[for=trn_circle_reasonToReject]').removeClass('required');
+                    $("#trn_circle_reasonToReject").prop('required', false);
+                }
+            });
+
+
+        })
+
+    </script>
+{% endblock %}

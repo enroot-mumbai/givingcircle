@@ -1,0 +1,38 @@
+<div class="left-section">
+    <div class="card-image">
+        <figure>
+            {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                eventData.profileImage != 'files/'  %}
+                <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+            {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                eventData.backgroundImagePath != 'files/' %}
+                <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+            {% else %}
+                {% set break = false %}
+                {% for trnProductMedia in eventData.trnProductMedia %}
+                    {% if trnProductMedia.mediaType == 'image' and
+                        break == false %}
+                        {% set break = true %}
+                        <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </figure>
+    </div>
+    <div class="text">
+        {{ eventData.name  | upper}}
+    </div>
+</div>
+<div class="right-section">
+    <h2 class="modal-title" id="selectAreaLabel">Are you sure you want to deactivate this
+        Event?</h2>
+    <div class="text-center">
+        <a href="javascript:void(0);" id="btnDeactivateEvent" projectid="{{ eventData.id }}"
+           class="btn btn-primary">Ok</a>
+        <a href="javascript:void(0);" onclick="$('.btn-close').click()" class="btn btn-primary">Cancel</a>
+    </div>
+</div>
+<form method="POST" id="frmDeactivateEventReason" action="{{ path('my-account-crowdfunding-event-deactivate', {'id':eventData.id})
+}}">
+    <input type="hidden" name="deactivateEventReason" value="Distributed Campaign Deactivated by the Owner"/>
+</form>

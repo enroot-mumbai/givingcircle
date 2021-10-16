@@ -1,0 +1,152 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="curve-list">
+                        <div class="head-sec">
+                            <h3>Settings</h3>
+                        </div>
+                        <div class="events-filter">
+                            <div class="grid form">
+                                <div class="card element-item">
+                                    <div class="row">
+                                        <div class="col-md-4 text-center">
+                                            <span class="setting-icn">
+                                                <img src="/resources/images/my-account/icon-password.png">
+                                            </span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <form method="post" id="frmChangePassword" autocomplete="off" action="{{ path('my-account-update-my-password') }}">
+                                                {% for message in app.flashes('error') %}
+                                                    <div class="alert alert-danger">
+                                                        {{ message }}
+                                                    </div>
+                                                {% endfor %}
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <h5>Change Password</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Current Password</label>
+                                                            <input type="password" class="form-control" value=""
+                                                                   id="oldPassword" name="oldPassword"
+                                                                   autocomplete="new-password">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="form-group password_input">
+                                                            <label>New Password</label>
+                                                            <input type="password" name="password" id="password"
+                                                                   autocomplete="new-password"
+                                                                   class="form-control" placeholder="" required="">
+                                                            <span toggle="#password" class="fa fa-fw fa-eye-slash field-icon toggle-password"></span>
+                                                        </div>
+                                                        <ul class="password-strength">
+                                                            <li class=""><span class="eight-character"><i class="fa fa-times" aria-hidden="true"></i></span>&nbsp; At least 8 Character</li>
+                                                            <li class=""><span class="one-number"><i class="fa fa-times" aria-hidden="true"></i></span> &nbsp;Minimum 1 number</li>
+                                                            <!-- <li class=""><span class="low-upper-case"><i class="fa fa-times" aria-hidden="true"></i></span>&nbsp; 1 lowercase &amp; 1 uppercase</li> -->
+                                                            <li class=""><span class="one-special-char"><i class="fa fa-times" aria-hidden="true"></i></span> &nbsp;Minimum 1 Special Character
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Retype Password</label>
+                                                            <input type="password" class="form-control" value=""
+                                                                   name="newConfirmPassword"
+                                                                   id="newConfirmPassword"
+                                                                   autocomplete="new-password">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-6">
+                                                        <div class="form-group">
+                                                            <a href="javascript:void(0);" id="changePassword" class="btn btn-primary btn-next">Submit</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card element-item">
+                                    <div class="row">
+                                        <div class="col-md-4 text-center">
+                                            <span class="setting-icn">
+                                                <img src="/resources/images/my-account/icon-newsletter.png">
+                                            </span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <form method="post" id="frmSubUnSub" action="{{ path
+                                                ('my-account-subscribe-unsubscribe-newletter') }}">
+                                                <div class="row">
+                                                    {% if appUser.appUserInfo.isSubscribedToNewLetter is defined and
+                                                        appUser.appUserInfo.isSubscribedToNewLetter is not null and
+                                                        appUser.appUserInfo.isSubscribedToNewLetter == true %}
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <h5>Unsubscribe Newsletter</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-6">
+                                                            <div class="form-group">
+                                                                <a href="javascript:void(0);"  id="btnSubUnSub"  class="btn btn-primary
+                                                                btn-next">Unsubscribe</a>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="hdnSubUnSub" value="Unsubscribe">
+                                                    {% else %}
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <h5>Subscribe Newsletter</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Email ID</label>
+                                                                <input type="text" class="form-control" value="{{ appUser.appUserInfo.userEmail  }}" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-6">
+                                                            <div class="form-group">
+                                                                <a href="javascript:void(0);" id="btnSubUnSub"
+                                                                   class="btn btn-primary btn-next">Subscribe</a>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="hdnSubUnSub" value="Subscribe">
+                                                    {% endif %}
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('assets/js/portal/my-account/setting.js?z=3') }}"></script>
+{% endblock %}

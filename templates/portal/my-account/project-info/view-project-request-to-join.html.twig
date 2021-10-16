@@ -1,0 +1,214 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/datatables.min.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs projects activated">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec">
+                            <h3>Member List</h3>
+                            <a href="{{ path('my-accounts-projects') }}" class="btn btn-primary-o"><i class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                        <div class="btn-sec top-btns mt-3 mb-5 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                            <a href="{{ path('my-accounts-view-project-members', {'id': circle.id}) }}" class="btn btn-primary ">Member List</a>
+                            <a href="{{ path('view-project-request-to-join', {'id': circle.id}) }}" class="btn btn-primary btn-blue">Request to Join List</a>
+                            <a href="{{ path('my-account-project-broadcast', {'id': circle.id}) }}" class="btn btn-primary">Broadcast / Updates</a>
+                        </div>
+                        <div class="filter-panel typ2">
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h5 class="my-4" id="countRequestToJoinMemberList">Request to Join List ({{ projectRequestToJoinMemberListData|length }})</h5>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label class="d-md-none mob-filter"> <strong>Filter By :</strong></label>
+                                        <div class="row row-sm justify-content-sm-start align-items-center filter-sec">
+                                            <div class="col-md-8">
+                                                <div class="row row-xs justify-content-sm-end align-items-center">
+
+                                                    <div class="col-auto">
+                                                        <div class="row row-xs">
+                                                            <div class="col-sm-auto">
+                                                                <label class="m-hide pt-2"> <strong>Filter By :</strong></label>
+                                                                <a href="#" class="fa fa-close"></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="form-group">
+                                                            <label for="Events" class="selectDDLabel">Events</label>
+                                                            <div class="cust-select">
+                                                                <select class="form-control" required="" id="Events">
+                                                                    <option></option>
+                                                                    {% for trnCircleEvents in arrTrnCircleEvents %}
+                                                                        <option value="{{ trnCircleEvents.id }}">{{ trnCircleEvents.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="form-group">
+                                                            <label for="Resources" class="selectDDLabel">Resources</label>
+                                                            <div class="cust-select resources">
+                                                                <select class="form-control" required="" id="Resources">
+                                                                    <option></option>
+                                                                    {% for mstEventProductTypeObj in arrMstEventProductTypeObj %}
+                                                                        <option value="{{ mstEventProductTypeObj.id}}">{{ mstEventProductTypeObj }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="form-group">
+                                                            <label for="Status" class="selectDDLabel">Status</label>
+                                                            <div class="cust-select">
+                                                                <select class="form-control" required="" id="Status">
+                                                                    <option></option>
+                                                                    {% for mstStatus in arrMstStatus %}
+                                                                        <option value="{{ mstStatus.id}}">{{ mstStatus }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4">
+                                                <div class="search-panel  typ2">
+                                                    <div class="input-group">
+                                                        <input type="text" class="search-input" placeholder="Search by Name, Mobile, Email">
+                                                        <button href="#" class="btn search-input-btn"><i class="fa fa-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive cust-tbl tbl-borderless tbl-request-toJoin" id="tbl-request-toJoin">
+                            <table class="table" id="example">
+                                <thead>
+                                <tr>
+                                    <th class="col-name"><label class="sort-order">Name / Mobile /Email ID</label></th>
+                                     <th class="col-projects"><label class="sort-order">Project</label></th>
+                                    <th class="col-events"><label class="sort-order">Event</label></th>
+                                    <th class="col-status"><label class="sort-order">Resources &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status /
+                                            Action</label></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for requestData in projectRequestToJoinMemberListData %}
+                                    <tr name="requestedMemberData">
+                                        <td>
+                                            <ul class="member-list">
+                                                <li>
+                                                    <span class="cap-letter">A</span>
+                                                    {{ requestData.appUser.appUserInfo.userFirstName | capitalize }}
+                                                    {{ requestData.appUser.appUserInfo.userLastName | capitalize }}
+                                                </li>
+                                                <li><i class="fa fa-phone"></i> +91 {{ requestData.appUser.appUserInfo.mobileCountryCode }} {{ requestData.appUser.appUserInfo.userMobileNumber }}</li>
+                                                <li><i class="fa fa-envelope-o"></i>{{ requestData.appUser.appUserInfo.userEmail }}</li>
+
+                                            </ul>
+                                        </td>
+                                        <td>{{ requestData.project.name | upper }}</td>
+                                        <td>{{ requestData.event.name | upper }}</td>
+                                        <td >
+                                            <ul class="tbl-li-list">
+                                                <li>
+                                                    <div class="row row-xs">
+                                                        <div class="col-md-12">
+                                                            <ul>
+                                                                {% for  resourceName,resourceData in requestData.eventResource %}
+                                                                    <li>
+                                                                        <div class="row row-xs">
+                                                                            <div class="col-md-4">
+                                                                                <label>
+                                                                                    {% if resourceName != '0' %}
+                                                                                        {{ resourceName | ucwords }}
+                                                                                    {% else %}
+                                                                                        -
+                                                                                    {% endif %}
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-8">
+                                                                                <ul>
+                                                                                    {%  if resourceData.mstStatus == 'Pending Activation' %}
+                                                                                        <li>
+                                                                                            <i class="fa fa-circle"></i>
+                                                                                            Request to Join
+                                                                                        </li>
+                                                                                    {% else  %}
+                                                                                        <li class="reject">
+                                                                                            <i class="fa fa-close"></i>
+                                                                                            Reject
+                                                                                        </li>
+                                                                                    {% endif %}
+                                                                                    <li>
+                                                                                        <div class="btn-block"
+                                                                                             style="width: 200px;">
+                                                                                            {% if resourceName != '0' %}
+                                                                                                <a href="javascript:void(0);" name="btnAcceptRequest" requestid = "{{ resourceData.id }}" class="btn btn-primary-o
+                                                                                                    {%  if resourceData.mstStatus == 'Pending Activation' %} {% else  %} disabled {% endif %} ">Accept</a>
+                                                                                                <a href="javascript:void(0);"  name="btnRejectRequest"  requestid = "{{ resourceData.id }}"
+                                                                                                   class="btn btn-primary-o">Reject</a>
+                                                                                            {% else %}
+                                                                                                <a href="javascript:void(0);" name="btnAcceptRequestProject" requestid = "{{ resourceData.id }}" class="btn btn-primary-o
+                                                                                                    {%  if resourceData.mstStatus == 'Pending Activation' %} {% else  %} disabled {% endif %} ">Accept</a>
+                                                                                                <a href="javascript:void(0);"  name="btnRejectRequestProject"  requestid = "{{ resourceData.id }}"
+                                                                                                   class="btn btn-primary-o">Reject</a>
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('resources/js/datatables.min.js') }}"></script>
+    <script>
+        var updateProjectParticipationRequestURL = "{{ path('update-project-participation-request') }}";
+        var updateProjectEventParticipationRequestURL = "{{ path('update-project-event-participation-request') }}";
+        var ajaxViewProjectRequestToJoinURL = "{{ path('ajax-view-project-request-to-join', {'id' : circle.id}) }}";
+    </script>
+    <script src="{{ asset('assets/js/portal/my-account/view-project-request-to-join.js') }}"></script>
+{% endblock %}

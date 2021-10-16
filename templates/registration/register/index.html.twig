@@ -1,0 +1,88 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    {#<h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>#}
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.creation_date'|trans|upper }}</th>
+                                <th>{{ 'label.company'|trans|upper }}</th>
+                                <th>{{ 'label.organization'|trans|upper }}</th>
+                                <th>{{ 'label.type_of_organization'|trans|upper }}</th>
+                                <th>{{ 'label.name'|trans|upper }}</th>
+                                <th>{{ 'label.username'|trans|upper }}</th>
+                                <th>{{ 'label.contact'|trans|upper }}</th>
+                                <th>{{ 'label.location'|trans|upper }}</th>
+                                <th>{{ 'label.status'|trans|upper }}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                {% set isOrganization = false %}
+                                <tr>
+                                    <td>{{ user.appUser.userCreationDateTime|date('d M Y') }}</td>
+                                    <td>{{ user.orgCompany }}</td>
+                                    <td>{% for trnOrganizationDetails in user.appUser.trnOrganizationDetails %}
+                                            {{ trnOrganizationDetails.organizationName }}
+                                            {% set isOrganization = true %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{% for trnOrganizationDetails in user.appUser.trnOrganizationDetails %}
+                                            {{ trnOrganizationDetails.mstTypeOfOrganization }}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ user.mstSalutation }} {{ user.name }}</td>
+                                    <td>{{ user.appUser.username }}</td>
+                                    <td><i class="fa fa-envelope"></i>: {{ user.userEmail }}<br> <i class="fa fa-phone"></i>: {{ user.mobWithCountryCode }}</td>
+                                    <td>{{ user.mstCity }}, {{ user.mstState }}, {{ user.mstCountry }}</td>
+                                    <td>{{ user.appUser.mstStatus }}</td>
+                                    <td>
+                                        <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                            <a href="{{ path(path_show, {'id': user.appUser.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>&nbsp;
+                                            <a href="{{ path(path_edit, {'id': user.appUser.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>
+
+                                            {% if user.appUser.appUserInfo.mstUserMemberType == 'Individual'  %}
+                                                <a href="{{ path('registration_individual_document_index', {'appUser_id': user.appUser
+                                                .id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-file-upload"></i></button></a>&nbsp;
+                                            {% else %}
+                                                <a href="{{ path('registration_document_index', {'appUser_id': user.appUser
+                                                .id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-file-upload"></i></button></a>&nbsp;
+                                            {% endif %}
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}

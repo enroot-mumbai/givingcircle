@@ -1,0 +1,58 @@
+label.required:not(:empty):after,
+.field-header.required:after {
+    content: " *";
+    color: red;
+}
+.col-form-label {
+    font-weight: normal !important;
+}
+.main-header .navbar-nav .logged .fa-bell {
+    color:#fff;
+    top: 0;
+    font-size: 20px;
+}
+.main-header .navbar-nav .logged {position:relative;padding-right: 1rem;padding-left: 1rem;}
+.main-header .navbar-nav .logged a {display:inline-block;margin-top: 10px;}
+.main-header .navbar-nav .logged .notification span.badge {
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    background: #F05235;
+    line-height: 16px;
+    position: absolute;
+    top: 4px;
+    left: 23px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.logged.top-links li>a.notification {
+    display: inline-block;
+}
+.notification_popup{width:370px;display: inline-block;background: rgb(70,197,250);background: #f5f8f6;padding: 0;border-radius: 5px;position: absolute;z-index: 9;margin-top: 42px;right: 0px;margin-left: 0;padding-bottom:0;height: auto;z-index: 9;position: absolute;overflow: visible;box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.15);}
+.notification_popup:before {content:'';border-top: 10px solid transparent;border-right: 10px solid transparent;border-bottom: 10px solid #ffffff;border-left: 10px solid transparent;position: absolute;top: -20px;right: 0%;transform: translateX(-50%);/* box-shadow: 3px 3px 3px #ddd; */}
+.notification_popup .notification_popup_box {width:100%;display:inline-block;background: #fff;padding: 0;}
+.notification_popup .notification_popup_box > h2 {font-size: 18px;color: #303030;margin-bottom: 0;padding: 10px;}
+.notification_popup .notification_popup_box .close {position: absolute;right: 4px;width: 23px;font-size:20px;height: 23px;background: #fff;top: 0;border-radius: 0;opacity: 1;border: 0;color: #333;text-shadow: none;}
+.notification_popup .notification_popup_box .close:focus{outline:0;}
+.notification_popup .notification_popup_box .close:hover {opacity: 1;}
+.notification_popup .notification_popup_box > ul {margin:0;padding: 0 20px 0 10px;list-style-type: none;background: #F5F8F6;}
+.notification_popup .notification_popup_box > ul > li {width:100%;display: inline-block;font-size:13px;border-bottom:1px solid #E4E4E4;padding-bottom:10px;margin-left: 0;margin-top: 10px;padding-left: 10px;position: relative;}
+.notification_popup .notification_popup_box > ul > li:before {content:'';width:7px;height:7px;background: #333E69;border-radius:100%;position: absolute;margin-left: -10px;margin-top: 4px;}
+.notification_popup .notification_popup_box > ul > li > div {position: relative;}
+.notification_popup .notification_popup_box > ul > li > div > b {display:block;font-weight: 600;font-size: 12px;color: #333E69;}
+.notification_popup .notification_popup_box > ul > li > div > span {color: #303030;font-style: italic;font-weight: 500;}
+.notification_popup .notification_popup_box > ul > li > div > span.date {position: absolute;top:0;right:0;font-style: normal;}
+.notification_popup .notification_popup_box > ul > li > div > span > b {font-style: normal;font-weight: 600;font-size:12px;}
+.notification_popup .notification_popup_box > ul > li > div > span > b.orange {font-weight: 600;color:#F05235;font-style: normal;font-size: 12px;}
+.notification_popup .notofication_popup_box > ul > li + li {margin-left:0;margin-top:10px}
+.notification_popup .notification_popup_box{max-height: 320px;overflow-y: auto;text-align: left;border-radius: 5px;}
+.notification_popup ::-webkit-scrollbar {width: 3px;}
+.notification_popup ::-webkit-scrollbar-track{ background: #707070;}
+.notification_popup ::-webkit-scrollbar-thumb {background: #707070;}
+.notification_popup ::-webkit-scrollbar-thumb:hover{ background: #707070;}
+.top-links li > a.notification span.badge {border-radius:100%;width: 20px;height: 20px;background: #F05235;line-height: 16px;position: absolute;top: -8px;left: 5px;font-size: 10px;font-weight: 600;}
+.notification_popup .notification_popup_box > h2 span.badge {position: relative;border-radius:100%;width: 20px;height: 20px;background: #F05235;line-height: 16px;font-size: 10px;font-weight: 600;}
+.notification_popup .btn-sec {text-align: center;padding:10px 0;display: inline-block;width:100%;}
+.notification_popup .btn-sec .btn {border: 1px solid #090808;color: #090808;}
+.notification_popup .btn-sec .btn:hover {color: #fff;}

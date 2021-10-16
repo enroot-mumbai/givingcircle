@@ -1,0 +1,26 @@
+<section>
+    <ul class="event-list">
+        <li><a {% if active == 'event' %} class="active" {% endif %} href="{{ path('event-details', {'id' : trnCircleEvents.id})
+            }}"><span><i class="event-icon"></i>
+                                            Event Details</span></a>
+        </li>
+
+        {% for mstEventProductType in trnCircleEvents.mstEventProductType %}
+            {%  if 'Volunteer' in  mstEventProductType.eventProductType %}
+                <li><a {% if active == 'volunteer' %} class="active" {% endif %} href="{{ path('volunteer-details', {'id' : trnCircleEvents.id}) }}"><span><i
+                                    class="volunteer-icon"></i>
+                                            Volunteer
+                                            (Time)</span></a></li>
+            {% endif %}
+            {%  if 'Material' in  mstEventProductType.eventProductType %}
+                <li><a {% if active == 'material' %} class="active" {% endif %} href="{{ path('material-details', {'id' : trnCircleEvents.id})
+                    }}"><span><i class="material-icon"></i>
+                                            Material</span></a></li>
+            {% endif %}
+            {%  if 'Fund' in  mstEventProductType.eventProductType %}
+                <li><a {% if active == 'funds' %} class="active" {% endif %} href="{{ path('fund-details', {'id': trnCircleEvents.id}) }}" ><span><i class="fund-icon"></i>
+                                            Funds</span></a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>

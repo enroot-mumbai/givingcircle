@@ -1,0 +1,719 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    {% set pageContentCMS = get_cms_page_content_by_slugname('create-an-event') %}
+    {#    {{ render(controller('App\\Controller\\Portal\\EventController::bannerSection')) }}#}
+    {{ include('portal/event/event-banner.html.twig') }}
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="start-project col-lg order-lg-2" id="start-project">
+                    <div class="head-sec">
+                        <h2>Start Your Event Now</h2>
+                        <div class="tips-button">
+                            <a href="{{ path('create-event-tip') }}"><i class="tips-icon"></i> Tips for Event Creation</a>
+                        </div>
+                    </div>
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\EventController::createEventSteps',
+                        { 'currentIndex': currentIndex }
+                    )) }}
+
+
+                    <div class="project-review">
+                        <h3>Review Your Event</h3>
+                        <span class="review-text">
+                            Review your event and check that you have filled the details correctly. If not please click
+                            on ' <b>Edit</b> ' button.
+                        </span>
+                        <div class="review-table">
+                            <label class="table-head">Event Details</label>
+                            <a href="{{ path('edit-an-event') }}" class="btn btn-edit"><i class="fas fa-pencil-alt"></i>
+                                Edit</a>
+                            <ul>
+                                <li>
+                                    <div class="heading">
+                                        Is this Event for
+                                        Crowdfunding?
+                                    </div>
+                                    <div class="content">
+                                        {{ trnCircleEvents.isCrowdFunding ? 'Yes' : 'No' }}
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="heading">Project Name</div>
+                                    <div class="content">{{ trnCircleEvents.trnCircle | upper }}</div>
+                                </li>
+                                {% for primaryAI in arrPrimaryAI %}
+                                    <li>
+                                        <div class="heading">Primary Area of Interest</div>
+                                        <div class="content">
+                                            <div class="area-select">
+                                                <div class="icon {{ num_to_words(primaryAI.sequenceNo) }}">
+                                                <span class="num">
+                                                    {{ primaryAI.sequenceNo }}
+                                                </span>
+                                                    <span class="img">
+                                                    {% if primaryAI.icon is not empty and primaryAI.icon != '' and primaryAI.icon != 'files/' %}
+                                                        <img src="{{ asset('images') }}/{{ primaryAI.icon }}"
+                                                             alt="{{ primaryAI.areaInterest }}" title="{{ primaryAI.areaInterest }}">
+                                                    {% endif %}
+                                                </span>
+                                                </div>
+                                                <div class="title">
+                                                    <b>{{ primaryAI.areaInterest }}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="heading">Secondary Area of Interest</div>
+                                        <div class="content">
+                                            <div class="area-select">
+                                                <div class="title">
+                                                    <ul>
+                                                        {% for secAI in  arrPrimaryAISecAI[primaryAI.id] %}
+                                                            <li>{{ secAI }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+
+                                <li>
+                                    <div class="heading">Event Option</div>
+                                    <div class="content">
+                                        <i class="fc-create-event"></i> Create New Event
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="heading">Event Name</div>
+                                    <div class="content">{{ trnCircleEvents.name | upper }}</div>
+                                </li>
+                                <li>
+                                    <div class="heading">Event Purpose</div>
+                                    <div class="content"> {{ trnCircleEvents.eventPurpose| raw }} </div>
+                                </li>
+                                <li>
+                                    <div class="heading">Event Goal</div>
+                                    <div class="content"> {{ trnCircleEvents.highlightsOfEvent|raw }} </div>
+                                </li>
+                                <li>
+                                    <div class="heading">Resources Required </div>
+                                    <div class="content">
+                                        <ul class="event-resources">
+                                            {% for mstEventProductType in  trnCircleEvents.mstEventProductType %}
+                                                {%  if 'Volunteer' in  mstEventProductType.eventProductType %}
+                                                    <li>
+                                                        <i class="fc-event-volunteer"></i>
+                                                        <span>Volunteer</span>
+                                                    </li>
+                                                {% endif %}
+                                                {%  if 'Material' in  mstEventProductType.eventProductType %}
+                                                    <li>
+                                                        <i class="fc-event-material"></i>
+                                                        <span>Material</span>
+                                                    </li>
+                                                {% endif %}
+                                                {%  if 'Fund' in  mstEventProductType.eventProductType %}
+                                                    <li>
+                                                        <i class="fc-event-fund"></i>
+                                                        <span>Funds</span>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </li>
+                                {#<li>
+                                    <div class="heading">My Event Type</div>
+                                    <div class="content">
+                                        <div class="project-type">
+                                            <i class="fa fa-unlock"></i> Open
+                                        </div>
+                                    </div>
+                                </li>#}
+                                {# <li>
+                                    <div class="heading">Event Date</div>
+                                    <div class="content">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                Event Start Date
+                                                <span class="label-text">{{ trnCircleEvents
+                                                    .fromDate  | date('d M Y')}}</span>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                Event End Date
+                                                <span class="label-text">{{ trnCircleEvents
+                                                    .toDate  | date('d M Y')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>#}
+                                <li>
+                                    <div class="heading">Upload Image <span>Giving Circle Gallery</span></div>
+                                    <div class="content gallery-review">
+                                        <div class="row">
+                                            {#<div class="col-auto">
+                                                <span class="label-text">Project Profile Image</span>
+                                                <div class="profile-image">
+                                                    <figure>
+                                                        <img src="{{ asset('images') }}/{{ trnCircleEvents.profileImage }}"
+                                                             alt="">
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <span class="label-text">Project Background Image</span>
+                                                <div class="background-image">
+                                                    <figure>
+                                                        <img src="{{ asset('images') }}/{{ trnCircleEvents
+                                                        .backgroundImagePath
+                                                        }}"
+                                                             alt="">
+                                                    </figure>
+                                                </div>
+                                            </div>#}
+                                            <div class="col-sm-12">
+                                                <span class="label-text">Project Gallery</span>
+                                                <ul class="row row-md">
+                                                    {% for trnProductMedia in trnCircleEvents.trnProductMedia %}
+                                                        {% if trnProductMedia.mediaType == 'image' %}
+                                                            <li class="col-sm-4">
+                                                                <figure>
+                                                                    <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}">
+                                                                </figure>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {% for key,mstEventProductType in  trnCircleEvents.mstEventProductType %}
+                            {%  if 'Volunteer' in  mstEventProductType.eventProductType %}
+                                <div class="review-table">
+                                    <label class="table-head">{{ mstEventProductType.eventProductType | upper }}</label>
+                                    <a href="{{ path('show-event-product-type-ui', {currentIndex: key}) }}&mode=edit" class="btn
+                                    btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                    <ul>
+                                        <li>
+                                            <div class="heading">Broad Skills Required</div>
+                                            <div class="content"> {{ trnVolunterCircleEventDetails.workDescription}}
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Specific Skills Required</div>
+                                            <div class="content">
+                                                <ul class="skillRequiredList">
+                                                    {% for trnVolunterCircleEventSubEvents in trnVolunterCircleEventDetails.trnVolunterCircleEventSubEvents  %}
+                                                        <li>
+                                                            <ul>
+                                                                <li>{{ trnVolunterCircleEventSubEvents.subEventName }}</li>
+                                                                <li>{{ trnVolunterCircleEventSubEvents.numberOfHours }} Hours</li>
+                                                                <li>{{ trnVolunterCircleEventSubEvents.subEventReccuringBy }}</li>
+                                                            </ul>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Key Responsibility</div>
+                                            <div class="content">{{ trnVolunterCircleEventDetails.keyResponsibility}}</div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Event Date</div>
+                                            <div class="content">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Event Start Date
+                                                        <span class="label-text">{{ trnVolunterCircleEventDetails
+                                                            .fromDate  | date('d M Y')}}</span>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Event End Date
+                                                        <span class="label-text">{{ trnVolunterCircleEventDetails
+                                                            .toDate  | date('d M Y')}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="heading">Event Occurrence</div>
+                                            <div class="content">
+                                                {{ trnVolunterCircleEventDetails.mstEventOccurrence.eventOccurrence }}
+                                                {% if trnVolunterCircleEventDetails.mstEventOccurrence
+                                                    .eventOccurrence == 'Recurring' %}
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            Option
+                                                            <span class="label-text">
+                                                                {% if trnVolunterCircleEventDetails_recurringDetails.mstRecurringBy.recurringBy is defined %}
+                                                                    {{ trnVolunterCircleEventDetails_recurringDetails.mstRecurringBy.recurringBy }}
+                                                                {% else %}
+                                                                    Daily
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            Number of Hours
+                                                            <span class="label-text">{{ trnVolunterCircleEventDetails_recurringDetails.numberOfHours }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    {% if trnVolunterCircleEventDetails_recurringDetails.mstRecurringBy.recurringBy is defined and trnVolunterCircleEventDetails_recurringDetails.mstRecurringBy.recurringBy == 'Weekly' %}
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                Days Selected
+                                                                <span class="label-text">
+                                                                    {% set daysArr = trnVolunterCircleEventDetails_recurringDetails.mstDaysOfWeek %}
+                                                                    {% for key,days in daysArr %}
+                                                                        {{ days.dayOfWeek }}
+                                                                        {% if not loop.last %}
+                                                                            <br>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <span class="label-text"></span>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+
+                                                        {% if trnVolunterCircleEventDetails_recurringDetails.mstRecurringBy.recurringBy is defined and trnVolunterCircleEventDetails_recurringDetails.mstRecurringBy.recurringBy == 'Monthly' %}
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                Dates Selected
+                                                                <span class="label-text">
+                                                                    {% set datesArr = trnVolunterCircleEventDetails_recurringDetails.datesSelected|split(',') %}
+                                                                    {% for dateval in datesArr %}
+                                                                        {{ dateval|date('d M Y') }}
+                                                                        {% if not loop.last %}
+                                                                           <br>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <span class="label-text"></span>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Place of Work</div>
+                                            <div class="content">
+                                                <div class="text-type2">{{ trnVolunterCircleEventDetails.mstPlaceOfWork.placeOfWork }}</div>
+                                                {% if trnVolunterCircleEventDetails.mstPlaceOfWork.placeOfWork == 'On Site' %}
+                                                    <div class="text-type2">Event On Site Address</div>
+                                                    <div class="map-review">
+                                                        {% set map_lat= trnVolunterCircleEventDetails.trnVolunterCircleEventOnSiteAddresses[0].eventOnSiteLocationLatitude %}
+                                                        {% set map_long= trnVolunterCircleEventDetails.trnVolunterCircleEventOnSiteAddresses[0].eventOnSiteLocationLongitude %}
+                                                        {{ include('portal/event/map-review.html.twig') }}
+{#                                                        <img src="/resources/images/common/create-event/map-view.jpg" alt="">#}
+                                                        <span>
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            {{ trnVolunterCircleEventDetails.trnVolunterCircleEventOnSiteAddresses[0].eventOnSiteAddress1 }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="text-type2">Event On Site Time</div>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            Event Start Time
+                                                            <span class="label-text">{{ trnVolunterCircleEventDetails
+                                                                .fromTime | date("H:i") }} hrs</span>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            Event End Time
+                                                            <span class="label-text">{{ trnVolunterCircleEventDetails
+                                                                .toTime | date("H:i") }} hrs</span>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            Check In
+                                                            <span class="label-text">{{ trnVolunterCircleEventDetails
+                                                                .fromTime | date("H:i") }} hrs</span>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            Check Out
+                                                            <span class="label-text">{{ trnVolunterCircleEventDetails
+                                                                .toTime | date("H:i") }} hrs</span>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </li>
+                                        {#<li>
+                                            <div class="heading">QR Code</div>
+                                            <div class="content">
+                                                <div class="row row-sm">
+                                                    <div class="col-auto">
+                                                        #}{# <img src="https://chart.googleapis
+                                                        .com/chart?chs=200x200&cht=qr&chl={{ url }}%2F&choe=UTF-8" title="Link to Google.com" /> #}{#
+                                                    </div>
+                                                    <div class="col">
+                                                        Scan QR Code lorem ipsum dummy text lorem ipsum dummy text
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>#}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            {%  if 'Material' in  mstEventProductType.eventProductType %}
+
+                                <div class="review-table">
+                                    <label class="table-head">{{ mstEventProductType.eventProductType | upper }}</label>
+                                    <a href="{{ path('show-event-product-type-ui', {currentIndex: key}) }}&mode=edit" class="btn btn-edit"><i
+                                                class="fas fa-pencil-alt"></i> Edit</a>
+                                    <ul>
+                                        <li>
+                                            <div class="heading">Item</div>
+                                            <div class="content">
+                                                <ul class="materialItemList">
+                                                    <li class="head">
+                                                        <ul>
+                                                            <li>Item Required</li>
+                                                            <li>Quantity <small>(Including Units)</small></li>
+                                                            <li>Remarks</li>
+                                                        </ul>
+                                                    </li>
+                                                    {% for trnMaterialInKindCircleEventSubEvent in trnMaterialInKindCircleEventDetails.trnMaterialInKindCircleEventSubEvents %}
+                                                        <li>
+                                                            <ul>
+                                                                <li>{{ trnMaterialInKindCircleEventSubEvent.itemName }}</li>
+                                                                <li>{{ trnMaterialInKindCircleEventSubEvent.itemQuantity }} {{ trnMaterialInKindCircleEventSubEvent.unit }}</li>
+                                                                <li>{{ trnMaterialInKindCircleEventSubEvent.subEventName }}</li>
+                                                            </ul>
+                                                        </li>
+                                                    {% endfor %}
+
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Event Date</div>
+                                            <div class="content">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Event Start Date
+                                                        <span class="label-text">{{
+                                                            trnMaterialInKindCircleEventDetails.fromDate |date('d M Y')
+                                                            }}</span>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Event End Date
+                                                        <span class="label-text">{{
+                                                            trnMaterialInKindCircleEventDetails.toDate |date('d M Y')
+                                                            }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Collection Centre</div>
+                                            <div class="content">
+                                                {% for trnMaterialInKindCircleEventCollectionCentre in trnMaterialInKindCircleEventDetails.trnMaterialInKindCircleEventCollectionCentres %}
+                                                    <div class="row collectnCentr">
+                                                        <div class="col-12">
+                                                            Member Name {{ loop.index }}
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span class="text-type2">
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.firstName }}
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.lastName }}
+                                                            </span>
+                                                            <span class="label-text">
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.address1 }},
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.address2 }},
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.mstCity }},
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.mstState }},
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.mstCountry }},
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.pinCode }}.
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span class="text-type2">Timing of the Collection Centre</span>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <span class="label-text">Start Time</span>
+                                                                    <span class="label-text">
+                                                                        {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                        .trnCollectionCentreDetails.startTime | date
+                                                                            ('H:i') }} hrs</span>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <span class="label-text">End Time</span>
+                                                                    <span class="label-text">{{ trnMaterialInKindCircleEventCollectionCentre
+                                                                        .trnCollectionCentreDetails.endTime | date
+                                                                            ('H:i') }} hrs</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span class="text-type2">Collection Centre Open on Days</span>
+                                                            <span class="label-text">
+                                                                {{ trnMaterialInKindCircleEventCollectionCentre
+                                                                .trnCollectionCentreDetails.mstDaysOfWeek |
+                                                                join(',') }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span class="text-type2">Date Range for accepting Collections</span>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    From
+                                                                    <span class="label-text">{{
+                                                                        trnMaterialInKindCircleEventCollectionCentre.fromDate |date('d M Y') }}</span>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    To
+                                                                    <span class="label-text">{{
+                                                                        trnMaterialInKindCircleEventCollectionCentre.toDate |date('d M Y') }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                {% endfor %}
+                                            </div>
+                                        </li>
+                                        {#<li>
+                                            <div class="heading">QR Code</div>
+                                            <div class="content">
+                                                <div class="row row-sm">
+                                                    <div class="col-auto">
+                                                        #}{# <img src="https://chart.googleapis
+                                                        .com/chart?chs=200x200&cht=qr&chl={{ url }}%2F&choe=UTF-8" title="Link to Google.com" /> #}{#
+                                                    </div>
+                                                    <div class="col">
+                                                        Scan QR Code lorem ipsum dummy text lorem ipsum dummy text
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>#}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            {%  if 'Fund' in  mstEventProductType.eventProductType %}
+                                <div class="review-table">
+                                    <label class="table-head">{{ mstEventProductType.eventProductType | upper }}</label>
+                                    <a href="{{ path('show-event-product-type-ui', {currentIndex: key}) }}&mode=edit" class="btn btn-edit"><i class="fas fa-pencil-alt"></i>
+                                        Edit</a>
+                                    <ul>
+                                        <li>
+                                            <div class="heading">Total Fund Requirement </div>
+                                            <div class="content">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Target Amount
+                                                        <span class="label-text">
+                                                    <i class="fa fa-rupee"></i> {{ trnFundRaiserCircleEventDetails.targetAmount }}
+                                                </span>
+                                                    </div>
+                                                    {#<div class="col-sm-6">
+                                                        Currency
+                                                        <span class="label-text">{{ trnFundRaiserCircleEventDetails.mstCurrencyTargetAmount }}</span>
+                                                    </div>#}
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Deployment of Funds</div>
+                                            <div class="content">
+                                                {{ trnFundRaiserCircleEventDetails.purposeOfRaisingFunds }}
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Is Urgent</div>
+                                            <div class="content">
+                                                {{ trnFundRaiserCircleEventDetails.isUrgent == 1 ? 'Yes' : 'No' }}
+                                            </div>
+                                        </li>
+                                        {#<li>
+                                            <div class="heading">Minimum Contribution </div>
+                                            <div class="content">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Minimum Amount
+                                                        <span class="label-text">
+                                                    <i class="fa fa-rupee"></i> {{ trnFundRaiserCircleEventDetails.minContributionAmount }}
+                                                </span>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Currency
+                                                        <span class="label-text">{{ trnFundRaiserCircleEventDetails.mstCurrencyMinContribution }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>#}
+                                        <li>
+                                            <div class="heading">Fund Details</div>
+                                            <div class="content">
+                                                <ul class="fundDetails">
+                                                    {% for trnFundRaiserCircleEventSubEvent in trnFundRaiserCircleEventDetails.trnFundRaiserCircleEventSubEvents %}
+                                                        <li>
+                                                            <ul class="row row-sm">
+                                                                <li class="col">{{ trnFundRaiserCircleEventSubEvent.timePeriodSupported }}</li>
+                                                                <li class="col">{{ trnFundRaiserCircleEventSubEvent.noOfBeneficiaries }}</li>
+                                                                <li class="col">
+                                                                    {#{% if trnFundRaiserCircleEventSubEvent.mstCurrencySubEvent == 'United States Dollar' %}
+                                                                        <i class="fa fa-dollar"></i>
+                                                                    {% elseif trnFundRaiserCircleEventSubEvent.mstCurrencySubEvent == 'Indian Rupee' %}
+                                                                        <i class="fa fa-rupee"></i>
+                                                                    {% endif %}#}
+
+                                                                    <i class="fa fa-rupee"></i> {{ trnFundRaiserCircleEventSubEvent.subEventTargetAmount }}</li>
+                                                                <li class="col">{{ trnFundRaiserCircleEventSubEvent.subEventRemarks }}</li>
+                                                            </ul>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Event Occurrence</div>
+                                            <div class="content">
+                                                <div class="row row-sm">
+                                                    <div class="col-12">
+                                                        <p>{{ trnFundRaiserCircleEventDetails.mstEventOccurrence }}</p>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                Event Start Date
+                                                                <span class="label-text">{{ trnFundRaiserCircleEventDetails.fromDate | date('d M Y')
+                                                                    }}</span>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                Event End Date
+                                                                <span class="label-text">{{ trnFundRaiserCircleEventDetails.toDate | date('d M Y')
+                                                                    }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="heading">Bank Account Details</div>
+                                            <div class="content">
+                                                {% set bankDetails = trnCircle.appUser.trnBankDetails[0] %}
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        Beneficiary Bank Name
+                                                        <span class="label-text">{{ bankDetails.bankName}}</span>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        Beneficiary Account Holder Name
+                                                        <span class="label-text">{{ bankDetails.accountHolderName}}</span>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        Beneficiary Bank Account Number
+                                                        <span class="label-text">{{ bankDetails.accountNumber}}</span>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        Beneficiary IFSC Code
+                                                        <span class="label-text">{{ bankDetails.ifscCode}}</span>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        Beneficiary Account Type
+                                                        <span class="label-text">{{ bankDetails.mstBankAccountType}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="btn-sec" data-aos="fade-right" data-aos-delay="200">
+                            <a href="javascript:void(0)" class="btn btn-primary btn-continue">Publish Your
+                                Event</a>
+                        </div>
+                    </div>
+                </div>
+                {#{{ render(controller('App\\Controller\\Portal\\EventController::featureSection')) }}#}
+                {{ include('portal/event/event-feature-section.html.twig') }}
+            </div>
+        </div>
+    </div>
+    <form action="" method="post" id ='frmEventReviewPage'> </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/autocomplete.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#planicon').parents('li').addClass('active');
+
+            $('body').addClass('inner-pg create-element event logged');
+            $('.btn-continue').click(function (){
+                $("#frmEventReviewPage").submit();
+            });
+            $('html, body').animate(
+                {
+                    scrollTop: $($('.next-section-arrow').attr('href')).offset().top - 95,
+                },
+                800,
+                'linear'
+            );
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 150) {
+                    $('.bullets .first').removeClass('active');
+                    $('.bullets .second').addClass('active');
+                } else {
+                    $('.banner-sec').removeClass('fixed');
+                    $('.wrapper').removeClass('fixed');
+                    $('.bullets .first').addClass('active');
+                    $('.bullets .second').removeClass('active');
+                }
+            });
+            $('.next-section-arrow').on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate(
+                    {
+                        scrollTop: $($(this).attr('href')).offset().top - 95,
+                    },
+                    800,
+                    'linear'
+                );
+            });
+            $('.bullets li.second > a').on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate(
+                    {
+                        scrollTop: $($(this).attr('href')).offset().top - 95,
+                    },
+                    800,
+                    'linear'
+                );
+                $(this).parent('li').addClass('active');
+                $(this).parent('li').siblings('li').removeClass('active');
+            });
+        });
+    </script>
+{% endblock %}
