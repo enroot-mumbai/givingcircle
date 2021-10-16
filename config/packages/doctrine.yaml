@@ -1,23 +1,16 @@
 doctrine:
+
     dbal:
         default_connection: default
         connections:
             default:
-                dbname: enroot_gc
-                user: 'enroot_gc_user'
-                password: '2Fnv-_NjK?cM?K+&xV'
-                host: enroot-wp-rds.ckxt1cihzayi.ap-south-1.rds.amazonaws.com
-                #user: 'root'
-                #password: ''
-                #host: localhost
+                url: '%env(DATABASE_URL)%'
                 driver: 'pdo_mysql'
-                server_version: '8.0.17'
+                server_version: 'mariadb-10.4.11'
                 default_table_options:
                 charset: utf8mb4
                 mapping_types:
                     enum: string
-            #                url: '%env(resolve:DATABASE_URL)%'
-
 
     orm:
         default_entity_manager: default
