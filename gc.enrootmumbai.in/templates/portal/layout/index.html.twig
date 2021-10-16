@@ -1,0 +1,92 @@
+{% extends 'portal/base.html.twig' %}
+{% block title %} :: {{'title.app'|trans}} :: {% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{% set param = app.request.uri|split('/') %}
+        {% if app.request.get('_route') != 'homepage' %}
+<body class="inner-pg">
+        {% elseif app.request.get('_route') == 'homepage'  %}
+<body>
+        {% endif %}
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MHXG9V2"
+                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    {{ include('portal/layout/_header.html.twig') }}
+
+{% block portal_content %}
+{% endblock %}
+{# Main Content area end #}
+
+    {# Change the footer based on user#}
+    {{ include('portal/layout/_footer.html.twig') }}
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+        <script>
+            var subscribeToUsURL = "{{ path('subscribe-to-us') }}";
+            $("document").ready(function() {
+                {% if app.user %}
+                    $('body').addClass('logged');
+                {% endif %}
+                $("#newsletterForm").submit(function(event) {
+
+                    /* stop form from submitting normally */
+                    event.preventDefault();
+                    var data = {};
+                    data['email'] = $('#userSubscriptionEmail').val();
+                    console.log(data);
+                    var messagesubscription = $('.messagesubscription');
+                    messagesubscription.text('Subscribing to the newsletter......');
+                    $('.subscribebutton').attr("disabled", "disabled");
+                    $.ajax({
+                        url: '/newslettersubscription',
+                        type: 'POST',
+                        data: data,
+                        success: (function (formdata) {
+                            messagesubscription.text('');
+                            messagesubscription.text(formdata['message']);
+                            $('.subscribebutton').removeAttr("disabled");
+                        })
+                    });
+
+                });
+
+                $(document).on('click', ".btn-newsletter", function (e) {
+                    if($.trim($("#enterEmail").val()) == '' || validateEmail1($("#enterEmail").val()) == false){
+                        $("#enterEmail").focus();
+                        alert('Please enter valid email Id');
+                        return false;
+                    }
+                    var data = {};
+                    data['emailId'] = $.trim($("#enterEmail").val());
+                    $.ajax({
+                        url: subscribeToUsURL,
+                        type: 'POST',
+                        data: data,
+                        dataType: "JSON",
+                        success: (function (data) {
+                            alert(data.Message);
+                            $("#enterEmail").val('');
+                        })
+                    });
+                });
+            });
+            function validateEmail1($email) {
+                var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                return emailReg.test( $email );
+            }
+            
+            /*$(window).scroll(function () {
+                if ($(this).scrollTop() > 150) {
+                    $('header').addClass('fixedHeader');
+                } else {
+                    $('header').removeClass('fixedHeader');
+                }
+            });*/
+
+        </script>
+{% endblock %}

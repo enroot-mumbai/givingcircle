@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ 'title.app'|trans }} - {{ 'title.login'|trans }} {% endblock %}
+
+{% block body %}
+
+<body class="hold-transition login-page">
+
+<div class="login-box">
+    <div class="login-logo">
+        <img src="{{ asset('assets/img/logo.png') }}" alt="{{ 'title.app'|trans }}" height="100">
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg"><i class="fa fa-lock"></i> {{ 'title.login'|trans }}</p>
+            <form action="{{ path('login') }}" class="form-signin" method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <div class="input-group mb-3">
+                    <input type="text" id="userName" name="userName" class="form-control" placeholder="{{ 'label.username'|trans }}" value="{{ last_username }}" required autofocus>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="{{ 'label.password'|trans }}" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="remember" value="remember-me">
+                            <label class="custom-control-label" for="remember">{{'label.remember_me'|trans}}</label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-sign-in"></i> {{ 'action.sign_in'|trans }}</button>
+                    </div>
+            </form>
+
+            <p class="mb-1">
+                <a href="{{ path('forgot_password') }}" class="btn btn-link">{{'action.forgot_password'|trans}}</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- /.login-box -->
+
+
+<footer>
+
+    <span class="text-sm-center">&copy; {{ 'now'|date('Y') }} | {{'title.app'|trans}}.</span>
+</footer>
+</body>
+{% endblock %}

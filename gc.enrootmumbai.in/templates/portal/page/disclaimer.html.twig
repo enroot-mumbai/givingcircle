@@ -1,0 +1,50 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ page_content.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2 data-aos="fade-right" data-aos-delay="200">{{ page_content.pageTitle }}</h2>
+                <div data-aos="fade-right" data-aos-delay="200" class="updated-date">
+                    <i class="fa fa-calendar-o"></i> Last updated {{ page_content.lastUpdateTime|date('F d, Y') }}</div>
+
+                <div class="white-box" data-aos="fade-right" data-aos-delay="200">
+                    {# Content Start from Cms  #}
+                    <ul class="content-list" data-aos="fade-right" data-aos-delay="200">
+                    {% for content in page_content.cmsPageContent %}
+                        <li>
+                        {% include 'portal/page/_page_content_display.html.twig' %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    {# Content End from Cms  #}
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static');
+        });
+    </script>
+{% endblock %}

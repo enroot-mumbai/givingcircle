@@ -1,0 +1,31 @@
+<div class="main-form-group">
+    <label for="">Select Primary Area of Interest *</label>
+    <ul class="primary-area-pre">
+        <input type="hidden" name="primaryAreaOfInterest" id="primaryAreaOfInterest" />
+        {% for areaInterest in arrPrimaryAI %}
+            <li class="liPrimaryAI" id="liPrimaryAI{{ areaInterest.id }}" areaInterest="{{ areaInterest.id }}">
+                <a href="javascript:void(0);">
+                    <div class="icon {{ num_to_words(areaInterest.sequenceNo) }}">
+                        <span class="num">{{ areaInterest.sequenceNo }}</span>
+                        <span class="img">
+                            {% if areaInterest.icon is not empty and areaInterest.icon != '' and areaInterest.icon != 'files/' %}
+                                <img src="{{ asset('images') }}/{{ areaInterest.icon }}"
+                                     alt="{{ areaInterest.areaInterest }}" title="{{ areaInterest.areaInterest }}">
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="text">
+                        {{ areaInterest.areaInterest }}
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="main-form-group second-selection">
+    <label for="selectSecondArea">
+        <span>Select Secondary Area of Interest *</span>
+    </label>
+    <div class="form-group" id="selectSecondAreaDiv">
+    </div>
+</div>

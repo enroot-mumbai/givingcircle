@@ -1,0 +1,95 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+
+<!-- Small boxes (Stat box) -->
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                    <div class="float-right">
+                        <select id="select-module" class="form-control custom-select" onchange="javascript:location.href='?appmodule_id=' +this.value;">
+                            <option value="">Select...</option>
+                            {% set app_modules = get_app_module(app.request.query.get('appmodule_id')) %}
+                            {% for app_module in app_modules %}
+
+                            <option value="{{app_module.id}}" {% if app_module.id == app.request.query.get('appmodule_id') %} selected {% endif %}>
+                                {{app_module.moduleName}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% if app.request.query.get('appmodule_id') is not empty %}
+                    <h4 class="card-title"><a href="{{ path(path_add) }}?appmodule_id={{ app.request.get('appmodule_id') }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+                {% endif %}
+            </div>
+            <nav class="card-content collapse show">
+                <div class="card-body card-dashboard ">
+                    <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                        <thead>
+                        <tr>
+                            <th>{{'label.id'|trans|upper}}</th>
+                            <th>{{'label.submodule'|trans|upper}}</th>
+                            <th>{{'label.value'|trans|upper}}</th>
+                            <th>{{'label.submodule.subModuleParentValue'|trans|upper}}</th>
+                            <th>{{'label.submodule.subModuleStatic'|trans|upper}}</th>
+                            <th>{{'label.submodule.subModuleDisplayMenu'|trans|upper}}</th>
+                            <th>{{'label.parentId'|trans|upper}}</th>
+                            <th>{{'label.is_child'|trans|upper}}</th>
+                            <th>{{'label.seq_no'|trans|upper}}</th>
+                            <th>{{'label.is_active'|trans|upper}}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for app_submodule in app_submodules %}
+                        <tr>
+                            <td>{{ app_submodule.id }}</td>
+                            <td>{{ app_submodule.subModuleName }}</td>
+                            <td>{{ app_submodule.subModuleValue }}</td>
+                            <td>{{ app_submodule.subModuleParentValue }}</td>
+                            <td>{{ app_submodule.subModuleStatic ? 'Yes' : 'No' }}</td>
+                            <td>{{ app_submodule.subModuleDisplayMenu ? 'Yes' : 'No' }}</td>
+                            <td>{{ app_submodule.parentId }}</td>
+                            <td>{{ app_submodule.isChildMenu ? 'Yes' : 'No' }}</td>
+                            <td>{{ app_submodule.sequenceNo }}</td>
+                            <td>{{ app_submodule.isActive ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                <a href="{{ path('system_submodule_show', {'id': app_submodule.id}) }}/?appmodule_id={{ app.request.get('appmodule_id') }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>&nbsp;
+                                <a href="{{ path('system_submodule_edit', {'id': app_submodule.id}) }}/?appmodule_id={{ app.request.get('appmodule_id') }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="11">{{'info.no_record_found'|trans}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="text-muted">{{ 'info.total_records'|trans }} {{ app_submodules.getTotalItemCount }} </div>
+                        </div>
+
+
+
+                        <div class="col-sm-7">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    {{ knp_pagination_render(app_submodules) }}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+ </div>
+{% endblock %}

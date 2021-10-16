@@ -1,0 +1,198 @@
+<!-- Header Starts -->
+<header class="dark fixedHeader">
+    <div class="container">
+        <ul class="top-links">{% set isMandatoryFilled = check_if_all_mandatory_filled() %}
+            {% set mandatoryFieldMsg = "Please update the Personal Info mandatory fields inorder to proceed" %}
+
+            <li data-aos="fade-right" data-aos-delay="200"><a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+                    isMandatoryFilled == true %} href="{{ path('how-it-works') }}" {% else %} href="javascript:void(0);"
+                    onclick="alert('{{ mandatoryFieldMsg }}');" {% endif %} >How it Works</a></li>
+            
+            <li data-aos="fade-right" data-aos-delay="300"><a href="{{ path('ngo') }}">NGOs</a></li>
+            {#<li data-aos="fade-right" data-aos-delay="400"><a href="{{ path('corporates') }}">Corporates</a></li>#}
+            <li data-aos="fade-right" data-aos-delay="500"><a href="{{ path('academia') }}">Academia</a></li>
+            {% if app.user %}
+                {% set notificationArray = get_unread_notification_data(app.user.id) %}
+
+                <li data-aos="fade-right" data-aos-delay="600" class="logged"><a href="#" class="notification"><i
+                                class="fa fa-bell-o"></i> <span class="badge badge-primary">{{ notificationArray | length }}</span>
+                    </a>
+
+                    <div class="notification_popup"  style="display:none">
+                        <div class="notification_popup_box">
+
+                            <h2>Notification <span class="badge badge-primary">{{ notificationArray | length }}</span></h2>
+                            <button type="button" class="close" id="close-notification">
+                                <span>×</span>
+                            </button>
+                            <ul>
+                                {% for notificationData in notificationArray %}
+                                    <li style="cursor: pointer" notificationid="{{ notificationData.id }}"
+                                        id="liNotification_h_{{ notificationData.id }}" name="liNotification_h">
+                                        <div>
+                                            {% if notificationData.trnCircle is defined and notificationData
+                                                .trnCircle is not empty and notificationData.trnCircle is not null %}
+                                                <b>{{ notificationData.trnCircle }}</b>
+                                            {% endif %}
+                                            <span>
+                                                {{ notificationData.notification|length > 30 ? notificationData.notification|slice(0,
+                                                    30) ~ '...' : notificationData.notification  }}
+                                            </span>
+                                            <span class="date">{{ notificationData.date | date('d M Y') }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="btn-sec">
+                            <a href="{{ path('my-account-view-all-notifications') }}" class="btn btn-primary-o">View All</a>
+                        </div>
+                    </div>
+                </li>
+                    <li data-aos="fade-right" data-aos-delay="600" class="logged">
+                    <a href="javascript:DropdownFunction();" class="user">
+                        <i class="fa fc-user">
+                            <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}" alt="">
+                        </i>
+                        <span>{{ app.user.appUserInfo.userFirstName|default('') }} {{ app.user.appUserInfo.userLastName|default('') }}</span>
+                        <i class="fas fa-caret-down"></i>
+                    </a>
+                    <ul id="myDropdown" class="dropdown-content">
+                        <li><a href="{{ path('personal-info') }}">My Account</a></li>
+                        <li><a class="dropdown-item" href="{{ path('logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+
+                {#  <li data-aos="fade-right" data-aos-delay="600" class="logged">
+                    <a href="#" class="user">
+                        <i class="fa fc-user">
+                            <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}" alt="">
+                        </i>
+                        <span>{{ app.user.appUserInfo.userFirstName|default('') }} {{ app.user.appUserInfo.userLastName|default('') }}</span>
+                        <i class="fas fa-caret-down"></i>
+                    </a>
+                    <ul id="myDropdown" class="dropdown-content">
+                        <li><a class="dropdown-item" href="{{ path('logout') }}">Logout</a></li>
+                    </ul>
+                </li>#}
+            {% else %}
+                <li data-aos="fade-right" data-aos-delay="600" class="login">
+                    <a href="{{ path('login-email') }}" class="user"><i class="fa fc-user"></i> <span>Signup / Login</span></a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <nav role="navigation">
+        <div class="container">
+            <a href="javascript:void(0);" class="ic menu" tabindex="1">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </a>
+            <a class="navbar-brand" {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+                isMandatoryFilled == true %} href="{{ path('homepage') }}" {% else %} href="javascript:void(0);"
+                onclick="alert('{{ mandatoryFieldMsg }}');" {%
+                endif %}
+               data-aos="fade-down"
+               data-aos-delay="200"><img
+                        src="/resources/images/common/gc-logo.png" alt="Giving Cricle" title="Giving Cricle"></a>
+            <div class="logo-plain">
+                <a class="navbar-brand " {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+                    isMandatoryFilled == true %} href="{{ path('homepage') }}" {% else %} href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');" {% endif %}
+                   data-aos="fade-down" data-aos-delay="200"><img
+                            src="/resources/images/common/gc-logo-plain.png" alt="Giving Cricle" title="Giving Cricle"></a>
+                <span data-aos="fade-right" data-aos-delay="200">My Circle of Goodness</span>
+            </div>
+            <a href="javascript:void(0);" class="ic close"></a>
+
+            <ul class="standard-nav">
+                {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and isMandatoryFilled == true %}
+                    <li data-aos="fade-right" data-aos-delay="200">
+                        <a href="{{ path('be-a-change-maker') }}">
+                            <i class="fc-changemaker"></i>
+                            <span>Be a Change Maker</span>
+                        </a>
+                    </li>
+                    <li data-aos="fade-right" data-aos-delay="300">
+                        <a href="{{ path('contribute-to-a-change') }}">
+                            <i class="fc-contribute-change"></i>
+                            <span>Contribute to a Change</span>
+                        </a>
+                    </li>
+                    <li data-aos="fade-right" data-aos-delay="400">
+                        <a href="{{ path('get-inspired') }}">
+                            <i class="fc-inspire"></i>
+                            <span>Get Inspired</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li data-aos="fade-right" data-aos-delay="200">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">
+                            <i class="fc-changemaker"></i>
+                            <span>Be a Change Maker</span>
+                        </a>
+                    </li>
+                    <li data-aos="fade-right" data-aos-delay="300">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">
+                            <i class="fc-contribute-change"></i>
+                            <span>Contribute to a Change</span>
+                        </a>
+                    </li>
+                    <li data-aos="fade-right" data-aos-delay="400">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">
+                            <i class="fc-inspire"></i>
+                            <span>Get Inspired</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="main-nav">
+                {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and isMandatoryFilled == true %}
+                    <li class="top-level-link">
+                        <a href="{{ path('be-a-change-maker') }}"><span>Be a Change Maker</span></a>
+                    </li>
+                    <li class="top-level-link">
+                        <a href="{{ path('contribute-to-a-change') }}"><span>Contribute to a Change</span></a>
+                    </li>
+                    <li class="top-level-link">
+                        <a href="{{ path('get-inspired') }}"><span>Get Inspired</span></a>
+                    </li>
+                    <li class="top-level-link"><a href="{{ path('how-it-works') }}">How it Works</a></li>
+                    <li class="top-level-link"><a href="{{ path('ngo') }}">NGOs</a></li>
+                    {#<li class="top-level-link"><a href="{{ path('corporates') }}">Corporates</a></li>#}
+                    <li class="top-level-link"><a href="{{ path('academia') }}">Academia</a></li>
+                {%  else  %}
+                    <li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>Be a Change Maker</span></a>
+                    </li>
+                    <li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>Contribute to a Change</span></a>
+                    </li>
+                    <li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>Get Inspired</span></a>
+                    </li>
+                    <li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>>How it Works</span></a>
+                    </li>
+                    <li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>>NGOs</span></a>
+                    </li>
+                    {#<li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>>Corporates</span></a>
+                    </li>#}
+                    <li class="top-level-link">
+                        <a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"><span>>Academia</span></a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="mobileSearch"><i class="fa fa-search"></i></div>
+            <div class="donate-btn" data-aos="fade-right" data-aos-delay="500">
+                <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and isMandatoryFilled == true %}
+                        href="{{ path('express-donate-listing') }}"
+                   {% else %}
+                       href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');"
+                    {% endif %}
+                >Express Donate</a></div>
+        </div>
+    </nav>
+</header>
+<!-- Header Ends -->

@@ -1,0 +1,174 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                {# <div class="card-header">
+                    <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+                </div> #}
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <form method="POST" id="formEventSearch" >
+                        <div class="row">
+                            <div class="col-sm-3 mb-2">
+                                <select id="circleId" name="circleId" class="form-control custom-select circle">
+                                    <option value="">All Circles</option>
+                                    {% set circles = get_circle_list() %}
+                                    {% for circle in circles %}
+                                        <option value="{{circle.id}}" {% if circle.id == circleId %} selected {% endif %}>
+                                            {{circle.circle}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" id="eventSearch" name="eventSearch" class="form-control">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <button type="submit" style="border:none;" class="fas fa-search
+                                            eventsearchbutton" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input id="textSearch" name="textSearch" class="form-control" 
+                                           placeholder="Search By City, State, Country, Area Of Interest" value="{{ app.request.get('textSearch') ? app.request.get('textSearch') : '' }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <button type="submit" style="border:none;" class="fas fa-search
+                                                eventsearchbutton" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <small>Search By City, State, Country, Area Of Interest</small>
+                            </div>
+                        </div>
+                        </form>
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.creation_date'|trans|upper }}</th>
+                                <th>{{ 'label.company'|trans|upper }}</th>
+                                <th>{{ 'label.app_user'|trans|upper }}</th>
+                                <th>{{ 'label.circle'|trans|upper }}</th>
+                                <th>{{ 'label.circle_parent_event'|trans|upper }}</th>
+                                <th>{{ 'label.circle_child_event'|trans|upper }}</th>
+                                <th>{{ 'label.circle_event_type_of_event'|trans|upper }}</th>
+                                <th>{{ 'label.circle_event_product_type'|trans|upper }}</th>
+                                <th>{{ 'label.area_interest_primary'|trans|upper }}</th>
+                                <th>{{ 'label.city'|trans|upper }}</th>
+                                {#<th>{{ 'label.state'|trans|upper }}</th>
+                                <th>{{ 'label.country'|trans|upper }}</th>#}
+                                <th>{{ 'label.status'|trans|upper }}</th>
+                                <th>{{ 'label.is_distributed_event'|trans|upper }}</th>
+                                {# <th>{{ 'label.event_link'|trans|upper }}</th> #}
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for circle_event in circle_events %}
+                                {% set isFundEvent = false %}
+                                {% set productTypeVal = '' %}
+                                {% for mstEventProductType in circle_event.mstEventProductType %}
+                                    {% set productTypeVal = productTypeVal ~ mstEventProductType %}
+                                    {% if not loop.last %}
+                                        {% set productTypeVal = productTypeVal ~ ', ' %}
+                                    {% endif %}
+                                    {% if mstEventProductType == 'Crowdfunding' or mstEventProductType == 'Fundraiser' %}
+                                        {% set isFundEvent = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr>
+                                    <td>{{ circle_event.createdOn|date('d M Y') }}</td>
+                                    <td>{{ circle_event.orgCompany }}</td>
+                                    <td>{{ circle_event.appUser.appUserDetails }}</td>
+                                    <td>{{ circle_event.trnCircle }}</td>
+                                    <td>
+                                        {% if circle_event.parentTrnCircleEvents is defined and circle_event
+                                            .parentTrnCircleEvents is not empty and circle_event
+                                        .parentTrnCircleEvents != '' and circle_event.parentTrnCircleEvents is not
+                                            empty and circle_event.parentTrnCircleEvents is not null %}
+                                            <a href="{{ path(path_show, {'id': circle_event.parentTrnCircleEvents
+                                                .id}) }}" title="Show Parent Details" ><button type="button" class="btn
+                                                btn-dark
+                                                btn-sm"><i
+                                                            class="fa fa-expand"></i></button></a>&nbsp;
+                                        {% else  %}
+                                            --
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ circle_event.name }}</td>
+                                    <td>{{ circle_event.trnCircle.mstJoinBy.joinBy }}</td>
+                                    <td>{{ productTypeVal }}</td>
+                                    <td>{{ circle_event.trnCircle.trnAreaOfInterests | join(',') }}</td>
+                                    <td>{{ circle_event.mstCity.city }}</td>
+                                    {#<td>{{ circle_event.mstCity.mstState.state }}</td>
+                                    <td>{{ circle_event.mstCity.mstCountry.country }}</td>#}
+                                    <td>{{ circle_event.mstStatus ? circle_event.mstStatus.status : ''  }}</td>
+                                    <td>{{ circle_event.isCrowdFunding ? 'Yes' : 'No' }}</td>
+                                    {# <td>{{ circle_event.eventLink }}</td> #}
+                                    <td>
+                                        <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                            &nbsp;<a href="{{ path(path_show, {'id': circle_event.id}) }}" title="View Event" alt="View Event"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>
+                                            &nbsp;<a href="{{ path(path_edit, {'id': circle_event.id}) }}" title="Edit Event" alt="Edit Event"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>
+                                            {# {% if circle_event.isDistributedEvent == 1 %}
+                                                <a href="{{ path(path_distribute_event, {'id': circle_event.id})
+                                                }}"><button
+                                                            type="button" class="btn btn-dark btn-sm"><i class="fa fa-wifi"></i></button></a>&nbsp;
+                                            {% endif %} #}
+{#                                            <a href="{{ path(path_upload, {'id': circle_event.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-file-upload"></i></button></a>&nbsp;#}
+                                            &nbsp;<a href="{{ path(path_comment, {'event_id': circle_event.id}) }}" title="View Comments" alt="View Comments"><button type="button" class="btn btn-dark btn-sm"><i class="fas fa-comment"></i></button></a>&nbsp;
+                                            {% if isFundEvent == true %}
+                                                &nbsp;<a href="{{ path(path_payment, {'event_id': circle_event.id}) }}" title="View Donations" alt="View Donations"><button type="button" class="btn btn-dark btn-sm"><i class="fas fa-money-bill"></i></button></a>&nbsp;
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+<script>
+
+    $(document).ready( function () {
+        $("#dataTable_filter").hide();
+    } );
+    jQuery(document).on('click', '.eventsearchbutton', function (e) {
+        submitSearchForm()
+    });
+    jQuery(document).on('blur', 'textSearch', function (e) {
+        submitSearchForm()
+    });
+    function submitSearchForm() {
+        jQuery("formEventSearch").submit();
+    }
+</script>
+{% endblock %}

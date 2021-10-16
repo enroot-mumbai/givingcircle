@@ -1,0 +1,58 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    public_file_folder: 'images/files'
+    user_file_folder: 'images/users'
+    cache_adapter: cache.adapter.apcu
+    locale: 'en'
+    upload_file: '/uploads/files/'
+    uploads_dir_name: 'images'
+    uploads_base_url: '/%uploads_dir_name%'
+    company_id: 1
+    base_url_param: 'core'
+    gc_email: 'contact@givingcircle.in'
+    whatsapp_number: '' # 9223369029
+    whatsapp_number_disp: '9223369029'
+    fb_app_id: "947047365767934"
+    fb_app_secret: "1f9fec689e35832f635dcd5eda3b8f98"
+    fb_default_access_token: "EAANdVaXScv4BAIlPwy4DZB6VFEWdbzkpGZCTJ7BDCg7H4W7Hw9jQKTCBPh0BISgNaZBTqJ4MY6vjdXCCrMxWkfJDywNw2DDsyi1ldRRvjAkewoAHm2MBgxlmauBkark48Ev425sW8JzXbMTEGXUQXzgup2BeeQZD"
+    fb_page_id: "113791850347052"
+    sms_api_key: "xHZhmrTztrw-kNMtrgMf5rv6xXH2SPtkZBzPJPqhhd"
+    sms_curl_url: "https://api.textlocal.in/send/"
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        bind:
+            $publicFilesFileSystem: '@oneup_flysystem.public_file_filesystem_filesystem'
+            $privateFilesFileSystem: '@oneup_flysystem.private_file_filesystem_filesystem'
+            $uploadedAssetsBaseUrl: '%uploads_base_url%'
+            $publiFileFolder: '%public_file_folder%'
+            $privateFileFolder: '%user_file_folder%'
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - !service { class: PDO, factory: ['@database_connection', 'getWrappedConnection'] }
+            # If you get transaction issues (e.g. after login) uncomment the line below
+            - { lock_mode: 1 }
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    Symfony\Component\Asset\Context\RequestStackContext: '@assets.context'

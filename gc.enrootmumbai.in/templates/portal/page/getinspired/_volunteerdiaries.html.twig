@@ -1,0 +1,137 @@
+{% set volunteer_articles = get_cms_articles_limit(3, get_parameter('company_id'), 6) %}
+{% set total_volunteers = get_cms_article_count(3, 1) %}
+
+{#{% set cmsPage = get_cms_page_content_by_slugname('volunteer-diaries') %}
+{% set introTextVolunteer = '' %}
+{% for content in cmsPage.cmsPageContent %}
+    {% set introTextVolunteer = introTextVolunteer ~ content|striptags %}
+{% endfor %}#}
+
+<section class="voluteer-sec" data-aos="fade-down" data-aos-delay="200">
+    <div class="container">
+        <div class="head-sec">
+            <h2 data-aos="fade-right" data-aos-delay="200">Volunteer Diaries</h2>
+            <div class="icon-sec">
+                <i class="fc-voluteer-icon-black" data-aos="fade-right" data-aos-delay="200"></i>
+                <div class="number" data-aos="fade-down" data-aos-delay="200">{{ total_volunteers }}</div>
+                <div class="task" data-aos="fade-down" data-aos-delay="200">Inspired #Volunteer{% if total_volunteers == 1 %}Diary{% else %}Diaries{% endif %}</div>
+            </div>
+            <p data-aos="fade-down" data-aos-delay="200">
+                {% set content = pageContentByPage.cmsPageContent[4] %}
+                {% include 'portal/page/_page_content_display.html.twig' %}
+            </p>
+        </div>
+        <div class="projects-carousel owl-carousel voluteer-list">
+
+            <!-- Volunteer-box start -->
+            {% for volunteer_article in volunteer_articles %}
+            <div class="voluteer-box" data-aos="fade-down" data-aos-delay="200">
+                <div class="image-sec" data-aos="fade-down" data-aos-delay="200">
+                    <figure data-aos="fade-down" data-aos-delay="200">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                    <div class="flip-card-front">
+                                        <img src="{{ asset('images/') }}{{ volunteer_article.articleIntroDesktopImagePath }}"
+                                             alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">
+                                    </div>
+                                </a>
+                                <!-- Sharer block - start -->
+                                <div class="flip-card-back">
+                                    <div class="share-sec">
+                                        <a href="javascript:;" class="social-share-btn"><i
+                                                    class="fas fa-share-alt"></i></a>
+                                        <div class="social-media">
+                                            <a href="#" class="fa fa-close"></a>
+                                            <ul>
+                                                <li><!--volunteer-diaries-detail-->
+                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                                                </li>
+                                                <!--<li>
+                                                    <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                                </li>
+                                                -->
+                                                <li>
+                                                    <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sharer block - end -->
+                            </div>
+                        </div>
+                    </figure>
+                    <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                        <div class="title" data-aos="fade-right" data-aos-delay="200">{{ volunteer_article.articleTitle }}</div>
+                    </a>
+                </div>
+                <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                    <div class="content-sec">
+                        <h4 data-aos="fade-down" data-aos-delay="200">{{ volunteer_article.articleFor }}</h4>
+                        <strong data-aos="fade-down" data-aos-delay="200">{{ volunteer_article.articleCreator|raw }}</strong>
+                    </div>
+                </a>
+                <a href="#" class="share-link" data-aos="fade-down" data-aos-delay="200"><i
+                            class="fas fa-share-alt"></i></a>
+                <!-- Bottom Sharer Block - start -->
+
+                <div class="share-sec">
+                    <div class="social-media">
+                        <a href="#" class="fa fa-close"></a>
+                        <ul>
+                            <li>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                    ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                    ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                            </li>
+                            <!--<li>
+                                <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                            </li>
+                            -->
+                            <li>
+                                <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                    ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?text={{ app.request.schemeAndHttpHost ~  path
+                                    ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bottom Sharer Block - end -->
+            </div>
+
+            {% endfor %}
+            <!-- Volunteer-box end -->
+
+        </div>
+        <div class="btn-inline" data-aos="fade-down" data-aos-delay="200">
+            <a href="{{ path('volunteer-diaries') }}" class="btn btn-primary type1">Explore All Volunteer
+                Diaries</a>
+            <a href="{{ path('show_events_by_type', {'type': 'Volunteer'}) }}" class="btn btn-primary-o">Join As a Volunteer</a>
+        </div>
+    </div>
+</section>

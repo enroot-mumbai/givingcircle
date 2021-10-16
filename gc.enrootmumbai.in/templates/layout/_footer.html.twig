@@ -1,0 +1,30 @@
+
+<footer class="main-footer">
+    <div class="float-right d-none d-sm-inline text-sm">
+        Version - 1.0
+    </div>
+    <span>Copyright &copy; {{ 'now'|date('Y') }} | {{'title.app'|trans}}. </span>
+</footer>
+
+<aside class="control-sidebar control-sidebar-light">
+       <!-- inner menu: contains the actual data -->
+    <div class="container">
+        <div class="card-body">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-header">{{ 'Applications' | upper  }}</li>
+                {% set app_modules = get_app_module() %}
+                    {% for app_module in app_modules %}
+                        {% if is_granted(app_module.roleName) and app.user.roles[0] == app_module.roleName %}
+                            <li class="nav-item border-bottom">
+                                <a href="/{{ get_parameter('base_url_param') }}/{{app_module.moduleValue}}" class="nav-link">
+                                    <i class="fas fa-cube"></i> {{app_module.moduleName|default('')}}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</aside>

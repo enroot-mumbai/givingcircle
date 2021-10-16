@@ -1,0 +1,31 @@
+{# templates/layout/content.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %} :: {{'title.app'|trans}} :: {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+
+<div class="wrapper">
+
+    {{ include('layout/_header.html.twig') }}
+    {{ include('layout/_sidebar.html.twig') }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <section class="content">
+
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <!-- /.content-wrapper -->
+    {{ include('layout/_footer.html.twig') }}
+
+</div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title float-right">
+                {% if data.postStatus != 'deleted'  %}
+                <a href="{{ path(path_edit, {'id': data.id}) }}" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i> {{'label.edit'|trans}}</a>
+                {% endif %}
+                <a href="{{ path(path_index) }}" class="btn btn-dark btn-sm"><i class="fa fa-list"></i> {{'label.back_to_list' | trans}}</a>
+                &nbsp;
+
+            </h4>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-responsive-md text-sm">
+                            <tbody>
+                            <tr>
+                                <th>{{ 'label.social'|trans }}</th>
+                                <td colspan="5">{% for social in data.mstSocial %}
+                                    <li>{{ social }}</li>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                                <tr>
+                                    <th>{{ 'label.link'|trans }}</th>
+                                    <td>{{ data.postLink }}</td>
+                                    <th>{{ 'label.caption'|trans }}</th>
+                                    <td>{{ data.postCaption }}</td>
+                                    <th>{{ 'label.description'|trans }}</th>
+                                    <td>{{ data.postDescription }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'label.image'|trans }}</th>
+                                    <td><img src="{{ data.postPicturePath|imagine_filter('resize_image_100') }}" alt=".."></td>
+                                    <th>{{ 'label.is_publish'|trans }}</th>
+                                    <td>{{ data.isPublish ? 'Yes' : 'No' }}</td>
+                                    <th>{{ 'label.status'|trans }}</th>
+                                    <td>{{ data.postStatus }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if data.postStatus != 'deleted'  %}
+    <div class="card-footer">
+        {{ include('cms/cms_social_post/_delete_form.html.twig') }}
+    </div>
+    {% endif %}
+
+{% endblock %}

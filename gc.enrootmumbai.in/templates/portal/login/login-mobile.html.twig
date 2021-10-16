@@ -1,0 +1,98 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    {% set cmsPageContent = get_cms_page_content_by_slugname('login') %}
+    <div class="wrapper login-container">
+        <div class="container ">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Login
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-md-6 login-left">
+                    <div class="content" data-aos="fade-right" data-aos-delay="100">
+                        {% set content = cmsPageContent.cmsPageContent[0] %}
+
+                        {% if(content.mediaType) == '' %}
+                            {{ content.pageContent|raw }}
+                        {% else %}
+                            {% if(content.mediaPosition) == 'left' %}
+                                {{ content.pageContent|raw }}
+                                <img src="{{ asset('images/') ~ content.mediaFilePath }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}"
+                                     data-aos="fade-down" data-aos-delay="100">
+                            {% else %}
+                                <img src="{{ asset('images/') ~ content.mediaFilePath }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}"
+                                     data-aos="fade-down" data-aos-delay="100">
+                                {{ content.pageContent|raw }}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6 login-right" data-aos="fade-right">
+                    <div class="login-box">
+                        <div class="content">
+                            <h4 data-aos="fade-right" data-aos-delay="100">Login with </h4>
+                            <form class="form" data-aos="fade-down" data-aos-delay="100" id="frmGenerateOTP"
+                                  method="post"
+                                  action="{{ path('login-mobile-generate-otp') }}">
+                                <div class="btn-inline">
+                                    <a href="{{ path('connect_facebook_start') }}" class="btn btn-primary btn-fb"><i></i> Facebook</a>
+                                    <a href="{{ path('connect_google_start') }}" class="btn btn-primary btn-google"><i></i> Google</a>
+                                </div>
+                                <div class="or-text">
+                                    <span>OR</span>
+                                </div>
+                                <div class="form-group mob-number">
+                                    <div class="input-group-prepend">
+                                        <div class="cust-select">
+                                            <select class="form-control" id="countryCode" name="countryCode" required>
+                                                <option></option>
+                                                {% for phoneCodes in arrPhoneCodes %}
+                                                    <option value="{{ phoneCodes }}">{{ phoneCodes }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control mob-no-input" id="mob_number" name="mob_number"
+                                           placeholder="Mobile Number">
+                                    <i class="fc-mobile-no"></i>
+                                </div>
+                                <div class="text-center">
+                                    <a href="javascript:void(0);" id="submitMobileNumber" class="btn
+                                    btn-primary
+                                       btn-login">Get
+                                        OTP</a>
+                                </div>
+                                <ul class="inline-links">
+                                    <li><a href="{{ path('login-email') }}">Login via Email ID and Password</a></li>
+                                </ul>
+                                <div class="sign-up-text">
+                                    New to Giving Circle? <a href="{{ path('sign-up') }}"><strong>Sign up
+                                            now!</strong></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").addClass("login-page");
+            $("#submitMobileNumber").click(function (){
+                $("#frmGenerateOTP").submit();
+            });
+        });
+    </script>
+{% endblock %}

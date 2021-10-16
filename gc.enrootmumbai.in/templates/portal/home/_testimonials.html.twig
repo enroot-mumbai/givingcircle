@@ -1,0 +1,92 @@
+<section class="testimonials">
+    <div class="container">
+        <div class="section-left">
+            <h2>{{ pageContentByPage.cmsPageContent[9].pageContent|raw }}</h2>
+            <p>
+                {% set content = pageContentByPage.cmsPageContent[10] %}
+                {% include 'portal/page/_page_content_display.html.twig' %}
+            </p>
+            <a href="{{ path('testimonials') }}" class="btn btn-secondary">Read More Testimonials</a>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-xl-8 col-lg-9 col-md-10 col-sm-12 carousel-outer">
+                <div class="testi-carousel owl-carousel">
+                    {% for testimonial in testimonialsList %}
+                        {% set userdisplayname = testimonial.appUser.username|default('') %}
+                        {% if testimonial.appUser.appUserInfo is defined and testimonial.appUser.appUserInfo.userFirstName != '' %}
+                            {% if testimonial.appUser.appUserInfo is defined and testimonial.appUser.appUserInfo.userLastName != '' %}
+                                {% set userdisplayname = testimonial.appUser.appUserInfo.userFirstName~' '~testimonial.appUser.appUserInfo.userLastName %}
+                            {% else  %}
+                                {% set userdisplayname = testimonial.appUser.appUserInfo.userFirstName %}
+                            {% endif %}
+                        {% endif %}
+                        <div class="card">
+                            <a href="{{ path('testimonials') }}#{{ testimonial.id }}">
+                                <div class="card-image">
+                                        <figure>
+                                            {% if testimonial.appUser.appUserInfo is defined and testimonial.appUser.appUserInfo.userAvatarImage is not empty %}
+                                                <img src="{{ asset('images/') }}{{ testimonial.appUser.appUserInfo.userAvatarImagePath }}"
+                                                     alt="{{ userdisplayname }}"
+                                                     title="{{ userdisplayname }}">
+                                            {% else %}
+                                                <img src="{{ asset('images/common/no-image.jpg') }}"
+                                                     alt="{{ userdisplayname }}"
+                                                     title="{{ userdisplayname }}">
+                                            {% endif %}
+                                        </figure>
+
+                                </div>
+                                <div class="card-body">
+                                    <h4>{{ userdisplayname }} <span>{{ testimonial.testimonialFor }}</span> <small>{{ testimonial.appUser.appUserInfo.mstCity|default('') }}</small></h4>
+                                    <p>{{ testimonial.testimonialDetail|raw|truncate(150) }}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                    {#<div class="card">
+                                <div class="card-image">
+                                    <a href="#">
+                                        <figure><img src="/resources/images/common/dinesh-thakur.jpg" alt="Dinesh Thakur"
+                                                     title="Dinesh Thakur">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Dinesh Thakur <span>Change Maker</span> <small>Mumbai</small></h4>
+                                    <p>
+                                        Lorem ipsum dummy text Lorem ipsum dummy text ipsum dummy text Lorem ipsum dummy text... Lorem ipsum
+                                        dummy text ipsum dummy text Lorem ipsum dummy text Lorem ipsum dummy text ipsum dummy text Lorem
+                                        ipsum
+                                        dummy text... Lorem ipsum dummy text ipsum dummy text... Lorem ipsum dummy text Lorem ipsum dummy
+                                        text
+                                        ipsum dummy text Lorem ipsum dummy text... Lorem ipsum dummy text ipsum dummy text Lorem ipsum
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-image">
+                                    <a href="#">
+                                        <figure><img src="/resources/images/common/dinesh-thakur.jpg" alt="Dinesh Thakur"
+                                                     title="Dinesh Thakur">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Dinesh Thakur <span>Change Maker</span> <small>Mumbai</small></h4>
+                                    <p>
+                                        Lorem ipsum dummy text Lorem ipsum dummy text ipsum dummy text Lorem ipsum dummy text... Lorem ipsum
+                                        dummy text ipsum dummy text Lorem ipsum dummy text Lorem ipsum dummy text ipsum dummy text Lorem
+                                        ipsum
+                                        dummy text... Lorem ipsum dummy text ipsum dummy text... Lorem ipsum dummy text Lorem ipsum dummy
+                                        text
+                                        ipsum dummy text Lorem ipsum dummy text... Lorem ipsum dummy text ipsum dummy text Lorem ipsum
+                                    </p>
+                                </div>
+                            </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

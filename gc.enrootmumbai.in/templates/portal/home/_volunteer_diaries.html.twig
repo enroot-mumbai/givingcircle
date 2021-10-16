@@ -1,0 +1,100 @@
+<section class="voluteer-sec">
+    <div class="section-left">
+        <h2>{{ pageContentByPage.cmsPageContent[4].pageContent|raw }}</h2>
+        <p>
+            {% set content = pageContentByPage.cmsPageContent[5] %}
+            {% include 'portal/page/_page_content_display.html.twig' %}
+        </p>
+        <div class="icon-sec">
+            <i class="fc-voluteer-icon"></i>
+            <div class="number">{{ total_volunteers }}</div>
+            <div class="task"> #Volunteer{% if total_volunteers == 1 %}Diary{% else %}Diaries{% endif %}</div>
+            <a href="{{ path('volunteer-diaries') }}" class="btn btn-secondary">Read All </a>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-xl-8 col-lg-10 col-md-10 carousel-outer">
+            <ul class="row row-zero voluteer-list">
+                {% for volunteer_article in volunteer_articles %}
+                    <li class="col-lg-6">
+                        <div class="image-sec">
+                            <figure>
+                                <div class="flip-card">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                                {#<img src="{{ asset('images/') }}{{ volunteer_article.articleIntroDesktopImagePath }}"
+                                                     alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">#}
+                                                <img class="desktop-purpose" src="{{ asset('images/') ~ volunteer_article.articleIntroDesktopImagePath }}" alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">
+                                                <img class="tab-purpose" src="{{ asset('images/') ~ volunteer_article.articleIntroDesktopImagePath }}" alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">
+                                                <img class="mobile-purpose" src="{{ asset('images/') ~ volunteer_article.articleIntroDesktopImagePath }}" alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">
+                                            </a>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <div class="share-sec">
+                                                <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i></a>
+                                                <div class="social-media">
+                                                    <a href="#" class="fa fa-close"></a>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                                                ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                                                ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                                                ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                                                ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </figure>
+                            <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                <div class="title">{{ volunteer_article.articleTitle }}</div>
+                            </a>
+                        </div>
+                        <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                            <div class="content-sec">
+                                <h4>{{ volunteer_article.articleFor }}</h4>
+                                <strong>{{ volunteer_article.articleCreator|raw }}</strong>
+                            </div>
+                        </a>
+                        <a href="#" class="share-link"><i class="fas fa-share-alt"></i></a>
+                        <div class="share-sec">
+                            <div class="social-media">
+                                <a href="#" class="fa fa-close"></a>
+                                <ul>
+                                    <li>
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                            ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                            ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                                    </li>                                            <li>
+                                        <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                            ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                            ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>

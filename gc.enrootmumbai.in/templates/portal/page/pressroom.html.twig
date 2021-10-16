@@ -1,0 +1,202 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <div class="container">
+            {% if(pageContent is empty) %}
+                <div class="row">
+                    <h4>No Active Page Found...</h4>
+                </div>
+            {% else %}
+
+            <div class="row ">
+                <div class="col">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ pageContent.pageTitle }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-sm-12">
+                    <h2>{{ pageContent.pageTitle }}</h2>
+                    <p>{% for content in pageContent.cmsPageContent %}
+                            {% include 'portal/page/_page_content_display.html.twig' %}
+                        {% endfor %}</p>
+                </div>
+            </div>
+            <div class="white-box">
+                <div class="filter-panel">
+                    <form onsubmit="return false;">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="row row-sm justify-content-sm-start align-items-center">
+                                    <div class="col-sm-auto">
+                                        <strong>Filter By :</strong>
+                                    </div>
+                                    <div class="col-xl-2 col-md-4 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Year">Year</label>
+                                            <div class="cust-select">
+                                                <select class="form-control" id="yearFilter" onchange="getFilterData()">
+                                                    <option value="">All</option>
+                                                    {% for years in yearList %}
+                                                    <option value="{{ years.year }}">{{ years.year }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-md-4 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="Month">Month</label>
+                                            <div class="cust-select">
+                                                <select class="form-control" id="monthFilter" onchange="getFilterData()">
+                                                    <option value="">All</option>
+                                                    {% for months in monthList %}
+                                                        <option value="{{ months.month }}">{{ months.monthName }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-auto">
+                                <div class="search-panel">
+                                    <div class="input-group">
+                                        <input type="text" class="search-input" id="searchText" placeholder="Search by Headlines...">
+                                        <button href="#" class="btn search-input-btn"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <ul id="newsList">
+                    <!-- News list - start -->
+                    {% for news in newsList %}
+                    <li class="news-box">
+                        <div class="date-sec">
+                            <div class="date">
+                                <span>{{ news.articleDateTime|date('l') }}</span>
+                                <h2>{{ news.articleDateTime|date('d M') }}</h2>
+                                <b>{{ news.articleDateTime|date('Y') }}</b>
+                            </div>
+                        </div>
+                        <div class="news-sec">
+                            {% if news.articleIntroDesktopImagePath is not empty %}
+                            <figure class="image"><img src="{{ news.articleIntroDesktopImagePath|imagine_filter('resize_image_200') }}" alt="{{ news.articleIntroImageAlt }}"></figure>
+                            {% endif %}
+                            <div class="details">
+                                <h5>{{ news.articleHeading }}</h5>
+                                <p class="para">{{ news.articleContent|truncate(150)|raw }}</p>
+                                <a href="{{ path('pressroom-detail', {'newsId': news.id}) }}" class="btn btn-primary-o">Read More</a>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    <!-- News list - end -->
+                </ul>
+            </div>
+
+            {% endif %}
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/owl.carousel.min.js') }}></script>
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}></script>
+
+    <script>
+
+        $(document).on('click','.search-input-btn',function(){
+            getFilterData();
+        });
+        /*
+        function filterByYear(selectedValue) {
+
+            var data = {};
+            data['filterBy'] = 'year';
+            data['filterValue'] = selectedValue;
+            getFilterdData(data);
+        }
+        */
+
+        function getFilterData() {
+
+            var data = {};
+            var data = {};
+            data['monthValue'] = $("#monthFilter").val();
+            data['yearValue'] = $("#yearFilter").val();
+            data['searchText'] = $("#searchText").val();
+
+            jQuery.ajax({
+                url: "{{ path('in-the-news-filter') }}",
+                data: data,
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    var result = $("#newsList");
+                    result.html('');
+                    result.html(data);
+                    AOS.init({
+                        delay: 50,
+                        duration: 800,
+                    });
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static news');
+
+            $('.form-group label').addClass('clicked');
+
+            function formcontrol() {
+                $(".form-control").filter(function () {
+                    if (this.value.length !== 0) {
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+                $(this).siblings('input').focus();
+                $(this).siblings('.cust-select').find('select').mouseenter();
+            });
+            $('.form-group .cust-select label').click(function () {
+                $(this).stopPropagation()
+            })
+
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } /*else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }*/
+            });
+            $('.form-group select').change(function () {
+                if (this.value.length !== 0) {
+                    $(this).parent().parent().find('label').addClass('clicked');
+                } /*else {
+                    $(this).parent().parent().find('label').removeClass('clicked');
+                }*/
+            });
+        });
+
+    </script>
+{% endblock %}

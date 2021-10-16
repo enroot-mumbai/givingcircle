@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="comment.email_invalid">
+                <source>comment.email_invalid</source>
+                <target>The email '{{ value }}' is not a valid email.</target>
+            </trans-unit>
+            <trans-unit id="group.groupName.unique">
+                <source>group.groupName.unique</source>
+                <target>Group name already in the system</target>
+            </trans-unit>
+            <trans-unit id="group.groupName.not_blank">
+                <source>group.groupName.not_blank</source>
+                <target>Please enter group name</target>
+            </trans-unit>
+            <trans-unit id="role.roleName.unique">
+                <source>role.roleName.unique</source>
+                <target>Role name already in the system</target>
+            </trans-unit>
+            <trans-unit id="group.roleName.not_blank">
+                <source>role.roleName.not_blank</source>
+                <target>Please enter role name</target>
+            </trans-unit>
+            <trans-unit id="module.moduleName.unique">
+                <source>module.moduleName.unique</source>
+                <target>Module name already in the system</target>
+            </trans-unit>
+            <trans-unit id="module.moduleName.not_blank">
+                <source>module.moduleName.not_blank</source>
+                <target>Please enter module name</target>
+            </trans-unit>
+           <trans-unit id="module.moduleValue.unique">
+                <source>module.moduleValue.unique</source>
+                <target>Module value already in the system</target>
+            </trans-unit>
+            <trans-unit id="module.moduleValue.not_blank">
+                <source>module.moduleValue.not_blank</source>
+                <target>Please enter module value</target>
+            </trans-unit>
+            <trans-unit id="submodule.SubModuleName.unique">
+                <source>submodule.SubModuleName.unique</source>
+                <target>Sub module name already in the system</target>
+            </trans-unit>
+            <trans-unit id="submodule.SubModuleName.not_blank">
+                <source>submodule.SubModuleName.not_blank</source>
+                <target>Please enter sub module name</target>
+            </trans-unit>
+           <trans-unit id="submodule.SubModuleValue.unique">
+                <source>submodule.SubModuleValue.unique</source>
+                <target>Sub module value already in the system</target>
+            </trans-unit>
+            <trans-unit id="submodule.SubModuleValue.not_blank">
+                <source>submodule.SubModuleValue.not_blank</source>
+                <target>Please enter sub module value</target>
+            </trans-unit>
+           <trans-unit id="user.userName.unique">
+                <source>user.userName.unique</source>
+                <target>Username already in the system</target>
+            </trans-unit>
+            <trans-unit id="user.userName.not_blank">
+                <source>user.userName.not_blank</source>
+                <target>Please enter user name</target>
+            </trans-unit>
+           <trans-unit id="user.userEmail.unique">
+                <source>user.userEmail.unique</source>
+                <target>User email already in the system</target>
+            </trans-unit>
+            <trans-unit id="user.userEmail.not_blank">
+                <source>user.userEmail.not_blank</source>
+                <target>Please enter user email</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

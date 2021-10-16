@@ -1,0 +1,87 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.pageName }}</h2>
+                <p data-aos="fade-right" data-aos-delay="200">
+                    {# Content Start from Cms  #}
+                {% for content in pageContentByPage.cmsPageContent %}
+                    {% include 'portal/page/_page_content_display.html.twig' %}
+                {% endfor %}
+                {# Content End from Cms  #}
+                </p>
+                {# Testimonial block - start #}
+                <ul class="testimonial-box" data-aos="fade-right" data-aos-delay="200">
+                    {% for testimonial in list %}
+                        {% set userdisplayname = testimonial.appUser.username|default('') %}
+                        {% if testimonial.appUser.appUserInfo is defined and testimonial.appUser.appUserInfo.userFirstName != '' %}
+                            {% if testimonial.appUser.appUserInfo is defined and testimonial.appUser.appUserInfo.userLastName != '' %}
+                                {% set userdisplayname = testimonial.appUser.appUserInfo.userFirstName~' '~testimonial.appUser.appUserInfo.userLastName %}
+                            {% else  %}
+                                {% set userdisplayname = testimonial.appUser.appUserInfo.userFirstName %}
+                            {% endif %}
+                        {% endif %}
+                    <li id="{{ testimonial.id }}">
+                        <div class="card">
+                            <div class="card-image">
+{#                                <a href="#">#}
+                                    <figure>
+                                        {% if testimonial.appUser.appUserInfo is defined and testimonial.appUser.appUserInfo.userAvatarImage is not empty %}
+                                        <img src="{{ asset('images/') }}{{ testimonial.appUser.appUserInfo.userAvatarImagePath }}"
+                                             alt="{{ userdisplayname }}"
+                                             title="{{ userdisplayname }}">
+                                        {% else %}
+                                            <img src="{{ asset('images/common/no-image.jpg') }}"
+                                                 alt="{{ userdisplayname }}"
+                                                 title="{{ userdisplayname }}">
+                                        {% endif %}
+                                    </figure>
+{#                                </a>#}
+                            </div>
+                            <div class="card-body">
+                                <h4>{{ userdisplayname }} <span>{{ testimonial.testimonialFor }}</span> <small>{{ testimonial.appUser.appUserInfo.mstCity|default('') }}</small></h4>
+                                <p>
+                                    {{ testimonial.testimonialDetail|raw }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {# Testimonial block - end #}
+            </div>
+        </section>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static testimonials');
+
+            $('html,body').animate({
+                scrollTop: ($(window.location.hash).offset().top - 100)
+            });
+
+        });
+    </script>
+{% endblock %}

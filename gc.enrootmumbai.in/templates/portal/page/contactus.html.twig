@@ -1,0 +1,159 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="row ">
+                <div class="col">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-sm-12">
+                    <h2>{{ pageContentByPage.pageTitle }}</h2>
+                    <p>
+                        {% set content = pageContentByPage.cmsPageContent[0] %}
+                        {% include 'portal/page/_page_content_display.html.twig' %}
+                        {% set content = '' %}
+                        </p>
+                    {# Content Start from Cms  #
+                        {% for content in pageContentByPage.cmsPageContent %}
+                            <p>{{ content|raw }}</p>
+                        {% endfor %}
+                        {# Content End from Cms  #}
+                </div>
+            </div>
+            <div class="white-box">
+                <ul class="contact-sec">
+                    {% for office in office_list %}
+                        <li>
+                            <h4>{{ office.mstOfficeCategory }}</h4>
+                            <pre>{{ office.officeAddressOne }},
+{{ office.officeAddressTwo }},
+{{ office.mstCity }} - {{ office.officePincode }}.</pre>
+                        </li>
+                    {% endfor %}
+                    <li class="social-media">
+                        <h4>{{ pageContentByPage.seoContent.ogTitle }}</h4>
+                        {{ pageContentByPage.seoContent.ogDescription|raw }}
+                    </li>
+                </ul>
+                <iframe src="{{ pageContentByPage.cmsPageContent[1]|raw }}" width="100%" height="396" frameborder="0"></iframe>
+            </div>
+
+            <!-- We are new - block -->
+            <div class="border-box">
+                <h4>{{ pageContentByPage.cmsPageContent[2]|raw }}</h4>
+                <p>
+                <ul class="contact-sec">
+                    <li>
+                        <div><pre><i class="icon"><img src="{{ asset('images/common/icons/') }}feedback-icon.png" alt=""></i>{{ pageContentByPage.cmsPageContent[3]|raw }}</pre></div>
+                        <div class="btn-block" style="display: contents;">
+
+                            {% set emailArr = pageContentByPage.cmsPageContent[4]|split(" ") %}
+                            {% for em in emailArr %}
+                                <a href="mailto:{{ em|raw }}" class="btn btn-primary-o" style="margin-top: 10px;">{{ em|raw }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <pre><i class="icon"><img src="{{ asset('images/common/icons/') }}email-icon.png" alt=""></i>{{ pageContentByPage.cmsPageContent[5]|raw }}</pre>
+                        </div>
+                        <div class="btn-block">
+                            {{ pageContentByPage.cmsPageContent[6]|raw }}
+                        </div>
+                    </li>
+                </ul>
+                </p>
+                {# Content Start from Cms  #
+                {% for wan_content in we_are_new.cmsPageContent %}
+                    <p>{{ wan_content|raw }}</p>
+                {% endfor %}
+                {# Content End from Cms  #}
+            </div>
+            <!-- We are new - block -->
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+
+    <script src="{{ asset('resources/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static contact');
+
+            function formcontrol() {
+                $(".form-control").filter(function () {
+                    if (this.value.length !== 0) {
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+                $(this).siblings('input').focus();
+                $(this).siblings('.cust-select').find('select').mouseenter();
+            });
+            $('.form-group .cust-select label').click(function () {
+                $(this).stopPropagation()
+            })
+
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+            $('.form-group select').change(function () {
+                if (this.value.length !== 0) {
+                    $(this).parent().parent().find('label').addClass('clicked');
+                } else {
+                    $(this).parent().parent().find('label').removeClass('clicked');
+                }
+            });
+        });
+
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).siblings('.social-media').slideToggle();
+        });
+        $('.share-link').on('click', function (e) {
+            e.preventDefault();
+            $(this).siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        $('.fa-close').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent('.social-media').slideToggle();
+            $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+        });
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).parents('ul.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        // $('.social-media .fa-close').on('click', function (e) {
+        //   e.preventDefault();
+        //   $(this).parent('.social-media').slideToggle();
+        // });
+    </script>
+{% endblock %}

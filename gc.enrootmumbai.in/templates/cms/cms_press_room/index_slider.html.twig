@@ -1,0 +1,32 @@
+<!-- Timelime example  -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- The time line -->
+            <div id="carouselIndicators" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% set keys = cms_press_rooms|keys %}
+                    {% for key in keys %}
+
+                        <li data-target="#carouselIndicators" data-slide-to="{{ loop.index }}" {% if loop.index == 1 %} class="active" {% endif %}></li>
+                    {% endfor %}
+
+                </ol>
+                <div class="carousel-inner">
+                    {% for cms_press_room in cms_press_rooms %}
+                        <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+                            <div class="card-header">
+
+                                {{ cms_press_room.articleHeading | raw }}<br>
+                                <span class="text-sm"><i class="fas fa-clock"></i> {{ cms_press_room.articleDateTime | date('M d, Y') }} </span>
+                            </div>
+                            <div class="card-body">{{ cms_press_room.articleContent | raw }}</div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+    </div>
+    <!-- /.col -->
+</div>
+

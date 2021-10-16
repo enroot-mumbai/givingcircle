@@ -1,0 +1,30 @@
+<div class="col-12">
+    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+         class="breadcrumb d-flex justify-content-end">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="col-xl login-left" data-aos="fade-right">
+    <div class="content">
+        <h2 data-aos="fade-right" data-aos-delay="100">{{ pageContentByPage.pageName }}</h2>
+        <h4 data-aos="fade-right" data-aos-delay="100">{{ pageContentByPage.cmsPageContent[0].pageContent|raw }}</h4>
+        <p data-aos="fade-right" data-aos-delay="100">
+            {{ pageContentByPage.cmsPageContent[1].pageContent|raw }}
+        </p>
+        <p data-aos="fade-right" data-aos-delay="100">
+            {{ pageContentByPage.cmsPageContent[2].pageContent|raw }}
+        </p>
+        <h4 data-aos="fade-right" data-aos-delay="100">{{ pageContentByPage.cmsPageContent[3].pageContent|raw }}</h4>
+        <p data-aos="fade-right" data-aos-delay="100">
+            {{ pageContentByPage.cmsPageContent[4].pageContent|raw }}
+        </p>
+        <figure>
+            <img src="{{ asset('images/common/') }}report-goodness-img.png" alt="Lorem Ipsum"
+                 title="Lorem Ipsum" data-aos="fade-right" data-aos-delay="100">
+        </figure>
+    </div>
+</div>

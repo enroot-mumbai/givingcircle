@@ -1,0 +1,115 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    {#<section class="static-banner">
+        <img src="{{ asset('images/common/') }}report-goodness-banner.jpg" alt="Get Inspired" title="Get Inspired">
+    </section>#}
+    {{ include('portal/page/_report_goodness_top_banner.html.twig') }}
+    <div class="wrapper login-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-auto login-right thank-you" data-aos="fade-right">
+                    <div class="content">
+                        <div class="text-center">
+                            <div class="login-head" data-aos="fade-right" data-aos-delay="100"><img
+                                        src="{{ asset('images/common/icons/') }}icon-submitted.png">
+                            </div>
+                            <h2>{{ pageContentByPage.pageName }}</h2>
+                            <h4 class="text">{{ pageContentByPage.cmsPageContent[0].pageContent|raw }}</h4>
+                            <a href="{{ path('homepage') }}" class="btn btn-primary btn-home">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Main Wrapper End-->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('report-goodness');
+
+            function formcontrol() {
+                $(".form-control").filter(function () {
+                    if (this.value.length !== 0) {
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+                $(this).siblings('input').focus();
+            });
+
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+            $('.form-group select').change(function () {
+                if (this.value.length !== 0) {
+                    $(this).parent().parent().find('label').addClass('clicked');
+                } else {
+                    $(this).parent().parent().find('label').removeClass('clicked');
+                }
+            });
+
+            $('.reporting-radio label').on('click', function () {
+                $(this).addClass('active').siblings('label').removeClass('active')
+            });
+            $('.digitalPresenceRadio label.yes').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.digitalPresence').show();
+            });
+            $('.digitalPresenceRadio label.no').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.digitalPresence').hide();
+            });
+            /*
+            $('.reporting-radio label.self').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.self-block').show();
+                $(this).parents('.main-form-group').siblings('.else-block').hide();
+            });
+             */
+            /*
+            $('.reporting-radio label.else').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.self-block').hide();
+                $(this).parents('.main-form-group').siblings('.else-block').show();
+            });
+             */
+
+            $('.addDigitalPresence').click(function () {
+                var newRow = $(this).parent('.digitalPresence').children('.input-box:last').clone();
+                $('.digitalPresence .input-box:last').addClass('old');
+                $(newRow).insertAfter(".digitalPresence .input-box:last");
+                // $(this).focus();
+            });
+            $(document).on('click', '.removeInput', function (e) {
+                e.preventDefault();
+                $(this).parent('.old').remove();
+            });
+
+        });
+    </script>
+{% endblock %}

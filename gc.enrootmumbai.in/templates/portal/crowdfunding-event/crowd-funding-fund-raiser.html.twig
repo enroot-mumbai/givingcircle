@@ -1,0 +1,79 @@
+{% set crowdFundingData = crowd_funding_data(trnCircleEvents.id) %}
+{% set targetAmount = trnCircleEvents.trnCrowdFundEvents[0].targetAmount %}
+{% set percentage = ((crowdFundingData.totalTransactionAmount/targetAmount) * 100)|round %}
+
+{% set currdate = "now"|date("Y-m-d") %}
+{% set difference = date(trnCircleEvents.toDate).diff(date(currdate)) %}
+{% set leftDays = difference.days %}
+
+
+<section class="fundRaiser">
+    <div class="card">
+        <div class="card-body">
+            {% if trnCircleEvents.appUser.appUserInfo.mstUserMemberType.userMemberType == 'Organization' %}
+                <div class="status">80G - Tax Benefit</div>
+            {% endif %}
+            {% if trnCircleEvents.isUrgent == true %}
+                <div class="status">Urgent </div>
+            {% endif %}
+            <div class="fund-raiser">
+                <h4><span class="rupee-icon">&#x20B9;</span> {{ crowdFundingData.totalTransactionAmount | default(0)  |number_format(2, '.', ',')
+                    }} <b>Raised</b></h4>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{ percentage }}%" aria-valuenow="{{ percentage }}"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="number">{{ percentage }}%</div>
+                    </div>
+                </div>
+                <div class="row justify-content-between fund-status">
+                    <div class="col">
+                        <b>Goal</b> <span class="rupee-icon">&#x20B9;</span> <b>{{ targetAmount | number_format(2, '.', ',') }}</b>
+                    </div>
+                    <div class="col text-right">
+                        {% if leftDays == 1 %}
+                                <b>1</b> day
+                            {% else %}
+                                <b>{{ leftDays }}</b> days
+                            {% endif %} days left
+                    </div>
+                    <div class="col-12 orange">
+                        <b>{{ crowdFundingData.supporters | default(0) }}</b> Supporters
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="donateShareBlock">
+        <div class="row row-sm">
+            <div class="col-12">
+                {% if trnCircleEvents.isTargetAchieved == true %}
+                    <a href="#" onclick="return false;" class="btn btn-primary disabled">Donate Now</a>
+                    <span style="text-align: center" class="alert-success alert-success-cf target-achieved">Target Achieved</span>
+                {% else %}
+                    <a href="#" class="btn btn-primary">Donate Now</a>
+                {% endif %}
+            </div>
+            <div class="col-12">
+                <div class="contributeBox">
+                    <div class="enter-amount">
+                        <label class="" for="enterAmount">Enter Your Preferred
+                            Amount</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="enterAmount" >
+                            <div class="input-group-append">
+                                <a href="#" class="btn btn-enter btn-contribute">Continue</a>
+                            </div>
+                        </div>
+                        <label><em>Minimum Amount Contribution <i class="fa fa-rupee"></i>{{ trnCrowdFundEvents.minimumContribution |number_format(2, '.', ',') }}</em></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="shareBtns">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': trnCircleEvents.id})}}" target="_blank" class="btn">Share on <i class="fa fc-facebook"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': trnCircleEvents.id})  }}" target="_blank" class="btn">Share on <i class="fa fc-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

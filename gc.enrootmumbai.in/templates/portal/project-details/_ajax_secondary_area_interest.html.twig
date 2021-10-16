@@ -1,0 +1,41 @@
+<form id="frmSaveSecondaryAreaOfInterest" method="post">
+    <div class="left-section">
+        <input type="hidden" value="{{ areaInterest.id }}" name = "primaryAreaOfInterest" id= "primaryAreaOfInterest" >
+        <div class="icon  {{ num_to_words(areaInterest.sequenceNo) }}">
+                    <span class="num">
+                        {{ areaInterest.sequenceNo }}
+                    </span>
+            <span class="img">
+                {% if areaInterest.icon is not empty and areaInterest.icon != '' and areaInterest.icon != 'files/' %}
+                    <img src="{{ asset('images') }}/{{ areaInterest.icon }}"
+                         alt="{{ areaInterest.areaInterest }}" title="{{ areaInterest.areaInterest }}">
+                {% endif %}
+                </span>
+        </div>
+        <div class="text">
+            {{ areaInterest.areaInterest }}
+        </div>
+    </div>
+    <div class="right-section">
+        <h2 class="modal-title" id="selectAreaLabel">Select Secondary Area of Interest</h2>
+        <ul>
+            {% for areaInterest in secondaryAreaInterests  %}
+                <li>
+                    <label class="checkbox-label" for="secondaryAreaOfInterest{{ areaInterest.id }}">
+                        {{ areaInterest.areaInterest }}
+                        <input type="checkbox" value="{{ areaInterest.id }}"
+                               {% if areaInterest.id in arrSelSecAreaInterest %}
+                                    checked
+                                {% endif %}
+                               name="secondaryAreaOfInterest[]" id="secondaryAreaOfInterest{{
+                        areaInterest.id }}">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="text-center">
+            <a href="javascript:void(0);" id="btnSaveSecondaryAreaOfInterest" class="btn btn-primary">Done</a>
+        </div>
+    </div>
+</form>

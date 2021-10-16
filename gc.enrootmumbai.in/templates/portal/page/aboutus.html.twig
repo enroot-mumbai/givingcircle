@@ -1,0 +1,205 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.pageTitle }}</h2>
+                <!-- Content - start -->
+                <div class="row">
+
+                    {% set content = pageContentByPage.cmsPageContent[0] %}
+                    {# Content Start from Cms  #}
+                    {% if(content.mediaType) == '' %}
+
+                        {# if no media added #}
+                        <p>{{ content.pageContent|raw }}</p>
+
+                    {% else %}
+
+                        {# if media added #}
+                        {% if(content.mediaPosition) == 'left' %}
+
+                            {# if media on left and content on right #}
+                            <div class="col-lg-auto">
+
+                                {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                                    <figure>
+                                        <img style="width: auto;" src="{{ content.mediaFilePath|imagine_filter('resize_logo_120') }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}">
+                                    </figure>
+                                {% elseif(content.mediaType == 'video' and content.mediaPath != '') %}
+                                    <div class="video-placeholder">
+                                        <iframe class="vid-img" src="{{ content.mediaPath }}" allowfullscreen="" width="700" height="390"></iframe>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                            <div class="col-lg">
+                                {{ content.pageContent|raw }}
+                            </div>
+                        {% else %}
+                            {# if media on right and content on left #}
+
+                            <div class="col-lg">
+                                <p>{{ content.pageContent|raw }}</p>
+                            </div>
+                            <div class="col-lg-auto">
+                                {% if(content.mediaType) != '' %}
+
+                                    {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                                        <figure>
+                                            <img style="width: auto;" src="{{ content.mediaFilePath|imagine_filter('resize_logo_120') }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}">
+                                        </figure>
+                                    {% elseif(content.mediaType == 'video' and content.mediaPath != '') %}
+                                        <div class="video-placeholder">
+                                            <iframe class="vid-img" src="{{ content.mediaPath }}" allowfullscreen="" width="700" height="390"></iframe>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                    {% endif %}
+
+                    {# Content End from Cms  #}
+
+                </div>
+                <!-- Content - end -->
+            </div>
+        </section>
+        <!-- Offerings block - start -->
+        <section class="orange-box">
+            <div class="container">
+                <h4 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.cmsPageContent[1]|raw }}</h4>
+                <div class="row offerings-block">
+                    <div class="col-md offerings">
+                        <div class="">
+                            <h3 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.cmsPageContent[2]|raw }}</h3>
+                            <p data-aos="fade-right" data-aos-delay="200">
+                                {{ pageContentByPage.cmsPageContent[3]|raw }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md offerings">
+                        <div class="">
+                            <h3 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.cmsPageContent[4]|raw }}</h3>
+                            <p data-aos="fade-right" data-aos-delay="200">
+                                {{ pageContentByPage.cmsPageContent[5]|raw }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <h4 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.cmsPageContent[6]|raw }}</h4>
+            </div>
+        </section>
+        <!-- Offerings block - end -->
+        <!-- Team - Inner Circle block - start -->
+        <section class="theTeam">
+            <div class="container">
+                <h4>{{ teamContent.pageTitle }}</h4>
+                <!-- Team block - start -->
+                <div class="row">
+                    {% for team in teamList %}
+                    <div class="col-md">
+                        <div class="about-box">
+                            <div class="image-sec" data-aos="fade-right" data-aos-delay="200">
+                                <a href="{{ path('team', { 'teamSlugName': team.slugName}) }}">
+
+                                    {% set content = team.cmsPageContent[0] %}
+
+                                    {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                                        <figure>
+                                            <img src="{{ asset('images/')~content.mediaFilePath }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}">
+                                        </figure>
+                                    {% elseif(content.mediaType == 'video' and content.mediaPath != '') %}
+                                        <div>
+                                            <iframe class="vid-img" src="{{ content.mediaPath }}" allowfullscreen="" width="200"></iframe>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="content-box" data-aos="fade-right" data-aos-delay="200">
+                                {% for teamContent in team.cmsPageContent %}
+                                {{ teamContent|truncate(900)|raw }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Team block - end -->
+                <div class="team-statement">
+                    {{ pageContentByPage.cmsPageContent[7]|raw }}
+                </div>
+                <!-- Inner Circle block - start -->
+                <div class="inner-circle">
+                    <h3>{{ innerCircleContent.pageName }}</h3>
+                    <p>
+                        {{ pageContentByPage.cmsPageContent[8]|raw }}
+                    </p>
+                    <div class="row">
+
+                        {% for circleList in innerCircleList %}
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="team-members" data-aos="fade-right" data-aos-delay="200">
+                                <div class="image-sec" data-aos="fade-right" data-aos-delay="200">
+                                    <a href="{{ path('our-inner-circle', { 'memberSlugName': circleList.slugName}) }}">
+
+                                        {% set content = circleList.cmsPageContent[0] %}
+
+                                        {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                                            <figure>
+                                                <img src="{{ asset('images/')~content.mediaFilePath }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}">
+                                            </figure>
+                                        {% elseif(content.mediaType == 'video' and content.mediaPath != '') %}
+                                            <div>
+                                                <iframe class="vid-img" src="{{ content.mediaPath }}" allowfullscreen="" width="200"></iframe>
+                                            </div>
+                                        {% endif %}
+
+                                    </a>
+                                </div>
+                                <div class="content-box" data-aos="fade-right" data-aos-delay="200">
+                                    <div class="inner-box">
+                                        <a href="{{ path('our-inner-circle', { 'memberSlugName': circleList.slugName}) }}">
+                                            <h5>{{ circleList.pageTitle }}</h5>
+                                        </a>
+                                        <a href="mailto:{{ circleList.cmsIntroEmail }}">{{ circleList.cmsIntroEmail }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Inner Circle block - start -->
+            </div>
+        </section>
+        <!-- Team - Inner Circle block - end -->
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static about');
+        });
+    </script>
+{% endblock %}

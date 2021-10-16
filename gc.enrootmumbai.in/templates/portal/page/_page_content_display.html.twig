@@ -1,0 +1,53 @@
+{# Content Start from Cms  #}
+    {% if(content.mediaType) == '' %}
+
+    {# if no media added #}
+    {{ content.pageContent|raw }}
+
+{% else %}
+
+    {# if media added #}
+    {% if(content.mediaPosition) == 'left' %}
+
+        {# if media on left and content on right #}
+        <div class="disp-tbl-cell valignT padR40">
+
+            {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                <figure>
+                    <img style="width: auto;" src="{{ content.mediaFilePath|imagine_filter('resize_logo_120') }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}">
+                </figure>
+            {% elseif(content.mediaType == 'video' and content.mediaPath != '') %}
+                <div>
+                    <iframe class="vid-img" src="{{ content.mediaPath }}" allowfullscreen="" width="200"></iframe>
+                </div>
+            {% endif %}
+
+        </div>
+        <div class="disp-tbl-cell valignT">
+            {{ content.pageContent|raw }}
+        </div>
+    {% else %}
+        {# if media on right and content on left #}
+
+        <div class="disp-tbl-cell valignT padR40">
+            {{ content.pageContent|raw }}
+        </div>
+        <div class="disp-tbl-cell valignT">
+            {% if(content.mediaType) != '' %}
+
+                {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                    <figure>
+                        <img style="width: auto;" src="{{ content.mediaFilePath|imagine_filter('resize_logo_120') }}" alt="{{ content.mediaAlText }}" title="{{ content.mediaTitle }}">
+                    </figure>
+                {% elseif(content.mediaType == 'video' and content.mediaPath != '') %}
+                    <div>
+                        <iframe class="vid-img" src="{{ content.mediaPath }}" allowfullscreen="" width="200"></iframe>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endif %}
+
+{# Content End from Cms  #}

@@ -1,0 +1,178 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title txt-bold float-left">User Name:- <b>{{ data.userName |upper}}</b></h4>
+            <h4 class="card-title float-right">
+                <a href="{{ path(path_edit, {'id': data.id}) }}" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i> {{'label.edit'|trans}}</a>
+                <a href="{{ path(path_index) }}" class="btn btn-dark btn-sm"><i class="fa fa-list"></i> {{'label.back_to_list' | trans}}</a>
+            </h4>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-body">
+                    <div class="card-header mt-2">
+                        <h3 style="float: left" class="card-title">{{ 'User Details'|upper }}</h3>
+                        <img style="float: right"  src="{{ data.appUserInfo.profilePic|imagine_filter
+                                ('resize_image_100') }}" alt="Profile Pic">
+                    </div>
+                    <div class="row">
+                        <table class="table table-responsive-md text-sm">
+                            <tbody>
+                            <tr>
+                                <th>{{ 'label.company'|trans }}</th>
+                                <td>{{ data.appUserInfo.orgCompany }}</td>
+                                <th>{{ 'label.user_member_type'|trans }}</th>
+                                <td>{{ data.appUserInfo.mstUserMemberType }}</td>
+                                <th>{{ 'label.username'|trans }}</th>
+                                <td>{{ data.userName }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.name'|trans }}</th>
+                                <td>{{ data.appUserInfo.mstSalutation }} &nbsp; {{ data.appUserInfo.name }}</td>
+                                <th>{{ 'label.email'|trans }}</th>
+                                <td>{{ data.appUserInfo.userEmail }}</td>
+                                <th>{{ 'label.date_of_birth'|trans }}</th>
+                                <td>{{ data.appUserInfo.dateOfBirth | date('d-M-Y') }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.mobile'|trans }}</th>
+                                <td>{{ data.appUserInfo.mobileCountryCode }} &nbsp; {{ data.appUserInfo.userMobileNumber }}</td>
+                                <th>{{ 'label.address'|trans }}</th>
+                                <td colspan="3">{{ data.appUserInfo.address1 }}, &nbsp;{{ data.appUserInfo.address2
+                                    }},&nbsp;{{ data.appUserInfo.pinCode }},&nbsp;{{ data.appUserInfo.mstCity }},
+                                    &nbsp;{{ data.appUserInfo.mstState }},&nbsp;{{ data.appUserInfo.mstCountry }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.latitude'|trans }}</th>
+                                <td>{{ data.appUserInfo.locationLatitude }}</td>
+                                <th>{{ 'label.longitude'|trans }}</th>
+                                <td>{{ data.appUserInfo.locationLongitude }}</td>
+                                <th>{{ 'label.pan_card'|trans }}</th>
+                                <td>{{ data.appUserInfo.pancardNumber }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.facebook_link'|trans }}</th>
+                                <td>{{ data.appUserInfo.facebookLink }}</td>
+                                <th>{{ 'label.google_plus_link'|trans }}</th>
+                                <td>{{ data.appUserInfo.googlePlusLink }}</td>
+                                <th>{{ 'label.twitter_handle_link'|trans }}</th>
+                                <td>{{ data.appUserInfo.twitterHandleLink }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if data.appUserInfo.mstUserMemberType == 'Organization' %}
+                        <div class="card-header mt-2">
+                            <h3 class="card-title">{{ 'Organization Details'|upper }}</h3>
+                        </div>
+                        <div class="row">
+                            <table class="table table-responsive-md text-sm">
+                                {% for trnOrganizationDetail in data.trnOrganizationDetails %}
+                                <tbody>
+                                    <tr>
+                                        <th>{{ 'label.organization'|trans }}</th>
+                                        <td>{{ trnOrganizationDetail.organizationName }}</td>
+                                        <th>{{ 'label.type_of_organization'|trans }}</th>
+                                        <td>{{ trnOrganizationDetail.mstTypeOfOrganization }}</td>
+                                        <th>{{ 'label.area_interest'|trans }}</th>
+                                        <td>{{ trnOrganizationDetail.mstAreaInterest }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ 'label.about_organization'|trans }}</th>
+                                        <td colspan="5">{{ trnOrganizationDetail.aboutOrganization |raw }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ 'label.registration_certificate_trust_deed'|trans }}</th>
+                                        <td >{{ trnOrganizationDetail.registrationCertificateTrustDeed  }}</td>
+                                        <th>{{ 'label.incorporated_on_date'|trans }}</th>
+                                        <td >{{ trnOrganizationDetail.incorporatedOnDate | date('d-M-Y') }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ 'label.registration_no_80g'|trans }}</th>
+                                        <td >{{ trnOrganizationDetail.registrationNo80G  }}</td>
+                                        <th>{{ 'label.registration_date_80g'|trans }}</th>
+                                        <td >{{ trnOrganizationDetail.registrationDate80G | date('d-M-Y') }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="card-header mt-2">
+                            <h3 class="card-title">{{ 'Bank Details'|upper }}</h3>
+                        </div>
+                        <div class="row">
+                            <table class="table table-responsive-md text-sm">
+                                {% for trnOrganizationDetail in data.trnOrganizationDetails %}
+                                    {% for trnBankDetails in trnOrganizationDetail.trnBankDetails %}
+                                        <tbody>
+                                        <tr>
+                                            <th>{{ 'label.account_holder_name'|trans }}</th>
+                                            <td>{{ trnBankDetails.accountHolderName }}</td>
+                                            <th>{{ 'label.account_number'|trans }}</th>
+                                            <td>{{ trnBankDetails.accountNumber }}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{ 'label.ifsc_code'|trans }}</th>
+                                            <td >{{ trnBankDetails.ifscCode  }}</td>
+                                            <th>{{ 'label.bank_account_type'|trans }}</th>
+                                            <td >{{ trnBankDetails.mstBankAccountType}}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    {% endfor %}
+                                {% endfor %}
+                            </table>
+                        </div>
+
+                        <div class="card-header mt-2">
+                            <h3 class="card-title">{{ 'Organization Documents'|upper }}</h3>
+                        </div>
+
+                        <div class="row">
+                            <table class="table table-responsive-md text-sm">
+                                <tbody>
+                                {% for trnOrganizationUploadDocuments in data.trnOrganizationDetails[0]
+                                .trnOrganizationUploadDocuments %}
+                                    <tr>
+                                        <th>{{ 'label.media_name'|trans}}</th>
+                                        <td>{{ trnOrganizationUploadDocuments.mediaName }}</td>
+
+                                        <th>{{ 'label.media_file_type'|trans}}</th>
+                                        <td>{{ trnOrganizationUploadDocuments.mstUploadDocumentType }}</td>
+
+                                        {% if trnOrganizationUploadDocuments.mstUploadDocumentType == 'Image' %}
+
+                                            <th>{{ 'label.media_alt_text'|trans}}</th>
+                                            <td>{{ trnOrganizationUploadDocuments.mediaAltText }}</td>
+
+                                            <th>{{ 'label.media_title'|trans}}</th>
+                                            <td>{{ trnOrganizationUploadDocuments.mediaTitle }}</td>
+
+                                            <td> <img src="{{ trnOrganizationUploadDocuments
+                                                .uploadDocumentPath|imagine_filter
+                                                    ('resize_image_100') }}" alt="--"></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

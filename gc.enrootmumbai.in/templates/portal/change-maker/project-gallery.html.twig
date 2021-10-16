@@ -1,0 +1,109 @@
+{% extends 'portal/layout/index_no_header.html.twig' %}
+{% block portal_content %}
+    <div class="wrapper">
+        <div class="gallery-header">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-sm-7 head-sec">
+                        <b>{{ circle.circle }}</b>
+                        <h4>Gallery</h4>
+                    </div>
+                    <div class="col-auto">
+                        {% if circle.mstJoinBy.joinBy == 'Open' %}
+                            <a href="#" class="btn btn-primary">Join Now</a>
+                        {% else %}
+                            <a href="#" class="btn-primary">Request To Join</a>
+                        {% endif %}
+                        <a href="{{ path('project-details', {'id': circle.id}) }}" class="btn-close"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="content-carousel">
+                <div class="owl-carousel">
+                    {% for trnProductMedia in circle.trnProductMedia %}
+                        {% if trnProductMedia.mediaType == 'image' %}
+                            <div class="item" data-aos="fade-down" data-aos-delay="200">
+                                <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ circle.circle }}"
+                                     title="{{ circle.circle }}">
+                            </div>
+                        {% else %}
+                            <div class="item" data-aos="fade-down" data-aos-delay="200">
+                                <span class="vid-wrapper">
+                                    <iframe src="{{ trnProductMedia.mediaURL }}" width="900" height="450" frameborder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                </span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {#<div class="item" data-aos="fade-down" data-aos-delay="200">
+                        <img src="/resources/images/common/nikhils-circle1.jpg" alt="Nikhil's Hiwali Village Circle"
+                             title="Nikhil's Hiwali Village Circle">
+                    </div>
+                    <div class="item" data-aos="fade-down" data-aos-delay="200">
+                        <img src="/resources/images/common/nikhils-circle1.jpg" alt="Nikhil's Hiwali Village Circle"
+                             title="Nikhil's Hiwali Village Circle">
+                    </div>
+                    <div class="item" data-aos="fade-down" data-aos-delay="200">
+                        <img src="/resources/images/common/nikhils-circle1.jpg" alt="Nikhil's Hiwali Village Circle"
+                             title="Nikhil's Hiwali Village Circle">
+                    </div>
+                    <div class="item" data-aos="fade-down" data-aos-delay="200">
+                        <img src="/resources/images/common/nikhils-circle1.jpg" alt="Nikhil's Hiwali Village Circle"
+                             title="Nikhil's Hiwali Village Circle">
+                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('gallery-page');
+            $(".owl-carousel").owlCarousel({
+                loop: false,
+                items: 1,
+                nav: true,
+                navText: [
+                    "<i class='fc-arrow-left'></i>",
+                    "<i class='fc-arrow-right'></i>"
+                ],
+                margin: 0,
+                stagePadding: 0,
+                autoplay: false
+            });
+
+            dotcount = 1;
+
+            jQuery('.owl-dot').each(function () {
+                jQuery(this).addClass('dotnumber' + dotcount);
+                jQuery(this).attr('data-info', dotcount);
+                dotcount = dotcount + 1;
+            });
+
+            slidecount = 1;
+
+            jQuery('.owl-item').not('.cloned').each(function () {
+                jQuery(this).addClass('slidenumber' + slidecount);
+                slidecount = slidecount + 1;
+            });
+
+            jQuery('.owl-dot').each(function () {
+                grab = jQuery(this).data('info');
+                slidegrab = jQuery('.slidenumber' + grab + ' img').attr('src');
+                jQuery(this).css("background-image", "url(" + slidegrab + ")");
+            });
+
+            amount = $('.owl-dot').length;
+            gotowidth = 100 / amount;
+            jQuery('.owl-dot').css("height", gotowidth + "%");
+        });
+
+    </script>
+{% endblock %}

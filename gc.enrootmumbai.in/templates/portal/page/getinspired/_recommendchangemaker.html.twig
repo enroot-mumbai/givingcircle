@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-11">
+            <section class="recommend-changemaker" data-aos="fade-down" data-aos-delay="200">
+                <div class="content-box">
+                    <div class="image-sec">
+                        <figure>
+                            <img src="/resources/images/common/icons/recommend-icon.png"
+                                 alt="Recommend a Change Maker around you"
+                                 title="Recommend a Change Maker around you">
+                        </figure>
+                    </div>
+                    <div class="content">
+                        {% set content = pageContentByPage.cmsPageContent[3] %}
+                        {% include 'portal/page/_page_content_display.html.twig' %}
+                        <a href="{{ path('report-goodness') }}" class="btn btn-primary">Recommend a Change Maker</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

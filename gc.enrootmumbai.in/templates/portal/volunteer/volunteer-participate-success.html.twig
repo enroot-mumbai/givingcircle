@@ -1,0 +1,40 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-12 mx-auto">
+                    <div class="text-center">
+                        <div class="login-head" data-aos="fade-right" data-aos-delay="100"><img
+                                    src="{{ asset('resources/images/common/icons/icon-thumb.png') }}">
+                        </div>
+                        <h2>Thank you!
+                            <span class="semibold">
+                                Your intent to GIVE time is recorded.
+                            </span>
+                        </h2>
+                        <h5>These are the steps that take us close to the cause and changemaking
+                            process. Please do participate as per the chosen date and time and mark your attendance so
+                            that we have your Social Profile updated in My Account section.</h5>
+                        <p>Kindly check the details in your My Account section.</p>
+                    </div>
+                    <div class="btn-block">
+                        <a href="{{ path('personal-info') }}" class="btn btn-primary">My Account section</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('body').addClass('login-page event logged');
+        history.pushState(null, document.title, location.href);
+        window.addEventListener('popstate', function (event)
+        {
+            history.pushState(null, document.title, location.href);
+        });
+    </script>
+{% endblock %}

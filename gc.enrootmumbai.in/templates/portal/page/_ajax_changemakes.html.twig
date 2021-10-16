@@ -1,0 +1,49 @@
+<ul class="changemaker-thumb row row-lg">
+    {% for article in articles %}
+        <li class="col-md-6">
+            <div class="card">
+                <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}">
+                    {% if article.articleIntroVideoPath is not empty %}
+                        <iframe width="600" height="265" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    {% else %}
+                        <figure><img src="{{ article.articleIntroImagePath|imagine_filter('resize_image_scale_600_400') }}" class="card-img-top" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}"></figure>
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h2>
+                        <b>{{ article.articleFor }}</b>
+                        <span>- {{ article.locationName }}, {{ article.mstCity }}</span>
+                        <span class="todayDate"><i class="fa fa-calendar"></i> {{ article.articleCreateDateTime|date('d M Y') }}</span>
+                    </h2>
+                    <h5 class="red-head-tl">{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %}{% endfor %}</h5>
+                    <b>{{ article.articleTitle }}</b>
+                    <p class="card-text">{{ article.articleIntro|truncate(130)|raw }}</p>
+                    <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" class="btn btn-primary-outline">Read The Story</a>
+                    <div class="like-it">
+{#                        <label>Do you like it?</label>#}
+                        <ul>
+{#                            <li>#}
+{#                                <img src="{{ asset('resources/images/icons/icon-read.png') }}" width="20" height="20" alt="Read Icon">#}
+{#                                {{ article.articleViewCount|default('0') }}#}
+{#                            </li>#}
+                            <li>
+                                <input type="hidden" id="article" value="{{ article.id }}">
+                                <span class="clicklike" role="button">
+                                                    <i class="fa fa-heart-o"></i>
+                                                    <span id="totallike">{{ article.articleLikeCount|default('0') }}</span>
+
+                                                </span>
+                            </li>
+                            <li>
+                                <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}#comments">
+                                    <i class="fa fa-comment-o"></i>
+                                    <span>{{ get_cms_article_comments_count(article.id, 1) }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

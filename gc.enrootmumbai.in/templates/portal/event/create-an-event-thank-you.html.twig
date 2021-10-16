@@ -1,0 +1,25 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <section class="banner-sec">
+        <div class="content thank-you" data-aos="fade-right" data-aos-delay="100">
+            <div class="icon-head" data-aos="fade-right" data-aos-delay="200">
+                <img src="{{ asset('resources/images/common/icons/icon-submitted.png') }}">
+            </div>
+            <h3 data-aos="fade-right" data-aos-delay="200">Thank You!</h3>
+            <h5 data-aos="fade-right" data-aos-delay="200">Your event request has been submitted successfully.</h5>
+            <p data-aos="fade-right" data-aos-delay="200">Would you like to create another event?</p>
+            <a href="{{ path('create-an-event') }}" class="btn btn-primary">Create New Event</a>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/autocomplete.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('inner-pg create-element event logged');
+        });
+    </script>
+{% endblock %}

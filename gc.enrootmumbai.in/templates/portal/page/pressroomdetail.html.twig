@@ -1,0 +1,63 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <div class="container">
+            <div class="row ">
+                <div class="col">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('pressroom') }}">In News</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ newsDetail.articleHeading|truncate(50)|raw }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-sm-12">
+                    <h2>{{ pageContent.pageTitle }}</h2>
+                    {% for content in pageContent.cmsPageContent %}
+                        {% include 'portal/page/_page_content_display.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="white-box">
+                <div class="news-box">
+                    <div class="date-sec">
+                        <div class="date">
+                            <span>{{ newsDetail.articleDateTime|date('l') }}</span>
+                            <h2>{{ newsDetail.articleDateTime|date('d M') }}</h2>
+                            <b>{{ newsDetail.articleDateTime|date('Y') }}</b>
+                        </div>
+                    </div>
+                    <div class="news-sec">
+                        <h3>{{ newsDetail.articleHeading|raw }}</h3>
+                        {% if newsDetail.articleIntroDesktopImagePath is not empty %}
+                            <figure class="image"><img src="{{ asset('images') }}/{{ newsDetail.articleIntroDesktopImagePath }}" alt="{{ newsDetail.articleIntroImageAlt }}"></figure>
+                        {% endif %}
+                        <div class="details">
+                            <p class="para">{{ newsDetail.articleContent|raw }}</p>
+                            <a href="{{ path('pressroom') }}" class="btn btn-primary">Read All News</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('resources/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('body').removeClass('inner-pg');
+        $('body').addClass('static news-details');
+    });
+</script>
+{% endblock %}

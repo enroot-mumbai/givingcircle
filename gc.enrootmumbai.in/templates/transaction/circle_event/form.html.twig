@@ -1,0 +1,163 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.orgCompany) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.appUser) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.trnCircle) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstJoinBy) }}
+                </div>
+            </div>
+            <div id="divAreaOfInterest"></div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.mstEventProductType) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.eventPurpose) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.highlightsOfEvent) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.mstCountry) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstState) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstCity) }}
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-sm-3">
+                    {{ form_row(form.fromDate) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.toDate) }}
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-sm-3" style="display: none;">
+                    {{ form_row(form.locationLatitude) }}
+                </div>
+                <div class="col-sm-3" style="display: none;">
+                    {{ form_row(form.locationLongitude) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.mstStatus) }}
+                </div>
+            </div>
+
+            <div class="row" style="display: none;">
+                <div class="col-sm-3">
+                    {{ form_row(form.isAffiliated) }}
+                </div>
+            </div>
+            <div style="display: none;" class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.isActive) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_end(form) }}
+    <br>
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <link href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}" type="text/javascript"></script>
+    {#    <script src="{{ asset('assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>#}
+    <script src="{{ asset('assets/js/transaction/circle_event/index.js?z=1') }}"></script>
+    <script>
+        $(function () {
+            // Summernote
+            $(".textarea").summernote({
+                height: 200,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+
+                callbacks: {
+                    onKeydown: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if (t.length >= 300) {
+                            //delete key
+                            if (e.keyCode != 8)
+                                e.preventDefault();
+                            // add other keys ...
+                        }
+                    },
+                    onKeyup: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if(t.length > 1800) {
+                            alert('Maximum 300 words are allowed');
+                            return false;
+                        }
+                    },
+                    /*onPaste: function(e) {
+                        var t = e.currentTarget.innerText;
+                        console.log(t);
+                        if(t.length > 1800) {
+                            alert('Maximum 300 words are allowed');
+                        } else {
+                            var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                            e.preventDefault();
+                            var all = t + bufferText;
+                            //document.execCommand('insertText', false, all.trim().substring(0, 1800));
+                        }
+                    }*/
+                }
+            });
+        })
+
+        // $('.isactive').each(function(){
+        //     $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        //     $(this).attr('data-bootstrap-switch');
+        // });
+
+    </script>
+{% endblock %}

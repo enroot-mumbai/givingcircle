@@ -1,0 +1,103 @@
+<section class="changeMakers OurHeros">
+    <div class="head-sec">
+        <h2>{{ pageContentByPage.cmsPageContent[0].pageContent|raw }}</h2>
+        {#{% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+            isMandatoryFilled == true %}
+            <a href="{{ path('how-it-works') }}"
+               data-aos="fade-right" data-aos-delay="200"><i class="fc-gear"></i><span>How It Works</span></a>
+        {% else %}
+            <a href="javascript:void(0);" onclick="alert({{ mandatoryFieldMsg }});"
+               data-aos="fade-right" data-aos-delay="200"><i class="fc-gear"></i><span>How It Works</span></a>
+        {% endif %}#}
+    </div>
+    {# Content Start from Cms  #}
+        <p>
+            {% set content = pageContentByPage.cmsPageContent[1] %}
+            {% include 'portal/page/_page_content_display.html.twig' %}
+        </p>
+    {# Content End from Cms  #}
+
+    <div class="changeMakers-carousel owl-carousel">
+
+        {% set articles = get_cms_articles_limit(2, get_parameter('company_id'), 3) %}
+        {% for article in articles %}
+
+            <div class="card">
+                <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}">
+                    <figure>
+                        {% if article.articleIntroVideoPath is not empty %}
+                            <i class="video-image"></i>
+                            <span class="vid-wrapper"><iframe width="370" height="230" src="{{ article
+                                .articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></span>
+                        {% else %}
+{#                            <img src="{{ article.articleIntroDesktopImagePath|imagine_filter('resize_image_scale_730_310') }}" class="card-img-top" alt="{{ article.articleIntroDesktopImage }}">#}
+
+                            <img class="desktop-purpose" src="{{ asset('/images/') ~ article.articleIntroDesktopImagePath }}" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+                            <img class="tab-purpose" src="{{ asset('/images/') ~ article.articleIntroTabletImagePath }}" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+                            <img class="mobile-purpose" src="{{ asset('/images/') ~ article.articleIntroMobileImagePath }}" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+
+                        {% endif %}
+                    </figure>
+                </a>
+                <div class="card-body">
+                    <h4>{{ article.articleFor }}</h4>
+                    <h5><i class="fas fa-map-marker-alt"></i> {{ article.locationName }}, {{ article.cityName }}</h5>
+                    <h5 class="orange"><em>{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</em></h5>
+                    <h6>{{ article.articleTitle }}</h6>
+                    <div class="para-txt">
+                        <p>
+                            {{ article.articleIntro|striptags|truncate(180)|raw }}
+                        </p>
+                    </div>
+                    <ul class="share-view">
+                        <li>
+                            <a href="#">
+                                <i class="fc-book-open"></i>
+                                <b>{{ article.articleViewCount|default('0') }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="clicklike" articleId = "{{ article.id }}" >
+                                <i class="far fa-thumbs-up"></i>
+                                <b id="bLikeArt_{{ article.id }}">{{ article.articleLikeCount|default
+                                        ('0') }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('change-maker-detail', {'articleSlugName':
+                                article.articleSlugName}) }}#comments">
+                                <i class="far fa-comment"></i>
+                                <b>{{ get_cms_article_comments_count(article.id, 1) }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i></a>
+                        </li>
+                    </ul>
+                    <div class="share-sec">
+                        <div class="social-media">
+                            <a href="#" class="fa fa-close"></a>
+                            <ul>
+                                <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                        ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                <li><a href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                        ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                        ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}&amp;title={{ article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                        ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        {% endfor %}
+
+    </div>
+    <div class="btn-inline">
+        <a href="{{ path('change-makers') }}" class="btn btn-primary">Explore All Change Makers</a>
+        <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary-o">Be A Change Maker</a>
+    </div>
+</section>

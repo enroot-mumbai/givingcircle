@@ -1,0 +1,162 @@
+{% for trnCollectionCentreDetails in  arrTrnCollectionCentreDetails %}
+    <div class="main-form-group">
+        <label for="member{{ loop.index }}">
+            <span>Member Name {{ loop.index }}</span>
+        </label>
+        <label for="">{{ trnCollectionCentreDetails.firstName}} {{ trnCollectionCentreDetails.lastName}}</label>
+        <p>{{ trnCollectionCentreDetails.address1}}, {{ trnCollectionCentreDetails
+            .address2}}, {{ trnCollectionCentreDetails.mstCity }}, {{
+            trnCollectionCentreDetails.mstState }}, {{ trnCollectionCentreDetails
+            .mstCountry }}, {{ trnCollectionCentreDetails.pinCode }}.</p>
+        <div class="row">
+            <div class="col-sm-6 main-form-group">
+                <label for="">Timing of the Collection Centre *</label>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="startTime1">Start Time</label>
+                            <div class="cust-select">
+
+                                <select class="form-control" required id="startTime1" name="startTime[{{ trnCollectionCentreDetails.id }}]">
+                                    <option value="">Start Time</option>
+                                    {% for hours in arrHours %}
+
+                                        {% if(app.session.has('editEvent') and app.session.get('editEvent') == true ) and
+                                            trnCollectionCentreDetails.startTime | date('h') == hours %}
+                                            <option selected value="{{ hours }}:00">{{ hours }}:00</option>
+                                        {% else %}
+                                            <option value="{{ hours }}:00">{{ hours }}:00</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                {#<select class="form-control" required id="startTime1">
+                                    <option>{{ trnCollectionCentreDetails.startTime | date('h:i A') }}</option>
+                                </select>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="endTime1">End Time</label>
+                            <div class="cust-select">
+
+                                <select class="form-control" required id="endTime1" name="endTime[{{ trnCollectionCentreDetails.id }}]">
+                                    <option value="">End Time</option>
+                                    {% for hours in arrHours %}
+
+                                        {% if(app.session.has('editEvent') and app.session.get('editEvent') == true ) and
+                                            trnCollectionCentreDetails.endTime | date('h') == hours %}
+                                            <option selected value="{{ hours }}:00">{{ hours }}:00</option>
+                                        {% else %}
+                                            <option value="{{ hours }}:00">{{ hours }}:00</option>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </select>
+                                {#<select class="form-control" required id="endTime1">
+                                    <option>{{ trnCollectionCentreDetails.endTime | date('h:i A') }}</option>
+                                </select>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 main-form-group">
+                <label for="">Collection Centre Open on Days *</label>
+                <div class="multiCheckbtn">
+
+                    {% set selectedDaysArr = [] %}
+                    {% for mstDaysOfWeek in arrMstDaysOfWeek  %}
+
+                        {% if(app.session.has('editEvent') and app.session.get('editEvent') == true  and
+                            arrCollectionCenterDaysOfWeek is defined and arrCollectionCenterDaysOfWeek is not
+                            empty and arrCollectionCenterDaysOfWeek[trnCollectionCentreDetails.id] is defined and
+                            arrCollectionCenterDaysOfWeek[trnCollectionCentreDetails.id] is not empty and
+                            mstDaysOfWeek.dayOfWeek in arrCollectionCenterDaysOfWeek[trnCollectionCentreDetails.id] )
+                        %}
+                            {% set selectedDaysArr = selectedDaysArr|merge([mstDaysOfWeek.dayOfWeek]) %}
+                            <a  href="javascript:void(0)" class="active" sequence="{{ trnCollectionCentreDetails.id }}" title="{{ mstDaysOfWeek.dayOfWeek }}">{{ mstDaysOfWeek.dayOfWeek |slice(0, 3) }}</a>
+                        {% else %}
+
+                            <a  href="javascript:void(0)" sequence="{{ trnCollectionCentreDetails.id }}" title="{{ mstDaysOfWeek.dayOfWeek }}">{{ mstDaysOfWeek.dayOfWeek |slice(0, 3) }}</a>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    <input type="hidden" name="collectionCenterOpenOnDaysMst[{{ trnCollectionCentreDetails.id }}]" class="newOpenOnDaysCls" id="collectionCenterOpenOnDaysMst_1" value="{{ selectedDaysArr|join(',') }}">
+
+                    {#{% for mstDaysOfWeek in arrMstDaysOfWeek  %}
+                        <a href="javascript:void(0);"
+                            {% if arrCollectionCenterDaysOfWeek is defined and arrCollectionCenterDaysOfWeek is not
+                                empty and arrCollectionCenterDaysOfWeek[trnCollectionCentreDetails.id] is defined and
+                                arrCollectionCenterDaysOfWeek[trnCollectionCentreDetails.id] is not empty and
+                                mstDaysOfWeek.dayOfWeek in arrCollectionCenterDaysOfWeek[trnCollectionCentreDetails.id]
+                            %}
+                                class="active"
+                            {% endif %}
+                        >{{ mstDaysOfWeek.dayOfWeek |slice(0, 3) }}</a>
+                    {% endfor %}#}
+                </div>
+            </div>
+        </div>
+
+        <div class="main-form-group">
+            <label for="">Date Range for accepting Collections</label>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="FromDate_{{ trnCollectionCentreDetails.id }}">
+                            <span>From *</span>
+                        </label>
+                        <div class="cust-calender">
+
+                            {% if app.session.has('copyEventId') %}
+                                <input type="text" id="FromDate_{{ trnCollectionCentreDetails.id }}" name="FromDate[{{ trnCollectionCentreDetails.id }}]"
+                                       class="form-control datepicker collectionCenterDP" value=""
+                                       placeholder="YYYY/MM/DD" autocomplete="off">
+                            {% else %}
+                                <input type="text" id="FromDate_{{ trnCollectionCentreDetails.id }}" name="FromDate[{{ trnCollectionCentreDetails.id }}]"
+                                   class="form-control datepicker collectionCenterDP"
+                                   {% if collectionCenterDate is defined and collectionCenterDate is not empty and
+                                       trnCollectionCentreDetails.id in collectionCenterDate|keys %}
+                                       value="{{ collectionCenterDate[trnCollectionCentreDetails.id]['formDate'] }}"
+                                   {% endif %}
+                                   placeholder="YYYY/MM/DD" autocomplete="off">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="ToDate_{{ trnCollectionCentreDetails.id }}">
+                            <span>To *</span>
+                        </label>
+                        <div class="cust-calender">
+                            {% if app.session.has('copyEventId') %}
+                                <input type="text" id="ToDate_{{ trnCollectionCentreDetails.id }}" name="ToDate[{{trnCollectionCentreDetails.id }}]"
+                                   class="form-control datepicker collectionCenterDP" value=""
+                                   placeholder="YYYY/MM/DD" autocomplete="off">
+                            {% else %}
+                                <input type="text" id="ToDate_{{ trnCollectionCentreDetails.id }}" name="ToDate[{{trnCollectionCentreDetails.id }}]"
+                                   class="form-control datepicker collectionCenterDP"
+                                    {% if collectionCenterDate is defined and collectionCenterDate is not empty and
+                                        trnCollectionCentreDetails.id in collectionCenterDate|keys %}
+                                        value="{{ collectionCenterDate[trnCollectionCentreDetails.id]['toDate'] }}"
+                                    {% endif %}
+                                   placeholder="YYYY/MM/DD" autocomplete="off">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="javascript:void(0)" class="removeButton" trnCollectionCentreDetails = "{{
+            trnCollectionCentreDetails.id
+            }}"><i class="fa fa-trash-o"></i>
+                Remove</a>
+        </div>
+    </div>
+{% endfor %}
+<a href="#" data-toggle="modal" data-target="#collectionCenterModal" class="addMoreBtn">Add More</a>

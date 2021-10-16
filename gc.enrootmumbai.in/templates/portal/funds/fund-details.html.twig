@@ -1,0 +1,236 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+
+    {% set isUserJoined = false %}
+    {% set requestStatus = '' %}
+    {% if app.user %}
+        {% set isUserJoined = get_user_join_status( get_parameter('company_id'), app.user.id, trnCircleEvents.trnCircle.id) %}
+        {% set requestStatus = get_pending_request_status( get_parameter('company_id'), app.user.id, trnCircleEvents.trnCircle.id) %}
+
+    {% endif %}
+
+
+    {{ render(controller(
+        'App\\Controller\\Portal\\EventDetailsController::eventDetailsBanner',
+        { 'id': trnCircleEvents.id }
+    )) }}
+    <div class="wrapper">
+        {{ render(controller(
+            'App\\Controller\\Portal\\EventDetailsController::eventDetailsHeaderSection',
+            { 'id': trnCircleEvents.id }
+        )) }}
+        <section class="latest-events">
+            <div class="container">
+                <div class="row listing-page" {#data-aos="fade-right"#} data-aos-delay="200">
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\EventDetailsController::eventDetailsNavigationSection',
+                        { 'id': trnCircleEvents.id, 'active' : 'funds' }
+                    )) }}
+                    <div class="col right-list">
+                        <h2 data-aos="fade-right" data-aos-delay="200">Funds</h2>
+
+                        <section>
+                            <h3>Deployment of Funds</h3>
+                            <p>
+                                {{ trnFundRaiserCircleEventDetails.purposeOfRaisingFunds }}
+                            </p>
+                        </section>
+
+                        <section>
+                            <div style="display: table-cell;">
+                            <h3>Total Fund Requirement</h3>
+                                <p>
+                                    <i class="fa fa-rupee"></i> <b>{{ trnFundRaiserCircleEventDetails.targetAmount }}</b>
+                                </p>
+                            </div>
+                            <div style="display: table-cell;" class="actionBlock">
+                                
+                                {% if trnCircleEvents.mstStatus.status == 'Expired'  %}
+                                    {# no buttons for expired events #}
+                                    {% if trnCircleEvents.isTargetAchieved == true %}
+                                        <span class="alert-success alert-success-cf target-achieved">Target Achieved</span>
+                                    {% endif %}
+
+                                {% else %}
+                                    {% if trnCircleEvents.isTargetAchieved == true %}
+                                        <span class="alert-success alert-success-cf target-achieved">Target Achieved</span>
+                                    {% elseif app.session.has('expressDonate') == true %}
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-contribute">Contribute</a>
+                                    {% else %}
+                                        {% if trnCircleEvents.trnCircle.mstJoinBy.joinBy == 'Closed' %}
+                                            {% if app.user %}
+                                                {% if isUserJoined == true %}
+                                                    {% if requestStatus == 'Activated' %}
+
+                                                        <a href="javascript:void(0);" class="btn btn-primary btn-contribute">Contribute</a>
+
+                                                    {% endif %}
+                                                {% elseif requestStatus == 'Pending Activation' %}
+
+                                                    <a href="javascript:void(0);" sequence="ReqPending" class="btn btn-primary btn-contribute">Request to Contribute</a>
+
+                                                {% elseif requestStatus == ''  %}
+
+                                                    <a href="javascript:void(0);" sequence="NJoined" class="btn btn-primary btn-contribute">Request to Contribute</a>
+
+                                                {% endif %}
+                                            {% else %}
+
+                                                <a href="javascript:void(0);" sequence="NLoggedIn" class="btn btn-primary btn-contribute">Request to Contribute</a>
+
+                                            {% endif %}
+                                        {% else %}
+                                            {# project type is open #}
+                                            {% if app.user %}
+                                                {% if isUserJoined == true %}
+                                                    {% if requestStatus == 'Activated' %}
+                                                        <a href="javascript:void(0);" class="btn btn-primary btn-contribute">Contribute</a>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <a href="javascript:void(0);" sequence="NJoined" class="btn btn-primary btn-contribute">Contribute</a>
+                                                {% endif %}
+                                            {% else %}
+                                                <a href="javascript:void(0);" sequence="NLoggedIn" class="btn btn-primary btn-contribute">Contribute</a>
+                                            {% endif %}
+                                        {% endif %}
+        {#                                <a href="#" class="btn btn-primary btn-contribute">Contribute</a>#}
+                                    {% endif %}
+
+                                    <div class="contributeBox">
+                                        <div class="enter-amount">
+                                            <label class="" for="enterAmount">Enter Your Preferred Amount</label>
+                                            <a href="javascript:void(0);" class="btn-close"></a>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="enterAmount">
+                                                <div class="input-group-append">
+                                                    <a href="javascript:void(0);"  onclick="contributeFunds( '{{ trnCircleEvents.id }}')" class="btn
+                                                                        btn-enter">Continue</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+                                
+                            </div>
+                        </section>
+                        {#<section id="fundRaiserContribute">
+                            <h3>Minimum Amount Contribution</h3>
+                            <p>
+                                <i class="fa fa-rupee"></i> <b>{{ trnFundRaiserCircleEventDetails
+                                    .minContributionAmount | default(0) }}</b>
+                            </p>
+                        </section>#}
+                        <section class="skillRequiredBox">
+                            <h3>Funds</h3>
+                            <div class="content">
+                                <table class="table fundsTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Time Period Supported</th>
+                                        <th>No. of Beneficiaries Supported</th>
+                                        <th>Amount Required</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                    </thead>
+
+                                    {% if trnFundRaiserCircleEventDetails.trnFundRaiserCircleEventSubEvents|length > 0 %}
+
+                                        {% for trnFundRaiserCircleEventSubEvent in trnFundRaiserCircleEventDetails.trnFundRaiserCircleEventSubEvents %}
+                                            <tr>
+                                                <td>{{ trnFundRaiserCircleEventSubEvent.timePeriodSupported }}</td>
+                                                <td>{{ trnFundRaiserCircleEventSubEvent.noOfBeneficiaries }}</td>
+                                                <td><i class="fa fa-rupee"></i> {{ trnFundRaiserCircleEventSubEvent
+                                                    .subEventTargetAmount |number_format(2, '.', ',') }}</td>
+                                                <td class="actionBlock" style="min-height: 60px;">
+                                                    <span >{{ trnFundRaiserCircleEventSubEvent.subEventRemarks }}</span>
+                                                    {#<a href="#" class="btn btn-primary btn-contribute">Contribute</a>
+                                                    <div class="contributeBox">
+                                                        <div class="enter-amount">
+                                                            <label class="" for="enterAmount">Enter Your Preferred Amount</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" min-amount="{{ trnFundRaiserCircleEventSubEvent.subEventTargetAmount }}" id="enterAmount_{{ trnFundRaiserCircleEventSubEvent.id }}">
+                                                                <div class="input-group-append">
+                                                                    <a href="javascript:void(0);"  onclick="contributeFunds( '{{ trnFundRaiserCircleEventSubEvent.id }}', '{{ trnCircleEvents.id }}')" class="btn
+                                                                    btn-enter">Continue</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>#}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4"><h6>No Details Available</h6></td>
+                                        </tr>
+                                    {% endif %}
+                                </table>
+                                <form method="post" id="frmContribute" action="{{ path("save-sub-event") }}">
+                                    <input type="hidden" name="amountToContribute" id="amountToContribute" >
+                                    <input type="hidden" name="subEventId" id="subEventId" >
+                                    <input type="hidden" name="eventId" id="eventId" >
+                                </form>
+                                <a href="mailto:{{ changeMakerEmail }}?subject={{ trnCircleEvents.name|raw }}&cc={{ get_gc_email() }}" class="connect-cm-link">Connect with the Change Maker</a>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h3>Event Date</h3>
+                                    <ul class="timelineView">
+                                        <li>
+                                            <b>Start Date</b>
+                                            {{ trnFundRaiserCircleEventDetails
+                                            .fromDate | date ('l d M Y') }}
+                                        </li>
+                                        <li>
+                                            <b>End Date</b>
+                                            {{ trnFundRaiserCircleEventDetails
+                                            .toDate | date ('l d M Y') }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3>Event Occurrence</h3>
+                                    <ul class="timelineView">
+                                        <li>
+                                            <b>{{ trnFundRaiserCircleEventDetails.mstEventOccurrence }}</b>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                        {{ render(controller(
+                            'App\\Controller\\Portal\\EventDetailsController::eventDetailsBottomNavigationSection',
+                            { 'id': trnCircleEvents.id,  'active' : 'funds' }
+                        )) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        {{ include('portal/event/comment-section.html.twig', {'events': trnCircleEvents}) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('resources/js/easy-responsive-tabs.js')}}" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/dubrox/Multiple-Dates-Picker-for-jQuery-UI/master/jquery-ui.multidatespicker.js"></script>
+    <script>
+        var pathToParticipateBeforeLogin = "{{ path('event-donate-before-login', {'event': trnCircleEvents.id, 'processType': 'donate' }) }}";
+        var nowJoined = '{{ nowJoined }}';
+        var ajaxEventLikeURL = "{{ path('event-like') }}";
+        var commentPath = "{{ path('event-comment') }}";
+        var eventCommentLike = "{{ path('event-comment-like') }}";
+        var pathToEventShare = "{{ path('event-share') }}";
+        var strSaveSubEventURL = "{{ path('save-sub-event') }}";
+        var strShareYourDetailsURL = "{{ path('share-your-details') }}";
+    </script>
+    <script src="{{ asset('assets/js/portal/funds/fund-details.js?z=4') }}"></script>
+    <script src="{{ asset('assets/js/portal/event/event-comment.js') }}"></script>
+
+{% endblock %}

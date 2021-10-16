@@ -1,0 +1,83 @@
+{% set currenturl =  path(app.request.attributes.get('_route'), app.request.query.all|merge(app.request.attributes.get('_route_params')))|split('/') %}
+        {% set urllength = currenturl|length %}
+                {% set module =  get_app_module_name() %}
+                {% set app_submodules = get_app_submodules(module.id) %}
+<aside class="main-sidebar sidebar-dark-dark elevation-4">
+    <a href="{{ path('core_home') }}">
+        <img src="{{ asset('assets/img/logo-inner.png') }}" alt="{{ 'title.app'|trans }}" class="ml-5" height="56">
+    </a>
+    <div class="border-top" style="padding-left: .5rem; padding-right: .5rem;">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
+                  <li class="nav-header">{{ module| upper }}</li>
+                 {% for app_submodule in app_submodules %}
+                     {% if is_granted(app_submodule.roleName) and app.user.roles[0] == app_submodule.roleName %}
+                         {% set activemodule = app_submodule.subModuleValue  %}
+                             {# check if module has submodules#}
+                         {% if app_submodule.subModuleStatic == false %}
+                            <li class="nav-item">
+                                <a href="/{{ get_parameter('base_url_param') }}/{{module.moduleValue}}/{{app_submodule.subModuleValue}}/" class="nav-link {% if urllength > 3 %} {% if currenturl.3 == activemodule %} active {% else %} {% endif %} {% endif %}">
+                                    <i class="nav-icon fas fa-th"></i> <p> {{app_submodule.subModuleName}}</p></a>
+                         {% endif %}
+                         {% if app_submodule.subModuleStatic == true %}
+
+                            <li class="nav-item has-treeview {% if urllength > 3 %} {% if currenturl|length > 4 and currenturl.3 == app_submodule.subModuleValue %} menu-open {% else %} {% endif %} {% endif %} ">
+                                <a href="#" class="{% if urllength > 3 %} {% if currenturl|length > 4  and currenturl.3 == app_submodule.subModuleValue %} active {% else %} {% endif %} {% endif %} nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p> {{app_submodule.subModuleName}} <i class="fas fa-angle-left right"></i></p></a>
+                         {% endif %}
+
+                         {% set childsubmodules = get_child_submodule_name(app_submodule.id, false) %}
+                         {% if childsubmodules|length > 0 %}
+                             <ul class="nav nav-treeview">
+                                 {% for childsubmodule in childsubmodules %}
+                                     {% if is_granted(childsubmodule.roleName) and app.user.roles[0] == childsubmodule.roleName %}
+                                         {% set activechildmodule = childsubmodule.subModuleValue  %}
+                                         {% if childsubmodule.parentId != 0 %}
+                                             {% set submodule = get_submodule_by_id(childsubmodule.parentId) %}
+                                             <li class="nav-item">
+                                                 <a href="/{{ get_parameter('base_url_param') }}/{{module.moduleValue}}/{{submodule.subModuleValue}}/{{childsubmodule.subModuleValue}}/" class="{% if urllength > 3 %} {% if currenturl.4 == activechildmodule %} active {% else %} {% endif %} {% endif %} nav-link">
+                                                 <i class="far fa-circle nav-icon"></i>
+                                                 <p>{{childsubmodule.subModuleName}}</p>
+                                                 </a>
+                                             </li>
+                                         {% else %}
+                                             <li class="nav-item">
+                                                 <a href="/{{ get_parameter('base_url_param') }}/{{module.moduleValue}}/{{childsubmodule.subModuleValue}}/" class="{% if urllength > 3 %} {% if currenturl.4 == activechildmodule %} active {% else %} {% endif %} {% endif %} nav-link">
+                                                 <i class="far fa-circle nav-icon"></i>
+                                                 <p>{{childsubmodule.subModuleName}}</p>
+                                                 </a>
+                                             </li>
+                                         {% endif %}
+                                     {% endif %}
+                                 {% endfor %}
+                             </ul>
+                         {% endif %}
+
+                             {% set childsubmodules = get_child_submodule_name(app_submodule.id, true) %}
+                                {% if childsubmodules|length > 0 %}
+                                     {% for childsubmodule in childsubmodules %}
+                                         {% if is_granted(childsubmodule.roleName) and app.user.roles[0] == childsubmodule.roleName %}
+                                             {% set activechildmodule = childsubmodule.subModuleValue  %}
+                                             {% set submodule = get_submodule_by_id(childsubmodule.parentId) %}
+                                             {% set addparams = submodule.subModuleParentValue %}
+                                             {% if app.request.get(addparams) != '' %}
+                                                 <li class="nav-item">
+                                                     <a href="/{{ get_parameter('base_url_param') }}/{{module.moduleValue}}/{{childsubmodule.subModuleValue}}/?{{submodule.subModuleParentValue }}={{app.request.get(addparams)}}" class="{% if urllength > 3 %} {% if currenturl.3 == activechildmodule %} active {% else %} {% endif %} {% endif %} nav-link">
+                                                     <i class="far fa-circle nav-icon"></i>
+                                                     <p>{{childsubmodule.subModuleName}}</p>
+                                                     </a>
+                                                 </li>
+                                             {% endif %}
+                                         {% endif %}
+                                     {% endfor %}
+                                {% endif %}
+                         </li>
+                         {% endif %}
+                 {% else %}
+                     <li></li>
+                 {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</aside>

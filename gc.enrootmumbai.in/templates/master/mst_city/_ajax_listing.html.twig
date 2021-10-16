@@ -1,0 +1,27 @@
+<table id="dataTable" class="table table-responsive-md table-sm text-sm">
+    <thead>
+    <tr>
+        <th>{{ 'label.name'|trans|upper }}</th>
+        <th>{{ 'label.state'|trans|upper }}</th>
+        <th>{{ 'label.country'|trans|upper }}</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+{% for mst_city in mst_cities %}
+    <tr>
+        <td>{{ mst_city.city }}</td>
+        <td>{{ mst_city.mstState }}</td>
+        <td>{{ mst_city.mstCountry }}</td>
+        <td>
+            <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                <a href="{{ path(path_edit, {'id': mst_city.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+            </div>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="5">{{'info.no_record_found'|trans}}</td>
+    </tr>
+{% endfor %}
+</tbody></table>

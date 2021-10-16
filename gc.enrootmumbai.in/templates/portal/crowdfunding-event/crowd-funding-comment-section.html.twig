@@ -1,0 +1,152 @@
+{% set commentCount = get_event_comment_count(events.id) %}
+<section class="comment-section">
+    <div class="comment-left">
+        <div id="loginMsg" class="message alert-warning font-weight-bolder text-center" style="display: none;">Please Login to post a comment</div>
+        <h2 id="comments">Comments</h2>
+        <ul class="comment-counter">
+            <li>
+                <a href="javascript:void(0);" class="eventLike" eventId="{{ events.id }}">
+                    <i class="far fa-thumbs-up"></i> <b class="eventLike_{{ events.id }}"> {{ events.likeCount|default(0) }} </b> Likes
+                </a>
+            </li>
+            <li>
+                {% if app.user %}
+                    <a href="javascript:void(0)">
+                {% else %}
+                    <a href="javascript:void(0)" onclick="getLoginMsg()">
+                {% endif %}
+                    <i class="far fa-comment"></i> <b>{{ commentCount|default(0) }} Comments</b>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-share-alt"></i> <b>{{ events.shareCount|default(0) }} Share</b>
+                </a>
+            </li>
+        </ul>
+
+            <div class="comment-area">
+                <div class="message alert-success" id="cmtmessage"></div>
+                <div class="input-group">
+                    {{ form_start(form, {'attr': {'id': 'commentForm', 'methos':'post'}}) }}
+                    <input type="hidden" id="commenteventId" value="{{ events.id }}">
+                    {{ form_widget(form.comment) }}
+
+
+
+                    {% if app.user %}
+                        <button type="submit" class="btn btn-primary commentbutton float-right">Post</button>
+                    {% else %}
+                        <button type="button" onclick="getLoginMsg()" class="btn btn-primary float-right">Post</button>
+                    {% endif %}
+
+
+                    {#                                {{ form_row(form._token) }}#}
+                    {{ form_end(form, {'render_rest': false}) }}
+
+                </div>
+            </div>
+
+        <ul class="comment-list">
+            {% set circle_comments = get_circle_comments(null, 1, events.id) %}
+            {% if circle_comments is not empty %}
+                {% for comment in circle_comments['comment'] %}
+                    <li>
+                        <div class="image-sec">
+                            <figure>
+                                {% if(comment.userimage is not empty) %}
+                                    <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                         alt="{{ comment.name }}" title="{{ comment.name }}">
+                                {% elseif(comment.userinitials is not empty) %}
+                                    <div>{{ comment.userinitials }}</div>
+                                {% endif %}
+                            </figure>
+                        </div>
+                        <div class="comment-box" style="width: 100%">
+                            <div class="author-box">
+                                <h3 class="author-tl">
+                                    <b>{{ comment.name }}</b>
+                                </h3>
+                                <p>{{ comment.comment }}</p>
+                            </div>
+                            <ul class="like-reply-list">
+                                <li><a onclick="getLikeCount({{ comment.id }}, 'comment_{{ comment.id }}')" href="#">Like</a></li>
+                                {% if app.user %}
+                                    <li><a href="#" onclick="showReplyBlock('{{ comment.id }}')" class="reply-btn">Reply</a></li>
+                                {% endif %}
+                                <li>{{ comment.createtime|time_diff}}</li>
+                            </ul>
+                            {# <div id="commentreply" class="mt-2"></div>
+                                                    <input type="hidden" id="comment" value="{{ comment.id }}">
+                            #}
+                            <div class="message alert-success" id="replymessage{{ comment.id }}"></div>
+                            <div class="reply-box" id="replybox{{ comment.id }}">
+                                <div id="replypostarea{{ comment.id }}" class="replypostarea" style="width: 100%; display: flow-root;">
+                                    <div class="image-sec float-left">
+                                        <figure>
+                                            {% if app.user %}
+                                                <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}"
+                                                     alt="{{ app.user.userName|default('') }}"
+                                                     title="{{ app.user.userName|default('') }}">
+                                            {% endif %}
+                                        </figure>
+                                    </div>
+                                    <div class="reply-area float-left" id="replyarea{{ comment.id }}" style="width: 90%;">
+                                        <div class="input-group">
+
+                                            {% set rp_form =  reply_form.createView %}
+                                            {{ form_start(rp_form, {'attr': {'id': 'replyForm-'~comment.id, 'method':'post', 'class':'replyFrm' }}) }}
+                                            {{ form_widget(rp_form.comment, { 'id': 'reply_box_'~comment.id, 'attr': {'placeholder': 'Write your reply...', 'class':'replyBox' } } ) }}
+
+                                            <button type="submit" class="btn btn-primary replybutton">Post</button>
+
+                                            {{ form_row(rp_form._token) }}
+                                            {{ form_end(rp_form, {'render_rest': false}) }}
+                                            {#                                                                    <input type="text" id="reply_box_{{ comment.id }}" class="search-input" placeholder="Write your reply...">#}
+                                            {#                                                                    <a href="#" onclick="postComment('{{ comment.id }}')" class="btn btn-primary post-reply">Post</a>#}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if circle_comments['reply'][comment.id] is defined %}
+                                    <div style="width: 100%;  display: flow-root;">
+
+                                        {% for reply in circle_comments['reply'][comment.id] %}
+                                            <div class="author-box" style="margin-top: 10px">
+                                                <div class="image-sec">
+                                                    <figure>
+                                                        {% if(comment.userimage is not empty) %}
+                                                            <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                                 alt="{{ comment.name }}" title="{{ comment.name }}">
+                                                        {% elseif(comment.userinitials is not empty) %}
+                                                            <div>{{ comment.userinitials }}</div>
+                                                        {% endif %}
+                                                    </figure>
+                                                </div>
+                                                <div class="comment-box">
+                                                    <div class="author-box">
+                                                        <h3 class="author-tl">
+                                                            <b>{{ reply.name }}</b>
+                                                        </h3>
+                                                        <p>{{ reply.comment }}</p>
+                                                    </div>
+                                                    <ul class="like-reply-list">
+{#                                                              <li><a href="#">Like</a></li>#}
+{#                                                              <li><a href="#">Reply</a></li>#}
+                                                        <li>{{ reply.createtime|time_diff}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="like-counter"><i class="far fa-thumbs-up"></i> <b><span id="comment_{{ comment.id }}">{{ comment.likeCount|default(0) }}</span></b>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+</section>

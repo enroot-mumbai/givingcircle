@@ -1,0 +1,126 @@
+<section class="campaignRaiser">
+    <h3><i class="project-icon"></i> Campaign Raiser's Project Glimpses</h3>
+    <div class="card">
+        <div class="card-image">
+            <a href="#">
+                <figure>
+                    {% if circle.profileImagePath is defined and  circle.profileImagePath is not empty and
+                        circle.profileImagePath != 'files/'  %}
+                        <img src="{{ asset('images') }}/{{ circle.profileImagePath }}" alt="{{ circle.circle }}">
+                    {% endif %}
+                </figure>
+            </a>
+        </div>
+        <div class="card-body">
+            <a href="#">
+                <h4>{{ circle.circle | ucwords }}</h4>
+                <h5><i class="fas fa-map-marker-alt"></i>  {{ circle.mstCity }}, {{ circle.mstState }}, {{ circle.mstCountry }}</h5>
+                <h5 class="orange"><em>{% for interest in circle.trnAreaOfInterests %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</em></h5>
+                <p>{{ circle.circleInformation  |raw }}</p>
+                {% set nCount = get_circle_count_data(circle.id) %}
+                <ul class="member-event-list">
+                    <li>
+                        <i class="fc-member-icon"></i>
+                        <div class="number">{{ nCount.memberCount |default(0) }}</div>
+                        <div class="task">Members</div>
+                    </li>
+                    <li>
+                        <i class="fc-event-icon"></i>
+                        <div class="number">{{ nCount.eventCount |default(0) }}</div>
+                        <div class="task">Events</div>
+                    </li>
+                </ul>
+            </a>
+            <ul class="inline-links">
+                <li>
+                    <a href="{{ path('project-details', {'id': circle.id}) }}" class="btn-primary">View</a>
+                </li>
+                {#<li>
+                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                        <a href="#">Join This Project</a>
+                    {% else %}
+                        <a href="#">Request to Join This Project</a>
+                    {% endif %}
+                </li>#}
+            </ul>
+
+            <ul class="share-view">
+                <li>
+                    <a href="#">
+                        <i class="fc-book-open"></i>
+                        <b>{{ nCount.readCount | default(0) }}</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="circleLike" circleId = "{{ circle.id
+                    }}">
+                        <i class="far fa-thumbs-up"></i>
+                        <b class="circleLike_{{ circle.id }}">{{ nCount.likeCount }}</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('project-details', {'id': circle.id}) }}#comments">
+                        <i class="far fa-comment"></i>
+                        <b>{{ nCount.commentCount | default(0)  }}</b>
+                    </a>
+                </li>
+                <li class="share-sec">
+                    <a href="javascript:;" class="social-share-btn"><i
+                                class="fas fa-share-alt"></i></a>
+                    <div class="social-media">
+                        <a href="#" class="fa fa-close"></a>
+                        <ul>
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                            <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h3><i class="event-icon-black"></i> Campaign Raiser's Other Events Glimpses</h3>
+    {% set circleEvents = get_latest_circle_events_by_user(trnCircleEvents.appUser, trnCircleEvents.id) %}
+    {% for eventData in circleEvents %}
+        {% set eventDates = get_events_dates(eventData.id) %}
+        <div class="card type2">
+
+            {% if eventData.isCrowdfunding == true %}
+                {% set detailURL = path('crowd-funding-event-details', {'id' : eventData.id }) %}
+            {% else %}
+                {% set detailURL = path('event-details', {'id' : eventData.id }) %}
+            {% endif %}
+
+            <a href="{{ detailURL }}">
+
+                <div class="card-image">
+                    <figure>
+                        {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                            eventData.profileImage != 'files/'  %}
+                            <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                        {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                            eventData.backgroundImagePath != 'files/' %}
+                            <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                       {% else %}
+                           {% for trnProductMedia in eventData.trnProductMedia %}
+                               {% if trnProductMedia.mediaType == 'image' %}
+                                   <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                               {% endif %}
+                           {% endfor %}
+                        {% endif %}
+                    </figure>
+                </div>
+                <div class="card-body">
+                    <h4>{{ eventData.name }}</h4>
+                    <h5 class="orange">{% for mstEventProductType in eventData
+                            .mstEventProductType %}{{ mstEventProductType
+                        .eventProductType }}{% if not loop.last %}, {% endif %} {% endfor %}</h5>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    <div class="btn-block">
+        <a href="{{ path('event-listing', {'user' : trnCircleEvents.appUser.id }) }}">View All Events</a>
+    </div>
+</section>

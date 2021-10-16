@@ -1,0 +1,957 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+
+    {% set changeMakerProject = '' %}
+    {% if article.changeMakerAppUser is defined %}
+        {% set changeMakerProjectsArr = get_change_maker_active_project(article.changeMakerAppUser) %}
+        {% if changeMakerProjectsArr|length > 0 %}
+            {% set changeMakerProject = changeMakerProjectsArr[0] %}
+        {% endif %}
+    {% endif %}
+
+    {% set articlaCommentCount = get_cms_article_comments_count(article.id, 1) %}
+
+    {% set pageContent = get_cms_page_content_by_page('change-makers-detail') %}
+    {% set banners = get_cms_page_banner(pageContent.id) %}
+    {% set otherBanners = [] %}
+    {% set hasTopBanner = false %}
+    {% set defaultBanner = 'cm-details-banner.jpg' %}
+    {% set defaultBannerTitle = pageContent.pageTitle %}
+    {% set defaultBannerAlt = pageContent.pageTitle %}
+
+    {% if banners|length > 0 and banners is not empty %}
+        {% for banner in banners %}
+            {% if banner.bannerPosition == 'top' %}
+                {% set hasTopBanner = true %}
+            {% else %}
+                {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {{ include('portal/page/_top_static_banner.html.twig') }}
+
+{#
+    <section class="static-banner">
+
+        <div class="content" style="z-index: 99;">
+        {% if article.articleIntroVideoPath is not empty %}
+            <iframe src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen width="100%" height="100%"></iframe>
+        {% else %}
+            <img class="desktop-purpose" src="{{ asset('images/') ~ article.articleIntroDesktopImagePath }}" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+            <img class="tab-purpose" src="{{ asset('images/') ~ article.articleIntroTabletImagePath }}" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+            <img class="mobile-purpose" src="{{ asset('images/') ~ article.articleIntroMobileImagePath }}" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+        {% endif %}
+            {% set interestVal = '' %}
+            {% set seqNo = '' %}
+            {% set interestIcon = '' %}
+            {% for interest in article.mstAreaInterest %}
+
+                {% if interest.mstAreaInterestPrimary is empty %}
+                    {% set seqNo = num_to_words(interest.sequenceNo) %}
+                    {% set interestIcon = interest.icon %}
+                {% else %}
+                    {% set seqNo = num_to_words(interest.mstAreaInterestPrimary.sequenceNo) %}
+                    {% set interestIcon = interest.mstAreaInterestPrimary.icon %}
+                {% endif %}
+
+                {% if loop.first %}
+                    {% set interestVal = interestVal~interest.areaInterest %}
+                {% else %}
+                    {% set interestVal = interestVal~', '~interest.areaInterest %}
+                {% endif %}
+            {% endfor %}
+
+            <div class="area-select">
+
+                <div class="icon {{ seqNo }}">
+                    <span class="img">
+                            {% if interestIcon is not empty and interestIcon != '' and interestIcon != 'files/' %}
+                                <i class="icon-image">
+                                                        <img src="{{ asset('images') }}/{{ interestIcon }}" alt="{{ interestVal }}"
+                                                             title="{{ interestVal }}">
+                                                    </i>
+                            {% endif %}
+                    </span>
+                </div>
+                <div class="title">
+                    <b>{{ interestVal }}</b>
+                </div>
+            </div>
+
+        </div>
+    </section>#}
+    <div class="wrapper">
+        <section class="cm-section">
+            <div class="head-sec">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col">
+                            <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                                 class="breadcrumb d-flex justify-content-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('get-inspired') }}">Get
+                                            Inspired</a></li>
+                                    <li class="breadcrumb-item" aria-current="page"><a
+                                                href="{{ path('change-makers') }}">Change Makers</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ article.articleFor }}</li>
+                                </ol>
+                            </nav>
+                            <div class="row justify-content-center">
+                                <div class="col-md-10">
+                                    <section class="gc-circle " data-aos="fade-down" data-aos-delay="200">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="quote">
+                                                    {{ article.articleIntro|raw }}
+                                                </div>
+                                                <h2>{{ article.articleFor }}
+                                                    <div class="share-sec">
+                                                        <a href="javascript:;" class="social-share-btn"><i
+                                                                    class="fas fa-share-alt"></i></a>
+                                                        <div class="social-media">
+                                                            <a href="#" class="fa fa-close"></a>
+                                                            <ul>
+                                                                <li>
+                                                                    <a onclick="getArticleShareCount('{{ article.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}" target="_blank"><i
+                                                                                class="fc-facebook"></i></a>
+                                                                </li>
+                                                                <li>
+                                                                    <a onclick="getArticleShareCount('{{ article.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&amp;title={{ article.articleTitle }}" target="_blank"><i
+                                                                                class="fc-linkedin"></i></a>
+                                                                </li>
+                                                                {#<li>
+                                                                    <a href="#" target="_blank"><i
+                                                                                class="fc-instagram"></i></a>
+                                                                </li>#}
+                                                                {#<li>
+                                                                    <a href="#" target="_blank"><i
+                                                                                class="fc-youtube"></i></a>
+                                                                </li>#}
+                                                                <li>
+                                                                    <a onclick="getArticleShareCount('{{ article.id }}')" href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&amp;via=GivingCircle_In" target="_blank"><i
+                                                                                class="fc-twitter"></i></a>
+                                                                </li>
+                                                                <li>
+                                                                    <a onclick="getArticleShareCount('{{ article.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}" target="_blank"><i
+                                                                                class="fc-whatsapp"></i></a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </h2>
+                                                <h5><i class="fas fa-map-marker-alt"></i> {{ article.cityName }}</h5>
+                                                <h3 class="orange">
+                                                    <em>
+                                                        {% for interest in article.mstAreaInterest %}
+                                                            {{ interest }}{% if not loop.last %}, {% endif %}
+                                                        {% endfor %}
+                                                    </em>
+                                                </h3>
+                                                <div class="share-btn-section">
+                                                    <ul class="share-view">
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fc-book-open"></i>
+                                                                <b>{{ article.articleViewCount|default('0') }}</b>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" class="clicklike" articleId="{{ article.id }}">
+                                                                <i class="far fa-thumbs-up"></i>
+                                                                <b id="totallike">{{ article.articleLikeCount|default('0') }}</b>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="far fa-comment"></i>
+                                                                <b>{{ articlaCommentCount }}</b>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col left-list">
+                        <div class="cm-detail-container">
+                            <section class="donate-gc" data-aos="fade-right" data-aos-delay="200">
+                                <div class="image-sec">
+                                    <figure>
+                                        <img src="{{ asset('images/common/changemakers/') }}donate-icon.png"
+                                             alt="Donate to Giving Circle" title="Donate to Giving Circle">
+                                    </figure>
+                                </div>
+                                <div class="content">
+                                    <h3>Donate to Giving Circle</h3>
+                                    <b>We want to keep bringing these #changemaker stories, If you want to support us in
+                                        this, please donate here.</b>
+                                    <div>
+                                        <ul class="price-block" id="priceBlock_1" style="display: table-cell; width: 80%;">
+                                            <li>
+                                                <a href="#" amount="250"><i class="fa fa-rupee"></i> <span>250</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" amount="550"><i class="fa fa-rupee"></i> <span>500</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" amount="1000"><i class="fa fa-rupee"></i> <span>1000</span></a>
+                                            </li>
+                                            <li class="otherAmnt">
+                                                <a href="#" amount="other">
+                                                    <label for="otherAmount">Other Amount</label>
+                                                    <i class="fa fa-rupee"></i>
+                                                    <input type="text" id="otherAmount" name="otherAmount" class="otherAmountInp">
+                                                </a>
+                                            </li>
+                                            <li>
+                                            </li>
+                                        </ul>
+                                        <div style="display: table-cell;">
+                                            <a href="javascript:void(0)" onclick="donateGC('priceBlock_1', 'otherAmount')" class="btn btn-primary">Donate Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="gc-story">
+                                <h4 data-aos="fade-right" data-aos-delay="200">{{ article.articleTitle }}</h4>
+                                <div class="date" data-aos="fade-right" data-aos-delay="200"><i
+                                            class="far fa-calendar"></i> Since {{ article.articleCreateDateTime|date('l d, Y') }} - September 21, 2020</div>
+                                {% for content in article.cmsArticleContent %}
+                                    <p data-aos="fade-right" data-aos-delay="200">
+                                       {{ content|raw }}
+                                        {#{% include 'portal/page/_page_content_display.html.twig' %}#}
+                                    </p>
+
+                                    {% if content.mediaType == 'image' %}
+                                        <figure data-aos="fade-right" data-aos-delay="200">
+                                            <img src="{{ content.articleContentDesktopImagePath|imagine_filter('resize_image_900') }}" class="card-img-top" alt="{{ content.articleContentImageAlt }}" title="{{ content.articleContentImageTitle }}">
+                                        </figure>
+                                    {% endif %}
+                                    {% if content.mediaType == 'video' %}
+                                        <div data-aos="fade-right" data-aos-delay="200">
+
+                                            <iframe width="900" height="400" src="{{ content.articleContentVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                    {% endif %}
+
+                                        {#<figure data-aos="fade-right" data-aos-delay="200">
+                                            <img src="/resources/images/common/changemakers/vikash-agarwal-story-banner.jpg"
+                                                 alt="Vikash Agarwal" title="Vikash Agarwal">
+                                        </figure>#}
+                                {% endfor %}
+                                <section>
+                                    <h2 data-aos="fade-right" data-aos-delay="200"><a href="#">Gallery</a>
+                                    </h2>
+                                    <div class="carousel-wrap" data-aos="fade-right" data-aos-delay="200">
+                                        <div class="owl-carousel">
+
+                                            {% for content in article.cmsArticleContent %}
+
+                                                <div class="item" data-aos="fade-right" data-aos-delay="200">
+                                                    <a href="#">
+                                                        {% if content.mediaType == 'image' %}
+                                                        <figure>
+                                                            <img src="{{ asset('images/') ~ content.articleContentDesktopImagePath }}"
+                                                                 alt="{{ content.articleContentImageAlt }}"
+                                                                 title="{{ content.articleContentImageTitle }}">
+                                                        </figure>
+                                                        {% endif %}
+                                                        {% if content.mediaType == 'video' %}
+                                                            <i class="video-image"></i>
+                                                            <iframe width="900" height="400" src="{{ content.articleContentVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                        {% endif %}
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </section>
+                            <section class="donate-gc with-project" data-aos="fade-right" data-aos-delay="200">
+                                <div class="image-sec">
+                                    <figure>
+                                        <img src="/resources/images/common/changemakers/donate-icon.png"
+                                             alt="Donate to Giving Circle" title="Donate to Giving Circle">
+                                    </figure>
+                                </div>
+                                <div class="content" data-aos="fade-right" data-aos-delay="200">
+                                    <h3>Donate to Giving Circle</h3>
+                                    <b>We want to keep bringing these #changemaker stories, If you want to support us in
+                                        this, please donate here.</b>
+                                    <div>
+                                        <ul class="price-block" id="priceBlock_2" {{ changeMakerProject is empty ? 'style="width: 75%; display: table-cell;"' : '' }}>
+                                            <li>
+                                                <a href="#" amount="250"><i class="fa fa-rupee"></i> <span>250</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" amount="500"><i class="fa fa-rupee"></i> <span>500</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" amount="1000"><i class="fa fa-rupee"></i> <span>1000</span></a>
+                                            </li>
+                                            <li class="otherAmnt">
+                                                <a href="#" amount="other">
+                                                    <label for="otherAmount_2">Other Amount</label>
+                                                    <i class="fa fa-rupee"></i>
+                                                    <input type="text" id="otherAmount_2" name="otherAmount_2" class="otherAmountInp">
+                                                </a>
+                                            </li>
+                                            <li>&nbsp;</li>
+                                            {#<li>
+                                                <input type="hidden" name="gcDonation" id="gcDonation">
+                                                <a href="javascript:void(0)" onclick="donateGC('priceBlock_2', 'otherAmount_2')" class="btn btn-primary">Donate Now</a>
+                                            </li>#}
+                                        </ul>
+                                        <div style="text-align: center; {{ changeMakerProject is empty ? ' display: table-cell;' : '' }} ">
+                                            <a href="javascript:void(0)" onclick="donateGC('priceBlock_2', 'otherAmount_2')" class="btn btn-primary">Donate Now</a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                {#{{ dump(article.changeMakerAppUser) }}#}
+
+                                {% if changeMakerProject is not empty %}
+
+                                    <div class="or-section">
+                                        <div class="orDiv"><span>OR</span></div>
+                                        {% if changeMakerProjectsArr|length > 1 %}
+                                            <a href="{{ path('show_user_project', {'user':article.changeMakerAppUser.id}) }}" class="btn btn-primary">Join This Project</a>
+                                        {% else %}
+                                            <a href="{{ path('project-details', {'id':changeMakerProject.id} ) }}" class="btn btn-primary">Join This Project</a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-auto right-list" data-aos="fade-right" data-aos-delay="200">
+                        {% if changeMakerProject is not empty %}
+
+                            {% set fundEventCount = get_fund_event_count(get_parameter('company_id'),changeMakerProject.id ) %}
+                            {% set nCount = get_circle_count_data(changeMakerProject.id) %}
+                        <div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2>My Project</h2>
+                                    <h4>{{ changeMakerProject.circle }}</h4>
+                                    <h5><i class="fas fa-map-marker-alt"></i> {{ changeMakerProject.mstCity }}</h5>
+                                    <h5 class="orange"><em>{% for interest in changeMakerProject.trnAreaOfInterests %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</em></h5>
+                                    <p{{ changeMakerProject.circleInformation|raw }}
+                                    </p>
+                                    <ul class="member-event-list">
+                                        <li>
+                                            <i class="fc-member-icon"></i>
+                                            <div class="number">{{ nCount.memberCount }}</div>
+                                            <div class="task">Members</div>
+                                        </li>
+                                        <li>
+                                            <i class="fc-event-icon"></i>
+                                            <div class="number">{{ nCount.eventCount }}</div>
+                                            <div class="task">Events</div>
+                                        </li>
+                                    </ul>
+                                    <div class="share-btn-section">
+                                        <ul class="inline-links">
+                                            <li>
+                                                <a href="{{ path('project-details', {'id':changeMakerProject.id }) }}" class="btn-primary">View Details of
+                                                    This Project</a>
+                                            </li>
+                                            {#<li>
+                                                <a href="#">Express Donate to This Project</a>
+                                            </li>#}
+                                        </ul>
+                                        <ul class="share-view">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fc-book-open"></i>
+                                                    <b>{{ nCount.readCount|default(0) }}</b>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" class="circleLike" circleId = "{{ changeMakerProject.id
+                                                }}">
+                                                    <i class="far fa-thumbs-up"></i>
+                                                    <b id="circleLike_{{ changeMakerProject.id }}">{{ nCount.likeCount|default(0) }}</b>
+                                                </a>
+
+
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('project-details', {'id': changeMakerProject.id}) }}#comments">
+                                                    <i class="far fa-comment"></i>
+                                                    <b>{{ nCount.commentCount|default(0) }}</b>
+                                                </a>
+                                            </li>
+                                            <li class="share-sec">
+                                                <a href="javascript:;" class="social-share-btn"><i
+                                                            class="fas fa-share-alt"></i></a>
+                                                <div class="social-media">
+                                                    <a href="#" class="fa fa-close"></a>
+                                                    <ul>
+                                                        <li><a onclick="getCircleShareCount('{{ changeMakerProject.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': changeMakerProject.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                        <li><a onclick="getCircleShareCount('{{ changeMakerProject.id }}')" href="https://twitter.com/intent/tweet?text={{ changeMakerProject.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': changeMakerProject.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                        <li><a onclick="getCircleShareCount('{{ changeMakerProject.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': changeMakerProject.id}) }}&amp;title={{ changeMakerProject.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                        <li><a onclick="getCircleShareCount('{{ changeMakerProject.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': changeMakerProject.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% set recent_articles = get_other_cms_article_by_id(2, get_parameter('company_id'), article.id) %}
+                        <div class="recent-changemaker" data-aos="fade-right" data-aos-delay="200">
+                            <h3>Recent Change Makers</h3>
+                            <ul>
+                                {% for recent_article in recent_articles %}
+                                <li>
+                                    <a href="{{ path('change-maker-detail', {'articleSlugName': recent_article.articleSlugName}) }}" class="card-image">
+                                        <figure>
+                                            {% if recent_article.articleIntroVideoPath is not empty %}
+                                                <iframe width="150" height="80" src="{{ recent_article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            {% else %}
+                                                <img src="{{ recent_article.articleIntroDesktopImagePath|imagine_filter('resize_image_h90') }}" class="card-img-top" alt="{{ recent_article.articleIntroImageAlt }}">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                    <a href="{{ path('change-maker-detail', {'articleSlugName': recent_article.articleSlugName}) }}" class="content">
+                                        <p><b>{{ recent_article.articleFor }}</b></p>
+                                        <p>{{ recent_article.locationName }}, {{ recent_article.cityName }}</p>
+                                        <p>{% for interest in recent_article.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %} {% endfor %}</p>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                                {#<li>
+                                    <a href="#" class="card-image">
+                                        <figure>
+                                            <img src="/resources/images/common/nikhil-goodness-timeline2.jpg"
+                                                 alt="Sonali Ghosh" title="Sonali Ghosh">
+                                        </figure>
+                                    </a>
+                                    <a href="#" class="content">
+                                        <p><b>Sonali Ghosh</b></p>
+                                        <p>Mulund, Mumbai</p>
+                                        <p>Hunger, Education</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="card-image">
+                                        <figure>
+                                            <img src="/resources/images/common/nikhil-goodness-timeline2.jpg"
+                                                 alt="Sonali Ghosh" title="Sonali Ghosh">
+                                        </figure>
+                                    </a>
+                                    <a href="#" class="content">
+                                        <p><b>Sonali Ghosh</b></p>
+                                        <p>Mulund, Mumbai</p>
+                                        <p>Hunger, Education</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="card-image">
+                                        <figure>
+                                            <img src="/resources/images/common/nikhil-goodness-timeline2.jpg"
+                                                 alt="Sonali Ghosh" title="Sonali Ghosh">
+                                        </figure>
+                                    </a>
+                                    <a href="#" class="content">
+                                        <p><b>Sonali Ghosh</b></p>
+                                        <p>Mulund, Mumbai</p>
+                                        <p>Hunger, Education</p>
+                                    </a>
+                                </li>#}
+                            </ul>
+                            <a href="{{ path('change-makers') }}" class="btn btn btn-primary">Explore All Change Makers</a>
+                        </div>
+                        <section class="recommend-changemaker" data-aos="fade-right" data-aos-delay="200">
+                            <div class="content-box">
+                                <div class="image-sec">
+                                    <figure>
+                                        <img src="/resources/images/common/icons/recommend-icon.png"
+                                             alt="Recommend a Change Maker around you"
+                                             title="Recommend a Change Maker around you">
+                                    </figure>
+                                </div>
+                                <div class="content">
+                                    {{ cmsContent.cmsPageContent[1].pageContent|raw }}
+                                    <a href="{{ path('report-goodness') }}" class="btn btn-primary">Recommend a Change Maker</a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row">
+                <div class="col left-list">
+                    <section class="listing-page latest-events comment-section"  data-aos="fade-right" data-aos-delay="200">
+                        <div class="comment-left">
+                            <div id="loginMsg" class="message alert-warning font-weight-bolder text-center" style="display: none;">Please Login to post a comment</div>
+                            <h2 id="comments">Comments</h2>
+                            <ul class="comment-counter">
+                                <li>
+                                    <a href="javascript:void(0);" class="clicklike" articleId = "{{ article.id }}">
+                                        <i class="far fa-thumbs-up"></i> <b class="totallike"> {{ article.articleLikeCount|default(0) }} </b> Likes
+                                    </a>
+                                </li>
+                                <li>
+                                    {% if app.user %}
+                                    <a href="javascript:void(0)">
+                                        {% else %}
+                                        <a href="javascript:void(0)" onclick="getLoginMsg()">
+                                            {% endif %}
+                                            <i class="fa fa-comment-o"></i> <b>{{ articlaCommentCount }} Comments</b>
+                                        </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-share-alt"></i> <b>{{ article.articleShareCount|default(0) }} Share</b>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="comment-area">
+                                <div class="message alert-success" id="cmtmessage"></div>
+
+                                    {{ form_start(form, {'attr': {'id': 'commentForm', 'methos':'post'}}) }}
+                                    <input type="hidden" id="articleId" value="{{ article.id }}">
+
+                                <div class="input-group">
+                                    {{ form_widget(form.articleComment, { 'attr':{'class': 'search-input'} }) }}
+
+
+                                    {% if app.user %}
+                                        <button type="submit" class="btn btn-primary commentbutton float-right">Post</button>
+                                    {% else %}
+                                        <button type="button" onclick="getLoginMsg()" class="btn btn-primary float-right">Post</button>
+                                    {% endif %}
+
+                                </div>
+
+
+                                    {{ form_row(form._token) }}
+                                    {{ form_end(form, {'render_rest': false}) }}
+
+                            </div>
+                            {#
+                            {% else %}
+                            <div class="comment-area">
+                                <h4>Login to post a comment...</h4>
+                            </div>
+                            #}
+
+
+                            <ul class="comment-list">
+                                {% set article_comments = get_cms_article_comments(article.id, 1) %}
+                                {#{% set article_comments = get_cms_article_comments(article.id, 1) %}#}
+                                {% if article_comments is not empty %}
+                                    {% for comment in article_comments['comment'] %}
+                                        <li>
+                                            <div class="image-sec">
+                                                <figure>
+                                                    {% if(comment.userimage is not empty) %}
+                                                        <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                             alt="{{ comment.name }}" title="{{ comment.name }}">
+                                                    {% elseif(comment.userinitials is not empty) %}
+                                                        <div>{{ comment.userinitials }}</div>
+                                                    {% endif %}
+                                                </figure>
+                                            </div>
+                                            <div class="comment-box" style="width: 100%">
+                                                <div class="author-box">
+                                                    <h3 class="author-tl">
+                                                        <b>{{ comment.name }}</b>
+                                                    </h3>
+                                                    <p>{{ comment.comment }}</p>
+                                                </div>
+                                                <ul class="like-reply-list">
+                                                    <li><a onclick="getLikeCount({{ comment.id }}, 'comment_{{ comment.id }}')" href="#">Like</a></li>
+                                                    {% if app.user %}
+                                                        <li><a href="#" onclick="showReplyBlock('{{ comment.id }}')" class="reply-btn">Reply</a></li>
+                                                    {% endif %}
+                                                    <li>{{ comment.createtime|time_diff}}</li>
+                                                </ul>
+                                                {# <div id="commentreply" class="mt-2"></div>
+                                                    <input type="hidden" id="comment" value="{{ comment.id }}">
+                                                #}
+                                                <div class="message alert-success" id="replymessage{{ comment.id }}"></div>
+                                                <div class="reply-box" id="replybox{{ comment.id }}">
+                                                    <div id="replypostarea{{ comment.id }}" class="replypostarea" style="width: 100%; display: flow-root;">
+                                                        <div class="image-sec float-left">
+                                                            <figure>
+                                                                {% if app.user %}
+                                                                    <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}"
+                                                                         alt="{{ app.user.userName|default('') }}"
+                                                                         title="{{ app.user.userName|default('') }}">
+                                                                {% endif %}
+                                                            </figure>
+                                                        </div>
+                                                        <div class="reply-area float-left" id="replyarea{{ comment.id }}" style="width: 90%;">
+
+
+                                                                {% set rp_form =  reply_form.createView %}
+                                                                {{ form_start(rp_form, {'attr': {'id': 'replyForm-'~comment.id, 'method':'post', 'class':'replyFrm' }}) }}
+
+                                                            <div class="input-group">
+                                                                {{ form_widget(rp_form.articleComment, { 'id': 'reply_box_'~comment.id, 'attr': {'placeholder': 'Write your reply...' } } ) }}
+                                                                <button type="submit" class="btn btn-primary replybutton">Post</button>
+                                                            </div>
+
+                                                                {{ form_row(rp_form._token) }}
+                                                                {{ form_end(rp_form, {'render_rest': false}) }}
+                                                                {#                                                                    <input type="text" id="reply_box_{{ comment.id }}" class="search-input" placeholder="Write your reply...">#}
+                                                                {#                                                                    <a href="#" onclick="postComment('{{ comment.id }}')" class="btn btn-primary post-reply">Post</a>#}
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div style="width: 100%;  display: flow-root;">
+                                                        {% if article_comments['reply'][comment.id] is defined %}
+                                                            {% for reply in article_comments['reply'][comment.id] %}
+                                                                <div class="" style="margin-top: 10px">
+                                                                    <div class="image-sec">
+                                                                        <figure>
+                                                                            {% if(comment.userimage is not empty) %}
+                                                                                <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                                                     alt="{{ comment.name }}" title="{{ comment.name }}">
+                                                                            {% elseif(comment.userinitials is not empty) %}
+                                                                                <div>{{ comment.userinitials }}</div>
+                                                                            {% endif %}
+                                                                        </figure>
+                                                                    </div>
+                                                                    <div class="comment-box" style="width: 100%">
+                                                                        <div class="author-box">
+                                                                            <h3 class="author-tl">
+                                                                                <b>{{ reply.name }}</b>
+                                                                            </h3>
+                                                                            <p>{{ reply.comment|raw }}</p>
+                                                                        </div>
+                                                                        <ul class="like-reply-list">
+                                                                            {#                                                              <li><a href="#">Like</a></li>#}
+                                                                            {#                                                              <li><a href="#">Reply</a></li>#}
+                                                                            <li>{{ reply.createtime|time_diff}}</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="like-counter"><i class="far fa-thumbs-up"></i> <b><span id="comment_{{ comment.id }}">{{ comment.likecount|default(0) }}</span></b>
+                                            </div>
+                                        </li>
+
+                                    {% endfor %}
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </section>
+
+                </div>
+                <div class="col-auto right-list"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/resources/js/easy-responsive-tabs.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $('body').addClass('details-page cm-details');
+
+        $('.owl-carousel').owlCarousel({
+            loop: false,
+            margin: 10,
+            nav: true,
+            dots: false,
+            navText: [
+                "<i class='fas fa-arrow-left'></i>",
+                "<i class='fas fa-arrow-right'></i>"
+            ],
+            autoplay: false,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 3
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        });
+
+        $("#commentForm").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+            postComment('');
+        });
+
+        $(".replyFrm").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var formid = $(this)[0].id;
+            var commentid = formid.replace("replyForm-", "");
+            postComment(commentid);
+        });
+
+
+    });
+    $('.social-share-btn').on('click', function (e) {
+        e.preventDefault();
+        $(this).children('.fa-share-alt').addClass('toggle');
+        $(this).siblings('.social-media').slideToggle();
+    });
+
+    $('.social-share-btn').on('click', function (e) {
+        e.preventDefault();
+        $(this).children('.fa-share-alt').addClass('toggle');
+        $(this).parents('.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+    });
+    $('.share-link').on('click', function (e) {
+        e.preventDefault();
+        $(this).siblings('.share-sec').find('.social-media').slideToggle();
+    });
+    $('.fa-close').on('click', function (e) {
+        e.preventDefault();
+        $(this).parent('.social-media').slideToggle();
+        $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+    });
+
+    $(".forward-list").hide();
+    $(".btn-forward-post").click(function (e) {
+        e.preventDefault();
+        $(this).siblings('.forward-list').fadeToggle();
+    });
+    $(".btn-reply").click(function (e) {
+        e.preventDefault();
+        $(this).toggleClass('disabled');
+        $(this).parents('.comment-box').siblings('#reply-popup').toggle();
+        $(this).parents('.comment-list').siblings('.reply-box').toggle();
+    });
+    $(".btn-close").click(function (e) {
+        e.preventDefault();
+        $(this).parents('#reply-popup').hide();
+        $(this).parents('#reply-popup').siblings('.comment-box').find('.btn-reply').removeClass('disabled');
+        $(this).parents('.comment-list').siblings('.reply-box').show();
+    });
+    $(".reply-btn").click(function (e) {
+        e.preventDefault();
+        $(this).parents('.like-reply-list').siblings('.reply-box').show();
+    });
+    $(".post-reply").click(function (e) {
+        e.preventDefault();
+        $(this).parents('.reply-area').hide();
+        $(this).parents('.comment-box').find('.author-box').show();
+        $(this).parents('.comment-box').find('.like-reply-list').show();
+    });
+
+    $('.no-form').removeClass('form-control no-form');
+
+    $('.reply-box').css('display', 'block');
+    $('.comment-box').find('.author-box').show();
+    $('.comment-box').find('.like-reply-list').show();
+    $('.replypostarea').hide();
+
+    $(".price-block li a").click(function (e) {
+        e.preventDefault();
+        $(".price-block li a").removeClass('active');
+        $(".otherAmountInp").val('');
+        $(this).addClass('active');
+    });
+
+    $(document).on('click','.circleLike',function(){
+        var data = {};
+        var circleId = data['id'] = $(this).attr("circleId");
+        jQuery.ajax({
+            url: "{{ path('circle-like') }}",
+            data: data,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $("#circleLike_"+circleId).text(data.count);
+            }
+        });
+    });
+
+    $(document).on('click','.clicklike',function(){
+        var data = {};
+        var articleId = data['id'] = $(this).attr("articleId");
+        jQuery.ajax({
+            url: "{{ path('article-like') }}",
+            data: data,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $("#totallike").text(data.count);
+                $(".totallike").text(data.count);
+            }
+        });
+    });
+
+    function getLikeCount(commentId, spanupdateId) {
+        var data = {};
+        //var articleId = $("#article_id").val();
+        data['id'] = commentId;
+
+        var spanupdate = $("#"+spanupdateId);
+
+        jQuery.ajax({
+            url: "{{ path('comment-like') }}",
+            data: data,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                console.log(spanupdate);
+                spanupdate.text(data.count);
+            }
+        });
+    }
+
+    function getLoginMsg() {
+
+        var message = $("#loginMsg");
+
+        // message.text = "Please Login to post a comment";
+        message.slideDown(500, function(){
+            setTimeout(function(){
+                message.slideUp(500);
+            },3000);
+        });
+    }
+
+    function postComment(commentid) {
+        var data = {};
+
+        data['commentId'] = commentid;
+        data['articleId'] = $('#articleId').val();
+        //data['commentId'] = $("#commentId").val();
+        //data['comment'] = $('#trn_user_comments_comment').val();
+
+        if (commentid !== '') {
+            var message = $('#replymessage'+commentid);
+            message.text('Posting your reply to comment......');
+            $('.replybutton').attr("disabled", "disabled");
+            data['articleComment'] = $('#reply_box_'+commentid).val();
+        } else {
+            var message = $("#cmtmessage");
+            message.text('Posting your comment......');
+            $('.commentbutton').attr("disabled", "disabled");
+            data['articleComment'] = $('#cms_user_comment_articleComment').val();
+        }
+        console.log(data);
+        $.ajax({
+            url: '{{ path('comment') }}',
+            type: 'POST',
+            data: data,
+            success: (function (formdata) {
+
+                // empty the text boxes
+                if(commentid != '') {
+                    // hide current open reply box if replying
+                    $("#replypostarea"+commentid).hide();
+                    $('#reply_box_'+commentid).val('');
+                } else {
+                    $('#cms_user_comment_articleComment').val('');
+                }
+                message.text('');
+                message.text(formdata['message']);
+                message.slideDown(500, function(){
+                    setTimeout(function(){
+                        message.text('');
+                        message.slideUp(500);
+                    },3000);
+                });
+
+                //$("#submitcomment").show();
+
+                //enable all buttons
+                $('.commentbutton').removeAttr("disabled");
+                $('.replybutton').removeAttr("disabled");
+
+                //window.location.reload();
+            })
+        });
+    }
+
+    var pathToArticleShare = "{{ path('article-share') }}";
+    var pathToCircleShare = "{{ path('circle-share') }}";
+
+    function showReplyBlock(commentid) {
+        $("#replypostarea"+commentid).toggle();
+        //$("#replyarea"+commentid).toggle();
+    }
+
+    function donateGC(ulId, otherAmountFld) {
+
+        var bAmountSelected = false;
+        var selectedAmount = 0;
+        console.log('ulId - '+ulId);
+        $("#"+ulId+" li").each(function (){
+
+            if($(this).find('a').hasClass('active')) {
+                bAmountSelected = true;
+                if($(this).find('a').attr('amount') == 'other') {
+                    selectedAmount = $("#"+otherAmountFld).val();
+                } else {
+                    selectedAmount = $(this).find('a').attr('amount');
+                }
+            }
+
+        });
+
+        if(selectedAmount == 0 || selectedAmount == '') {
+            alert("Please enter amount");
+            return false;
+        }
+        if($("#"+otherAmountFld).val() != '' && $.isNumeric($("#"+otherAmountFld).val()) == false ) {
+            alert("Please enter numeric value");
+            return false;
+        }
+        console.log("all validations passed, move to donation screen, amt - "+selectedAmount);
+        // all validations passed, move to donation screen
+
+        var data = {
+            'amountToContribute': selectedAmount,
+            'changemakerarticleId': '{{ article.id }}',
+        };
+
+        jQuery.ajax({
+            url: "{{ path('donate-to-gc') }}",
+            data: data,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                window.location.href = "{{ path('share-your-details') }}";
+                // reload ul elements to remove class active
+            }
+        });
+
+    }
+
+</script>
+
+{% endblock %}

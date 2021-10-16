@@ -1,0 +1,73 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.image'|trans|upper }}</th>
+                                <th>{{ 'label.title'|trans|upper }}</th>
+                                <th>{{ 'label.article_for'|trans|upper }}</th>
+                                <th>{{ 'label.articleby'|trans|upper }}</th>
+                                <th>{{ 'label.seq_no'|trans|upper }}</th>
+                                <th>{{ 'label.createtime'|trans|upper }}</th>
+                                <th>{{ 'label.is_active'|trans|upper }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for cms_article in cms_articles %}
+                            <tr>
+                                <td>
+                                    D: <img src="{{ cms_article.articleIntroDesktopImagePath|imagine_filter('resize_image_100') }}" alt=".."><br><br>
+                                    T: <img src="{{ cms_article.articleIntroTabletImagePath|imagine_filter('resize_image_100') }}" alt=".."><br><br>
+                                    M: <img src="{{ cms_article.articleIntroMobileImagePath|imagine_filter('resize_image_100') }}" alt="..">
+                                </td>
+                                <td>{{ cms_article.articleTitle|default('-') }}</td>
+                                <td>{{ cms_article.articleFor|default('-') }}</td>
+                                <td>{{ cms_article.appUser }}</td>
+                                <td>{{ cms_article.sequenceNo|default('0') }}</td>
+                                <td>{{ cms_article.articleCreateDateTime|date('d M Y H:i') }}</td>
+                                <td>{{ cms_article.isActive ? 'Yes' : 'No' }}</td>
+                                <td>
+                                    <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                        <a href="{{ path(path_show, {'id': cms_article.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>
+                                        <a href="{{ path(path_edit, {'id': cms_article.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                        <a href="{{ path(path_comment, {'chgmaker_id': cms_article.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fas fa-comment"></i></button></a>&nbsp;
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">{{'info.no_record_found'|trans}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}

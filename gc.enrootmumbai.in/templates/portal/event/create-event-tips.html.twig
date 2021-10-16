@@ -1,0 +1,50 @@
+{% set tipsContent = get_cms_page_content_by_page('create-event-tip') %}
+
+<div class="modal fade" id="tips-event-creation" tabindex="-1" aria-labelledby="selectAreaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <a href="#" class="btn-close" data-dismiss="modal" aria-label="Close"></a>
+                <div class="right-section">
+                    <h2 class="modal-title" id="selectAreaLabel">{{ tipsContent.pageTitle }}</h2>
+                    <div class="scrollbar-sec">
+                        <p>
+                            {{ tipsContent.cmsPageContent[0]|raw }}
+                        </p>
+                        <ul class="project-creation">
+                            {% for content in tipsContent.cmsPageContent %}
+                                {% if loop.first %}
+                                    {# do nothing #}
+                                {% else %}
+
+                                    <li>
+                                    {% if(content.mediaPosition) == 'left' %}
+                                        <span class="icon">
+                                            {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                            {% endif %}
+                                        </span>
+                                        <span>
+                                            {{ content|raw }}
+                                        </span>
+                                    {% else %}
+                                        <span>
+                                            {{ content|raw }}
+                                        </span>
+                                        <span class="icon">
+                                            {% if(content.mediaType == 'image' and content.mediaFileName != '') %}
+                                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                            {% endif %}
+                                        </span>
+                                    {% endif %}
+                                    </li>
+
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

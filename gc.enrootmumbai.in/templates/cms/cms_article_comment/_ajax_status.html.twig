@@ -1,0 +1,6 @@
+<input type="hidden" class="comment" id="comment_id" name="comment_id" value="{{ comment.id }}">
+{% if comment.isApproved == true %}
+    <button class="btn status bg-green btn-sm"><i class="fa fa-thumbs-up"></i></button> <span class="unapprove">Approved</span>
+{% else %}
+    <button class="btn status bg-red btn-sm"><i class="fa fa-thumbs-down"></i></button> <span class="approve">Un-Approved</span>
+{% endif %}

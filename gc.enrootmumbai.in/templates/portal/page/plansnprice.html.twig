@@ -1,0 +1,145 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="main">
+            <div class="container">
+                <div class="row ">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-sm-12">
+                        <h2>{{ pageContentByPage.pageTitle }}</h2>
+                        {% set content = pageContentByPage.cmsPageContent[0] %}
+                        <h3>{{ content.pageContent|raw }}</h3>
+                    </div>
+                    <div class="col-12">
+                        <ul class="priceIncludes">
+                            <li>
+                                {% set content = pageContentByPage.cmsPageContent[1] %}
+                                {{ content.pageContent|raw }}
+                            </li>
+                            <li>
+                                {% set content = pageContentByPage.cmsPageContent[2] %}
+                                {{ content.pageContent|raw }}
+                            </li>
+                            <li>
+                                {% set content = pageContentByPage.cmsPageContent[3] %}
+                                {{ content.pageContent|raw }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="orange-box">
+            <div class="container">
+                <h2>
+                    {% set content = pageContentByPage.cmsPageContent[4] %}
+                    {{ content.pageContent|raw }}
+                </h2>
+                <h5>
+                    {% set content = pageContentByPage.cmsPageContent[5] %}
+                    {{ content.pageContent|raw }}
+                    Engage with us at <a href="mailto: contact@givingcircle.in" class="btn btn-primary-o">contact@givingcircle.in</a>
+                </h5>
+                <ul class="features">
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[6] %}
+                        <span class="icon">
+                            {% if content.mediaType != '' and content.mediaFileName != '' %}
+                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                            {% endif %}
+                        </span>
+                        <span>{{ content.pageContent|raw }}</span>
+                    </li>
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[7] %}
+                        <span class="icon">
+                            {% if content.mediaType != '' and content.mediaFileName != '' %}
+                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                            {% endif %}
+                        </span>
+                        <span>{{ content.pageContent|raw }}</span>
+                    </li>
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[8] %}
+                        <span class="icon">
+                            {% if content.mediaType != '' and content.mediaFileName != '' %}
+                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                            {% endif %}
+                        </span>
+                        <span>{{ content.pageContent|raw }}</span>
+                    </li>
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[9] %}
+                        <span class="icon">
+                            {% if content.mediaType != '' and content.mediaFileName != '' %}
+                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                            {% endif %}
+                        </span>
+                        <span>{{ content.pageContent|raw }}</span>
+                    </li>
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[10] %}
+                        <span class="icon">
+                            {% if content.mediaType != '' and content.mediaFileName != '' %}
+                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                            {% endif %}
+                        </span>
+                        <span>{{ content.pageContent|raw }}</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="changeMakers projects" data-aos="fade-right" data-aos-delay="200">
+            <div class="container">
+                <div class="event-counter">
+                    <ul>
+                        <li data-aos="fade-right" data-aos-delay="100">
+                            <b>{{ pageContentByPage.cmsPageContent[11].pageContent|raw }}</b>
+                            <span class="ttl-prc"><i class="fa fa-rupee"></i>{{ pageContentByPage.cmsPageContent[12].pageContent|raw }}</span>
+                            <b>{{ pageContentByPage.cmsPageContent[13].pageContent|raw }}</b>
+                        </li>
+                        <li data-aos="fade-right" data-aos-delay="100">
+                            {{ pageContentByPage.cmsPageContent[14].pageContent|raw }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="bank-dtls">
+                    <p><b>{{ pageContentByPage.cmsPageContent[15].pageContent|raw }}</b></p>
+                    <div class="acnt-dtls">
+                        {% set content = pageContentByPage.cmsPageContent[16] %}
+                        <span class="icn">
+                            <i class="">
+                                {% if content.mediaType != '' and content.mediaFileName != '' %}
+                                    <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                {% endif %}
+                                {#<img src="/resources/images/common/create-project/Icon-Bank.png">#}
+                            </i>
+                        </span>
+                        {{ content.pageContent|raw }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static plans-price');
+        });
+    </script>
+{% endblock %}

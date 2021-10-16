@@ -1,0 +1,291 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+{#    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}#}
+    <div class="card">
+        <div class="card-header">
+{#            <h4 class="card-title txt-bold float-left">{{ data.circle |upper}}</h4>#}
+            <h4 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{data.circle|trans|upper}}</b>
+            </h4>
+        </div>
+    </div>
+    {{ form_start(form) }}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-body">
+                    <div class="card-header mt-2">
+                        <h3 class="card-title">{{ 'Project Details'|upper }}</h3>
+                    </div>
+                    <div class="row">
+                        <table class="table table-responsive-md text-sm">
+                            <tbody>
+                            <tr>
+                                <th>{{ 'label.company'|trans }}</th>
+                                <td colspan="3">{{ data.orgCompany }}</td>
+                                <th>{{ 'label.app_user'|trans }}</th>
+                                <td colspan="3">{{ data.appUser.appUserDetails }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.circle'|trans }}</th>
+                                <td>{{ data.circle }}</td>
+                                <th>{{ 'label.type_of_circle'|trans }}</th>
+                                <td>{{ data.mstJoinBy.joinBy }}</td>
+                                <td colspan="4"></td>
+                            </tr>
+                            {% for trnAreaOfInterest in data.trnAreaOfInterests %}
+                                <tr>
+                                    <th>{{ 'label.area_interest_primary'|trans }}</th>
+                                    <td>{{ trnAreaOfInterest.areaInterestPrimary.areaInterest }}</td>
+                                    <th>{{ 'label.area_interest_secondary'|trans }}</th>
+                                    <td>{{ trnAreaOfInterest.areaInterestSecondary | join(',') }}</td>
+                                    <td colspan="4"></td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th>{{ 'label.location'|trans }}</th>
+                                <td colspan="4">{{ data.address }}</td>
+                                {#<th>{{ 'label.geo_code'|trans }}</th>
+                                <td colspan="3">{{ data.geoCode }}</td>#}
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.information_about_circle'|trans }}</th>
+                                <td colspan="7">{{ data.circleInformation|default('-') | raw }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.how_goal_will_be_achieved'|trans }}</th>
+                                <td colspan="7">{{ data.howGoalWillBeAchieved|default('-') | raw }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.impact_statement'|trans }}</th>
+                                <td colspan="7">{{ data.impactStatement|default('-') | raw }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.suggested_keywords'|trans }}</th>
+                                <td colspan="7">{{ data.suggestedKeywords|default('-') | raw }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.status'|trans }}</th>
+                                <td>
+{#                                    {{ data.mstStatus }}#}
+                                    {{ form_row(form.mstStatus) }}
+                                </td>
+                                <th><label for="trn_circle_edit_reasonToReject">{{ 'label.reason_to_reject'|trans }}</label></th>
+                                <td>
+{#                                    {{ data.reasonToReject|raw }}#}
+                                    {{ form_row(form.reasonToReject) }}
+                                </td>
+                                <th>{{ 'label.is_active'|trans }}</th>
+                                <td>{{ data.isActive ? 'Yes' : 'No'  }}</td>
+                            </tr>
+
+                            {#<tr>
+                                <th>{{ 'label.beneficiary_account_type'|trans }}</th>
+                                <td>{{ data.mstBankAccountTypeBeneficiary }}</td>
+                                <th>{{ 'label.beneficiary_bank_name'|trans }}</th>
+                                <td>{{ data.beneficiaryBankName }}</td>
+                                <th>{{ 'label.beneficiary_account_holder_name'|trans }}</th>
+                                <td>{{ data.beneficiaryAccountHolderName }}</td>
+                                <th>{{ 'label.beneficiary_bank_account_number'|trans }}</th>
+                                <td>{{ data.beneficiaryBankAccountNumber }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>{{ 'label.beneficiary_account_type'|trans }}</th>
+                                <td>{{ data.mstBankAccountTypeBeneficiary }}</td>
+                                <th>{{ 'label.beneficiary_bank_name'|trans }}</th>
+                                <td>{{ data.beneficiaryBankName }}</td>
+                                <th>{{ 'label.beneficiary_account_holder_name'|trans }}</th>
+                                <td>{{ data.beneficiaryAccountHolderName }}</td>
+                                <th>{{ 'label.beneficiary_bank_account_number'|trans }}</th>
+                                <td>{{ data.beneficiaryBankAccountNumber }}</td>
+                            </tr>#}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-header mt-2">
+                        <h3 class="card-title">{{ 'Event List'|upper }}</h3>
+                    </div>
+
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.id'|trans|upper }}</th>
+                                <th>{{ 'label.circle_event'|trans|upper }}</th>
+                                <th>{{ 'label.circle_event_type_of_event'|trans|upper }}</th>
+                                <th>{{ 'label.circle_event_product_type'|trans|upper }}</th>
+                                <th>{{ 'label.area_interest_primary'|trans|upper }}</th>
+                                <th>{{ 'label.city'|trans|upper }}</th>
+                                <th>{{ 'label.state'|trans|upper }}</th>
+                                <th>{{ 'label.country'|trans|upper }}</th>
+                                <th>{{ 'label.status'|trans|upper }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for circle_event in data.trnCircleEvents %}
+                                <tr>
+                                    <td>{{ circle_event.id }}</td>
+                                    <td>{{ circle_event.name }}</td>
+                                    <td>{{ circle_event.mstJoinBy.joinBy }}</td>
+                                    <td>{{ circle_event.mstEventProductType | join(',') }}</td>
+                                    <td>{{ circle_event.trnCircle.trnAreaOfInterests | join(',')  }}</td>
+                                    <td>{{ circle_event.mstCity.city }}</td>
+                                    <td>{{ circle_event.mstCity.mstState.state }}</td>
+                                    <td>{{ circle_event.mstCity.mstCountry.country }}</td>
+                                    <td>{{ circle_event.mstStatus.status }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody></table>
+                    </div>
+
+                    <div class="card-header mt-2">
+                        <h3 class="card-title">{{ 'Project Images'|upper }}</h3>
+                    </div>
+
+                    <div class="row">
+
+                        <table class="table table-responsive-md text-sm">
+                            <tbody>
+                            <tr>
+                                <th>{{ 'label.media_name'|trans}}</th>
+                                <td>Profile Image</td>
+
+                                <th>{{ 'label.media_file_type'|trans}}</th>
+                                <td>Image</td>
+                                <th>{{ 'label.media_alt_text'|trans}}</th>
+                                <td>Profile Image</td>
+
+                                <th>{{ 'label.media_title'|trans}}</th>
+                                <td>Profile Image</td>
+
+                                <td><img src="{{ data.profileImagePath|imagine_filter
+                                        ('resize_image_100') }}" alt="--"></td>
+                            </tr>
+                            <tr>
+                                <th>{{ 'label.media_name'|trans}}</th>
+                                <td>Background Image</td>
+
+                                <th>{{ 'label.media_file_type'|trans}}</th>
+                                <td>Image</td>
+                                <th>{{ 'label.media_alt_text'|trans}}</th>
+                                <td>Background Image</td>
+
+                                <th>{{ 'label.media_title'|trans}}</th>
+                                <td>Background Image</td>
+
+                                <td><img src="{{ data.backgroundImagePath|imagine_filter
+                                        ('resize_image_100') }}" alt="--"></td>
+                            </tr>
+                            {% for media in data.trnProductMedia %}
+                                <tr>
+                                    {% if media.mediaType == 'image' %}
+
+                                        <th>{{ 'label.media_name'|trans}}</th>
+                                        <td>{{ media.mediaName }}</td>
+
+                                        <th>{{ 'label.media_file_type'|trans}}</th>
+                                        <td>{{ media.mediaType }}</td>
+
+                                        <th>{{ 'label.media_alt_text'|trans}}</th>
+                                        <td>{{ media.mediaAltText }}</td>
+
+                                        <th>{{ 'label.media_title'|trans}}</th>
+                                        <td>{{ media.mediaTitle }}</td>
+
+                                        <td><img src="{{ media.uploadedFilePath|imagine_filter
+                                                ('resize_image_100') }}" alt="--"></td>
+                                    {% else %}
+                                        {% if media.mediaURL is not empty %}
+                                            <th>{{ 'label.media_name'|trans}}</th>
+                                            <td>{{ media.mediaName }}</td>
+
+                                            <th>{{ 'label.media_file_type'|trans}}</th>
+                                            <td>{{ media.mediaType }}</td>
+
+                                            <th>{{ 'label.media_url'|trans}}</th>
+                                            <td>{{ media.mediaURL }}</td>
+
+                                            <td colspan="2">
+                                                <iframe src="{{ media.mediaURL }}" frameborder="0"
+                                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowfullscreen></iframe>
+                                            </td>
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ path('product_circle_index') }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_end(form) }}
+    <br>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+            $('#trn_circle_edit_mstStatus').change(function (){
+
+                if($(this).children("option:selected").text() == 'Rejected' || $(this).children("option:selected")
+                    .text() = 'Deactivated') {
+                    $('label[for=trn_circle_edit_reasonToReject]').addClass('required');
+                    $("#trn_circle_edit_reasonToReject").removeAttr('disabled');
+                    $("#trn_circle_edit_reasonToReject").prop('required', true);
+                } else {
+                    $('label[for=trn_circle_edit_reasonToReject]').removeClass('required');
+                    $("#trn_circle_edit_reasonToReject").val('');
+                    $("#trn_circle_edit_reasonToReject").attr('disabled', 'disabled');
+                    $("#trn_circle_edit_reasonToReject").prop('required', false);
+                }
+            });
+
+            $('#trn_circle_edit_mstStatus').change(); // change reason to reject box on load
+
+            $('[name="trn_circle_edit"]').on('submit', function() {
+
+                if(($('#trn_circle_edit_mstStatus :selected').text() == 'Rejected' ||  $(this).children("option:selected").text() = 'Deactivated' ) &&
+                    $.trim($("#trn_circle_edit_reasonToReject").val()) != '') {
+
+                    var wordLen = 10, len; // Maximum word length
+                    len = $("#trn_circle_edit_reasonToReject").val().split(/[\s]+/);
+                    if (len.length > wordLen) {
+                        if (event.keyCode == 46 || event.keyCode == 8 || event.which == 46 || event.which == 8) {
+                            // Allow backspace and delete buttons
+                        } else {
+                            //if (event.keyCode < 48 || event.keyCode > 57) {//all other buttons
+                            event.preventDefault();
+                        }
+                    }
+                    wordsLeft = (wordLen) - len.length;
+                    if (wordsLeft < 0) {
+                        alert('Maximum ' + wordLen + ' words accepted.\n'+len.length+' words entered');
+                        $("#trn_circle_edit_reasonToReject").focus();
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+        })
+
+    </script>
+{% endblock %}

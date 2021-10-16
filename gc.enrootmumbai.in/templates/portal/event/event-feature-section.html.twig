@@ -1,0 +1,32 @@
+<div class="feature-section col-lg order-lg-1">
+    <h4 data-aos="fade-right" data-aos-delay="200">{{ pageContentCMS.cmsPageContent[2].pageContent|raw }}</h4>
+    {% set iconList = {'0' : '<i class="fc-inspiration"></i>' , '1' : '<i class="fc-spread"></i>',
+        '2' : '<i class="fc-generate"></i>', '3' : '<i id="planicon" class="fc-plan"></i>', '4' : '<i class="fc-share"></i>'} %}
+    {% set liList = pageContentCMS.cmsPageContent[3].pageContent %}
+    {% set liList = liList|split('</li>') %}
+    {% set newLiList = [] %} {# defualt to original value #}
+    {% for listitems in liList %}
+        {% set iconkey = loop.index0 %}
+        {% if iconList[iconkey] is defined %}
+            {% set newLiVal = listitems|replace({'<li>' : '<li>'~iconList[iconkey]}) %}
+        {% else %}
+            {% set newLiVal = listitems|replace({'<li>' : '<li><i class="fc-inspiration"></i>'}) %}
+        {% endif %}
+        {% set newLiList = newLiList|merge([newLiVal]) %}
+    {% endfor %}
+
+    <div data-aos="fade-right" data-aos-delay="200" class="feature-list">
+        {{ newLiList|join('</li>')|raw }}
+    </div>
+    <figure>
+        <img src="/resources/images/common/create-event/features-image.png" alt="">
+    </figure>
+    <div class="view-demo-button">
+        <div class="demo-text">
+            {{ pageContentCMS.cmsPageContent[4].pageContent|raw }}
+            <a href="#" data-toggle="modal" data-target="#demoModal">View Now</a>
+        </div>
+    </div>
+</div>
+
+{{ include('portal/event/_event_demo.html.twig') }}

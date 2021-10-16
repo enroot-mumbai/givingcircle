@@ -1,0 +1,79 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" media="all" type="text/css" />
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" media="all" type="text/css" />
+{% endblock %}
+{% block cms_content %}
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+            </div>
+            <nav class="card-content collapse show">
+                <div class="card-body card-dashboard ">
+                    <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                        <thead>
+                        <tr>
+                            <th>{{ 'label.name'|trans|upper }}</th>
+                            <th>{{ 'label.email'|trans|upper }}</th>
+                            <th>{{ 'label.phone'|trans|upper }}</th>
+                            <th>{{ 'label.description'|trans|upper }}</th>
+                            <th>{{ 'label.createtime'|trans|upper }}</th>
+                            <th>{{ 'label.status'|trans|upper }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for form_lead in form_leads %}
+                        <tr>
+                            <td><a href="{{ path(path_show, {'id': form_lead.id}) }}">{{ form_lead.mstSalutation|default('') }} {{ form_lead.leadFirstName|default('') }} {{ form_lead.leadMiddleName|default('') }} {{ form_lead.leadLastName|default('') }}</a></td>
+                            <td><a href="mailto:{{form_lead.leadEmailAddress}}">{{ form_lead.leadEmailAddress}}</a></td>
+                            <td>{{ form_lead.leadPhoneNumber }}</td>
+                            <td>{{ form_lead.leadDescription }}</td>
+                            <td>{{ form_lead.leadCreateTime|date('d M Y') }} {{ form_lead.leadCreateTime|date('H:i') }}</td>
+                            <td>{{ form_lead.mstLeadStatus.leadStatus }}</td>
+                            <td>
+                                <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                    <a href="{{ path(path_show, {'id': form_lead.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>&nbsp;
+                                    <a href="{{ path(path_edit, {'id': form_lead.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">{{'info.no_record_found'|trans}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="text-muted"><span class="domrecord"></span></div>
+                        </div>
+                        <div class="col-sm-7">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <li class="dompage"></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/form/form_lead/index.js') }}"></script>
+{% endblock %}

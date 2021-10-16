@@ -1,0 +1,30 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="heading-sec">
+            <div class="pgttl typ2">
+                <h1>Welcome to the Giving Circle</h1>
+                <i>An endless loop of giving, goodness, and gratification.</i>
+            </div>
+        </section>
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ page_content.pageTitle }}</li>
+                </ol>
+            </nav>
+
+            {# Content Start from Cms  #}
+            {% for content in page_content.cmsPageContent %}
+                {{ content|raw }}
+            {% endfor %}
+            {# Content End from Cms  #}
+
+
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}

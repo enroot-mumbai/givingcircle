@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" media="all" type="text/css" />
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" media="all" type="text/css" />
+{% endblock %}
+{% block body %}
+<table id="dataTable" class="table table-responsive-md table-sm text-sm">
+    <thead>
+    <tr>
+        <th>{{ 'label.name'|trans|upper }}</th>
+        <th>{{ 'label.iso2'|trans|upper }}</th>
+        <th>{{ 'label.country'|trans|upper }}</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+{% for mst_state in mst_states %}
+    <tr>
+        <td>{{ mst_state.state }}</td>
+        <td>{{ mst_state.iso2 }}</td>
+        <td>{{ mst_state.mstCountry }}</td>
+        <td>
+            <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                <a href="{{ path(path_edit, {'id': mst_state.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+            </div>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="5">{{'info.no_record_found'|trans}}</td>
+    </tr>
+{% endfor %}
+</tbody></table>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+{% endblock %}

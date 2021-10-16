@@ -1,0 +1,41 @@
+{% if arrEventList|length <= 0 %}
+    <div class="col-sm-6">
+        <div class="card" data-aos="fade-right" data-aos-delay="200">
+            <div class="card-body">
+                No Records Found
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% for eventData in arrEventList %}
+    <div class="col-sm-6">
+        <div class="card" data-aos="fade-right" data-aos-delay="200">
+            <div class="card-body">
+                <div class="status">
+                    {% if arrEventUpComingOrOnGoingDetails is defined and
+                        arrEventUpComingOrOnGoingDetails is not empty and
+                        arrEventUpComingOrOnGoingDetails[eventData.id] is defined and
+                        arrEventUpComingOrOnGoingDetails[eventData.id] is not empty
+                        and arrEventUpComingOrOnGoingDetails[eventData.id] != '' %}
+                        {{ arrEventUpComingOrOnGoingDetails[eventData.id]['eventUpComingOrOnGoing'] }}
+                    {% endif %}
+                </div>
+                <h4>{{ eventData.name }}</h4>
+                <h5>{{ eventData.trnCircle }}</h5>
+                <h5 class="orange">
+                    {% for mstEventProductType in eventData.mstEventProductType %}
+                        {{ mstEventProductType.eventProductType }}
+                    {% endfor %}
+                </h5>
+                <ul class="inline-links">
+                    <li>
+                        <a href="{{ path('create-an-event-copy-from-library-review', {'id' : eventData.id }) }}">View</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('create-an-event-copied', {'id' : eventData.id }) }}" class="btn-primary">Copy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endfor %}

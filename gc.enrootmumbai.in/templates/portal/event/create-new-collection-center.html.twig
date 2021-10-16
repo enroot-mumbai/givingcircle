@@ -1,0 +1,221 @@
+<div class="main-form-group">
+    <div class="row">
+        <div class="col-sm-12 main-form-group">
+            {#<label for="">Name *</label>#}
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="collectionCenterFirstName">
+                        <span>First Name *</span>
+                    </label>
+                    <input type="text" id="collectionCenterFirstName_1" name="collectionCenterFirstName[]"
+                           class="form-control" placeholder="First Name">
+                </div>
+                <div class="col-sm-6">
+                    <label for="collectionCenterLastName">
+                        <span>Last Name *</span>
+                    </label>
+                    <input type="text" id="collectionCenterLastName_1" name="collectionCenterLastName[]"
+                           class="form-control" placeholder="Last Name">
+                </div>
+            </div>
+        </div>
+    </div>
+    {#<label for="projectName">
+        <span>Address *</span>
+    </label>#}
+    <div class="customMapSection">
+
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="collectionCenterAddress1">
+                            <span>Address 1 *</span>
+                        </label>
+                        <div>
+                            <input type="text" name="collectionCenterAddress1[]" id="collectionCenterAddress1_1" placeholder="Address Line 1" required="required" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="collectionCenterAddress2">
+                            <span>Address 2</span>
+                        </label>
+                        <div>
+                            <input type="text" name="collectionCenterAddress2[]" id="collectionCenterAddress2_1" placeholder="Address Line 2" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="collectionCenterPinCode">
+                            <span>Pincode *</span>
+                        </label>
+                        <div>
+                            <input type="text" pattern="[0-9]{6}" name="collectionCenterPinCode[]" id="collectionCenterPinCode_1" placeholder="Pincode" required="required" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="collectionCenterCountry">
+                            <span>Country *</span>
+                        </label>
+                        <div>
+                            <div class="cust-select">
+                                <select class="form-control countrylist" name="collectionCenterCountry[]"
+                                        id="collectionCenterCountry_1">
+                                    <option value="">Select</option>
+                                    {% set countries = get_country_list() %}
+                                    {% for country in countries %}
+                                        <option value="{{country.id}}">{{country.country}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="collectionCenterState">
+                            <span>State *</span>
+                        </label>
+                        <div>
+
+                            <div class="cust-select">
+                                <select class="form-control statelist" name="collectionCenterState[]"
+                                        id="collectionCenterState_1">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+                        <label for="collectionCenterCity">
+                            <span>City *</span>
+                        </label>
+                        <div>
+
+                            <div class="cust-select">
+                                <select class="form-control citylist" name="collectionCenterCity[]"
+                                        id="collectionCenterCity_1">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="main-form-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#{{ render(controller('App\\Controller\\Portal\\EventController::getMapUI')) }}#}
+    </div>
+    <div class="row">
+        <div class="col-sm-6 main-form-group">
+            <label for="">Timing of the Collection Centre *</label>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <!-- <label for="startTime1">Start Time</label> -->
+                        <div class="cust-select">
+                            <select class="form-control" name="collectionCenterStartTime[]"
+                                    id="collectionCenterStartTime_1">
+                                <option value="">Start Time</option>
+                                {% for hours in arrHours %}
+                                    <option value="{{ hours }}:00">{{ hours }}:00</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <!-- <label for="endTime1">End Time</label> -->
+                        <div class="cust-select">
+                            <select class="form-control" name="collectionCenterEndTime[]"
+                                    id="collectionCenterEndTime_1">
+                                <option value="">End Time</option>
+                                {% for hours in arrHours %}
+                                    <option value="{{ hours }}:00">{{ hours }}:00</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 main-form-group">
+            <label for="">Collection Centre Open on Days *</label>
+            <div class="multiCheckbtn">
+
+                <input type="hidden" class="form-control newOpenOnDaysCls" name="collectionCenterOpenOnDays[]" id="collectionCenterOpenOnDays_1" value="">
+                {% for mstDaysOfWeek in arrMstDaysOfWeek  %}
+                    <a href="javascript:void(0)" sequence="1" title="{{ mstDaysOfWeek.dayOfWeek }}">{{ mstDaysOfWeek.dayOfWeek |slice(0, 3) }}</a>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <div class="main-form-group">
+        <label for="">Date Range for accepting Collections</label>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="CollectionCenterFromDate">
+                        <span>From *</span>
+                    </label>
+                    <div class="cust-calender">
+                        <input type="text" id="collectionCenterFromDate_1"
+                               name="collectionCenterFromDate[]"
+                               class="form-control datepicker createCollectionCenterDP"
+                               placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="CollectionCenterToDate">
+                        <span>To *</span>
+                    </label>
+                    <div class="cust-calender">
+                        <input type="text" id="collectionCenterToDate_1"
+                               name="collectionCenterToDate[]"
+                               class="form-control datepicker createCollectionCenterDP"
+                               placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <a href="javascript:void(0)" onclick="removeNewCCBlock($(this))" class="removeButtonNew" name="removeCollectionCenterButton[]"><i class="fa fa-trash-o"></i>
+            Remove</a>
+    </div>
+</div>

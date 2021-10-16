@@ -1,0 +1,39 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper report">
+        <section class="heading-sec">
+            <div class="pgttl typ2">
+                <h1>Thank You</h1>
+            </div>
+        </section>
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Thank You</li>
+                </ol>
+            </nav>
+            <div class="row row-grid-md">
+                <div class="col-md-12 mb-5">
+                    <h2 class="text-center">Your interest has been captured. <br>Thank you.</h2>
+                    <div class="text-center mt-5">
+                        <a href="{{ path('homepage') }}" class="btn btn-primary mb-4">Back to Home</a>
+                        <div class="social-media-icons mt-4">
+                            <ul>
+                                <li><a href="https://www.facebook.com/givingcircleindia" target="_blank"><img src="{{ asset('resources/images/icons/facebook.png') }}" alt="Facebook"></a></li>
+                                <li><a href="https://twitter.com/GivingCircle_In" target="_blank"><img src="{{ asset('resources/images/icons/twitter.png') }}" alt="Twitter"></a></li>
+                                <li><a href="https://www.youtube.com/channel/UCKEkK0x55VA_xMheWHVa9cw" target="_blank"><img src="{{ asset('resources/images/icons/youtube.png') }}" alt="Youtube"></a></li>
+                                <li><a href="https://in.linkedin.com/company/giving-circle" target="_blank"><img src="{{ asset('resources/images/icons/linkedin.png') }}" alt="Linkedin"></a></li>
+                                <li><a href="https://www.instagram.com/givingcircleindia" target="_blank"><img src="{{ asset('resources/images/icons/instagram.png') }}" alt="Instagram"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}

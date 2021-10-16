@@ -1,0 +1,84 @@
+{# templates/layout/content.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %} :: {{'title.app'|trans}} :: {% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+{% block body %}
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+
+<div class="wrapper">
+
+{{ include('layout/_header.html.twig') }}
+{{ include('layout/_sidebar.html.twig') }}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    {# Get the Routing Path to define the links on bread crumb
+     #}
+    {% set currenturl =  path(app.request.attributes.get('_route'),
+        app.request.query.all|merge(app.request.attributes.get('_route_params')))|split('/') %}
+    {# Get the array length of the URL #}
+    {% set urllength = currenturl|length %}
+    {# Show the current active module to the user#}
+    {% set moduleName =  get_app_module_name() %}
+    {% set submoduleName = get_app_submodule_name() %}
+
+    {# Bread Crumb Section Start #}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h3 class="ml-4"><b>{{ submoduleName.submoduleName|default('')|upper }}</b></h3></div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right text-sm">
+                        <li class="breadcrumb-item"><a href="{{ path('core_home') }}"><i class="fas fa-home"></i> Home</a></li>
+                        <li class="breadcrumb-item active"><i class="fa fa-arrow-circle-o-right"></i>
+                            {{ moduleName.moduleName|default('') }}
+                        </li>
+                        {% if (urllength > 3) and (currenturl[3] != "") %}
+                            <li class="breadcrumb-item active"><i class="fa fa-arrow-circle-o-right"></i>{{ submoduleName.submoduleName|default('') }}</li>
+                        {% endif %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Bread Crumb Section End #}
+    {# Show Flash Message to users based on the action taken by them #}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+        <!-- Show Flash Messages -->
+        {% block cms_messages %}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message|trans}}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+        {# End Flash message section #}
+        {# This is where the real action happens for the user and the center stage for displaying content #}
+        {% block cms_content %}
+        {% endblock %}
+        {# End on cms_content block #}
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<!-- /.content-wrapper -->
+{{ include('layout/_footer.html.twig') }}
+
+</div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

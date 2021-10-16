@@ -1,0 +1,27 @@
+{% set otherContentByParent = get_cms_page_content_by_parent(pageContentByPage.id, 'pageroute') %}
+{% set banners = get_cms_page_banner(pageContentByPage.id) %}
+{% set otherBanners = [] %}
+{% set hasTopBanner = false %}
+
+<section class="static-banner">
+
+    {% if banners|length > 0 and banners is not empty %}
+        {% for banner in banners %}
+            {% if banner.bannerPosition == 'top' %}
+                {% set hasTopBanner = true %}
+                {#<img src="{{ asset('images/files') }}/{{ banner.bannerDesktopImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">#}
+                <img class="desktop-purpose" src="{{ asset('images/files/') ~ banner.bannerDesktopImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                <img class="tab-purpose" src="{{ asset('images/files/') ~ banner.bannerTabletImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                <img class="mobile-purpose" src="{{ asset('images/files/') ~ banner.bannerMobileImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+            {% else %}
+                {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if hasTopBanner == false %}
+        {# default banner if no banner added from backend #}
+        <img src="{{ asset('images/common/') }}report-goodness-banner.jpg" alt="{{ pageContentByPage.pageTitle }}" title="{{ pageContentByPage.pageTitle }}">
+    {% endif %}
+
+</section>

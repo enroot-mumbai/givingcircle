@@ -1,0 +1,158 @@
+<div class="card-header mt-2">
+    <h3 class="card-title">{{ 'Event Product Type Details:- '|upper }} <b>Volunteer (in Time)</b></h3>
+</div>
+{% for trnVolunterCircleEventDetails in data.trnVolunterCircleEventDetails %}
+    <div class="row">
+        <table class="table table-responsive-md text-sm">
+            <tbody>
+            <tr>
+                <th>{{ 'label.work_description'|trans }}</th>
+                <td colspan="7">{{ trnVolunterCircleEventDetails.workDescription|default('-') | raw }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.key_responsibility'|trans }}</th>
+                <td colspan="7">{{ trnVolunterCircleEventDetails.keyResponsibility|default('-') | raw }}</td>
+            </tr>
+
+            <tr>
+                {#<th>{{ 'label.targetnumber_of_volunters_required'|trans }}</th>
+                <td>{{ trnVolunterCircleEventDetails.targetNumberOfVoluntersRequired|default('-') | raw }}</td>#}
+                <th>{{ 'label.place_of_work'|trans }}</th>
+                <td>{{ trnVolunterCircleEventDetails.mstPlaceOfWork }}</td>
+                {#<th>{{ 'label.skill_set'|trans }}</th>
+                <td>{% for mstSkillSet in trnVolunterCircleEventDetails.mstSkillSet %}
+                        {{ mstSkillSet}},
+                    {% endfor %}
+                </td>#}
+                <th></th>
+                <td></td>
+                <th></th>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>{{ 'label.event_occurrence'|trans }}</th>
+                <td>{{ trnVolunterCircleEventDetails.mstEventOccurrence  }}</td>
+                <th>{{ 'label.from_date'|trans }} & Time </th>
+                <td>{{ trnVolunterCircleEventDetails.fromDate | date('Y-m-d') }} {{ trnVolunterCircleEventDetails
+                    .fromTime | date("H:i A") }}</td>
+                <th>{{ 'label.to_date'|trans }} & Time </th>
+                <td>{{ trnVolunterCircleEventDetails.toDate | date('Y-m-d') }} {{ trnVolunterCircleEventDetails
+                    .toTime | date("H:i A") }}</td>
+                <td colspan="2"></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    {% if trnVolunterCircleEventDetails.mstPlaceOfWork == 'On Site' %}
+        <div class="card-header mt-2">
+            <h3 class="card-title">{{ 'Volunteer (In Time) On Site Addresses'|upper }}</h3>
+        </div>
+        {% for trnVolunterCircleEventOnSiteAddress in trnVolunterCircleEventDetails.trnVolunterCircleEventOnSiteAddresses %}
+            <div class="row">
+                <table class="table table-responsive-md text-sm">
+                    <tbody>
+                    <tr>
+                        <th>{{ 'label.addressOne'|trans }}</th>
+                        <td colspan="5">{{ trnVolunterCircleEventOnSiteAddress.eventOnSiteAddress1 }}</td>
+                        {#<th>{{ 'label.addressTwo'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.eventOnSiteAddress2 }}</td>
+                        <th>{{ 'label.area_city'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.mstAreasInCity }}</td>#}
+                    </tr>
+                    {#<tr>
+                        <th>{{ 'label.city'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.mstCity }}</td>
+                        <th>{{ 'label.state'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.mstState }}</td>
+                        <th>{{ 'label.country'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.mstCountry }}</td>
+                    </tr>#}
+                    <tr>
+{#                        <th>{{ 'label.pincode'|trans }}</th>#}
+{#                        <td>{{ trnVolunterCircleEventOnSiteAddress.eventOnSitePinCode }}</td>#}
+                        <th>{{ 'label.latitude'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.eventOnSiteLocationLatitude }}</td>
+                        <th>{{ 'label.longitude'|trans }}</th>
+                        <td>{{ trnVolunterCircleEventOnSiteAddress.eventOnSiteLocationLongitude }}</td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+    {% if trnVolunterCircleEventDetails.mstEventOccurrence == 'Recurring' %}
+        <div class="card-header mt-2 recurringDetails">
+            <h3 class="card-title">{{ 'Recurring Details'|upper }}</h3>
+        </div>
+        {% for trnCircleEventRecurringDetails in trnVolunterCircleEventDetails.trnCircleEventRecurringDetails %}
+            <div class="row">
+                <table class="table table-responsive-md text-sm">
+                    <tbody>
+                    <tr>
+                        <th>{{ 'label.recurring_by'|trans }}</th>
+                        <td>
+                            {{ trnCircleEventRecurringDetails.mstRecurringBy }}
+                        </td>
+                    {% if trnCircleEventRecurringDetails.mstRecurringBy == 'Daily'  %}
+                            <th>{{ 'label.number_of_hours'|trans }}</th>
+                            <td>{{ trnCircleEventRecurringDetails.numberOfHours }} Hrs</td>
+                            <th></th>
+                            <td></td>
+                    {% endif %}
+                    {% if trnCircleEventRecurringDetails.mstRecurringBy == 'Weekly'  %}
+                            <th>{{ 'label.days_of_the_week'|trans }}</th>
+                            <td>{{ trnCircleEventRecurringDetails.mstDaysOfWeek | join(', ') }}</td>
+                            <th>{{ 'label.number_of_hours'|trans }}</th>
+                            <td>{{ trnCircleEventRecurringDetails.numberOfHours }} Hrs</td>
+                    {% endif %}
+                    {% if trnCircleEventRecurringDetails.mstRecurringBy == 'Monthly'  %}
+                            <th>{{ 'label.dates_of_month'|trans }}</th>
+                            <td>
+                                {% set tmpDates = trnCircleEventRecurringDetails.datesSelected|split(',') %}
+                                {% for dates in tmpDates %}
+                                    {{ dates|date('d-m-Y') }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <th>{{ 'label.number_of_hours'|trans }}</th>
+                            <td>{{ trnCircleEventRecurringDetails.numberOfHours }} Hrs</td>
+                    {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="card-header mt-2">
+        <h3 class="card-title">{{ 'Specific Skills Required'|upper }}</h3>
+    </div>
+
+    {% for trnVolunterCircleEventSubEvents in trnVolunterCircleEventDetails
+        .trnVolunterCircleEventSubEvents %}
+        <div class="row">
+            <table class="table table-responsive-md text-sm">
+                <tbody>
+                <tr>
+                    <th>{{ 'label.subevent_name'|trans }}</th>
+                    <td>{{ trnVolunterCircleEventSubEvents.subEventName }}</td>
+                    <th>{{ 'label.number_of_hours'|trans }}</th>
+                    <td>{{ trnVolunterCircleEventSubEvents.numberOfHours }}</td>
+                    <th>Daily / Weekly / Monthly</th>
+                    <td>{{ trnVolunterCircleEventSubEvents.subEventReccuringBy }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+
+{% endfor %}

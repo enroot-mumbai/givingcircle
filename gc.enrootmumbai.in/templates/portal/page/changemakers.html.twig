@@ -1,0 +1,166 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="heading-sec">
+            <div class="pgttl">
+                <h1>Change Makers</h1>
+            </div>
+        </section>
+        <div class="container changemaker">
+            <div class="row row-grid-md">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                        </ol>
+                    </nav>
+                    <h2>{{ pageContentByPage.pageTitle }}</h2>
+                    {% for content in pageContentByPage.cmsPageContent %}
+                        {% include 'portal/page/_page_content_display.html.twig' %}
+                    {% endfor %}
+                    <div class="filter-by">
+                        <div class="form-inline">
+                            <label for="inlineFormCustomSelect">Filter by &nbsp;</label>
+                            <div class="form-group">
+                                <div class="select-wrapper">
+                                    <select id="interest">
+                                        <option value="all" selected>Thrust Area</option>
+                                        {% for interest in area_interests %}
+                                            <option value="{{ interest.id }}">{{ interest.areaInterest }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group search-input">
+                                <input type="text" class="form-control" id="search" placeholder="Search by Name, Location">
+                                <span class="btn btn-search searchbutton"><i class="fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="changemakers">
+                        <ul class="changemaker-thumb row row-lg">
+                            {% for article in get_cms_articles(2, get_parameter('company_id')) %}
+                            <li class="col-md-6">
+                                <div class="card">
+                                    <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}">
+                                        {% if article.articleIntroVideoPath is not empty %}
+                                        <iframe width="600" height="265" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        {% else %}
+                                            <figure><img src="{{ article.articleIntroDesktopImagePath|imagine_filter('squared_thumbnail_283') }}" class="card-img-top" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}"></figure>
+                                            {% endif %}
+                                    </a>
+                                    <div class="card-body">
+                                        <h2>
+                                            <b>{{ article.articleFor }}</b>
+                                            <span>- {{ article.locationName }}, {{ article.cityName }}</span>
+                                            <span class="todayDate"><i class="fa fa-calendar"></i> {{ article.articleCreateDateTime|date('d M Y') }}</span>
+                                        </h2>
+                                        <h5 class="red-head-tl">{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %} {% endfor %}</h5>
+                                        <b>{{ article.articleTitle }}</b>
+                                        <p class="card-text">{{ article.articleIntro|truncate(130)|raw }}</p>
+                                        <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" class="btn btn-primary-outline">Read The Story</a>
+                                        <div class="like-it">
+{#                                            <label>Do you like it?</label>#}
+                                            <ul>
+{#                                                <li>#}
+{#                                                    <img src="{{ asset('resources/images/icons/icon-read.png') }}" width="20" height="20" alt="Read Icon">#}
+{#                                                    <span>{{ article.articleViewCount|default('0') }}</span>#}
+{#                                                </li>#}
+                                                <li>
+                                                    <input type="hidden" id="article" value="{{ article.id }}">
+                                                    <span class="clicklike" role="button">
+                                                        <i class="fa fa-heart-o"></i>
+                                                        <span id="totallike">{{ article.articleLikeCount|default('0') }}</span>
+
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}#comments">
+                                                        <i class="fa fa-comment-o"></i>
+                                                        <span>{{ get_cms_article_comments_count(article.id, 1) }}</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $("document").ready(function() {
+            var searchparam = $("#search");
+            // Like function
+            $(document).on('click','.clicklike',function(){
+                var data = {};
+                data['id'] = $(this).prev('input').val();
+                var spanupdate = $(this).find('span');
+                jQuery.ajax({
+                    url: "{{ path('article-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(spanupdate);
+                        spanupdate.text(data.count);
+                    }
+                });
+            });
+            // Filters
+            // By Interest
+            $("#interest").change(function () {
+                var data = {};
+                data['interestId'] = $(this).val();
+                getFilter(data);
+            });
+            // By Search via Enter button
+            searchparam.keyup(function(e) {
+                if(e.keyCode === 13) {
+                    searchParams();
+                }
+            });
+            // By Search via search button
+            $('.searchbutton').on('click', function() {
+                searchParams();
+            });
+
+            function searchParams() {
+                var data = {};
+                data['interestId'] = $("#interest").val();
+                data['searchparam'] = searchparam.val();
+                console.log(data['searchparam']);
+                getFilter(data);
+            }
+
+            // Get Filtered Date
+            function getFilter(data) {
+                jQuery.ajax({
+                    url: "{{ path('change-makers-filter') }}",
+                    data: data,
+                    type: "POST",
+                    dataType: "html",
+                    success: function (data) {
+                        var result = $("#changemakers");
+                        result.html('');
+                        result.html(data);
+                    }
+                });
+
+            }
+
+
+        });
+    </script>
+{% endblock %}

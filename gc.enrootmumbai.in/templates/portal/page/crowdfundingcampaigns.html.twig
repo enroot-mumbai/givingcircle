@@ -1,0 +1,206 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.pageTitle }}
+                    <div class="float-right d-none d-md-block">
+                        <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary btn-sm">Be A Change Maker</a>
+                    </div>
+                </h2>
+                <div class="two-circles">
+                    {{ pageContentByPage.cmsPageContent[0].pageContent|raw }}
+                </div>
+                <div>
+                    {{ pageContentByPage.cmsPageContent[1].pageContent|raw }}
+                </div>
+
+                <div class="event-counter">
+                    {{ pageContentByPage.cmsPageContent[2].pageContent|raw }}
+                </div>
+                <ul class="donors-category">
+                    <li class="on-off-platform">
+                        {{ pageContentByPage.cmsPageContent[3].pageContent|raw }}
+                    </li>
+                    <li class="on-off-platform">
+                        {{ pageContentByPage.cmsPageContent[4].pageContent|raw }}
+                    </li>
+                </ul>
+
+            </div>
+        </section>
+
+        <section class="orange-box typ3">
+            <div class="container">
+                <div class="white-box abs-position">
+                    {{ pageContentByPage.cmsPageContent[5].pageContent|raw }}
+                    <ul class="features typ2">
+                        <li>
+                            <span><h2>01</h2></span>
+                            {% set content = pageContentByPage.cmsPageContent[6] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>
+                                    {{ content.pageContent|raw }}
+                                </span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon" style="height: unset;"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span style="height: unset;">
+                                        {{ content.pageContent|raw }}
+                                    </span>
+                                {% else %}
+                                    <span style="height: unset;">
+                                        {{ content.pageContent|raw }}
+                                    </span>
+                                    <span class="icon" style="height: unset;"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            <span><h2>02</h2></span>
+                            {% set content = pageContentByPage.cmsPageContent[7] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>
+                                    {{ content.pageContent|raw }}
+                                </span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon" style="height: unset;"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span style="height: unset;">
+                                        {{ content.pageContent|raw }}
+                                    </span>
+                                {% else %}
+                                    <span style="height: unset;">
+                                        {{ content.pageContent|raw }}
+                                    </span>
+                                    <span class="icon" style="height: unset;"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            <span><h2>03</h2></span>
+                            {% set content = pageContentByPage.cmsPageContent[8] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>
+                                    {{ content.pageContent|raw }}
+                                </span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon" style="height: unset;"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span style="height: unset;">
+                                        {{ content.pageContent|raw }}
+                                    </span>
+                                {% else %}
+                                    <span style="height: unset;">
+                                        {{ content.pageContent|raw }}
+                                    </span>
+                                    <span class="icon" style="height: unset;"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <ul class="steps">
+                        <li>
+                            <div class="circle">
+                                <span class="no">01</span>
+                                <span>
+                                    <span>
+                                        {% set content = pageContentByPage.cmsPageContent[9] %}
+                                        {% if(content.mediaType) == '' %}
+                                            {{ content.pageContent|raw }}
+                                        {% else %}
+                                            {% if(content.mediaPosition) == 'left' %}
+                                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                                {{ content.pageContent|raw }}
+                                            {% else %}
+                                                {{ content.pageContent|raw }}
+                                                <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="circle">
+                                <span class="no">02</span>
+                                <span>
+                                <span>
+                                    {% set content = pageContentByPage.cmsPageContent[10] %}
+                                    {% if(content.mediaType) == '' %}
+                                        {{ content.pageContent|raw }}
+                                    {% else %}
+                                        {% if(content.mediaPosition) == 'left' %}
+                                            <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                                {{ content.pageContent|raw }}
+                                            {% else %}
+                                            {{ content.pageContent|raw }}
+                                            <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                        {% endif %}
+                                    {% endif %}
+                                </span>
+                                </span>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="circle">
+                                <span class="no">03</span>
+                                <span>
+                                <span>
+                                    {% set content = pageContentByPage.cmsPageContent[11] %}
+                                    {% if(content.mediaType) == '' %}
+                                        {{ content.pageContent|raw }}
+                                    {% else %}
+                                        {% if(content.mediaPosition) == 'left' %}
+                                            <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                                {{ content.pageContent|raw }}
+                                            {% else %}
+                                            {{ content.pageContent|raw }}
+                                            <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                        {% endif %}
+                                    {% endif %}
+                                </span>
+                                </span>
+                            </div>
+
+                        </li>
+                    </ul>
+                    <p class="speak-us">{{ pageContentByPage.cmsPageContent[12].pageContent|raw }}</p>
+                </div>
+            </div>
+        </section>
+        
+
+    </div>
+    <div class="btn-create-sticky">
+            <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary btn-sm">Be A Change Maker</a>
+        </div>
+    <!--Main Wrapper End-->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static');
+        });
+
+        
+    </script>
+{% endblock %}

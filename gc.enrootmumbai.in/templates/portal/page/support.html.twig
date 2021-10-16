@@ -1,0 +1,333 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper report">
+        <section class="heading-sec">
+            <div class="pgttl typ2">
+                <h1>Support</h1>
+            </div>
+        </section>
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Support</li>
+                </ol>
+            </nav>
+            <div class="row row-grid-md">
+                <div class="col-md-12">
+                    <h3 class="subheading">The world is full of kind people, if you can’t find one.<br> We help you <span class="txt-red">be one</span> and <span class="txt-red">find many</span>.</h3>
+                </div>
+                <div class="col-md-12">
+                    <p>We only wish that you have a wish to make a change - we will support with the rest.</p>
+                    <p>Check <a href="{{ path('faqs') }}">FAQs</a> , it may help</p>
+                </div>
+            </div>
+            <div class="card-deck cust-cards mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-sec">
+                            <div class="hrz-tabs">
+                                <div id="parentHorizontalTab">
+                                    <ul class="resp-tabs-list hor_1">
+                                        <li>Change Makers / Torchbearers</li>
+                                        <li>Collaborators / Volunteers</li>
+                                    </ul>
+                                    <div class="resp-tabs-container hor_1">
+                                        <div class="form-body">
+                                            {{ form_start(form_support_change_maker, {'attr': {'id': 'support_change_maker', 'novalidate': 'novalidate'}}) }}
+                                                <div class="row">
+                                                    <div class="col-12 mb-4">
+                                                        <h5>You have a cause and want to start a circle, we shall support you. Give us some details and we will arrange for a call.</h5>
+                                                    </div>
+                                                    <div class="col-sm-12 mb-4">
+                                                        <div class="mandate-txt">Required fields are marked *</div>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="form_support_change_maker_fullName">Name *</label>
+                                                                    {{ form_widget(form_support_change_maker.fullName) }}
+                                                                    {{ form_errors(form_support_change_maker.fullName) }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="email-id">Email Id *</label>
+                                                                    {{ form_widget(form_support_change_maker.emailAddress) }}
+                                                                    {{ form_errors(form_support_change_maker.emailAddress) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mob-no">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">+91</div>
+                                                                    </div>
+                                                                    <label for="mobile-number">Mobile Number *</label>
+                                                                    {{ form_widget(form_support_change_maker.mobileNumber) }}
+                                                                    {{ form_errors(form_support_change_maker.mobileNumber) }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="city">City *</label>
+                                                                    {{ form_widget(form_support_change_maker.cityName) }}
+                                                                    {{ form_errors(form_support_change_maker.cityName) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6">
+                                                                <label for="cause">Select Cause *</label>
+                                                                {{ form_widget(form_support_change_maker.interestType) }}
+                                                                {{ form_errors(form_support_change_maker.interestType) }}
+                                                            </div>
+                                                            <div class="form-group writeCause col-md-6">
+                                                                <label for="writeCause">Write your cause *</label>
+                                                                {{ form_widget(form_support_change_maker.otherInterestType) }}
+                                                                {{ form_errors(form_support_change_maker.otherInterestType) }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h3>Broadly what you are doing on it today *</h3>
+                                                                <div class="form-group">
+                                                                    {{ form_widget(form_support_change_maker.currentAssigment) }}
+                                                                    {{ form_errors(form_support_change_maker.currentAssigment) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h3>Broadly what you are aiming at *</h3>
+                                                                <div class="form-group">
+                                                                    {{ form_widget(form_support_change_maker.futureAssigment) }}
+                                                                    {{ form_errors(form_support_change_maker.futureAssigment) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row row-sm">
+                                                            <div class="col-md-4 offset-md-4">
+                                                                <div class="row row-sm">
+                                                                    <span class="col-4 inline-label captcha-no"><b id="captchaCode"></b></span>
+                                                                    <div class="col-8 captcha">
+                                                                        <label for="captcha">Verify Captcha *</label>
+                                                                        <input type="text" class="form-control" id="captcha">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr>
+                                                        <div class="text-center">
+                                                            <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{ form_end(form_support_change_maker) }}
+                                        </div>
+                                        <div class="form-body">
+                                            {{ form_start(form_support_change_maker, {'attr': {'id': 'support_volunteer', 'novalidate': 'novalidate'}}) }}
+                                                <div class="row">
+                                                    <div class="col-12 mb-4">
+                                                        <h5>There is cause that calls you to contribute and you want to join a circle. Give us some details and we will arrange for a call.</h5>
+                                                    </div>
+                                                    <div class="col-sm-12 mb-4">
+                                                        <div class="mandate-txt">Required fields are marked *</div>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="form_support_volunteer_fullName">Name *</label>
+                                                                    {{ form_widget(form_support_volunteer.fullName) }}
+                                                                    {{ form_errors(form_support_volunteer.fullName) }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="email-id1">Email Id *</label>
+                                                                    {{ form_widget(form_support_volunteer.emailAddress) }}
+                                                                    {{ form_errors(form_support_volunteer.emailAddress) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mob-no">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">+91</div>
+                                                                    </div>
+                                                                    <label for="mobile-number1">Mobile Number *</label>
+                                                                    {{ form_widget(form_support_volunteer.mobileNumber) }}
+                                                                    {{ form_errors(form_support_volunteer.mobileNumber) }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="city1">City *</label>
+                                                                    {{ form_widget(form_support_volunteer.cityName) }}
+                                                                    {{ form_errors(form_support_volunteer.cityName) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="cause1">Select Cause *</label>
+                                                                    {{ form_widget(form_support_volunteer.interestType) }}
+                                                                    {{ form_errors(form_support_volunteer.interestType) }}
+                                                                </div>
+                                                                <div class="form-group writeCause">
+                                                                    <label for="writeCause1">Write your cause *</label>
+                                                                    {{ form_widget(form_support_volunteer.otherInterestType) }}
+                                                                    {{ form_errors(form_support_volunteer.otherInterestType) }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group ">
+                                                                    <h3 class="mb-0">Are you clear if you wish to help with</h3>
+                                                                    <label class="checkbox-label" for="time">Time
+                                                                        <input type="checkbox" id="time" value="Time" name="helpType[]">
+                                                                        <span class="checkmark"></span>
+                                                                    </label>
+                                                                    <label class="checkbox-label" for="money">Money
+                                                                        <input type="checkbox" id="money" value="Money" name="helpType[]">
+                                                                        <span class="checkmark"></span>
+                                                                    </label>
+                                                                    <label class="checkbox-label" for="kind">Kind
+                                                                        <input type="checkbox" id="kind" value="Kind" name="helpType[]">
+                                                                        <span class="checkmark"></span>
+                                                                    </label>
+                                                                    <label class="checkbox-label" for="not-sure">Not Sure
+                                                                        <input type="checkbox" id="not-sure" value="Not Sure" name="helpType[]">
+                                                                        <span class="checkmark"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h3>Any specific message for us</h3>
+                                                                <div class="form-group">
+                                                                    {{ form_widget(form_support_volunteer.messageDetail) }}
+                                                                    {{ form_errors(form_support_volunteer.messageDetail) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row row-sm">
+                                                            <div class="col-md-4 offset-md-4">
+                                                                <div class="row row-sm">
+                                                                    <span class="col-4 inline-label captcha-no"><b id="captchaCode1"></b></span>
+                                                                    <div class="col-8 captcha">
+                                                                        <label for="captcha1">Verify Captcha *</label>
+                                                                        <input type="text" class="form-control" id="captcha1">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr>
+                                                        <div class="text-center">
+                                                            <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{ form_end(form_support_volunteer) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/jquery.inputmask.bundle.js') }}"></script>
+    <script src="{{ asset('resources/js/captcha.basic.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#form_support_change_maker_mobileNumber").inputmask({mask: "9999999999"});
+            $("#form_support_volunteer_mobileNumber").inputmask({mask: "9999999999"});
+
+            $('#support_change_maker').captcha({
+                'idCaptchaInput': 'captcha',
+                'idCaptchaText': 'captchaCode'
+            });
+
+            $('#support_volunteer').captcha({
+                'idCaptchaInput': 'captcha1',
+                'idCaptchaText': 'captchaCode1'
+            });
+
+            //Horizontal Tab
+            $('#parentHorizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                tabidentify: 'hor_1', // The tab groups identifier
+                activate: function (currentab,event) { // Callback function if tab is switched
+                    var $tab = $(this);
+                    var $info = $('#nested-tabInfo');
+                    var $name = $('span', $info);
+                    $name.text($tab.text());
+                    $info.show();
+                    formcontrol();
+                }
+            });
+
+        //$(".form-control").trigger("blur");
+        function formcontrol(){
+            $(".form-control").filter(function() {
+                if (this.value.length !==0){
+                    $(this).siblings('label').addClass('clicked');
+                }
+            });
+        }
+
+        formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+            });
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+            $('.form-group select').change(function () {
+                $(this).find("option:selected").each(function () {
+                    var optionValue = $(this).attr("value");
+
+                    if (optionValue === 'My cause is not covered') {
+                        $(this).parents('.form-group').siblings('.writeCause').show();
+                        $("form_support_change_maker_otherInterestType").prop('required', true);
+                    } else {
+                        $(this).parents('.form-group').siblings('.writeCause').hide();
+                        $("form_support_change_maker_otherInterestType").prop('required', false);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

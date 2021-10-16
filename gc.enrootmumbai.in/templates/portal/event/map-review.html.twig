@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Places</title>
+    <style type="text/css">
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 430px;
+            width: 200px;
+        }
+    </style>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+            const uluru = { lat: {{ map_lat }}, lng: {{ map_long }} };
+            // The map, centered at Uluru
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: uluru,
+            });
+            // The marker, positioned at Uluru
+            const marker = new google.maps.Marker({
+                position: uluru,
+                map: map,
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWr6Sw28gWe3seaJvyVjichem9hrTNNxM&callback=initMap&libraries=&v=weekly"
+        async
+></script>
+</body>
+
+</html>

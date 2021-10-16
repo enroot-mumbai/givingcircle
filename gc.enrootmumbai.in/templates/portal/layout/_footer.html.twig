@@ -1,0 +1,157 @@
+<div class="fixed-buttons">
+    <ul>
+        <li>
+            <a target="_blank" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true, true) }}&text={{ app.request.schemeAndHttpHost ~ app.request.requesturi }}" class="whatsapp-btn"></a>
+        </li>
+    </ul>
+</div>
+
+<section class="newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6">
+                <div class="news-letter-sub">
+                    <div class="form-inline">
+                        <label class="" for="enterEmail">Subscribe to Giving Circle Community!</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="enterEmail" placeholder="Enter your Email ID">
+                            <div class="input-group-append">
+                                <a href="#" class="btn btn-newsletter">Subscribe</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="social-media">
+                    <span>Follow us</span>
+                    <ul>
+                        <li>
+                            <a href="https://www.facebook.com/givingcircleindia" target="_blank"><i class="fc-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://in.linkedin.com/company/givingcircle" target="_blank"><i class="fc-linkedin"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/givingcircleindia" target="_blank"><i class="fc-instagram"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/channel/UCKEkK0x55VA_xMheWHVa9cw" target="_blank"><i class="fc-youtube"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0" nonce="tKT39xEB"></script>
+
+    <div class="footer-toggler">
+        <span class="text-center pt-2 pb-2"><a href="javascript:;" class="btn btn-primary">Footer Links</a></span>
+        <div class="container">
+            <ul class="footer-links">
+                {% set activeNewsCount = get_active_news_count() %}
+                {% set isMandatoryFilled = check_if_all_mandatory_filled() %}
+                {% set mandatoryFieldMsg = "Please update the Personal Info mandatory fields inorder to proceed" %}
+                <li>
+                    <h5>On the Platform</h5>
+                    <ul>
+                        {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and isMandatoryFilled == true %}
+                            <li><a href="{{ path('be-a-change-maker') }}">Be a Change Maker</a></li>
+                            <li><a href="{{ path('contribute-to-a-change') }}">Contribute to Change</a></li>
+                            <li><a href="{{ path('get-inspired') }}">Get Inspired</a></li>
+                            <li><a href="{{ path('crowdfunding-campaigns') }}">Crowdfunding Campaigns</a></li>
+                            <li><a href="{{ path('express-donate-listing') }}">Express Donate</a></li>
+                        {% else %}
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">Be a Change Maker</a></li>
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">Contribute to Change</a></li>
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">Get Inspired</a></li>
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">Crowdfunding Campaigns</a></li>
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">Express Donate</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul>
+                        {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and isMandatoryFilled == true %}
+                            <li><a href="{{ path('volunteer-diaries') }}">Volunteer Diaries</a></li>
+                            <li><a href="{{ path('how-it-works') }}">How it Works</a></li>
+                        {% else %}
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">Volunteer Diaries</a></li>
+                            <li><a href="javascript:void(0);" onclick="alert('{{ mandatoryFieldMsg }}');">How it Works</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('report-goodness') }}">Report Goodness</a></li>
+                        <li><a href="{{ path('faqs') }}">FAQ's</a></li>
+                        <li><a href="{{ path('plans-n-price') }}">Plans & Price</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h5>Off the Platform</h5>
+                    <ul>
+                        <li><a href="{{ path('ngo') }}">NGOs</a></li>
+                        {#<li><a href="{{ path('corporates') }}">Corporates</a></li>#}
+                        <li><a href="{{ path('academia') }}">Academia</a></li>
+                    </ul>
+                </li>
+                <li class="staticLinks">
+                    <ul>
+                        <li><a href="{{ path('about-us') }}">About</a></li>
+                        <li><a href="{{ path('partners') }}">Partners</a></li>
+                        {#<li><a href="#">Press Media</a></li>#}
+                        {% if activeNewsCount > 0 %}
+                            <li><a href="{{ path('pressroom') }}">In News</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('testimonials') }}">Testimonials</a></li>
+                        <li><a href="{{ path('blog') }}">Blogs</a></li>
+                    </ul>
+                </li>
+                <li class="facebook-feed">
+                    {#<ul>
+                        <li style="width: 260px;">#}
+                            <div class="fb-page" data-href="https://www.facebook.com/givingcircleindia/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false">
+                                <blockquote cite="https://www.facebook.com/givingcircleindia/" class="fb-xfbml-parse-ignore">
+                                    <a href="https://www.facebook.com/givingcircleindia/">Giving Circle India</a>
+                                </blockquote>
+                            </div>
+{#
+                        </li>
+                    </ul>
+#}
+
+                </li>
+                <li class="contact-links">{% set WANumber = get_whatsapp_number(false, true) %}
+                    <ul class="contact-details">
+                        <li><a href="tel:{{ WANumber }}"><i class="fab fa-whatsapp"></i>{{ WANumber|slice(0,5) ~ " " ~ WANumber|slice(5, WANumber|length) }}</a></li>
+                        <li><a href="mailto:contact@givingcircle.in"><i class="far fa-envelope"></i>
+                                contact@givingcircle.in</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="{{ path('contact-us') }}">Contact</a></li>
+                        <li><a href="{{ path('terms-and-conditions') }}">Terms & Conditions</a></li>
+                        <li><a href="{{ path('report-abuse') }}">Report Abuse</a></li>
+                        <li><a href="{{ path('privacy-policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ path('disclaimer') }}">Disclaimer </a></li>
+                        <li><a href="{{ path('cookie-policy') }}">Cookie Policy</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    © 2020 Giving Circle | An offering from <b>Think Human Software and Services Pvt. Ltd.</b>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    Powered by <a class="" href="https://www.sublimis.tech/"
+                                                   target="_blank">Sublimis</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>

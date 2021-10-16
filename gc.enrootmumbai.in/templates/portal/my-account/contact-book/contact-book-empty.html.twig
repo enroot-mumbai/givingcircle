@@ -1,0 +1,74 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css?z=1')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success-cf alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <h3>Contact Book</h3>
+                    <div class="empty-socail-profile aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                        <img src="/resources/images/my-account/icon-EmptyBox.png">
+                        <h5>Currently there are no contacts in your Contact List.</h5>
+                        <p>Add your contact list to invite them to events or send them updates on your project.</p>
+
+                        <img src="/resources/images/my-account/contact-book.png">
+                    </div>
+                    <form method="post" action="{{ path('my-account-import-contact') }}" id="frmImportContact" enctype="multipart/form-data">
+                        <div class="btn-sec btm-btns mt-3 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                            <a href="javascript:void(0);" id="import-contacts" class="btn btn-primary">Import Contacts</a>
+                            <a href="{{ path('my-account-create-contact-book') }}" class="btn btn-primary">Create
+                                Contact</a>
+                            <div class="import-contacts mx-auto">
+                                <a class="close fa fa-close"></a>
+                                <div class="uploadedDocument">
+                                    <label>Import CSV.</label>
+                                    <div class="custom-file-upload">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="customFile"
+                                                   name="filename">
+                                            <label class="custom-file-label" for="customFile">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <a href="javascript:void(0);" id="btnImportContact" class="btn btn-primary
+                                disabled">Import Records</a>
+                                <p style="font-size: 12px !important;">Click <a  style="font-size: 12px !important;padding: 0px;top: 4px;line-height: 10px;" href="{{ asset('document/contact-import.zip')}}" target="_blank"
+                                        download="download">here</a> for sample csv file. Kindly extract the CSV
+                                    file from the Zip and make changes and upload.</p>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('assets/js/portal/my-account/contact-book-empty.js') }}"></script>
+{% endblock %}

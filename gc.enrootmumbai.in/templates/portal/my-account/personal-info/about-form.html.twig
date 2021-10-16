@@ -1,0 +1,378 @@
+{{ form_start(form) }}
+    <h5>About</h5>
+    <p>Kindly fill the details below and complete your profile.</p>
+    <div class="row row-sm cust-row">
+        <div class="col-lg-4 col-md-12">
+            <div class="row row-sm">
+                <div class="col-lg-5 col-md-6">
+                    {% if appUser.appUserInfo.mstSalutation is defined and appUser.appUserInfo.mstSalutation is not
+                        empty and appUser.appUserInfo.mstSalutation is not null
+                    %}
+                        <label>First Name *</label>
+                        <input type="text" class="form-control" value="{{ appUser.appUserInfo.mstSalutation }}" readonly>
+                        <div style="display: none">{{ form_widget(form.appUserInfo.mstSalutation) }}</div>
+                    {% else  %}
+                        <div class="cust-select">
+                            <label>Salutation *</label>
+                            {{ form_widget(form.appUserInfo.mstSalutation) }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-7 col-md-6">
+                    <label>First Name *</label>
+                    {{ form_widget(form.appUserInfo.userFirstName) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Middle Name</label>
+            {{ form_widget(form.appUserInfo.userMiddleName) }}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Last Name *</label>
+            {{ form_widget(form.appUserInfo.userLastName) }}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Address Line 1 *</label>
+            {{ form_widget(form.appUserInfo.address1) }}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Address Line 2</label>
+            {{ form_widget(form.appUserInfo.address2) }}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            {% if appUser.appUserInfo.mstCountry is defined and appUser.appUserInfo.mstCountry is not
+                empty and appUser.appUserInfo.mstCountry is not null
+            %}
+                <label>Country *</label>
+                <input type="text" class="form-control" value="{{ appUser.appUserInfo.mstCountry }}" readonly>
+                <div style="display: none">{{ form_widget(form.appUserInfo.mstCountry) }}}</div>
+            {% else  %}
+                <div class="cust-select">
+                    <label>Country *</label>
+                    {{ form_widget(form.appUserInfo.mstCountry) }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            {% if appUser.appUserInfo.mstCountry is defined and appUser.appUserInfo.mstCountry is not
+                empty and appUser.appUserInfo.mstCountry is not null
+            %}
+                <label>State *</label>
+                <input type="text" class="form-control" value="{{ appUser.appUserInfo.mstState }}" readonly>
+                <div style="display: none">{{ form_widget(form.appUserInfo.mstState) }}}</div>
+            {% else  %}
+                <div class="cust-select">
+                    <label>State *</label>
+                    {{ form_widget(form.appUserInfo.mstState) }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            {% if appUser.appUserInfo.mstCountry is defined and appUser.appUserInfo.mstCountry is not
+                empty and appUser.appUserInfo.mstCountry is not null
+            %}
+                <label>City *</label>
+                <input type="text" class="form-control" value="{{ appUser.appUserInfo.mstCity }}" readonly>
+                <div style="display: none">{{ form_widget(form.appUserInfo.mstCity) }}}</div>
+            {% else  %}
+                <div class="cust-select">
+                    <label>City *</label>
+                    {{ form_widget(form.appUserInfo.mstCity) }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Pin Code * <span>e.g. 400101</span></label>
+            {{ form_widget(form.appUserInfo.pinCode) }}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Email ID *</label>
+            {{ form_widget(form.appUserInfo.userEmail) }}
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="form-group mob-number">
+                <label>Mobile Number</label>
+                <div class="input-group-prepend">
+                    <div class="cust-select">
+                        <select class="form-control">
+                            <option>+91</option>
+                        </select>
+                        <div style="display: none;">
+                            {{ form_widget(form.appUserInfo.mobileCountryCode) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_widget(form.appUserInfo.userMobileNumber) }}
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <label>Individual PAN No.</label>
+            {{ form_widget(form.appUserInfo.pancardNumber) }}
+        </div>
+        <div class="col-lg-4 col-sm-6">
+
+            <label
+            {% if appUser.appUserInfo.dateOfBirth is defined and appUser.appUserInfo.dateOfBirth is not null and
+                appUser.appUserInfo.dateOfBirth != '' %}
+                class="clicked"
+            {% endif %}
+            >Date of Birth</label>
+            <div class="cust-calender">
+                {{ form_widget(form.appUserInfo.dateOfBirth) }}
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="cust-select">
+                <label>Gender</label>
+                {{ form_widget(form.trnVolunterDetail.mstGender) }}
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="cust-select">
+                <label>Marital Status</label>
+                {{ form_widget(form.trnVolunterDetail.mstMaritalStatus) }}
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <label>Educational Level</label>
+            {{ form_widget(form.trnVolunterDetail.educationLevel) }}
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="cust-select">
+                <label>Employment Status</label>
+                {{ form_widget(form.trnVolunterDetail.mstEmploymentStatus) }}
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="cust-select">
+                <label>Distance Willing to Travel?</label>
+                {{ form_widget(form.trnVolunterDetail.distanceWillingToTravel) }}
+            </div>
+        </div>
+    </div>
+    <div class="row form-group row-sm row-grid-2">
+        <div class="col-lg-4 col-sm-6">
+            <h6>Do you consider yourself a person with a disability?</h6>
+            <div class="radio-inline">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="hasDisabilityYes" value="Yes" name="hasDisability"
+                           class="custom-control-input"
+                    {% if objTrnVolunterDetail is defined and objTrnVolunterDetail is not empty and
+                        objTrnVolunterDetail is not null and objTrnVolunterDetail.hasDisability == 1 %}
+                        checked
+                    {% endif %}
+                    >
+                    <label class="custom-control-label" for="hasDisabilityYes">Yes</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="hasDisabilityNo" value="No" name="hasDisability"
+                           class="custom-control-input"
+                    {% if objTrnVolunterDetail is defined and objTrnVolunterDetail is not empty and
+                        objTrnVolunterDetail is not null and objTrnVolunterDetail.hasDisability == 0 %}
+                        checked
+                    {% endif %}
+                    >
+                    <label class="custom-control-label" for="hasDisabilityNo">No</label>
+                </div>
+            </div>
+            <div style="display: none">
+                {{ form_widget(form.trnVolunterDetail.hasDisability) }}
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <h6 class="dbl-line-height">Do you want to help in disaster?</h6>
+            <div class="radio-inline">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="isWillingToHelpInDisasterYes" value="Yes" name="isWillingToHelpInDisaster"
+                           class="custom-control-input"
+                    {% if objTrnVolunterDetail is defined and objTrnVolunterDetail is not empty and
+                        objTrnVolunterDetail is not null and objTrnVolunterDetail.isWillingToHelpInDisaster == 1 %}
+                        checked
+                    {% endif %}
+                    >
+                    <label class="custom-control-label" for="isWillingToHelpInDisasterYes">Yes</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="isWillingToHelpInDisasterNo" value="No" name="isWillingToHelpInDisaster"
+                           class="custom-control-input"
+                    {% if objTrnVolunterDetail is defined and objTrnVolunterDetail is not empty and
+                        objTrnVolunterDetail is not null and objTrnVolunterDetail.isWillingToHelpInDisaster == 0 %}
+                        checked
+                    {% endif %}
+                    >
+                    <label class="custom-control-label" for="isWillingToHelpInDisasterNo">No</label>
+                </div>
+            </div>
+            <div style="display: none">
+                {{ form_widget(form.trnVolunterDetail.isWillingToHelpInDisaster) }}
+            </div>
+        </div>
+    </div>
+    <div class="row form-group row-sm row-grid-2">
+        <div class="col-lg-4 col-md-12">
+            <h6>How did you hear about us?</h6>
+            <ul class="checkbox-inline column-2">
+                {% for sourceOfInformation in arrSourceOfInformation %}
+                    <li>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" id="customCheckboxInline{{ sourceOfInformation.id }}" value="{{ sourceOfInformation.id }}"
+                                   name="customCheckboxInline"
+                                   class="custom-control-input"
+                            {% if arrMstSourceOfInformation is defined and arrMstSourceOfInformation is not empty and
+                                sourceOfInformation.id in arrMstSourceOfInformation %}
+                                checked
+                           {% endif %}
+                            >
+                            <label class="custom-control-label" for="customCheckboxInline{{ sourceOfInformation.id
+                            }}">{{ sourceOfInformation.sourceOfInformation }}</label>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div style="display: none;">
+                {{ form_widget(form.trnVolunterDetail.mstSourceOfInformation) }}
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <h6>Volunteer Availability</h6>
+            <ul class="time-availability">
+                <li>
+                    <div class="slot-sec">
+                        <ul class="checkbox-inline">
+                            <li>
+                                <label>Morning</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="allDayMorning" class="custom-control-input">
+                                    <label class="custom-control-label" for="allDayMorning">All Days</label>
+                                </div>
+                            </li>
+                            <li>
+                                <label>Afternoon</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="allDayAfternoon" class="custom-control-input">
+                                    <label class="custom-control-label" for="allDayAfternoon">All Days</label>
+                                </div>
+                            </li>
+                            <li>
+                                <label>Evening</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="allDayEvening" class="custom-control-input">
+                                    <label class="custom-control-label" for="allDayEvening">All Days</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="days-sec centerBlock">
+                        <ul>
+                            <li>
+                                <div class="multiCheckbtn">
+                                    <a name="morningTime" value="Sunday"   href="javascript:void(0);">Sun</a>
+                                    <a name="morningTime" value="Monday"   href="javascript:void(0);">Mon</a>
+                                    <a name="morningTime" value="Tuesday"   href="javascript:void(0);">Tue</a>
+                                    <a name="morningTime" value="Wednesday" href="javascript:void(0);">Wed</a>
+                                    <a name="morningTime" value="Thursday" href="javascript:void(0);">Thu</a>
+                                    <a name="morningTime" value="Friday"   href="javascript:void(0);">Fri</a>
+                                    <a name="morningTime" value="Saturday" href="javascript:void(0);">Sat</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="multiCheckbtn">
+                                    <a name="afternoonTime" value="Sunday"   href="javascript:void(0);">Sun</a>
+                                    <a name="afternoonTime" value="Monday"   href="javascript:void(0);">Mon</a>
+                                    <a name="afternoonTime" value="Tuesday"   href="javascript:void(0);">Tue</a>
+                                    <a name="afternoonTime" value="Wednesday" href="javascript:void(0);">Wed</a>
+                                    <a name="afternoonTime" value="Thursday" href="javascript:void(0);">Thu</a>
+                                    <a name="afternoonTime" value="Friday"   href="javascript:void(0);">Fri</a>
+                                    <a name="afternoonTime" value="Saturday" href="javascript:void(0);">Sat</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="multiCheckbtn">
+                                    <a name="eveningTime" value="Sunday"   href="javascript:void(0);">Sun</a>
+                                    <a name="eveningTime" value="Monday"   href="javascript:void(0);">Mon</a>
+                                    <a name="eveningTime" value="Tuesday"   href="javascript:void(0);">Tue</a>
+                                    <a name="eveningTime" value="Wednesday" href="javascript:void(0);">Wed</a>
+                                    <a name="eveningTime" value="Thursday" href="javascript:void(0);">Thu</a>
+                                    <a name="eveningTime" value="Friday"   href="javascript:void(0);">Fri</a>
+                                    <a name="eveningTime" value="Saturday" href="javascript:void(0);">Sat</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input type="hidden" value="" id="hdnAvailabilityInMorning" name="hdnAvailabilityInMorning" >
+                    <input type="hidden" value="" id="hdnAvailabilityInAfternoon" name="hdnAvailabilityInAfternoon">
+                    <input type="hidden" value="" id="hdnAvailabilityInEvening" name="hdnAvailabilityInEvening">
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row form-group row-sm row-grid-2">
+        <div class="col-md-12">
+            <div class="input-field">
+                <label class="active">Upload Documentation <span>(e.g. Training or Certification Earned)</span></label>
+                <div class="input-images-3 multi"></div>
+                <small>Image format - jpgs, png and size 60 KB</small>
+            </div>
+        </div>
+    </div>
+    <h5>Bank Account Details</h5>
+    <p>Provide the details of the bank account where you would like donations to be deposited.</p>
+    {% for trnBankDetails in form.trnBankDetails %}
+        <div class="row cust-row row-sm">
+            <div class="col-lg-12 col-sm-12">
+                <label>Beneficiary Bank Name</label>
+                {{ form_widget(trnBankDetails.bankName) }}
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <label>Beneficiary Account Holder Name</label>
+                {{ form_widget(trnBankDetails.accountHolderName) }}
+            </div>
+            <div class="col-lg-4 col-sm-12">
+                <label>Beneficiary Bank Account Number</label>
+                {{ form_widget(trnBankDetails.accountNumber) }}
+            </div>
+            <div class="col-lg-4 col-sm-12">
+                <label>Beneficiary IFSC Code</label>
+                {{ form_widget(trnBankDetails.ifscCode) }}
+            </div>
+            <div class="col-lg-4 col-sm-12">
+                {% if trnBankDetail.mstBankAccountType is defined and trnBankDetail.mstBankAccountType is not empty and
+                    trnBankDetail.mstBankAccountType != ''%}
+                    <label>Beneficiary Account Type</label>
+                    <input type="text" class="form-control" value="{{ trnBankDetail.mstBankAccountType }}" readonly>
+                    <div style="display: none">{{ form_widget(trnBankDetails.mstBankAccountType) }}</div>
+                {% else %}
+                    <div class="cust-select">
+                        <label>Beneficiary Account Type</label>
+                        {{ form_widget(trnBankDetails.mstBankAccountType) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row form-group row-sm row-grid-2 text-center mt-3">
+        <div class="offset-lg-3 offset-sm-1 col-lg-6 col-sm-10">
+            <label class="checkbox-label" for="tnc" >
+                I'd like to receive communication from Giving Circle.
+                <input type="checkbox" id="tnc"
+                {% if appUser.appUserInfo.isSubscribedToNewLetter is defined and
+                    appUser.appUserInfo.isSubscribedToNewLetter is not empty and
+                    appUser.appUserInfo.isSubscribedToNewLetter == 1 %}
+                    checked
+                {% endif %}>
+                <span class="checkmark"></span>
+
+            </label>
+        <div style="display: none;">
+            {{ form_widget(form.appUserInfo.isSubscribedToNewLetter) }}
+        </div>
+        </div>
+    </div>
+    <div class="btn-sec mt-3 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+        <a href="javascript:void(0);" class="btn btn-primary btn-continue">Continue</a>
+    </div>
+{{ form_end(form) }}

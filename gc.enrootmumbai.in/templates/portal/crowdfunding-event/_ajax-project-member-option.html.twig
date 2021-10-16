@@ -1,0 +1,9 @@
+<option value="">Select</option>
+{% for contributorData in arrContributorData %}
+    <option value="{{ contributorData.appUser.id }}"
+            mobilenumber="{{ contributorData.appUser
+            .appUserInfo.userMobileNumber }}"
+            email="{{ contributorData.appUser.appUserInfo.userEmail }}">
+        {{contributorData.appUser.appUserInfo.userFirstName }} {{ contributorData.appUser.appUserInfo.userMiddleName }}
+    </option>
+{% endfor %}

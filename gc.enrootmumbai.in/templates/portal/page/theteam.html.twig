@@ -1,0 +1,40 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper about-us">
+        <section class="heading-sec">
+            <div class="pgttl">
+                <h1>About Us</h1>
+            </div>
+        </section>
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('about-us') }}">About Us</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ page_content.pageTitle }}</li>
+                </ol>
+            </nav>
+            {% if page_content.pageRoute == 'the-team' %}
+            <h2>The Team</h2>
+            {% else %}
+                <h2>Our Inner Circle</h2>
+            {% endif %}
+            <div class="card-deck cust-cards">
+                <div class="card no-bdr">
+                    <div class="card-body">
+                        {# Content Start from Cms  #}
+                        {% for content in page_content.cmsPageContent %}
+                            {{ content|raw }}
+                        {% endfor %}
+                        {# Content End from Cms  #}
+                        <hr>
+                        <a href="{{ path('about-us') }}" class="btn btn-primary-outline mb-3">View All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}

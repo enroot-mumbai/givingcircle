@@ -1,0 +1,84 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" media="all" type="text/css" />
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" media="all" type="text/css" />
+{% endblock %}
+{% block cms_content %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.link'|trans|upper }}</th>
+                                <th>{{ 'label.caption'|trans|upper }}</th>
+                                <th>{{ 'label.description'|trans|upper }}</th>
+                                <th>{{ 'label.message'|trans|upper }}</th>
+                                <th>{{ 'label.image'|trans|upper }}</th>
+{#                                <th>{{ 'label.embedded_url'|trans|upper }}</th>#}
+                                <th>{{ 'label.is_publish'|trans|upper }}</th>
+                                <th>{{ 'label.status'|trans|upper }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for cms_social_post in cms_social_posts %}
+                            <tr>
+                                <td>{{ cms_social_post.postLink }}</td>
+                                <td>{{ cms_social_post.postCaption }}</td>
+                                <td>{{ cms_social_post.postDescription }}</td>
+                                <td>{{ cms_social_post.postMessage }}</td>
+                                <td><img src="{{ cms_social_post.postPicturePath|imagine_filter('resize_image_100') }}" alt=".."></td>
+{#                                <td>{{ cms_social_post.postPictureUrl }}</td>#}
+                                <td>{{ cms_social_post.isPublish ? 'Yes' : 'No' }}</td>
+                                <td>{{ cms_social_post.postStatus }}</td>
+                                <td>
+                                    <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                        <a href="{{ path(path_show, {'id': cms_social_post.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>
+                                        {% if cms_social_post.postStatus != 'deleted'  %}
+                                        <a href="{{ path(path_edit, {'id': cms_social_post.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+{% endblock %}

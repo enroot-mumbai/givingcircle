@@ -1,0 +1,48 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+            </div>
+            <nav class="card-content collapse show">
+                <div class="card-body card-dashboard ">
+                    <div class="row">
+                        <div class="col-sm-3 mb-2">
+                            <select id="countryId" name="countryId" class="form-control custom-select country">
+                                <option value="">Select Country....</option>
+                                {% set countries = get_country_list() %}
+                                {% for country in countries %}
+                                    <option value="{{country.id}}" {% if country.id == app.request.query.get('country_id') %} selected {% endif %}>
+                                        {{country.country}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" id="citySearch" name="citySearch" class="form-control" required>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-search citysearchbutton"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    {# start show the city data from city search#}
+                    <div class="mt-2 cityListing"><img src="{{ asset('assets/img/loading_lines.gif') }}" class="loading" alt="loading" style="display: none">
+                    </div>
+                    {# end the city data from city search#}
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/master/mst_city/index.js?z=1') }}"></script>
+{% endblock %}

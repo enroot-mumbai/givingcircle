@@ -1,0 +1,118 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title float-right">
+                <a href="{{ path(path_edit, {'id': data.id}) }}" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i> {{'label.edit'|trans}}</a>
+                <a href="{{ path(path_index) }}" class="btn btn-dark btn-sm"><i class="fa fa-list"></i> {{'label.back_to_list' | trans}}</a>
+                &nbsp;
+
+            </h4>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-responsive-md text-sm">
+                            <tbody>
+                            <tr>
+                                <th>{{ 'label.article_category'|trans }}</th>
+                                <td>{{ data.mstArticleCategory }}</td>
+                                <th>{{ 'label.article_for'|trans }}</th>
+                                <td>{{ data.articleCreator }}</td>
+                                <th>{{ 'label.slug_name'|trans }}</th>
+                                <td>{{ data.articleSlugName }}</td>
+                            </tr>
+
+                                <tr>
+                                    <th>{{ 'label.area_interest'|trans }}</th>
+                                    <td>{% for interest in data.mstAreaInterest %} {{ interest }}<br>{% endfor %}</td>
+                                    <th>{{ 'label.article_for'|trans }}</th>
+                                    <td>{{ data.articleFor|default('-') }}</td>
+                                    <th>{{ 'label.location'|trans }}</th>
+                                    <td>{{ data.locationName|default('-') }} {{ data.mstCity|default('-') }}</td>
+                                </tr>
+                            <tr>
+                                <th>{{ 'label.title'|trans }}</th>
+                                <td colspan="5">{{ data.articleTitle|default('-') }}</td>
+                            </tr>
+                                <tr>
+                                    <th>{{ 'label.createtime'|trans }}</th>
+                                    <td>{{ data.articleCreateDateTime|date('d M Y H:i') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'label.intro'|trans }}</th>
+                                    <td colspan="4">{{ data.articleIntro | raw }}</td>
+                                    <td>
+                                        D: <img src="{{ data.articleIntroDesktopImagePath|imagine_filter('resize_image_100') }}" alt=".."><br><br>
+                                        T: <img src="{{ data.articleIntroTabletImagePath|imagine_filter('resize_image_100') }}" alt=".."><br><br>
+                                        M: <img src="{{ data.articleIntroMobileImagePath|imagine_filter('resize_image_100') }}" alt="..">
+                                    </td>
+                                </tr>
+                            <tr>
+                                <th colspan="6">{{ 'label.content'|trans }}</th>
+                            </tr>
+                            {% for content in data.cmsArticleContent %}
+                            <tr>
+                                <td colspan="5">{{ content.articleContent | raw }}</td>
+                                <td>
+                                    D: <img src="{{ content.articleContentDesktopImagePath|imagine_filter('resize_image_100') }}" alt="--"><br><br>
+                                    T: <img src="{{ content.articleContentTabletImagePath|imagine_filter('resize_image_100') }}" alt="--"><br><br>
+                                    M: <img src="{{ content.articleContentMobileImagePath|imagine_filter('resize_image_100') }}" alt="--">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                                <tr>
+                                    <td colspan="5">{{ 'SEO Section'|upper }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'label.meta_title'|trans }}</th>
+                                    <td>{{ data.metaTitle }}</td>
+                                    <th>{{ 'label.meta_keyword'|trans }}</th>
+                                    <td>{{ data.metaKeyword }}</td>
+                                    <th>{{ 'label.meta_description'|trans }}</th>
+                                    <td>{{ data.metaDescription }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'label.focus_key_phrase'|trans }}</th>
+                                    <td>{{ data.focusKeyPhrase }}</td>
+                                    <th>{{ 'label.key_phrase_synonyms'|trans }}</th>
+                                    <td>{{ data.keyPhraseSynonyms }}</td>
+                                    <th>{{ 'label.schema'|trans }}</th>
+                                    <td>{{ data.seoSchema }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">{{ 'Social Share Section'|upper }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'label.social_title'|trans }}</th>
+                                    <td>{{ data.ogTitle }}</td>
+                                    <th>{{ 'label.social_description'|trans }}</th>
+                                    <td>{{ data.ogDescription }}</td>
+                                    <th>{{ 'label.social_image'|trans }}</th>
+                                    <td><img src="{{ data.ogImagePath|imagine_filter('resize_image_200') }}" alt="--"></td>
+                                </tr>
+                                <tr>
+                                    <th>{{ 'label.like'|trans }}</th>
+                                    <td>{{ data.articleLikeCount|default('0') }}</td>
+                                    <th>{{ 'label.is_active'|trans }}</th>
+                                    <td colspan="3">{{ data.isActive ? 'Yes' : 'No' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if is_granted('ROLE_SYS_ADMIN') %}
+        <div class="card-footer">
+            {{ include('form/_delete_form.html.twig') }}
+        </div>
+    {% endif %}
+    <br>
+{% endblock %}

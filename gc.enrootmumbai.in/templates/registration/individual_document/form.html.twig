@@ -1,0 +1,77 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/css/fileinput.min.css')}}">
+{% endblock %}
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                <b>{{label_title|trans|upper}}</b> : For <b>{{ appUser.appUserInfo.mstUserMemberType }}</b>
+                {% if appUser.appUserInfo.mstUserMemberType == 'Organization' %}
+                    {{ appUser.trnOrganizationDetails[0].organizationName }}
+                {% else %}
+                   {{ appUser.appUserInfo.name }}
+                {% endif %}
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row mt-3">
+                <div class="col-sm-3 imageDiv">
+                    {{ form_row(form.mediaFileName) }}
+                </div>
+                {% if document is defined and document is not empty
+                    and document.uploadedFilePath is defined and document.uploadedFilePath is not empty %}
+                    <div class="col-sm-3 imageDiv">
+                        <div class="form-group">
+                            <label for="trn_organization_upload_documents_mediaName" >{{ 'Download Link'|trans }} </label><br/>
+                            <a href="{{ asset('/images/files/') ~ document.uploadedFilePath }}" target="_blank">{{ document.uploadedFilePath }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+                {#<div class="col-sm-3 imageDiv">
+                    {{ form_row(form.mediaName) }}
+                </div>#}
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+                <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+            </button>
+            <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/js/fileinput.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/themes/fa/theme.min.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            $('label[for=trn_volunteer_documents_mediaFileName]').remove();
+
+        });
+
+        var btnCust = '';
+        $("#trn_volunteer_documents_mediaFileName").fileinput({
+            theme: "fa",
+            overwriteInitial: true,
+            maxFileSize: 2048,
+            showClose: false,
+            showCaption: false,
+            showBrowse: false,
+            browseOnZoneClick: true,
+            removeLabel: '',
+            // removeIcon: '<i class="fa fa-remove"></i>',
+            defaultPreviewContent: '<h6 class="text-muted">Click to upload document</h6>',
+            layoutTemplates: {main2: '{preview} ' +  btnCust + ' {remove} {browse}'},
+            // allowedFileExtensions: ["pdf"]
+            allowedFileExtensions: ["jpg", "jpeg", "png"]
+        });
+
+    </script>
+{% endblock %}

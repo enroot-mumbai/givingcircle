@@ -1,0 +1,53 @@
+security:
+    role_hierarchy:
+        ROLE_APP_USER: ROLE_APP_USER
+        ROLE_B2C_USER: ROLE_APP_USER
+        ROLE_SYS_CONTENT_USER: ROLE_B2C_USER
+        ROLE_SYS_MODULE_ADMIN: ROLE_SYS_CONTENT_USER
+        ROLE_SYS_ADMIN: [ROLE_SYS_MODULE_ADMIN, ROLE_B2C_USER, ROLE_APP_USER ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: [ROLE_SYS_ADMIN, ROLE_B2C_USER, ROLE_APP_USER ROLE_ALLOWED_TO_SWITCH]
+
+    encoders:
+        App\Entity\SystemApp\AppUser:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\SystemApp\AppUser
+                property: userName
+        #in_memory: { memory: null }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            lazy: true
+            guard:
+                authenticators:
+                    - App\Security\LoginAuthenticator
+                    - App\Security\PortalAuthenticator
+                    - App\Security\GoogleAuthenticator
+                    - App\Security\MyFacebookAuthenticator
+                entry_point: App\Security\PortalAuthenticator
+            logout:
+                path: logout
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 86400 # 1 day
+            switch_user: true
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - {path: ^/welcome, roles: IS_AUTHENTICATED_FULLY }

@@ -1,0 +1,141 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2>{{ pageContentByPage.pageTitle }}</h2>
+                <h4>{{ pageContentByPage.cmsPageContent[0]|raw }}</h4>
+                <div class="row">
+
+                    {% set content = pageContentByPage.cmsPageContent[1] %}
+                    {% if(content.mediaPosition) == 'left' %}
+                        <div class="col-md-auto">
+                            <div class="video-placeholder">
+                                {#<a href="#">#}
+                                    <img src="{{ asset('images/') ~ content.mediaFilePath }}" alt="">
+                                {#</a>#}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            {{ content.pageContent|raw }}
+
+                            <a href="{{ path('create-project') }}" class="btn btn-primary">Create Your Own Project</a>
+                        </div>
+                    {% else %}
+                        <div class="col-md">
+                            {{ content.pageContent|raw }}
+
+                            <a href="{{ path('create-project') }}" class="btn btn-primary">Create Your Own Project</a>
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="video-placeholder">
+                                {#<a href="#">#}
+                                    <img src="{{ asset('images/') ~ content.mediaFilePath }}" alt="">
+                                {#</a>#}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="orange-box">
+            <div class="container">
+                <h2>{{ pageContentByPage.cmsPageContent[2]|raw }}</h2>
+                <div class="row">
+                    {% set content = pageContentByPage.cmsPageContent[3] %}
+                    {% if(content.mediaPosition) == 'left' %}
+                        <div class="col-md">
+                            <div class="tablet-view"><img src="{{ asset('images/') ~ content.mediaFilePath }}" alt=""></div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="content-box">
+                                {{ content.pageContent|raw }}
+                                <a href="{{ path('create-project') }}" class="btn btn-white">Create Your Own Project</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-md-5">
+                            <div class="content-box">
+                                {{ content.pageContent|raw }}
+                                <a href="{{ path('create-project') }}" class="btn btn-white">Create Your Own Project</a>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="tablet-view"><img src="{{ asset('images/') ~ content.mediaFilePath }}" alt=""></div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+
+        <section class="main type2">
+            <div class="container">
+                {{ pageContentByPage.cmsPageContent[4]|raw }}
+                <div class="row">
+                    {% set content = pageContentByPage.cmsPageContent[5] %}
+                    {% if(content.mediaPosition) == 'left' %}
+                        <div class="col-md-auto">
+                            <div class="image-placeholder">
+                                <figure>
+                                    <img src="{{ asset('images/') ~ content.mediaFilePath }}" alt="">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="col-md" style="margin-left: 40px;">
+                            <span class="features">
+                                {{ content.pageContent|raw }}
+                                <a href="{{ path('create-project') }}" class="btn btn-primary">Create Your Own Project</a>
+                            </span>
+                            {#{{ pageContentByPage.cmsPageContent[8]|raw }}#}
+
+                        </div>
+                    {% else %}
+                        <div class="col-md">
+                            <span class="features">
+                                {{ content.pageContent|raw }}
+                                <a href="{{ path('create-project') }}" class="btn btn-primary">Create Your Own Project</a>
+                            </span>
+                            {#{{ pageContentByPage.cmsPageContent[8]|raw }}#}
+
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="image-placeholder">
+                                <figure>
+                                    <img src="{{ asset('images/') ~ content.mediaFilePath }}" alt="">
+                                </figure>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static');
+        });
+    </script>
+{% endblock %}

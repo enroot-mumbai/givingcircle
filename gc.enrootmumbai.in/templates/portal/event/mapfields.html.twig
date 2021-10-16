@@ -1,0 +1,140 @@
+<div id="onSiteAddress">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSiteAddress1">
+                        <span>Address 1 *</span>
+                    </label>
+                    <div>
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.eventOnSiteAddress1) }}#}
+                        <input type="text" name="eventOnSiteAddress1" id="eventOnSiteAddress1" placeholder="Site Address" required="required" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSiteAddress2">
+                        <span>Address 2</span>
+                    </label>
+                    <div>
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.eventOnSiteAddress2) }}#}
+                        <input type="text" name="eventOnSiteAddress2" id="eventOnSiteAddress2" placeholder="Site Address" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSitePinCode">
+                        <span>Pincode *</span>
+                    </label>
+                    <div>
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.eventOnSitePinCode) }}#}
+                                            <input type="text" pattern="[0-9]{6}" name="eventOnSitePinCode" id="eventOnSitePinCode" placeholder="Pincode" required="required" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="main-form-group">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSiteCountry">
+                        <span>Country *</span>
+                    </label>
+                    <div>
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.mstCountry) }}#}
+
+                        <div class="cust-select">
+                            <select class="form-control" name="eventOnSiteCountry"
+                                    id="eventOnSiteCountry">
+                                <option value="">Select</option>
+                                {% set countries = get_country_list() %}
+                                {% for country in countries %}
+                                    <option value="{{country.id}}">{{country.country}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+{#                      <input type="text" name="eventOnSiteCountry" id="eventOnSiteCountry" placeholder="Country" required="required" class="form-control">#}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSiteState">
+                        <span>State *</span>
+                    </label>
+                    <div>
+
+                        <div class="cust-select">
+                            <select class="form-control" name="eventOnSiteState"
+                                    id="eventOnSiteState">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.mstState) }}#}
+{#                                            <input type="text" name="eventOnSiteState" id="eventOnSiteState" placeholder="State" required="required" class="form-control">#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSiteCity">
+                        <span>City *</span>
+                    </label>
+                    <div>
+
+                        <div class="cust-select">
+                            <select class="form-control" name="eventOnSiteCity"
+                                    id="eventOnSiteCity">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.mstCity) }}#}
+{#                                            <input type="text" name="eventOnSiteCity" id="eventOnSiteCity" placeholder="City" required="required" class="form-control">#}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="main-form-group">
+                    <label for="eventOnSiteAreaInCity">
+                        <span>Area Of City *</span>
+                    </label>
+                    <div>
+
+                        <div class="cust-select">
+                            <select class="form-control" name="eventOnSiteAreaInCity"
+                                    id="eventOnSiteAreaInCity">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+{#                        {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.mstAreasInCity) }}#}
+{#                                            <input type="text" name="eventOnSiteAreaInCity" id="eventOnSiteAreaInCity" placeholder="Area In City" required="required" class="form-control">#}
+
+                        <div style="display: none">
+{#                            {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.eventOnSiteLocationLatitude) }}#}
+{#                            {{ form_widget(form.trnVolunterCircleEventOnSiteAddresses.eventOnSiteLocationLongitude) }}#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="comment.userName.not_found">
+                <source>comment.userName.not_found</source>
+                <target>Username is not available in the system</target>
+            </trans-unit>
+            <trans-unit id="comment.userPassword.invalid">
+                <source>comment.userPassword.invalid</source>
+                <target>Invalid Password</target>
+            </trans-unit>
+            <trans-unit id="comment.userAccess.denied">
+                <source>comment.userAccess.denied</source>
+                <target>Access Denied</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

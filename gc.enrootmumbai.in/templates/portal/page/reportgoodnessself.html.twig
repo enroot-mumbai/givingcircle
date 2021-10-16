@@ -1,0 +1,397 @@
+{% extends 'portal/layout/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" media="all" type="text/css" />
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}" media="all" type="text/css" />
+{% endblock %}
+
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    {{ include('portal/page/_report_goodness_top_banner.html.twig') }}
+    <div class="wrapper login-container">
+        <div class="container">
+            <div class="row">
+
+                {# Breadcrump and common text content start #}
+                {{ include('portal/page/_report_goodness_left_content.html.twig') }}
+                {# Breadcrump and common text content end #}
+
+                <div class="col-xl-auto login-right" data-aos="fade-right">
+                    <div class="content">
+                        <h4 data-aos="fade-right" data-aos-delay="100"><i class="fc-reccomend-report"></i>{{ pageContentByPage.cmsPageContent[5].pageContent|raw }}</h4>
+                        <p data-aos="fade-right" data-aos-delay="100">{{ pageContentByPage.cmsPageContent[6].pageContent|raw }}</p>
+{#                        <form class="form" data-aos="fade-right" data-aos-delay="100">#}
+                        {{ form_start(form_report_self, {'attr': {'id': 'report_self', 'class': 'form'}}) }}
+
+                        {{ form_widget(form_report_self.reportFor) }}
+                            <div class="mandate-text"><span>*</span> Mandatory Fields </div>
+
+                            {% set selectedtye = 'self' %}
+                            {{ include('portal/page/_report_goodness_main_form.html.twig') }}
+
+                            <div class="self-block" style="display: block;">
+                                <h5>
+                                    Changemaker's Details
+                                </h5>
+                                <div class="row row-md">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fname">First Name *</label>
+                                            {{ form_widget(form_report_self.firstName) }}
+                                            {{ form_errors(form_report_self.firstName) }}
+                                            {#<input type="text" class="form-control" id="fname" placeholder="" value=""
+                                                   required>#}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fname">Last Name *</label>
+                                            {{ form_widget(form_report_self.lastName) }}
+                                            {{ form_errors(form_report_self.lastName) }}
+{#                                            <input type="text" class="form-control" id="lname" placeholder="" required>#}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mob-number">
+                                            <label>Mobile Number *</label>
+                                            <div class="input-group-prepend">
+                                                <div class="cust-select">
+                                                    <select class="form-control" id="countryCode" required>
+                                                        <option value="91">+ 91</option>
+                                                        <option value="22">22</option>
+                                                        <option value="44">44</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{ form_widget(form_report_self.mobileNumber) }}
+                                            {{ form_errors(form_report_self.mobileNumber) }}
+{#                                            <input type="text" class="form-control mob-no-input" placeholder=""#}
+{#                                                   required>#}
+                                            <div class="tooltip thm2">
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>Your Mobile number is outside India.</li>
+                                                        <li>Your mobile verification is through email id.</li>
+                                                    </ul>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="emailId">Email ID *</label>
+                                            {{ form_widget(form_report_self.emailAddress) }}
+                                            {{ form_errors(form_report_self.emailAddress) }}
+                                            {#<input type="email" class="form-control" id="emailId" placeholder=""
+                                                   required>#}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">City *</label>
+                                            <div>{# class="cust-select" #}
+                                                {{ form_widget(form_report_self.mstCity) }}
+                                                {{ form_errors(form_report_self.mstCity) }}
+                                                {#<select class="form-control" required>
+                                                    <option></option>
+                                                    <option>Option 1</option>
+                                                    <option>Option 2</option>
+                                                </select>#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="other-info-text">
+                                    Following information helps us in understanding the change making work being
+                                    done before we schedule the conversation.
+                                </span>
+                                <div class="main-form-group">
+                                    <label>
+                                        <span>Digital Presence?</span>
+                                        <em>(Website / Social Media Handles)</em>
+                                    </label>
+                                    <div class="reporting-radio digitalPresenceRadio">
+                                        <label for="yes" class="yes">
+                                            <span>
+                                                Yes
+                                                <input type="radio" id="yes" name="digital-presence" value="yes">
+                                                <span class="checkmark"></span>
+                                            </span>
+                                        </label>
+                                        <label for="no" class="no">
+                                            <span>
+                                                No
+                                                <input type="radio" id="no" name="digital-presence"  value="no">
+                                                <span class="checkmark"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="main-form-group digitalPresence">
+                                    <div class="input-box">
+{#                                        <input type="text" class="form-control" placeholder="Paste link here" required>#}
+                                        <input type="url" class="form-control" name="digitalPresence[]" placeholder="Paste link here">
+                                        <a href="#" class="removeInput"><i class="fa fa-minus-circle"></i></a>
+                                    </div>
+                                    <a href="#" class="addDigitalPresence">Add More</a>
+                                </div>
+                                <div class="main-form-group">
+                                    <label for="message">
+                                        <span>Larger Message that the Change Maker wants to spread</span>
+                                    </label>
+                                    {{ form_widget(form_report_self.messageDetail) }}
+                                    {{ form_errors(form_report_self.messageDetail) }}
+                                    {#<textarea name="" id="message" class="form-control"
+                                              placeholder="e.g. Lorem Ipsum Dummy Text" onkeyup='checkWordLen(this);'
+                                              )></textarea>#}
+                                    <div class="textarea-instru">
+                                        <small>A maximum of 100 words only </small>
+                                        <small class="text-right ml-auto">Word count - <b
+                                                    class="words-left">0</b><b>/100</b>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="main-form-group">
+                                    <label for="otherRemark">
+                                        <span>Any other Remark</span>
+                                    </label>
+                                    {{ form_widget(form_report_self.remarks) }}
+                                    {{ form_errors(form_report_self.remarks) }}
+                                    {#<textarea name="" id="otherRemark" class="form-control"
+                                              placeholder="e.g. Lorem Ipsum Dummy Text"></textarea>#}
+                                </div>
+                                <div class="main-form-group">
+                                    <div class="row row-sm justify-content-center">
+                                        <div class="col-sm-8">
+                                            <div class="row row-xs">
+                                                <div class="col">
+                                                    <div class="captcha-txt"><b id="captchaCode"></b></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <label class="" for="captcha">Verify Captcha * </label>
+                                                    <input type="input" class="form-control" value="" id="captcha">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-submit" onclick="return validate();">Submit</button>
+{#                                    <a href="report-goodness-thank-you.shtml" class="btn btn-primary btn-submit">Submit</a>#}
+                                </div>
+                            </div>
+                        {{ form_end(form_report_self) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Main Wrapper End-->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('resources/js/captcha.basic.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('report-goodness');
+
+            $('#form_report_self_mstCity').select2({
+                theme: "default",
+                minimumInputLength: 3,
+            });
+
+            $('#report_self').captcha({
+                'idCaptchaInput': 'captcha',
+                'idCaptchaText': 'captchaCode'
+            });
+
+            $("#form_report_self_messageDetail").keydown(function (){
+                wordCount($(this),100);
+            })
+            $("#form_report_self_messageDetail").keyup(function (){
+                wordCount($(this),100);
+            })
+
+            $("#form_report_self_mstCity").change(function () {
+                if ($(this).val().length !== 0) {
+                    $(this).parent().parent().find('label').addClass('clicked');
+                } else {
+                    $(this).parent().parent().find('label').removeClass('clicked');
+                }
+            });
+            $(".cust-select").click(function () {
+                $(this).parent().find('label').addClass('clicked');
+                $(this).find('select').focus();
+            });
+
+            function formcontrol() {
+                $(".form-control").filter(function () {
+                    if (this.value.length !== 0) {
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+                $(this).siblings('input').focus();
+            });
+
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+            $('.form-group select').change(function () {
+                if (this.value.length !== 0) {
+                    $(this).parent().parent().find('label').addClass('clicked');
+                } else {
+                    $(this).parent().parent().find('label').removeClass('clicked');
+                }
+            });
+
+            $('.reporting-radio label').on('click', function () {
+                $(this).addClass('active').siblings('label').removeClass('active')
+            });
+            $('.digitalPresenceRadio label.yes').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.digitalPresence').show();
+            });
+            $('.digitalPresenceRadio label.no').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.digitalPresence').hide();
+            });
+            $('.reporting-radio label.self').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.self-block').show();
+                $(this).parents('.main-form-group').siblings('.else-block').hide();
+            });
+            $('.reporting-radio label.else').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.self-block').hide();
+                $(this).parents('.main-form-group').siblings('.else-block').show();
+            });
+
+            $('.addDigitalPresence').click(function () {
+                var newRow = $(this).parent('.digitalPresence').children('.input-box:last').clone();
+                newRow.find("input").val("");
+                $('.digitalPresence .input-box:last').addClass('old');
+                $(newRow).insertAfter(".digitalPresence .input-box:last");
+                // $(this).focus();
+            });
+            $(document).on('click', '.removeInput', function (e) {
+                e.preventDefault();
+                $(this).parent('.old').remove();
+            });
+        });
+
+        function validate() {
+
+            if($.trim($("#form_report_self_firstName").val()) == '') {
+                alert("Please enter firstname");
+                $("#form_report_self_firstName").focus();
+                return false;
+            }
+            if($.trim($("#form_report_self_lastName").val()) == '') {
+                alert("Please enter lastname");
+                $("#form_report_self_lastName").focus();
+                return false;
+            }
+            var mobileNo = $.trim(jQuery("#form_report_self_mobileNumber").val());
+            if(mobileNo == '') {
+                alert("Please enter Mobile number");
+                $("#form_report_self_mobileNumber").focus();
+                return false;
+            }
+            if ($.isNumeric(mobileNo) == false) {
+                alert("Please enter valid mobile Number.");
+                $("#form_report_self_mobileNumber").val('');
+                return false;
+            }
+            if (mobileNo.length != 10) {
+                alert("Please enter valid mobile Number.");
+                $("#form_report_self_mobileNumber").val('');
+                return false;
+            }
+            if($.trim($("#form_report_self_emailAddress").val()) == '') {
+                alert("Please enter email address");
+                $("#form_report_self_emailAddress").focus();
+                return false;
+            }
+
+            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            if( !emailReg.test( $("#form_report_self_emailAddress").val() )) {
+                alert("Please enter a valid email address.");
+                $("#form_report_self_emailAddress").focus();
+                return false;
+            }
+
+            if($.trim($("#form_report_self_mstCity").val()) == '') {
+                alert("Please select City");
+                $("#form_report_self_mstCity").focus();
+                return false;
+            }
+
+            if($('input[name="digital-presence"]:checked').length == 0) {
+                alert('Please select you Digital Presence');
+                return false;
+            }
+
+
+            if($('input[name="digital-presence"]:checked').val() == 'yes') {
+
+                var atleastOneUrl = false;
+                var improperUrlFormat = false;
+                $('input[name="digitalPresence[]"]').each(function() {
+                    if($(this).val() != '') {
+                        atleastOneUrl = true;
+                    }
+
+                    if($(this).val() != '' && !isUrlValid($(this).val())) {
+                        improperUrlFormat = true;
+                    }
+                });
+
+                if (atleastOneUrl == false) {
+                    alert('Please enter atleast one URL for digital presence');
+                    return false;
+                }
+
+                if (improperUrlFormat == true) {
+                    alert('Please enter valid URL format for digital presence');
+                    return false;
+                }
+            }
+
+            $("#form_report_self_messageDetail").val($.trim($("#form_report_self_messageDetail").val()));
+            if($("#form_report_self_messageDetail").val() != '') {
+                var wordLen = 100,len; // Maximum word length
+                len = $("#form_report_self_messageDetail").val().split(/[\s]+/);
+                if (len.length > wordLen) {
+                    if (event.keyCode == 46 || event.keyCode == 8 || event.which == 46 || event.which == 8) {// Allow backspace and delete buttons
+                    } else {//all other buttons
+                        //  if (event.keyCode < 48 || event.keyCode > 57 || event.which < 48 || event.which > 57)
+                        event.preventDefault();
+                    }
+                }
+                wordsLeft = (wordLen) - len.length;
+                if (wordsLeft < 0) {
+                    alert('Maximum '+wordLen+' words accepted.');
+                    $("#form_report_self_messageDetail").focus();
+                    return false;
+                }
+
+            }
+
+            return true; // all validations passed
+        }
+    </script>
+{% endblock %}

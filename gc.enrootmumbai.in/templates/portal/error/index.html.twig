@@ -1,0 +1,37 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <div class="wrapper error">
+        <section>
+            <div class="container">
+                <div class="row row-zero">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}" class="fas fa-home"></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Error {{ errorcode }}</li>
+                        </ol>
+                    </nav>
+                    <div class="col-12 titleSec">
+                        <h2>Oops!</h2>
+                    </div>
+
+                </div>
+                <form>
+                    <ul class="power-pred row row-zero">
+                        <li class="col-sm-12 col-md-12 text-center">
+                            <h2>{{ errorcode }}</h2>
+                            <b>{{ errormsg }}</b><br><br>
+                            <p><b>Following are few easy links you may want to check</b></p>
+                            <div class="row justify-content-md-center">
+                                <div class="col-lg-8 col-sm-12 align-self-center">
+                                    <div class="btn-block">
+                                        <a href="{{ path('homepage') }}" class="btn btn-primary-outline sm">Homepage</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </section>
+    </div>
+{% endblock %}

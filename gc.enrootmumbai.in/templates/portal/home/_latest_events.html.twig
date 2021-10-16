@@ -1,0 +1,148 @@
+<section class="latest-events">
+    <div class="head-sec">
+        <h2>{{ pageContentByPage.cmsPageContent[6].pageContent|raw }}</h2>
+        {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
+            isMandatoryFilled == true %}
+            <a href="{{ path('how-it-works') }}"><i class="fc-gear"></i><span>How It Works</span></a>
+        {% else %}
+            <a href="javascript:void(0);" onclick="alert({{ mandatoryFieldMsg }});">
+                <i class="fc-gear"></i><span>How It Works</span></a>
+        {% endif %}
+    </div>
+    {# Content Start from Cms  #}
+        <p>
+            {% set content = pageContentByPage.cmsPageContent[7] %}
+            {% include 'portal/page/_page_content_display.html.twig' %}
+        </p>
+    {# Content End from Cms  #}
+    <div id="latestEvent" class="row">
+        <ul class="resp-tabs-list">
+            {% set interestWithEvent = [] %}
+            {% for interest in areaInterests %}
+                {% set nCount = get_circle_event_count_by_interest(interest.id) %}
+                {% if nCount > 0 %}
+                    {% set interestWithEvent = interestWithEvent|merge([interest]) %}
+                    <li><a href="#">{{interest.areaInterest }} <span>{{ nCount }}</span></a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="resp-tabs-container">
+            {% for interest in interestWithEvent %}
+                <div>
+                    <div class="row row-sm">
+                    <div class="col-12">
+                        <h3>{{interest.areaInterest }}</h3>
+                    </div>
+                    {% for eventData in get_latest_circle_events_by_interest(interest.id) %}
+                        <div class="card col-sm-4">
+                            <figure>
+                                {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                                    eventData.profileImage != 'files/'  %}
+                                    <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                                    eventData.backgroundImagePath != 'files/' %}
+                                    <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                {% else %}
+                                    {% set break = false %}
+                                    {% for trnProductMedia in eventData.trnProductMedia %}
+                                        {% if trnProductMedia.mediaType == 'image' and
+                                            break == false %}
+                                            {% set break = true %}
+                                            <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </figure>
+
+                            <div class="card-body">
+                                <a href="{{ path('event-details', {'id' : eventData.id }) }}">
+
+                                    {% set eventDates = get_events_dates(eventData.id) %}
+                                    {% if eventDates.fromDate is defined and eventDates.fromDate is
+                                        not empty and eventDates.fromDate and eventDates.toDate
+                                        is defined and eventDates.toDate is
+                                        not empty and eventDates.toDate  %}
+                                        <div class="status">{{ eventDates.eventUpComingOrOnGoing }}</div>
+                                    {% endif %}
+                                    <h4>{{ eventData.name }}</h4>
+                                    <h6>by {{ eventData.trnCircle.circle }}</h6>
+                                    <h5 class="orange">
+                                        {% for mstEventProductType in eventData.mstEventProductType %}
+                                            <em>{{ mstEventProductType.eventProductType }}</em>
+                                        {% endfor %}
+                                    </h5>
+                                    <ul class="timing">
+                                        {% if eventDates.fromDate is defined and eventDates.fromDate is
+                                            not empty and eventDates.fromDate and eventDates.toDate
+                                            is defined and eventDates.toDate is
+                                            not empty and eventDates.toDate  %}
+                                            <li>
+                                                <i class="fa fa-calendar-o"></i>
+                                                {% if eventDates.eventUpComingOrOnGoing == 'UPCOMING' %}
+                                                    {{ eventDates.fromDate | date ('l') }} {{ eventDates.fromDate | date('d F Y') }}
+                                                {% else %}
+                                                    {{ eventDates.toDate | date ('l') }} {{ eventDates.toDate | date('d F Y') }}
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                        {% if eventDates.eventFromTime is defined and eventDates.eventFromTime is not empty and
+                                            eventDates.eventFromTime and eventDates.eventToTime is defined
+                                            and eventDates.eventToTime is not empty and eventDates.eventToTime  %}
+                                            <li><i class="fa fa-clock-o"></i> {{ eventDates.eventFromTime|date('h:i A')   }}
+                                                to {{ eventDates.eventToTime|date('h:i A')}} </li>
+                                        {% endif %}
+
+                                        <li><i class="fa fa-map-marker"></i>
+                                            {{ eventData.mstCity }}, {{ eventData.mstState }}, {{
+                                            eventData.mstCountry }} </li>
+                                    </ul>
+                                </a>
+                                <ul class="share-view">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fc-book-open"></i>
+                                            <b>{{ eventData.readCount|default('0') }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="eventLike" eventId = "{{ eventData.id
+                                        }}">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <b id="eventLike_{{ eventData.id }}">{{ eventData.likeCount|default('0') }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('event-details', {'id' : eventData.id }) }}#comments">
+                                            <i class="far fa-comment"></i>
+                                            <b>{{ get_event_comment_count(eventData.id)|default('0') }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="share-sec">
+                                    <div class="social-media">
+                                        <a href="#" class="fa fa-close"></a>
+                                        <ul>
+                                            <li><a onclick="getEventShareCount('{{ eventData.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                            <li><a onclick="getEventShareCount('{{ eventData.id }}')" href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                            <li><a onclick="getEventShareCount('{{ eventData.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                            <li><a onclick="getEventShareCount('{{ eventData.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="col-sm-12 btn-inline">
+                        <a href="{{ path('event-listing') }}" class="btn btn-primary type1">Explore All Events</a>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</section>

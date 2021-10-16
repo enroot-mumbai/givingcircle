@@ -1,0 +1,11 @@
+<div class="cust-select">
+    <select class="form-control" required id="selectSecondArea">
+        <option value="">Select</option>
+        {% for areaInterest in secondaryAreaInterests %}
+            <option value="{{ areaInterest.id }}">{{ areaInterest.areaInterest }}</option>
+        {% endfor %}
+    </select>
+</div>
+<ul class="selected-options">
+<input type="hidden" value="" name="secondaryAreaOfInterest" id="secondaryAreaOfInterest" />
+</ul>

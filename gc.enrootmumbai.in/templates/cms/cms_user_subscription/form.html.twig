@@ -1,0 +1,57 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+    </div>
+
+        {{ form_start(form) }}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <table class="table table-responsive-md text-sm">
+                        <tbody>
+                        {% if cms_user_subscription.appuser is defined and cms_user_subscription.appuser is not
+                            empty %}
+                        <tr>
+                             <th class="col-2">User</th>
+
+                            <td>{{ cms_user_subscription.appuser.appUserInfo.userFirstName }} {{ cms_user_subscription.appuser.appUserInfo.userLastName }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>{{ 'label.email'|trans|upper }}</th>
+                            <td>{{ cms_user_subscription.userSubscriptionEmail }}</td>
+                        </tr>
+                        <tr>
+                            <th>Create Date</th>
+                            <td>{{ cms_user_subscription.subscriptionDateTime|date('d M Y') }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        {{ form_row(form.isSubscriptionActive) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+                <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+
+            </button><a href="{{ back_to_list }}" class="btn btn-link">
+                <i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}
+            </a>
+        </div>
+        {{ form_end(form) }}
+
+{% endblock %}

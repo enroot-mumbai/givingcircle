@@ -1,0 +1,415 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/daterangepicker.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs events activated">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec mb-0">
+                            <h3>Events</h3>
+                        </div>
+                        <div class="events-filter">
+                            <div id="filters" class="button-group">
+                                <h5 id="totalEvents">Joined Event List (
+                                    {{
+                                        (arrProjectEventParticipationIndividualData['countArray']['ONGOING'])  +
+                                        (arrProjectEventParticipationIndividualData['countArray']['UPCOMING'] ) +
+                                        (arrProjectEventParticipationIndividualData['countArray']['PAST'] )
+                                    }}
+                                    )</h5>
+                                <button class="button is-checked" data-filter="All">All</button>
+                                <button class="button" id="btnUpComingShow" data-filter=".upcoming">Upcoming ({{ arrProjectEventParticipationIndividualData['countArray']['UPCOMING'] }})</button>
+                                <button class="button" id="btnOnGoingShow" data-filter=".ongoing">Ongoing ({{ arrProjectEventParticipationIndividualData['countArray']['ONGOING'] }})</button>
+                                <button class="button" id="btnPastShow" data-filter=".past">Past ({{ arrProjectEventParticipationIndividualData['countArray']['PAST'] }})</button>
+                            </div>
+                            <div class="filter-panel">
+                                <div class="search-panel typ2">
+                                    <div class="cust-calender">
+                                        <input type="text" id="campaignStartDate" class="form-control" name="daterange"
+                                               placeholder="Filter by Date Range">
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" class="search-input"  id="quicksearch"  placeholder="Search by Project Name, Event Name, Location, Resources">
+                                        <button href="#" class="btn search-input-btn"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <a href="#" class="btn-clear-filter"><i class="fa fa-refresh"></i> Clear Filter</a>
+                                </div>
+                            </div>
+                            <div class="table-responsive cust-tbl tbl-borderless tbl-joined-event mb-5"
+                                 id="joinEventList">
+                                <table class="table" id="example">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-sr-no"><label class="sort-order"><b>Sr. No.</b></label></th>
+                                        <th class="col-join-date"><label class="sort-order">Join Date</label></th>
+                                        <th class="col-event-name"><label class="sort-order">Event Name</label></th>
+                                        <th class="col-resources">Resources</th>
+                                        <th class="col-join-event-dtls" style="width: 380px;">Joined Event Details</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set loopIndex = 1  %}
+                                        {% for eventTime, eventDatas in arrProjectEventParticipationIndividualData['arrReturnData'] %}
+                                            {% for eventData in eventDatas %}
+                                                {% set joinedDatas = arrProjectEventParticipationIndividualData['arrJoinedEventData'][eventData.id] %}
+                                                {% for joinedData in joinedDatas %}
+                                                    <tr class="{{ eventTime | lower }} trRow">
+                                                        <td>{{ loopIndex }}</td>
+                                                    {% if joinedData.productType == 'Fundraiser' %}
+                                                        <td>{{ joinedData.data.orderDateTime | date('d M Y') }}</td>
+                                                        <td>
+                                                            <h6 class="txt-orange-bdr">{{ eventTime }}</h6>
+                                                            <br>
+                                                            <b>{{ eventData.name  | upper}}</b>
+                                                            <small>{{ eventData.trnCircle | upper }}</small>
+                                                        </td>
+                                                        <td><b class="txt-orange">{{ joinedData.productType }}</b></td>
+                                                        <td>
+                                                            <div class="row row-sm">
+                                                                <div class="col-md-9">
+                                                                    <ul class="joined-event-dtls">
+                                                                        {% if joinedData.data.trnCircleEvent.isCrowdFunding == true %}
+                                                                            <li class="full-width">
+                                                                                <div class="row">
+                                                                                    <div class="col-auto">
+                                                                                        <label><b>Donated Amount</b></label>
+                                                                                        <i class="fa fa-rupee"></i> {{ joinedData.data.totalAmount }}
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label><b>Transcation No.</b></label>
+                                                                                        {{ joinedData.data.transactionId }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li class="full-width">
+                                                                                <div class="row">
+                                                                                    <div class="col-auto">
+                                                                                        <label><i class="fa fa-file-pdf-o"></i>
+                                                                                            <a href="{{ path('print-receipt', {'transaction' : joinedData.data.transactionId}) }}"  >Payment Receipt</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    {% if joinedData.data.trnCircleEvent.trnCircle.appUser.trnOrganizationDetails[0].registrationNo80G is not empty %}
+                                                                                    <div class="col-auto">
+                                                                                        <label><i class="fa fa-file-pdf-o"></i>
+                                                                                            <a href="{{ path('print-eighty-g-certificate',
+                                                                                                {'transaction' : joinedData.data.transactionId}) }}" target="_blank"
+                                                                                            >80G Certificate</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </li>
+                                                                        {% else %}
+                                                                            {% if joinedData.data.trnCircleEvent.trnFundRaiserCircleEventDetails[0] is defined and
+                                                                                joinedData.data.trnCircleEvent.trnFundRaiserCircleEventDetails[0] is not empty and
+                                                                                joinedData.data.trnCircleEvent.trnFundRaiserCircleEventDetails[0].trnFundRaiserCircleEventSubEvents is defined and
+                                                                                joinedData.data.trnCircleEvent.trnFundRaiserCircleEventDetails[0].trnFundRaiserCircleEventSubEvents is not empty
+                                                                            %}
+                                                                                {% for trnFundRaiserCircleEventSubEvents in
+                                                                                    joinedData.data.trnCircleEvent.trnFundRaiserCircleEventDetails[0].trnFundRaiserCircleEventSubEvents%}
+                                                                                    <li class="full-width">
+                                                                                        <b>Time Period Supported</b>
+                                                                                        {{ trnFundRaiserCircleEventSubEvents.timePeriodSupported }}
+                                                                                    </li>
+                                                                                    <li class="full-width">
+                                                                                        <b>No. of Beneficiaries Supported</b>
+                                                                                        {{ trnFundRaiserCircleEventSubEvents.noOfBeneficiaries }}
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                            {% endif %}
+                                                                            <li class="full-width">
+                                                                                <div class="row">
+                                                                                    <div class="col-auto">
+                                                                                        <label><b>Donated Amount</b></label>
+                                                                                        <i class="fa fa-rupee"></i> {{ joinedData.data.totalAmount }}
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label><b>Transcation No.</b></label>
+                                                                                        {{ joinedData.data.transactionId }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li class="full-width">
+                                                                                <div class="row">
+                                                                                    <div class="col-auto">
+                                                                                        <label><i class="fa fa-file-pdf-o"></i>
+                                                                                            <a href="{{ path('print-receipt', {'transaction' : joinedData.data.transactionId}) }}"  >Payment Receipt</a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    {% if joinedData.data
+                                                                                        .trnCircleEvent.trnCircle.appUser
+                                                                                        .appUserInfo.mstUserMemberType
+                                                                                        .userMemberType == 'Organization'
+                                                                                        and joinedData.datatrnCircleEvent.trnCircle
+                                                                                        .appUser.trnOrganizationDetails[0].registrationNo80G is not empty %}
+                                                                                        <div class="col-auto">
+                                                                                            <label><i class="fa fa-file-pdf-o"></i>
+                                                                                                <a href="{{ path('print-eighty-g-certificate',
+                                                                                                    {'transaction' : joinedData.data.transactionId}) }}" target="_blank"
+                                                                                                >80G Certificate</a>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </li>
+                                                                        {% endif %}
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <ul class="share-options">
+                                                                        <li><a href="{{ path('event-details', {'id' : eventData.id }) }}" target="_blank"><i class="fa fa-bars"></i> View</a></li>
+                                                                        <li class="share-sec">
+                                                                            <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i>Share</a>
+                                                                            <div class="social-media typ2" >
+                                                                                <a href="#" class="fa fa-close"></a>
+                                                                                <ul>
+                                                                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                                                    <li><a href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                                                    <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                                                    <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    {% elseif joinedData.productType == 'Volunteer (in Time)' %}
+                                                        <td>{{ joinedData.data.dateOfService | date('d M Y') }}</td>
+                                                        <td>
+                                                            <h6 class="txt-orange-bdr">{{ eventTime }}</h6>
+                                                            <br>
+                                                            <b>{{ eventData.name  | upper}}</b>
+                                                            <small>{{ eventData.trnCircle | upper }}</small>
+                                                        </td>
+                                                        <td><b class="txt-orange">{{ joinedData.productType }}</b></td>
+                                                        <td>
+                                                            <div class="row row-sm">
+                                                                <div class="col-md-9">
+                                                                    <ul class="joined-event-dtls">
+                                                                        <li>
+                                                                            <b>Event Date</b>
+                                                                            {{ joinedData.data.dateOfService | date('d M Y') }}
+                                                                        </li>
+                                                                        <li>
+                                                                            <b>Event Hours</b>
+                                                                            {{ joinedData.data.numberOfHours}} hrs
+                                                                        </li>
+                                                                        <li>
+                                                                            {% set newDateTime = add_time(joinedData.data.fromTime | date(' Y-m-d h:i'), joinedData.data.numberOfHours) %}
+                                                                            <b>Event Time</b>
+                                                                            {{ joinedData.data.fromTime | date('h:i')}}
+                                                                            to
+                                                                            {{ newDateTime | date('h:i')}}
+                                                                        </li>
+                                                                        {% for trnVolunterCircleEventDetails in eventData.trnVolunterCircleEventDetails %}
+                                                                            <li class="full-width">
+                                                                                {% if trnVolunterCircleEventDetails.mstPlaceOfWork.placeOfWork == 'On Site' %}
+                                                                                    <b>Event Address</b>
+                                                                                    {% for trnVolunterCircleEventOnSiteAddress in trnVolunterCircleEventDetails.trnVolunterCircleEventOnSiteAddresses %}
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.eventOnSiteAddress1 }},
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.eventOnSiteAddress2 }},
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.mstAreasInCity }},
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.mstCity }},
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.mstState }},
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.mstCountry }},
+                                                                                        {{ trnVolunterCircleEventOnSiteAddress.eventOnSitePinCode }}
+                                                                                    {% endfor %}
+                                                                                {% else  %}
+                                                                                    <b>Place of Work</b>
+                                                                                    {{ trnVolunterCircleEventDetails.mstPlaceOfWork.placeOfWork }}
+                                                                                {% endif %}
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <ul class="share-options">
+                                                                        <li><a href="{{ path('event-details', {'id' : eventData.id }) }}" target="_blank"><i class="fa fa-bars"></i> View</a></li>
+                                                                        <li class="share-sec">
+                                                                            <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i>Share</a>
+                                                                            <div class="social-media typ2" >
+                                                                                <a href="#" class="fa fa-close"></a>
+                                                                                <ul>
+                                                                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                                                    <li><a href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                                                    <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                                                    <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </li>
+                                                                        {% if date(joinedData.data.dateOfService) > date() %}
+                                                                            <li><a href="javascript:void(0);" name="exitEvent" data-toggle="modal" eventid="{{ eventData.id }}" joindataid="{{ joinedData.data.id }}" strproductname="{{ joinedData.productType }}"
+                                                                                   data-target="#selectAreaModal"><i class="icn-exit"></i> Exit Event</a></li>
+                                                                        {% endif %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    {% elseif joinedData.productType == 'Material (in Kind)' %}
+
+                                                        <td>{{ joinedData.data.createdOn | date('d M Y') }}</td>
+                                                        <td>
+                                                            <h6 class="txt-orange-bdr">{{ eventTime }}</h6>
+                                                            <br>
+                                                            <b>{{ eventData.name  | upper}}</b>
+                                                            <small>{{ eventData.trnCircle | upper }}</small>
+                                                        </td>
+                                                        <td><b class="txt-orange">{{ joinedData.productType }}</b></td>
+                                                        <td>
+                                                            {% set trnCollectionCentreDetails = joinedData.data.trnCollectionCentreDetails %}
+                                                            <div class="row row-sm">
+                                                                <div class="col-md-9">
+                                                                    <ul class="joined-event-dtls">
+                                                                        <li class="full-width">
+                                                                            <b>Event Date</b>
+                                                                            {% if arrProjectEventParticipationIndividualData['arrEventUpComingOrOnGoingDetails'][eventData.id]
+                                                                                ['eventUpComingOrOnGoing'] ==  'ONGOING' or
+                                                                                arrProjectEventParticipationIndividualData['arrEventUpComingOrOnGoingDetails'][eventData.id]
+                                                                                ['eventUpComingOrOnGoing'] == 'PAST' %}
+                                                                                {{ arrProjectEventParticipationIndividualData['arrEventUpComingOrOnGoingDetails'][eventData.id]['endDate'] | date('d M Y') }}
+                                                                            {% else %}
+                                                                                {{ arrProjectEventParticipationIndividualData['arrEventUpComingOrOnGoingDetails'][eventData.id]['startDate'] | date('d M Y') }}
+                                                                            {% endif %}
+                                                                        </li>
+                                                                        <li class="full-width">
+                                                                            <b>Collection Centre 1</b>
+                                                                            <address>
+                                                                                <b>
+                                                                                    {{ trnCollectionCentreDetails.firstName }}
+                                                                                    {{ trnCollectionCentreDetails.lastName }}
+                                                                                </b>
+                                                                                {{ trnCollectionCentreDetails.address1 }},
+                                                                                {{ trnCollectionCentreDetails.address2 }},
+                                                                                {{ trnCollectionCentreDetails.mstCity }},
+                                                                                {{ trnCollectionCentreDetails.mstState }},
+                                                                                {{ trnCollectionCentreDetails.mstCountry }},
+                                                                                {{ trnCollectionCentreDetails.pinCode }}
+                                                                            </address>
+                                                                        </li>
+                                                                        {% if (trnCollectionCentreDetails.startTime is defined and
+                                                                            trnCollectionCentreDetails.startTime is not empty and
+                                                                            trnCollectionCentreDetails.startTime is not null)
+                                                                            or
+                                                                            (trnCollectionCentreDetails.endTime is defined and
+                                                                            trnCollectionCentreDetails.endTime is not empty and
+                                                                            trnCollectionCentreDetails.endTime is not null)
+                                                                        %}
+                                                                            <li class="full-width">
+
+                                                                                <b>Timing of the Collection Centre</b>
+                                                                                <div class="row">
+                                                                                    <div class="col-auto">
+                                                                                        <label>Start Time</label>
+                                                                                        {{ trnCollectionCentreDetails.startTime | date('h:i') }} hrs
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                        <label>End Time</label>
+                                                                                        {{ trnCollectionCentreDetails.endTime  | date('h:i')  }} hrs
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        {% endif %}
+                                                                        {% if trnCollectionCentreDetails.mstDaysOfWeek is defined and
+                                                                            trnCollectionCentreDetails.mstDaysOfWeek is not null and
+                                                                            trnCollectionCentreDetails.mstDaysOfWeek is not empty   %}
+                                                                            <li class="full-width">
+                                                                                <b>Collection Centre Open on Days</b>
+                                                                                {{ trnCollectionCentreDetails.mstDaysOfWeek | join(', ') }}
+                                                                            </li>
+                                                                        {% endif %}
+                                                                        <li class="full-width">
+                                                                            <b>Date Range for accepting Collections</b>
+                                                                            {% for trnMaterialInKindCircleEventDetails in eventData.trnMaterialInKindCircleEventDetails %}
+                                                                                {% for trnMaterialInKindCircleEventCollectionCentre in trnMaterialInKindCircleEventDetails.trnMaterialInKindCircleEventCollectionCentres %}
+                                                                                    {% if trnMaterialInKindCircleEventCollectionCentre.trnCollectionCentreDetails.id == trnCollectionCentreDetails.id %}
+                                                                                        <div class="row">
+                                                                                            <div class="col-auto">
+                                                                                                <label>From</label>
+                                                                                                {{ trnMaterialInKindCircleEventCollectionCentre.fromDate | date('d M Y') }}
+                                                                                            </div>
+                                                                                            <div class="col-auto">
+                                                                                                <label>To</label>
+                                                                                                {{ trnMaterialInKindCircleEventCollectionCentre.toDate | date('d M Y') }}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            {% endfor %}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <ul class="share-options">
+                                                                        <li><a href="{{ path('event-details', {'id' : eventData.id }) }}" target="_blank"><i class="fa fa-bars"></i> View</a></li>
+                                                                        <li class="share-sec">
+                                                                            <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i>Share</a>
+                                                                            <div class="social-media typ2">
+                                                                                <a href="#" class="fa fa-close"></a>
+                                                                                <ul>
+                                                                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                                                    <li><a href="https://twitter.com/intent/tweet?text={{ eventData.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                                                    <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': eventData.id}) }}&amp;title={{ eventData.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                                                    <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': eventData.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </li>
+                                                                        {% if joinedData.data.isReceived == false %}
+                                                                            <li><a href="javascript:void(0);" name="exitEvent" eventid="{{ eventData.id }}" joindataid="{{ joinedData.data.id }}" strproductname="{{ joinedData.productType }}"
+                                                                                   data-toggle="modal" data-target="#selectAreaModal"><i class="icn-exit"></i> Exit Event</a></li>
+                                                                        {% endif %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    {% endif%}
+                                                    </tr>
+                                                    {% set loopIndex = loopIndex + 1  %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="selectAreaModal" tabindex="-1" aria-labelledby="selectAreaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <a href="#" class="btn-close" data-dismiss="modal" aria-label="Close"></a>
+                    <div id="selectAreaModalBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="https://npmcdn.com/isotope-layout@3/dist/isotope.pkgd.js"></script>
+    <script src="{{ asset('resources/js/moment.min.js') }}"></script>
+    <script src="{{ asset('resources/js/daterangepicker.min.js') }}"></script>
+    <script>
+        var exitEventPopUpURL = "{{ path('my-account-exit-event-popup', {id: 'xyz'}) }}";
+        var saveExitEventURL = "{{ path('my-account-exit-event', {id: 'xyz'}) }}";
+        var ajaxViewProjectEventParticipationURL = "{{ path('ajax-view-project-event-participation', {id : circle.id}) }}"
+    </script>
+    <script src="{{ asset('assets/js/portal/my-account/view-project-event-participation-new.js?z=2') }}"></script>
+{% endblock %}
+

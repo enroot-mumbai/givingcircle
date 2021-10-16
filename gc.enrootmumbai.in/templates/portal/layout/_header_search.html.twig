@@ -1,0 +1,13 @@
+<div class="input-group">
+    <form method="post" action="{{ path('search-result') }}" id="headerSrchFrm" name="headerSrchFrm">
+        <input type="hidden" id="searchText" name="searchText">
+    </form>
+    <input type="text" class="search-input" id="headerSearchInp" name="headerSearchInp" placeholder="Search by Change Maker, Projects, Events, Fundraiser, Volunteer">
+    <button type="button" class="btn search-input-btn" id="headerSearchBtn" onclick="headerSearch()" name="headerSearchBtn"><i class="fa fa-search"></i></button>
+</div>
+{#
+<div class="input-group">
+    <input type="text" class="search-input"
+           placeholder="Search by Change Maker, Events, Fundraiser, Volunteer">
+    <a href="#" class="btn search-input-btn"><i class="fa fa-search"></i></a>
+</div>#}

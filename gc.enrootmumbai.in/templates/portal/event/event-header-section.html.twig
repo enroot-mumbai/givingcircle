@@ -1,0 +1,158 @@
+<div class="head-sec">
+    <div class="container">
+        <div class="row ">
+            <div class="col">
+                <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                     class="breadcrumb d-flex justify-content-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a
+                                    href="{{ path('event-listing') }}">Events</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trnCircleEvents.name }}
+                        </li>
+                    </ol>
+                </nav>
+
+
+
+                <section class="gc-circle" data-aos="fade-down" data-aos-delay="200">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="status">
+                                {% if arrEventUpComingOrOnGoingDetails is defined and
+                                    arrEventUpComingOrOnGoingDetails is not empty and
+                                    arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] is defined and
+                                    arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] is not empty
+                                    and arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] != '' %}
+                                    {{ arrEventUpComingOrOnGoingDetails[trnCircleEvents.id]['eventUpComingOrOnGoing'] }}
+                                {% endif %}
+                            </div>
+                            <h2>{{ trnCircleEvents.name }}
+                                <div class="share-sec">
+                                    <a href="javascript:;" class="social-share-btn"><i
+                                                class="fas fa-share-alt"></i></a>
+                                    <div class="social-media">
+                                        <a href="#" class="fa fa-close"></a>
+                                        <ul>
+                                            <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': trnCircleEvents.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                            <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://twitter.com/intent/tweet?text={{ trnCircleEvents.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': trnCircleEvents.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                            <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': trnCircleEvents.id}) }}&amp;title={{ trnCircleEvents.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                            <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': trnCircleEvents.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </h2>
+                            <h4>By {{ trnCircleEvents.trnCircle.circle }}</h4>
+                            <h5>
+                                {% if trnCircleEvents.trnCircle.mstJoinBy == 'Open' %}
+                                    <i class="fa fa-unlock"></i> {{ trnCircleEvents.trnCircle.mstJoinBy }}
+                                {% else %}
+                                    <i class="fa fa-lock"></i> {{ trnCircleEvents.trnCircle.mstJoinBy }}
+                                {% endif %}
+                            </h5>
+                            <div class="time-calender">
+                                <h5><i class="fa fa-calendar"></i>
+                                    {% if arrEventUpComingOrOnGoingDetails is defined and
+                                        arrEventUpComingOrOnGoingDetails is not empty and
+                                        arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] is defined and
+                                        arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] is not empty
+                                        and arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] != '' %}
+                                        {{ arrEventUpComingOrOnGoingDetails[trnCircleEvents
+                                            .id]['startDate'] |date('l d M Y') }}
+                                    {% endif %}
+                                </h5>
+                                <h5><i class="fa fa-calendar"></i>
+
+                                    {% if arrEventUpComingOrOnGoingDetails is defined and
+                                        arrEventUpComingOrOnGoingDetails is not empty and
+                                        arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] is defined and
+                                        arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] is not empty
+                                        and arrEventUpComingOrOnGoingDetails[trnCircleEvents.id] != '' %}
+                                        {{ arrEventUpComingOrOnGoingDetails[trnCircleEvents
+                                            .id]['endDate'] |date('l d M Y') }}
+                                    {% endif %}
+                                </h5>
+                            </div>
+                            <h5><i class="fa fa-map-marker"></i> {{ trnCircleEvents.mstCity }}, {{ trnCircleEvents.mstState }}, {{
+                                trnCircleEvents.mstCountry }}</h5>
+                            <div class="share-btn-section">
+                                <ul class="share-view">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fc-book-open"></i>
+                                            <b> {{ trnCircleEvents.readCount|default('0')  }} </b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" class="eventLike" eventId = "{{ trnCircleEvents.id
+                                        }}">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <b class="eventLike_{{ trnCircleEvents.id }}">{{ trnCircleEvents
+                                                .likeCount|default('0') }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        {% set commentCount = get_event_comment_count(trnCircleEvents.id) %}
+                                        <a href="{{ path('event-details', {'id' : trnCircleEvents.id }) }}#comments">
+                                            <i class="far fa-comment"></i>
+                                            <b>{{ commentCount|default('0') }}</b>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="gc-details-fixed">
+        <div class="container gc-circle">
+            <h3>{{ trnCircleEvents.name }}</h3>
+            <h4>By {{ trnCircleEvents.trnCircle.circle }}</h4>
+            <ul class="gc-fixed-list">
+                <li class="share-btns">
+                    <div class="share-btn-section">
+                        <ul class="share-view">
+                            <li>
+                                <a href="#">
+                                    <i class="fc-book-open"></i>
+                                    <b>{{ trnCircleEvents.readCount|default('0')  }}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="eventLike" eventId = "{{ trnCircleEvents.id
+                                }}">
+                                    <i class="far fa-thumbs-up"></i>
+                                    <b class="eventLike_{{ trnCircleEvents.id }}">{{ trnCircleEvents.likeCount|default
+                                            ('0') }}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('event-details', {'id' : trnCircleEvents.id }) }}#comments">
+                                    <i class="far fa-comment"></i>
+                                    <b>{{ commentCount|default('0') }}</b>
+                                </a>
+                            </li>
+                            <li class="share-sec">
+                                <a href="javascript:;" class="social-share-btn"><i
+                                            class="fas fa-share-alt"></i></a>
+                                <div class="social-media">
+                                    <a href="#" class="fa fa-close"></a>
+                                    <ul>
+                                        <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': trnCircleEvents.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                        <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://twitter.com/intent/tweet?text={{ trnCircleEvents.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': trnCircleEvents.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                        <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('event-details', {'id': trnCircleEvents.id}) }}&amp;title={{ trnCircleEvents.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                        <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('event-details', {'id': trnCircleEvents.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

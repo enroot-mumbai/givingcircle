@@ -1,0 +1,316 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+
+    {% set otherContentByParent = get_cms_page_content_by_parent(cmsPage.id, 'pageroute') %}
+    {% set banners = get_cms_page_banner(pageContentByPage.id) %}
+    {% set otherBanners = [] %}
+    {% set hasTopBanner = false %}
+    {% set defaultBanner = asset('/resources/images/common/volunteer-diaries-listing-banner.jpg') %}
+    {% set defaultBannerTitle = pageContentByPage.pageTitle %}
+    {% set defaultBannerAlt = pageContentByPage.pageTitle %}
+
+    {% if banners|length > 0 and banners is not empty %}
+        {% for banner in banners %}
+            {% if banner.bannerPosition == 'top' %}
+                {% set hasTopBanner = true %}
+            {% else %}
+                {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {{ include('portal/page/_top_static_banner_with_search.html.twig') }}
+
+    {#<section class="static-banner">
+
+        {% if banners|length > 0 and banners is not empty %}
+            {% for banner in banners %}
+                {% if banner.bannerPosition == 'top' %}
+                    {% set hasTopBanner = true %}
+                    <img src="{{ asset('images/files') }}/{{ banner.bannerDesktopImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                {% else %}
+                    {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if hasTopBanner == false %}
+            #}{# default banner if no banner added from backend #}{#
+            <img src="/resources/images/common/volunteer-diaries-listing-banner.jpg" alt="{{ pageContentByPage.pageTitle }}" title="{{ pageContentByPage.pageTitle }}">
+        {% endif %}
+
+        <div class="search-sec">
+            {{ include('portal/layout/_header_search.html.twig')  }}
+        </div>
+    </section>#}
+    <div class="wrapper">
+        <div class="container">
+            <div class="row listing-page cm-listing">
+                <div class="col-auto refine-search">
+                    <ul class="categories">
+                        <li>
+                            <h5>Search By</h5>
+                            <div class="search-sec">
+                                <div class="input-group">
+                                    <input type="text" class="search-input" id="searchParam" placeholder="Name">
+                                    <a href="#" class="btn search-input-btn"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    {% if otherBanners|length > 0 and otherBanners['left'] is defined and otherBanners['left'] is not empty %}
+                        <div class="express-donate-parallax" data-aos="fade-down" data-aos-delay="200"
+                             data-image-src="{{ asset('images/files/') ~ otherBanners['left'].bannerDesktopImage}}">
+                            {{ otherBanners['left'].bannerDescription|default('<h2><br><br><br><br><br><br><br></h2>')|raw }}
+
+                            {% if otherBanners['left'].bannerUrl is not empty %}
+                                <a href="{{ otherBanners['left'].bannerUrl }}" class="btn btn-primary">Express
+                                    Donate</a>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+
+                    {#<div class="express-donate-parallax" data-aos="fade-down" data-aos-delay="200">
+                        <h2 data-aos="fade-down" data-aos-delay="200">Purvi raised <span class="price">&#x20B9;
+                                23,78,790</span> for
+                            Pushpesh's <br>Cancer treatment in just 26 days.</h2>
+                        <a href="{{ path('express-donate-listing') }}" class="btn btn-primary" data-aos="fade-down"
+                           data-aos-delay="200">Express Donate</a>
+                    </div>#}
+                </div>
+                <div class="col right-list">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('get-inspired') }}">Get Inspired</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Volunteer Diaries</li>
+                        </ol>
+                    </nav>
+                    <section class="changeMakers voluteer-sec" data-aos="fade-down" data-aos-delay="200">
+                        <div class="head-sec">
+                            <h2 data-aos="fade-right" data-aos-delay="200">{{ cmsPage.pageName }}</h2>
+                            <h3 data-aos="fade-right" data-aos-delay="200"><b>{{ total_volunteers }}</b> #Volunteer{% if total_volunteers == 1 %}Diary{% else %}Diaries{% endif %}</h3>
+                            <a href="{{ path('show_events_by_type', {'type': 'Volunteer'}) }}" class="btn btn-primary btn-joinas-volunteer">Join As a Volunteer</a>
+                        </div>
+                        <div class="row voluteer-list"  id="volunteerdiaries">
+                            <!-- Volunteer Details - start -->
+                            {% for volunteer_article in volunteer_articles %}
+                            <div class="col-md-6" data-aos="fade-down" data-aos-delay="200">
+                                <div class="voluteer-box">
+                                    <div class="image-sec" data-aos="fade-down" data-aos-delay="200">
+                                        <figure data-aos="fade-down" data-aos-delay="200">
+                                            <div class="flip-card">
+                                                <div class="flip-card-inner">
+                                                    <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                                        <div class="flip-card-front">
+                                                            <img src="{{ asset('images/') }}{{ volunteer_article.articleIntroDesktopImagePath }}"
+                                                                 alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">
+                                                        </div>
+                                                    </a>
+                                                    <div class="flip-card-back">
+                                                        <div class="share-sec">
+                                                            <a href="javascript:void(0);" class="social-share-btn"><i
+                                                                        class="fas fa-share-alt"></i></a>
+                                                            <div class="social-media">
+                                                                <a href="#" class="fa fa-close"></a>
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path(
+                                                                            'volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i
+                                                                                    class="fc-facebook"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path(
+                                                                            'volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i
+                                                                                    class="fc-linkedin"></i></a>
+                                                                    </li>
+                                                                    <!--<li>
+                                                                        <a href="#" target="_blank"><i
+                                                                                    class="fc-instagram"></i></a>
+                                                                    </li>-->
+                                                                    <!--<li>
+                                                                        <a href="#" target="_blank"><i
+                                                                                    class="fc-youtube"></i></a>
+                                                                    </li>-->
+                                                                    <li>
+                                                                        <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path(
+                                                                            'volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i
+                                                                                    class="fc-twitter"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path(
+                                                                            'volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i
+                                                                                    class="fc-whatsapp"></i></a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
+                                        <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                            <div class="title" data-aos="fade-right" data-aos-delay="200">{{ volunteer_article.articleTitle }}</div>
+                                        </a>
+                                    </div>
+                                    <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                        <div class="content-sec">
+                                            <h4 data-aos="fade-down" data-aos-delay="200">{{ volunteer_article.articleFor }}</h4>
+                                            <strong data-aos="fade-down" data-aos-delay="200">{{ volunteer_article.articleCreator|raw }}</strong>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="share-link" data-aos="fade-down" data-aos-delay="200"><i
+                                                class="fas fa-share-alt"></i></a>
+                                    <div class="share-sec">
+                                        <div class="social-media">
+                                            <a href="#" class="fa fa-close"></a>
+                                            <ul>
+                                                <li>
+                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                                                </li>
+                                                <!--<li>
+                                                    <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                                </li>-->
+                                                <!--<li>
+                                                    <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                                </li>-->
+                                                <li>
+                                                    <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                                        ('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Volunteer Details - end -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="joinas-volunteer-sticky">
+                <a href="{{ path('show_events_by_type', {'type': 'Volunteer'}) }}" class="btn btn-primary btn-joinas-volunteer">Join As a Volunteer</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script>
+    $(document).ready(function () {
+        $('body').addClass('inspired-page');
+
+        $(".express-donate-parallax").css('background-image', function () {
+            var bg = ('url(' + $(this).data("image-src") + ')');
+            return bg;
+        });
+
+        shareEvents();
+
+        $(".projects-carousel").owlCarousel({
+            loop: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: true,
+                },
+                600: {
+                    items: 2,
+                    nav: true,
+                },
+                1000: {
+                    items: 3,
+                    nav: true,
+                    loop: true,
+                    margin: -1,
+                },
+            },
+        });
+
+        $('.search-input-btn').on('click', function() {
+            searchParams();
+        });
+
+        function searchParams() {
+            var data = {};
+
+            data['searchparam'] = $("#searchParam").val();
+            console.log(data['searchparam']);
+            getFilter(data);
+        }
+
+        /*
+        $('.clearAll').on('click', function () {
+
+            $('input[type=checkbox]').each(function () {
+                $(this).prop('checked', false);
+            });
+            var data = {};
+            data['interestId'] = 'all';
+            $("searchParam").val("");
+            data['searchparam'] = $("searchParam").val();
+            getFilter(data);
+        });
+         */
+    });
+
+    function getFilter(data) {
+        jQuery.ajax({
+            url: "{{ path('volunteer-diaries-filter') }}",
+            data: data,
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                var result = $("#volunteerdiaries");
+                result.html('');
+                result.html(data);
+                AOS.init({
+                    delay: 50,
+                    duration: 800,
+                });
+                shareEvents();
+            }
+        });
+    }
+
+    function shareEvents() {
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).siblings('.social-media').slideToggle();
+        });
+        $('.share-link').on('click', function (e) {
+            e.preventDefault();
+            $(this).siblings('.share-sec').find('.social-media').slideToggle();
+            $(this).siblings('.share-sec').find('.social-media').toggleClass('dblockImp');
+        });
+        $('.fa-close').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent('.social-media').slideToggle();
+            $(this).parent('.social-media').toggleClass('dblockImp');
+            $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+        });
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).parents('ul.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+        });
+    }
+
+
+</script>
+{% endblock %}

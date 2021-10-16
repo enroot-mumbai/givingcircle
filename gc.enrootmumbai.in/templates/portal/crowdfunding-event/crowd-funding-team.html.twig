@@ -1,0 +1,49 @@
+<section class="campaignRaiser">
+    <h3><i class="icon-crowdfunding"></i> Crowdfunding Team</h3>
+
+    {% if trnCircleEvents.parentTrnCircleEvents is not empty and
+        trnCircleEvents.parentTrnCircleEvents.id != trnCircleEvents.id %}
+        {# show parent in child event #}
+
+        {% set parentEvent = trnCircleEvents.parentTrnCircleEvents %}
+        
+        <a href="{{ path('crowd-funding-event-details', {'id': parentEvent.id}) }}" class="card">
+            <div class="card-image">
+                <figure>
+                    <img src="{{parentEvent.appUser.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}" alt="{{ parentEvent.appUser.appUserInfo.userFirstName | capitalize
+                    }} {{ parentEvent.appUser.appUserInfo.userLastName | capitalize }}"
+                         title="{{ parentEvent.appUser.appUserInfo.userFirstName | capitalize
+                         }} {{ parentEvent.appUser.appUserInfo.userLastName | capitalize }}">
+                </figure>
+            </div>
+            <div class="card-body">
+                <h4>{{ parentEvent.appUser.appUserInfo.userFirstName | capitalize
+                    }} {{ parentEvent.appUser.appUserInfo.userLastName | capitalize }}</h4>
+                <h5><i class="fas fa-map-marker-alt"></i> {{ parentEvent.appUser.appUserInfo.mstCity}}
+                    , {{ parentEvent.appUser.appUserInfo.mstCountry}}</h5>
+            </div>
+        </a>
+
+    {% else %}
+        {# show child in parent event #}
+
+        {% for distributedEvents in arrDistributedEvents %}
+            <a href="{{ path('crowd-funding-event-details', {'id': distributedEvents.id}) }}" class="card">
+                <div class="card-image">
+                    <figure>
+                        <img src="{{distributedEvents.appUser.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}" alt="{{ distributedEvents.appUser.appUserInfo.userFirstName | capitalize
+                        }} {{ distributedEvents.appUser.appUserInfo.userLastName | capitalize }}"
+                             title="{{ distributedEvents.appUser.appUserInfo.userFirstName | capitalize
+                             }} {{ distributedEvents.appUser.appUserInfo.userLastName | capitalize }}">
+                    </figure>
+                </div>
+                <div class="card-body">
+                    <h4>{{ distributedEvents.appUser.appUserInfo.userFirstName | capitalize
+                        }} {{ distributedEvents.appUser.appUserInfo.userLastName | capitalize }}</h4>
+                    <h5><i class="fas fa-map-marker-alt"></i> {{ distributedEvents.appUser.appUserInfo.mstCity}}
+                        , {{ distributedEvents.appUser.appUserInfo.mstCountry}}</h5>
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
+</section>

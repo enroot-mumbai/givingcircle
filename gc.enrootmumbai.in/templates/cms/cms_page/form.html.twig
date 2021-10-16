@@ -1,0 +1,185 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .note-editable {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .note-editor ol {
+            counter-reset: ordered-item;
+            list-style: none;
+        }
+        ol li { display: block; }
+        ol li:not(:empty):before {
+            content: counters(ordered-item, ".") ". ";
+            counter-increment: ordered-item;
+        }
+    </style>
+    <link href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/css/fileinput.min.css')}}">
+{% endblock %}
+{% macro Content(form) %}
+
+    <div class="collectionformfields">
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                {{ form_row(form.pageContent) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                {{ form_row(form.mediaType) }}
+            </div>
+            <div class="col-sm-4">
+                {{ form_row(form.mediaPosition) }}
+            </div>
+            <div class="col-sm-4">
+                {{ form_row(form.mediaPath) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                {{ form_row(form.mediaFileName) }}
+            </div>
+            <div class="col-sm-4">
+            {% if form.vars.data.mediaType is defined and form.vars.data.mediaType is not empty %}
+                    <img src="{{ form.vars.data.mediaFilePath|imagine_filter('resize_image_100') }}" alt="{{ form.vars.data.mediaName }}">
+            {% endif %}
+            </div>
+            <div class="col-sm-4">
+                {{ form_row(form.position) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                {{ form_row(form.removeContentImage) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                {{ form_row(form.mediaName) }}
+            </div>
+            <div class="col-sm-4">
+                {{ form_row(form.mediaAlText) }}
+            </div>
+            <div class="col-sm-4">
+                {{ form_row(form.mediaTitle) }}
+            </div>
+            {#<div class="col-sm-3">
+                {{ form_row(form.isActive) }}
+            </div>#}
+        </div>
+        <div class="col-sm-3 removebutton"> <br>
+            <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove Content Block</button>
+        </div>
+    </div>
+{% endmacro %}
+    {% import _self as formMacro %}
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.orgCompany) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.pageName) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.pageTitle) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.slugName) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.pageRoute) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.parentId) }}
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-sm-3">
+                    {{ form_row(form.cmsIntroEmail) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.displaySequence) }}
+                </div>
+                {#<div class="col-sm-3">
+                    {{ form_row(form.mstProductCategory) }}
+                </div>#}
+                {#<div class="col-sm-3">
+                    {{ form_row(form.mstProductSubCategory) }}
+                </div>#}
+            </div>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Content Section'|upper }}</h3>
+            </div>
+            <div class="row" data-prototype="{{ formMacro.Content(form.cmsPageContent.vars.prototype)|e('html_attr') }}">
+                <div class="col" id="formRowOption" >
+                    {% for row in form.cmsPageContent %}
+                        {{ formMacro.Content(row) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-sm-3">
+                    <button type="button" id="addContent" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> Add Content Block</button>
+                </div>
+            </div>
+            {% include('seo/seoform.html.twig') %}
+            <div class="row mt-5">
+                <div class="col-sm-4 mt-4">
+                    {{ form_row(form.isActive) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+    <br>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/js/fileinput.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/themes/fa/theme.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/cms/cms_page/index.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            // Summernote
+            $('.textarea').summernote({
+                height: 200,
+                });
+            /*
+            $("#cms_page_cmsIntroImageSetName").keyup(function(){
+                var Text = $(this).val();
+                $("#cms_page_cmsIntroImageAlt").val(Text);
+                $("#cms_page_cmsIntroImageTitle").val(Text);
+            });
+            */
+        });
+
+    </script>
+{% endblock %}
+

@@ -1,0 +1,64 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><a href="{{ path(path_add) }}/?faq_id={{ app.request.get('faq_id') }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+            </div>
+            <nav class="card-content collapse show">
+                <div class="card-body card-dashboard ">
+                    <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">{{ 'label.question'|trans|upper }}</th>
+                            <th style="width: 40%">{{ 'label.answer'|trans|upper }}</th>
+                            <th>{{ 'label.faq'|trans|upper }}</th>
+                            <th>{{ 'label.seq_no'|trans|upper }}</th>
+                            <th>{{ 'label.is_active'|trans|upper }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for cms_faq_detail in cms_faq_details %}
+                        <tr>
+                            <td>{{ cms_faq_detail.faqQuestion }}</td>
+                            <td>{{ cms_faq_detail.faqAnswer|truncate(150)|raw }}</td>
+                            <td>{{ cms_faq_detail.cmsFaq.faq|raw }}</td>
+                            <td>{{ cms_faq_detail.sequenceNo }}</td>
+                            <td>{{ cms_faq_detail.isActive ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                    <a href="{{ path(path_show, {'id': cms_faq_detail.id}) }}/?faq_id={{ app.request.get('faq_id') }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>
+                                    <a href="{{ path(path_edit, {'id': cms_faq_detail.id}) }}/?faq_id={{ app.request.get('faq_id') }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">{{'info.no_record_found'|trans}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody></table>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="text-muted"><span class="domrecord"></span></div>
+                        </div>
+                        <div class="col-sm-7">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <li class="dompage"></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

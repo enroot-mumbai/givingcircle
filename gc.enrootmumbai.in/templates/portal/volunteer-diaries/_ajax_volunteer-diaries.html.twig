@@ -1,0 +1,108 @@
+{% if(volunteer_articles|length > 0) %}
+
+    {% for volunteer_article in volunteer_articles %}
+        <div class="col-md-6" data-aos="fade-down" data-aos-delay="200">
+            <div class="voluteer-box">
+                <div class="image-sec" data-aos="fade-down" data-aos-delay="200">
+                    <figure data-aos="fade-down" data-aos-delay="200">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                                    <div class="flip-card-front">
+                                        <img src="{{ volunteer_article.articleIntroDesktopImagePath|imagine_filter('resize_image_100') }}"
+                                             alt="{{ volunteer_article.articleIntroImageAlt }}" title="{{ volunteer_article.articleIntroImageTitle }}">
+                                    </div>
+                                </a>
+                                <div class="flip-card-back">
+                                    <div class="share-sec">
+                                        <a href="javascript:void(0);" class="social-share-btn"><i
+                                                    class="fas fa-share-alt"></i></a>
+                                        <div class="social-media">
+                                            <a href="#" class="fa fa-close"></a>
+                                            <ul>
+                                                <li>
+                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                                        ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i
+                                                                class="fc-facebook"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                                        ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i
+                                                                class="fc-linkedin"></i></a>
+                                                </li>
+                                                <!--<li>
+                                                    <a href="#" target="_blank"><i
+                                                                class="fc-instagram"></i></a>
+                                                </li>-->
+                                                <!--<li>
+                                                    <a href="#" target="_blank"><i
+                                                                class="fc-youtube"></i></a>
+                                                </li>-->
+                                                <li>
+                                                    <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                                        ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i
+                                                                class="fc-twitter"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                                        ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i
+                                                                class="fc-whatsapp"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </figure>
+                    <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                        <div class="title" data-aos="fade-right" data-aos-delay="200">{{ volunteer_article.articleTitle }}</div>
+                    </a>
+                </div>
+                <a href="{{ path('volunteer-diary-detail', {'articleSlugName': volunteer_article.articleSlugName}) }}">
+                    <div class="content-sec">
+                        <h4 data-aos="fade-down" data-aos-delay="200">{{ volunteer_article.articleFor }}</h4>
+                        <strong data-aos="fade-down" data-aos-delay="200">{{ volunteer_article.articleCreator|raw }}</strong>
+                    </div>
+                </a>
+                <a href="#" class="share-link" data-aos="fade-down" data-aos-delay="200"><i
+                            class="fas fa-share-alt"></i></a>
+                <div class="share-sec">
+                    <div class="social-media">
+                        <a href="#" class="fa fa-close"></a>
+                        <ul>
+                            <li>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                    ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                    ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;title={{ volunteer_article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                            </li>
+                            <!--<li>
+                                <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                            </li>-->
+                            <!--<li>
+                                <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                            </li>-->
+                            <li>
+                                <a href="https://twitter.com/intent/tweet?text={{ volunteer_article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                    ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                    ('get-inspired', {'articleSlugName': volunteer_article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="col-md-6" data-aos="fade-down" data-aos-delay="200">
+        <div class="voluteer-box">
+            <h4>No Such Volunteer...</h4>
+        </div>
+    </div>
+{% endif %}

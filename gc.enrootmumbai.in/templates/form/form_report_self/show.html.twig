@@ -1,0 +1,55 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title float-right">
+                <a href="{{ path(path_index) }}" class="btn btn-dark btn-sm"><i class="fa fa-list"></i> {{'label.back_to_list' | trans}}</a>
+            </h4>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-body">
+                    <div class="row">
+                    <table class="table table-responsive-md text-sm">
+                        <tbody>
+                        <tr>
+                            <th>{{ 'label.name'|trans }}</th>
+                            <td>{{ data.firstName|default('') }} {{ data.lastName|default('') }}</td>
+                            <th>{{ 'label.email'|trans }}</th>
+                            <td><a href="mailto:{{data.emailAddress}}">{{ data.emailAddress|default('-')}}</a></td>
+                            <th>{{ 'label.mobile'|trans }}</th>
+                            <td><a href="tel:+{{ data.mobileNumber }}">{{ data.mobileNumber }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.city'|trans }}</th>
+                            <td>{{ data.cityName|default('-') }}</td>
+                            <th>{{ 'label.digital_presence'|trans }}</th>
+                            <td>{% for digital in data.digitalPresence %} &#187; {{ digital }}<br> {% endfor %}</td>
+                            <th></th>
+                            <td></td>
+                            {#<th>{{ 'label.shared_collateral'|trans }}</th>
+                            <td> {% if data.uploadFile is not empty %}
+                                <a href="{{ data.uploadFilePath }}/{{ data.uploadFile }}">{{ data.uploadFilePath }}/{{ data.uploadFile }}</a>
+                                {% endif %}
+                            </td>#}
+
+                        </tr>
+                        <tr>
+                            <th>Message</th>
+                            <td colspan="5">{{ data.messageDetail|default('-') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Remarks</th>
+                            <td colspan="5">{{ data.remarks|default('-') }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

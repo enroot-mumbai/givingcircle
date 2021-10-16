@@ -1,0 +1,15 @@
+{% extends 'layout/content.html.twig' %}
+
+{% block cms_content %}
+
+    <div class="card-body box-profile">
+        <div>
+            <img class="profile-user-img img-fluid img-circle" src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('squared_thumbnail_small') }}" alt="{{ app.user.appUserInfo.userFirstName }}">
+        </div>
+        <h3 class="profile-username">{{ app.user.appUserInfo.userFirstName }} {{ app.user.appUserInfo.userMiddleName }} {{ app.user.appUserInfo.userLastName }}</h3>
+
+    </div>
+    <!-- /.card-body -->
+
+
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <section class="banner-sec">
+        {% set pageContentHeader = get_cms_page_content_by_slugname('create-project') %}
+        {{ include('portal/project-details/_create_project_header.html.twig') }}
+    </section>
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="start-project col-lg order-lg-2" id="start-project">
+                    <div class="head-sec">
+                        <h2 data-aos="fade-right" data-aos-delay="200">Start Your Project Now</h2>
+                        <div class="tips-button" data-aos="fade-right" data-aos-delay="200">
+                            <a href="#" data-toggle="modal" data-target="#tips-project-creation"><i class="tips-icon"></i> Tips for Project Creation</a>
+                        </div>
+                    </div>
+                    <ul class="steps">
+                        <li class="active" data-aos="fade-right" data-aos-delay="200">
+                            <span class="num"></span>
+                            Interest Area
+                        </li>
+                        <li class="" data-aos="fade-right" data-aos-delay="200">
+                            <span class="num"></span>
+                            Project Details
+                        </li>
+                        <li class="" data-aos="fade-right" data-aos-delay="200">
+                            <span class="num"></span>
+                            Gallery
+                        </li>
+                    </ul>
+
+                    <div class="interest-area">
+                        <div data-aos="fade-right" data-aos-delay="200" class="mandate-text"><span>*</span> Mandatory
+                            Fields </div>
+                        <i class="fc-interest-icon" data-aos="fade-right" data-aos-delay="200"></i>
+                        <h5 data-aos="fade-right" data-aos-delay="200">Select Primary Area of Interest *</h5>
+                        <form method="post" action="" id="frmSelectAreaOfInterest">
+                            <ul class="select-interest">
+                                {% if areaInterests|length == 0 %}
+                                    <li>
+                                        Please <a href="{{ path('personal-info-interest-area') }}" class="btn btn-primary">update</a> Primary Area of Interest from My Account.
+
+                                    </li>
+                                {% else %}
+
+                                    {% for areaInterest in areaInterests  %}
+                                        <li data-aos="fade-right" data-aos-delay="200" class="
+                                            {% if selectedAreaOfInterest is not empty and selectedAreaOfInterest is
+                                            defined and selectedAreaOfInterest is not null and areaInterest.id in selectedAreaOfInterest|keys
+                                            %}
+                                                active
+                                            {% endif %}
+                                        " id="liPrimaryAI{{ areaInterest.id }}">
+                                            <a href="#" name="areaOfInterest" areaOfInterestId = "{{ areaInterest.id }}"
+                                               data-toggle="modal"
+                                               data-target="#selectAreaModal">
+                                                <div class="icon {{ num_to_words(loop.index) }}">
+                                                <span class="num">{{ loop.index }}</span>
+                                                <span class="img">
+                                                    {% if areaInterest.icon is not empty and areaInterest.icon != '' and areaInterest.icon != 'files/' %}
+                                                        <img src="{{ asset('images') }}/{{ areaInterest.icon }}"
+                                                             alt="{{ areaInterest.areaInterest }}" title="{{ areaInterest.areaInterest }}">
+                                                    {% endif %}
+                                                </span>
+                                                </div>
+                                                <div class="text">
+                                                    {{ areaInterest.areaInterest }}
+                                                    <div id="tooltip_{{ areaInterest.id }}" class="tooltip">
+                                                        {% if arrSecondaryAIData is defined and arrSecondaryAIData is not empty and arrSecondaryAIData is not null and areaInterest.id in arrSecondaryAIData|keys
+                                                        %}
+                                                            <i class="fa fa-eye"></i>
+                                                            <span class="tooltiptext">
+                                                                <ul>
+                                                            {% for secAI in arrSecondaryAIData[areaInterest.id] %}
+                                                                    <li>{{ secAI }}</li>
+                                                            {% endfor %}
+                                                                </ul>
+                                                            </span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                            {% if areaInterests|length > 0 %}
+                            <div class="btn-sec" data-aos="fade-right" data-aos-delay="200">
+                                <a href="javascript:void(0);"
+                                   class="btn btn-primary btn-continue">Continue</a>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+                <div class="feature-section col-lg order-lg-1">
+                    <h4 data-aos="fade-right" data-aos-delay="200">{{ pageContentHeader.cmsPageContent[2].pageContent|raw }}</h4>
+
+                        {% set iconList = {'0' : '<i class="fc-inspiration"></i> ' , '1' : '<i class="fc-spread"></i> ',
+                            '2' : '<i class="fc-generate"></i> ', '3' : '<i class="fc-plan"></i> ', '4' : '<i class="fc-share"></i> '} %}
+
+                        {% set liList = pageContentHeader.cmsPageContent[3].pageContent %}
+                        {% set liList = liList|split('</li>') %}
+                        {% set newLiList = [] %} {# defualt to original value #}
+                        {% for listitems in liList %}
+                            {% set iconkey = loop.index0 %}
+                            {% if iconList[iconkey] is defined %}
+                                {% set newLiVal = listitems|replace({'<li>' : '<li>'~iconList[iconkey]}) %}
+                            {% else %}
+                                {% set newLiVal = listitems|replace({'<li>' : '<li><i class="fc-inspiration"></i>'}) %}
+                            {% endif %}
+                            {% set newLiList = newLiList|merge([newLiVal]) %}
+                        {% endfor %}
+                    <div class="feature-list" data-aos="fade-right" data-aos-delay="200">
+                        {{ newLiList|join('</li>')|raw }}
+                    </div>
+
+                    <figure>
+                        <img src="/resources/images/common/create-project/features-image.png" alt="">
+                    </figure>
+
+                    <div class="view-project-button">
+                        <div class="demo-text">
+                            {{ pageContentHeader.cmsPageContent[4].pageContent|raw }}
+                            <a href="#" data-toggle="modal" data-target="#demoModal">View Now</a>
+                        </div>
+                    </div>
+
+                    {#<div class="view-project-button">
+                        <a href="#" data-toggle="modal" data-target="#demoModal">
+                            View Project Creation Demo
+                            {{ pageContentHeader.cmsPageContent[2].pageContent|raw }}
+                        </a>
+                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="selectAreaModal" tabindex="-1" aria-labelledby="selectAreaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <a href="#" class="btn-close" data-dismiss="modal" aria-label="Close"></a>
+                    <div id="selectAreaModalBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ include('portal/project-details/create-project-tips.html.twig') }}
+    {{ include('portal/project-details/_project_demo.html.twig') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var getSecondaryAreaOfInterestURL = "{{ path('get-secondary-area-of-interest') }}";
+        var saveAreaOfInterestToSectionURL = "{{ path('save-area-of-interest-to-session') }}";
+        var primaryAISelected = new Array();
+        var nSelectedPrimaryAI = 0;
+        {% if selectedAreaOfInterest is not empty and selectedAreaOfInterest is defined and selectedAreaOfInterest is
+            not null %}
+            {% for key, id in selectedAreaOfInterest %}
+                primaryAISelected.push({{ key }});
+            {% endfor %}
+            nSelectedPrimaryAI = {{ selectedAreaOfInterest|length }};
+        {% endif %}
+
+    </script>
+    <script src="{{ asset('assets/js/portal/circle/create-circle-details.js?z=1') }}"></script>
+{% endblock %}

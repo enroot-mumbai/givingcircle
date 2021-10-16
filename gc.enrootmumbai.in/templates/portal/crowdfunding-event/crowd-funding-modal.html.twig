@@ -1,0 +1,152 @@
+<div class="modal crowdFunding allSupporters fade" id="allSupporters" tabindex="-1" aria-labelledby="demoLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <a href="#" class="btn-close" data-dismiss="modal" aria-label="Close"></a>
+                <h3>All Supporters</h3>
+                <ul class="topDonors">
+
+                </ul>
+                <div class="donateShareBlock">
+                    {% if trnCircleEvents.isTargetAchieved == true %}
+                        <a href="#" class="btn btn-primary donate-now disabled">Donate Now</a>
+                    {% else %}
+                        <a href="#" class="btn btn-primary donate-now">Donate Now</a>
+                    {% endif %}
+                    <div class="contributeBox">
+                        <div class="enter-amount">
+                            <label class="" for="enterAmount">Enter Your Preferred
+                                Amount</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="enterAmount">
+                                <div class="input-group-append">
+                                    <a href="#" class="btn btn-enter btn-contribute">Continue</a>
+                                </div>
+                            </div>
+                            <label><em>Minimum Amount Contribution <i class="fa fa-rupee"></i> {{ trnCrowdFundEvents.minimumContribution |number_format(2, '.', ',') }}</em></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal crowdFunding ClaimDonation fade" id="ClaimDonation" tabindex="-1" aria-labelledby="demoLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <a href="#" class="btn-close" data-dismiss="modal" aria-label="Close"></a>
+                <h3>Claim your donation acknowledgement now!</h3>
+                <div class="paymentText">(For payment done via Bank Transfers)</div>
+                <div class="mandate-text"><span>*</span> Mandatory Fields </div>
+                {{ form_start(offlineTransferForm, {'attr': {'id' : 'trn_crowd_fund_event_offline_transfer', 'class': 'form-group'}}) }}
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input type="hidden" value="{{ trnCrowdFundEvents.id }}" id="crowdfundEventId" name="crowdfundEventId">
+                            <input type="hidden" value="{{ trnCircleEvents.id }}" id="eventId" name="eventId">
+                            <label for="bankTrnId">Bank Transaction ID *</label>
+                            {#                                <input type="text" class="form-control" id="bankTrnId">#}
+                            {{ form_widget(offlineTransferForm.bankTransactionId) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="amntDonate">Amount Donated *</label>
+                            {#                                <input type="text" class="form-control" id="amntDonate">#}
+                            {{ form_widget(offlineTransferForm.amountDonated) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row row-xs">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="">Select *</label>
+                                    <div class="cust-select">
+                                        {#<select class="form-control" required>
+                                                <option></option>
+                                                <option>Option 1</option>
+                                                <option>Option 2</option>
+                                            </select>#}
+                                        {{ form_widget(offlineTransferForm.mstSalutation) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label for="fname-fund">First Name *</label>
+                                    {#                                        <input type="text" class="form-control" id="fname-fund">#}
+                                    {{ form_widget(offlineTransferForm.firstName) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="lname-fund">Last Name *</label>
+                            {#                                <input type="text" class="form-control" id="lname-fund">#}
+                            {{ form_widget(offlineTransferForm.lastName) }}
+                        </div>
+                    </div>
+                    <div class="col-12 anonymous-check">
+                        <label for="trn_crowd_fund_event_offline_transfer_isAnonymousDonation">
+                            {#<input type="checkbox" id="anonymous">#}
+                            {#{{ form_widget(offlineTransferForm.isAnonymousDonation) }}#}
+                            <input type="checkbox" id="trn_crowd_fund_event_offline_transfer_isAnonymousDonation" name="trn_crowd_fund_event_offline_transfer[isAnonymousDonation]" class="form-check-input" value="1"> Make my donation anonymous <span class="checkmark"></span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email ID *</label>
+                            {#                                <input type="text" class="form-control" placeholder="" required>#}
+                            {{ form_widget(offlineTransferForm.email) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mob-number">
+                            <label>Mobile Number *</label>
+                            <div class="input-group-prepend">
+                                <div class="cust-select">
+                                    {{ form_widget(offlineTransferForm.mobileCountryCode) }}
+                                    {#<select class="form-control" id="countryCode" required>
+                                            <option value="91">+ 91</option>
+                                        </select>#}
+                                </div>
+                            </div>
+                            {#                                <input type="text" class="form-control mob-no-input" placeholder="" required>#}
+                            {{ form_widget(offlineTransferForm.mobileNumber) }}
+                            {#<div class="tooltip thm2">
+                                        <span class="tooltiptext">
+                                            <ul>
+                                                <li>Your Mobile number is outside India.</li>
+                                                <li>Your mobile verification is through email id.</li>
+                                            </ul>
+                                        </span>
+                                </div>#}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row row-sm justify-content-center">
+                            <div class="col-sm-8">
+                                <div class="row row-sm">
+                                    <div class="col-6 captcha"><b id="captchaCode"></b></div>
+                                    <div class="col-6">
+                                        <label class="" for="captcha">Verify Captcha * </label>
+                                        <input type="text" class="form-control" value="" id="captcha">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#<a href="javascript:void(0);" onclick="saveOfflineTransfer()" class="btn btn-primary">Submit</a>#}
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                {{ form_end(offlineTransferForm) }}
+            </div>
+        </div>
+    </div>
+</div>

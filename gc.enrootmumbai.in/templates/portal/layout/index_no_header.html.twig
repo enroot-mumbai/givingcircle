@@ -1,0 +1,20 @@
+{% extends 'portal/base.html.twig' %}
+{% block title %} :: {{'title.app'|trans}} :: {% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{% set param = app.request.uri|split('/') %}
+        {% if app.request.get('_route') != 'homepage' %}
+<body class="inner-pg">
+        {% elseif app.request.get('_route') == 'homepage'  %}
+<body>
+        {% endif %}
+{% block portal_content %}
+{% endblock %}
+{# Main Content area end #}
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

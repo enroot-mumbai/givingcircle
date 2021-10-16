@@ -1,0 +1,28 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <section class="banner-sec">
+        <div class="content thank-you" data-aos="fade-right" data-aos-delay="100">
+            <div class="icon-head" data-aos="fade-right" data-aos-delay="200">
+                <img src="../resources/images/common/icons/icon-submitted.png">
+            </div>
+            <h3 data-aos="fade-right" data-aos-delay="200">Thank You!</h3>
+            <h4 data-aos="fade-right" data-aos-delay="200">Your crowdfunding campaign request has been submitted
+                successfully. However your crowdfunding campaign is under review with Giving Circle Team.</h4>
+            <h5 data-aos="fade-right" data-aos-delay="200">Kindly check the status in <a class="link-no-color-white" href="{{ path('my-account-crowdfunding-event-info') }}">My Account</a> Section.</h5>
+            <p data-aos="fade-right" data-aos-delay="200">Do you want to create another crowdfunding campaign...</p>
+            <a href="{{ path('create-crowdfunding-event') }}" class="btn btn-primary" data-aos="fade-right"
+               data-aos-delay="200">Create
+                New Crowdfunding Campaign</a>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('inner-pg create-element crowdFunding logged');
+
+        });
+    </script>
+{% endblock %}

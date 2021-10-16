@@ -1,0 +1,45 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/datatables.min.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs events activated">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec">
+                            <h3>Send Reminder</h3>
+                            <a href="{{ path('event-info') }}" class="btn btn-primary-o"><i class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                        {{ include('portal/my-account/event/event-inline-details.html.twig') }}
+                        <p class="text-center">Send a timely reminder to all the members of your project or just to the event volunteers.</p>
+                        <div class="btn-sec mt-3 mb-5 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                            <a href="#" id="all-members-tbl-dtls" class="btn btn-primary">Send to all Members</a>
+                            <a href="#" id="participant-tbl-dtls" class="btn btn-primary">Send to all Participants</a>
+                        </div>
+                        {{ include('portal/my-account/event/participant-dtls.html.twig') }}
+                        {{ include('portal/my-account/event/members-dtls.html.twig') }}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('resources/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/portal/my-account/send-reminder-for-event.js') }}"></script>
+{% endblock %}

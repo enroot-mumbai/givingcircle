@@ -1,0 +1,87 @@
+{% set articles = get_cms_articles_limit(2, get_parameter('company_id'), 8) %}
+{#{% set cmsPage = get_cms_page_content_by_slugname('change-makers') %}
+{% set introTextChngMaker = '' %}
+{% for content in cmsPage.cmsPageContent %}
+    {% set introTextChngMaker = introTextChngMaker ~ content.pageContent|striptags %}
+{% endfor %}#}
+
+<section class="changeMakersMain" data-aos="fade-down" data-aos-delay="200">
+    <div class="container">
+        <div class="head-sec">
+            <h2 data-aos="fade-right" data-aos-delay="200">Change Makers</h2>
+        </div>
+        <p data-aos="fade-down" data-aos-delay="200">
+            {#{{ introTextChngMaker|raw|truncate(500) }}#}
+            {% set content = pageContentByPage.cmsPageContent[2] %}
+            {% include 'portal/page/_page_content_display.html.twig' %}
+        </p>
+        <ul class="changemaker-list">
+            {% for article in articles %}
+            <li>
+                <a href="#">
+                    <figure>
+                        {#
+                        {% if article.articleIntroVideoPath is not empty %}
+                            <span class="vid-wrapper"><iframe width="300" height="246" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></span>
+                        {% else %}
+                        #}
+                        <span class="vid-wrapper"><img src="{{ asset('images/') ~ article.articleIntroDesktopImagePath }}" class="card-img-top" alt="{{ article.articleIntroImageAlt }}"></span>
+                        {# {% endif %} #}
+                    </figure>
+                    <h6>{{ article.articleTitle }}</h6>
+                </a>
+                <div class="flip-view">
+                    <div class="share-view">
+                        <a href="javascript:;" class="share-link"><i class="fas fa-share-alt"></i></a>
+                        <div class="share-sec">
+                            <div class="social-media">
+                                <a href="#" class="fa fa-close"></a>
+                                <ul>
+                                    <li>
+                                        <a onclick="getArticleShareCount('{{ article.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                            ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a>
+                                    </li>
+                                    <li>
+                                        <a onclick="getArticleShareCount('{{ article.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                            ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}&amp;title={{ article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a>
+                                    </li>
+                                    <!--<li>
+                                        <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                    </li>-->
+                                    <li>
+                                        <a onclick="getArticleShareCount('{{ article.id }}')" href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                            ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a>
+                                    </li>
+                                    <li>
+                                        <a onclick="getArticleShareCount('{{ article.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                            ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}">
+                        <h4>{{ article.articleFor }}</h4>
+                        <h5><i class="fas fa-map-marker-alt"></i>
+                            {{ article.cityName }}
+                        </h5>
+                        <h5><i class="icon"><img src="/resources/images/common/fc-envirement.png" alt=""></i>
+                            <em>{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</em>
+                        </h5>
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+
+    <div class="btn-inline" data-aos="fade-down" data-aos-delay="200">
+        <a href="{{ path('change-makers') }}" class="btn btn-blue">Explore All Change Makers</a>
+        <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary-o">Be A Change Maker</a>
+    </div>
+</section>

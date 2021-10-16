@@ -1,0 +1,32 @@
+<!-- News list - start -->
+{% if newsList|length > 0 %}
+{% for news in newsList %}
+    <li class="news-box">
+        <div class="date-sec">
+            <div class="date">
+                <span>{{ news.articleDateTime|date('l') }}</span>
+                <h2>{{ news.articleDateTime|date('d M') }}</h2>
+                <b>{{ news.articleDateTime|date('Y') }}</b>
+            </div>
+        </div>
+        <div class="news-sec">
+            {% if news.articleIntroDesktopImagePath is not empty %}
+                <figure class="image"><img src="{{ news.articleIntroDesktopImagePath|imagine_filter('resize_image_200') }}" alt="{{ news.articleIntroImageAlt }}"></figure>
+            {% endif %}
+            <div class="details">
+                <h5>{{ news.articleHeading }}</h5>
+                <p class="para">{{ news.articleContent|truncate(150)|raw }}</p>
+                <a href="{{ path('pressroom-detail', {'newsId': news.id}) }}" class="btn btn-primary-o">Read More</a>
+            </div>
+        </div>
+    </li>
+{% endfor %}
+{% else %}
+<li class="news-box">
+    <div class="date-sec" style="background: none;">&nbsp;</div>
+    <div class="news-sec">
+        <h4>No Such News...</h4>
+    </div>
+</li>
+{% endif %}
+<!-- News list - end -->

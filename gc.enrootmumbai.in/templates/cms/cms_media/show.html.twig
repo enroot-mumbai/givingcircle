@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CmsMedia{% endblock %}
+
+{% block body %}
+    <h1>CmsMedia</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cms_media.id }}</td>
+            </tr>
+            <tr>
+                <th>MediaType</th>
+                <td>{{ cms_media.mediaType }}</td>
+            </tr>
+            <tr>
+                <th>MediaName</th>
+                <td>{{ cms_media.mediaName }}</td>
+            </tr>
+            <tr>
+                <th>MediaTag</th>
+                <td>{{ cms_media.mediaTag ? cms_media.mediaTag|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>MediaPath</th>
+                <td>{{ cms_media.mediaPath }}</td>
+            </tr>
+            <tr>
+                <th>MediaDescription</th>
+                <td>{{ cms_media.mediaDescription }}</td>
+            </tr>
+            <tr>
+                <th>SequenceNo</th>
+                <td>{{ cms_media.sequenceNo }}</td>
+            </tr>
+            <tr>
+                <th>RowId</th>
+                <td>{{ cms_media.rowId }}</td>
+            </tr>
+            <tr>
+                <th>IsActive</th>
+                <td>{{ cms_media.isActive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('cms_cms_media_index') }}">back to list</a>
+
+    <a href="{{ path('cms_cms_media_edit', {'id': cms_media.id}) }}">edit</a>
+
+    {{ include('cms_cms_media/_delete_form.html.twig') }}
+{% endblock %}

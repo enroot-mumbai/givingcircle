@@ -1,0 +1,5 @@
+<form method="post" id="frmContribute" action="{{ path("save-sub-event") }}">
+    <input type="hidden" name="amountToContribute" id="amountToContribute" >
+    <input type="hidden" name="eventId" id="eventId" value="{{ trnCircleEvents.id }}" >
+    <input type="hidden" name="fundRaiserEventId" id="fundRaiserEventId" value="{{ trnCrowdFundEvents.id }}" >
+</form>

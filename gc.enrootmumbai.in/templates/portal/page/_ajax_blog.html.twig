@@ -1,0 +1,84 @@
+{% if articles|length > 0 %}
+    {% for article in articles %}
+        <div class="col-md-4 col-sm-6" data-aos="fade-right" data-aos-delay="200">
+            <div class="card">
+                <a href="{{ path('blog-detail', {'articleSlugName': article.articleSlugName}) }}">
+                    <figure><img src="{{ article.articleIntroDesktopImagePath|imagine_filter('resize_image_scale_370_140') }}"
+                                 alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}"></figure>
+                </a>
+                <div class="card-body">
+                    <a href="#" class="heading">
+                        <h5><i class="fa fa-calendar-o"></i> {{ article.articleCreateDateTime|date('l, d M Y') }}{# Tuesday, 22 Dec 2020 #}</h5>
+                        <h4>{{ article.articleTitle }}</h4>
+                    </a>
+                    <ul class="share-view">
+                        <li>
+                            <a href="#">
+                                <i class="fc-book-open"></i>
+                                <b>{{ article.articleViewCount|default('0') }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <input type="hidden" id="article_id" value="{{ article.id }}">
+                            <a href="#" class="clicklike">
+                                <i class="far fa-thumbs-up"></i>
+                                <b><span id="spn_{{ article.id }}">{{ article.articleLikeCount|default('0') }}</span></b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}#comments">
+                                <i class="far fa-comment"></i>
+                                <b>{{ get_cms_article_comments_count(article.id, 1) }}</b>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="social-share-btn"><i
+                                        class="fas fa-share-alt"></i></a>
+                        </li>
+                    </ul>
+                    <div class="share-sec">
+                        <div class="social-media">
+                            <a href="#" class="fa fa-close"></a>
+                            <ul>
+                                <li>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                        ('blog-detail', {'articleSlugName': article.articleSlugName}) }}"
+                                       target="_blank"><i class="fc-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                        ('blog-detail', {'articleSlugName': article.articleSlugName}) }}"
+                                       target="_blank"><i class="fc-linkedin"></i></a>
+                                </li>
+                                <!--<li>
+                                    <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                </li>-->
+                                <!--<li>
+                                    <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                </li>-->
+                                <li>
+                                    <a href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                        ('blog-detail', {'articleSlugName': article.articleSlugName}) }}&amp;via=GivingCircle_In"
+                                       target="_blank"><i class="fc-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                        ('blog-detail', {'articleSlugName': article.articleSlugName}) }}"
+                                       target="_blank"><i class="fc-whatsapp"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="col-md-4 col-sm-6" data-aos="fade-right" data-aos-delay="200">
+        <div class="card">
+            <div class="card-body">
+                <h4>No Such Blog...</h4>
+            </div>
+        </div>
+    </div>
+{% endif %}

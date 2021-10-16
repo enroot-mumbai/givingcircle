@@ -1,0 +1,115 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+<!--Main Wrapper Starts-->
+<div class="wrapper">
+    <section class="main academia">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                        class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <h2 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.pageTitle }}</h2>
+
+            {% set content = pageContentByPage.cmsPageContent[0] %}
+
+            <div class="row">
+                {% if(content.mediaType) == '' %}
+                <div class="col-lg">
+                    {{ content.pageContent|raw }}
+                </div>
+                {% else %}
+                {% if(content.mediaPosition) == 'left' %}
+                <div class="col-lg-auto">
+                    <div class="video-placeholder">
+                        <img src="{{ asset('images/')~content.mediaFilePath }}">
+                    </div>
+                </div>
+                <div class="col-lg">
+                    {{ content.pageContent|raw }}
+                </div>
+                {% else %}
+                <div class="col-lg">
+                    {{ content.pageContent|raw }}
+                </div>
+                <div class="col-lg-auto">
+                    <div class="video-placeholder">
+                        <img src="{{ asset('images/')~content.mediaFilePath }}">
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+            {# Content End from Cms #}
+
+            <h3>{{ pageContentByPage.cmsPageContent[1].pageContent|raw }}</h3>
+            <ul class="offering-list">
+                <li>
+                    {% set content = pageContentByPage.cmsPageContent[2] %}
+                    <span class="icon">
+                        {% if content.mediaType != '' %}
+                        <img src="{{ asset('images/')~content.mediaFilePath }}">
+                        {% endif %}
+                    </span>
+                    <div class="white-box">
+                        {{ content.pageContent|raw }}
+                    </div>
+                </li>
+                <li>
+                    {% set content = pageContentByPage.cmsPageContent[3] %}
+                    <span class="icon">
+                        {% if content.mediaType != '' %}
+                        <img src="{{ asset('images/')~content.mediaFilePath }}">
+                        {% endif %}
+                    </span>
+                    <div class="white-box">
+                        {{ content.pageContent|raw }}
+                    </div>
+                </li>
+                <li>
+                    {% set content = pageContentByPage.cmsPageContent[4] %}
+                    <span class="icon">
+                        {% if content.mediaType != '' %}
+                        <img src="{{ asset('images/')~content.mediaFilePath }}">
+                        {% endif %}
+                    </span>
+                    <div class="white-box">
+                        {{ content.pageContent|raw }}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="orange-box typ2">
+        <div class="container">
+            <div class="white-box">
+                {#{{ pageContentByPage.cmsPageContent[5].pageContent|raw }}#}
+                {% set content = pageContentByPage.cmsPageContent[5] %}
+                {% include 'portal/page/_page_content_display.html.twig' %}
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        $('body').removeClass('inner-pg');
+        $('body').addClass('static about');
+    });
+</script>
+{% endblock %}

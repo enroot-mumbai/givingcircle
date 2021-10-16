@@ -1,0 +1,60 @@
+<section class="in-the-news">
+    <div class="container">
+        <div class="head-sec">
+            <h2>{{ pageContentByPage.cmsPageContent[8].pageContent|raw }}</h2>
+        </div>
+        {%  if latestNews is defined and latestNews is not empty  %}
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{{ path('pressroom-detail', {'newsId': latestNews.id}) }}">
+                        {% if latestNews.articleIntroDesktopImagePath is not empty %}
+                            <figure>
+                                <img src="{{ asset('images') }}/{{ latestNews.articleIntroDesktopImagePath }}">
+                            </figure>
+                        {% endif %}
+                    </a>
+                    <!-- Latest News - start -->
+                    <ul class="news-listing">
+                        <li>
+                            <a href="{{ path('pressroom-detail', {'newsId': latestNews.id}) }}">
+                                <h3 class="date-head">
+                                        <span> <i>{{ latestNews.articleDateTime|date('D') }},
+                                                {{ latestNews.articleDateTime|date('j') }}
+                                                {{ latestNews.articleDateTime|date('F') }}
+                                                {{ latestNews.articleDateTime|date('Y') }}</i></span>
+                                </h3>
+                                <div class="txt-area">
+                                    <h3>{{ latestNews.articleHeading }}</h3>
+                                    <p>{{ latestNews.articleContent|truncate(150)|raw }}</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Latest News - end -->
+                </div>
+                <div class="col-md-6">
+                    <div class="round-shape">
+                        <ul class="news-listing">
+                            <!-- Other News - start -->
+                            {% for news in newsList %}
+                                <li>
+                                    <a href="{{ path('pressroom-detail', {'newsId': news.id}) }}">
+                                        <h3 class="date-head">
+                                            <span> <i>{{ news.articleDateTime|date('D') }}, {{ news.articleDateTime|date('j') }} {{ news.articleDateTime|date('F') }} {{ news.articleDateTime|date('Y') }}</i></span>
+                                        </h3>
+                                        <div class="txt-area">
+                                            <h3>{{ news.articleHeading }}</h3>
+                                            <p>{{ news.articleContent|truncate(150)|raw }}</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            <!-- Latest News - end -->
+                            <li><a href="{{ path('pressroom') }}" class="btn btn-primary type1">Read all News</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>

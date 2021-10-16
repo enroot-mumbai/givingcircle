@@ -1,0 +1,289 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/css/fileinput.min.css')}}">
+{% endblock %}
+{% macro Content(form) %}
+    <div class="col-sm-12 cmsArticleContent">
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                {{ form_row(form.articleContent) }}
+            </div>
+        </div>
+        <div class="row contentimage">
+
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.mediaType) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleContentDesktopImage) }}
+{#                        <br>#}
+{#                        <small>Desktop Image - Width: 1280px X Height: 423px</small>#}
+                    </div>
+{#                    <div class="col-sm-4">#}
+{#                        {{ form_row(form.articleContentTabletImage) }}#}
+{#                        <br>#}
+{#                        <small>Tablet Image - Width: 767px X Height: 350px</small>#}
+{#                    </div>#}
+{#                    <div class="col-sm-4">#}
+{#                        {{ form_row(form.articleContentMobileImage) }}#}
+{#                        <br>#}
+{#                        <small>Mobile Image - Width: 350px X Height: 250px</small>#}
+{#                    </div>#}
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-4">
+                        {{ form_row(form.removeContentImage) }}
+                    </div>
+                </div>
+                <div class="row">
+                    {% if form.vars.data is not empty %}
+                        <div class="col-sm-4">
+                            <img src="{{ form.vars.data.articleContentDesktopImagePath|imagine_filter('resize_image_150') }}" alt="{{ form.vars.data.articleContentImageSetName }}">
+                        </div>
+                    {% endif %}
+{#                    {% if form.vars.data is not empty %}#}
+{#                        <div class="col-sm-4">#}
+{#                            <img src="{{ form.vars.data.articleContentTabletImagePath|imagine_filter('resize_image_150') }}" alt="{{ form.vars.data.articleContentImageSetName }}">#}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                    {% if form.vars.data is not empty %}#}
+{#                        <div class="col-sm-4">#}
+{#                            <img src="{{ form.vars.data.articleContentMobileImagePath|imagine_filter('resize_image_150') }}" alt="{{ form.vars.data.articleContentImageSetName }}">#}
+{#                        </div>#}
+{#                    {% endif %}#}
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleContentImageSetName) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleContentImageTitle) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleContentImageAlt) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleContentVideo) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleContentVideoPath) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 removebutton mb-4"> <br>
+            <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove Content Block</button>
+        </div>
+    </div>
+{% endmacro %}
+{% import _self as formMacro %}
+{% block cms_content %}
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {% if mode == 'add' %}<i class="fa fa-plus"></i> {% else%} <i class="fa fa-edit"></i> {% endif%}  <b>{{label_title|trans|upper}}</b>
+            </h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.orgCompany) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.articleCreator) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.mstArticleCategory) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4" id="articleTitle">
+                    {{ form_row(form.articleTitle) }}
+                </div>
+
+{#                <div class="col-sm-4" id="articleCreateDateTime">#}
+{#                    {{ form_row(form.articleCreateDateTime) }}#}
+{#                </div>#}
+            </div>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Intro Section'|upper }}</h3>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-12">
+                    {{ form_row(form.articleIntro) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.introMediaType) }}
+                </div>
+            </div>
+
+            <div id="introimage">
+                <div class="row">
+                    {% if cms_article.articleIntroDesktopImage is not empty %}
+                        <div class="col-sm-4">
+                            <img src="{{ cms_article.articleIntroDesktopImagePath|imagine_filter('resize_image_200') }}" alt="{{ cms_article.articleIntroImageSetName }}">
+                        </div>
+                    {% endif %}
+{#                    {% if cms_article.articleIntroTabletImage is not empty %}#}
+{#                        <div class="col-sm-4">#}
+{#                            <img src="{{ cms_article.articleIntroTabletImagePath|imagine_filter('resize_image_200') }}" alt="{{ cms_article.articleIntroImageSetName }}">#}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                    {% if cms_article.articleIntroMobileImage is not empty %}#}
+{#                        <div class="col-sm-4">#}
+{#                            <img src="{{ cms_article.articleIntroMobileImagePath|imagine_filter('resize_image_200') }}" alt="{{ cms_article.articleIntroImageSetName }}">#}
+{#                        </div>#}
+{#                    {% endif %}#}
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleIntroDesktopImage) }}
+{#                        <br>#}
+{#                        <small>Desktop Image - Width: 1280px X Height: 423px</small>#}
+                    </div>
+{#                    <div class="col-sm-4">#}
+{#                        {{ form_row(form.articleIntroTabletImage) }}#}
+{#                        <br>#}
+{#                        <small>Tablet Image - Width: 767px X Height: 350px</small>#}
+{#                    </div>#}
+{#                    <div class="col-sm-4">#}
+{#                        {{ form_row(form.articleIntroMobileImage) }}#}
+{#                        <br>#}
+{#                        <small>Mobile Image - Width: 350px X Height: 250px</small>#}
+{#                    </div>#}
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-4" id="removeIntroImage">
+                        {{ form_row(form.removeIntroImage) }}
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleIntroImageSetName) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleIntroImageTitle) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleIntroImageAlt) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row introvideo">
+                <div class="col-sm-4">
+                    {{ form_row(form.articleIntroVideo) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.articleIntroVideoPath) }}
+                </div>
+            </div>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Content Section'|upper }}</h3>
+            </div>
+            <div class="row" data-prototype="{{ formMacro.Content(form.cmsArticleContent.vars.prototype)|e('html_attr') }}">
+                <div class="col" id="articleContent" >
+                    {% for row in form.cmsArticleContent %}
+                        {{ formMacro.Content(row) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <button type="button" id="addContent" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> Add Content Block</button>
+                </div>
+            </div>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'SEO Section'|upper }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.metaTitle) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.metaKeyword) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.metaDescription) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.focusKeyPhrase) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.keyPhraseSynonyms) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.articleCanonicalUrl) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.seoSchema) }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-header mt-2">
+                <h3 class="card-title">{{ 'Social Share Section'|upper }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.ogTitle) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.ogDescription) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.ogType) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ form_row(form.ogImage) }}
+                    </div>
+                    {% if cms_article.ogImage is not empty %}
+                        <div class="col-sm-4">
+                            <img src="{{ cms_article.ogImagePath|imagine_filter('resize_image_200') }}" alt="{{ cms_article.ogImage }}">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-sm-4">
+                    {{ form_row(form.isActive) }}
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card-footer">
+            <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+                <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+            </button>
+            <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+        </div>
+        {{ form_end(form) }}
+    <br>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/js/fileinput.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/themes/fa/theme.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/cms/cms_blog/index.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+
+

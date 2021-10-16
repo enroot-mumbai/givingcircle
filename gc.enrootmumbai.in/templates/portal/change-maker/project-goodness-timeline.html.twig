@@ -1,0 +1,723 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!-- header css and script ends -->
+    <section class="static-banner">
+        {% if circle.backgroundImagePath != '' and circle.backgroundImagePath != 'files/' %}
+        <img src="{{ asset('images') }}/{{ circle.backgroundImagePath }}"
+             alt="">
+        {% else %}
+            <img src="/resources/images/common/details-banner.jpg" alt="">
+        {% endif %}
+    </section>
+
+{#    {% set tmp = set_circle_read(circle.id) %}#}
+    <div class="wrapper">
+        {% set fundEventCount = get_fund_event_count(get_parameter('company_id'),circle.id ) %}
+        {% set nCount = get_circle_count_data(circle.id) %}
+        {{ include('portal/change-maker/_project-detail-heading.html.twig') }}
+
+
+        {#<div class="head-sec">
+            <div class="container">
+                <div class="row ">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa
+                                fc-home"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('change-makers-project-list') }}">Change
+                                        Maker Projects</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ circle.circle }}
+                                </li>
+                            </ol>
+                        </nav>
+                        <section class="gc-circle" data-aos="fade-down" data-aos-delay="200">
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure><img src="{{ asset('images') }}/{{ circle.profileImagePath }}"
+                                                 alt="">
+                                    </figure>
+                                    <span class="ngo-type">NGO <br>80G - Tax Benefit</span>
+                                </div>
+                                <div class="card-body">
+                                    <h2>{{ circle.circle }}
+                                        <div class="share-sec">
+                                            <a href="javascript:;" class="social-share-btn"><i
+                                                        class="fas fa-share-alt"></i></a>
+                                            <div class="social-media">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <ul>
+                                                    <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                    <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                    <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                    <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </h2>
+                                    <h3 class="orange">
+                                        {% for interest in circle.trnAreaOfInterests %}
+                                            <em>{{ interest }}</em>
+                                        {% endfor %}
+                                    </h3>
+                                    <h5><i class="fas fc-user"></i> {{ circle.appUser.appUserInfo.userFirstName }} {{ circle.appUser.appUserInfo.userLastName }}</h5>
+                                    <h5><i class="fas fa-map-marker-alt"></i>  {{ circle.mstCity }}, {{ circle.mstState }}, {{ circle.mstCountry }}</h5>
+                                    <h4><i class="far fa-calendar"></i> Since {{ circle.appUser.userCreationDateTime|date('F d, Y') }}</h4>
+                                    #}{#                            {% set nCount = get_circle_count_data(circle.id) %}#}{#
+                                    <div class="share-btn-section">
+                                        <ul class="share-view">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fc-book-open"></i>
+                                                    <b>{{ nCount.readCount }}</b>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" class="circleLike" circleId="{{ circle.id}}">
+                                                    <i class="far fa-thumbs-up"></i>
+                                                    <b class="circleLike_{{ circle.id }}">{{ nCount.likeCount }}</b>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="far fa-comment"></i>
+                                                    <b>{{ nCount.commentCount|default(0) }}</b>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <ul class="inline-links">
+                                        <li>
+                                            {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                <a href="#" class="btn-primary">Join</a>
+                                            {% else %}
+                                                <a href="#" class="btn-primary">Request To Join</a>
+                                            {% endif %}
+                                        </li>
+                                        <li>
+                                            <a href="#">Be A Change Maker</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="gc-details-fixed">
+                <div class="container gc-circle">
+                    <h3>{{ circle.circle }}</h3>
+                    <ul class="gc-fixed-list">
+                        <li class="share-btns">
+                            <div class="share-btn-section">
+                                <ul class="share-view">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fc-book-open"></i>
+                                            <b>{{ nCount.readCount | default(0)  }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" class="circleLike" circleId = "{{ circle.id
+                                        }}">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <b class="circleLike_{{ circle.id }}">{{ nCount.likeCount | default(0)  }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-comment"></i>
+                                            <b>{{ nCount.commentCount | default(0)  }}</b>
+                                        </a>
+                                    </li>
+                                    <li class="share-sec">
+                                        <a href="javascript:;" class="social-share-btn"><i
+                                                    class="fas fa-share-alt"></i></a>
+                                        <div class="social-media">
+                                            <a href="#" class="fa fa-close"></a>
+                                            <ul>
+                                                <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                <a href="#" class="btn-primary">Join</a>
+                            {% else %}
+                                <a href="#" class="btn-primary">Request To Join</a>
+                            {% endif %}
+                            <a href="#" class="btn btn-secondary">Be A Change Maker</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>#}
+
+
+
+        <section class="timeline-details">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 my-goodness-timeline" data-aos="fade-down" data-aos-delay="200">
+                        <h3>My Goodness Timeline
+                            <div class="share-sec">
+                                <a href="javascript:;" class="social-share-btn"><i class="fas fa-share-alt"></i></a>
+                                <div class="social-media">
+                                    <a href="#" class="fa fa-close"></a>
+                                    <ul>
+                                        {#<li>
+                                            <a href="#" target="_blank"><i class="fc-facebook"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" target="_blank"><i class="fc-linkedin"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" target="_blank"><i class="fc-twitter"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" target="_blank"><i class="fc-whatsapp"></i></a>
+                                        </li>#}
+
+                                        <li>
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-goodness-timeline', {'id': circle.id})}}" target="_blank">
+                                                <i class="fc-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-goodness-timeline', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank">
+                                                <i class="fc-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-goodness-timeline', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank">
+                                                <i class="fc-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-goodness-timeline', {'id': circle.id})  }}" target="_blank">
+                                                <i class="fc-whatsapp"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </h3>
+                        <ul class="timeline-year">
+                            {% for eventyear in yearArray %}
+                            <li>
+                                <span class="year">{{ eventyear }}</span>
+                                <ul class="timeline-list">
+                                    {% for goodnessList in goodnessDetails[eventyear] %}
+                                    <li>
+                                        <a href="#" class="card-image">
+                                            <figure>
+                                                {% if goodnessList.mediaArr[0] is defined %}
+                                                    {#{{ goodnessList.mediaArr[0].uploadedFilePath|imagine_filter('resize_image_h90') }}#}
+                                                    <img src="{{ asset('/images/')~goodnessList.mediaArr[0].uploadedFilePath }}"
+                                                         alt="{{ goodnessList.name }}"
+                                                         title="{{ goodnessList.name }}">
+                                                {% endif %}
+                                            </figure>
+                                        </a>
+                                        <div class="content">
+                                            <p><b>{{ goodnessList.name }}</b></p>
+                                            <p>{{ goodnessList.eventDate|date('l, d F Y') }}, {{ goodnessList.eventHrs }} Hrs</p>
+                                            <p>{{ goodnessList.mstCity }}, {{ goodnessList.mstState }}</p>
+                                            <ul>
+                                                <li>
+                                                    <h2>{{ goodnessList.volunteerCnt }}</h2> Volunteers
+                                                </li>
+                                                <li>
+                                                    <h2>{{ goodnessList.moneyRaised }}</h2> Lacs Money Raised
+                                                </li>
+                                                <li>
+                                                    <h2>{{ goodnessList.materialPer > 100 ? 100 : goodnessList.materialPer }}%</h2> Material
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    {#<li>
+                                        <a href="#" class="card-image">
+                                            <figure>
+                                                <img src="/resources/images/common/nikhil-goodness-timeline1.jpg"
+                                                     alt="Rations to Adivasi Families in 11 Villages"
+                                                     title="Rations to Adivasi Families in 11 Villages">
+                                            </figure>
+                                        </a>
+                                        <div class="content">
+                                            <p><b>Rations to Adivasi Families in 11 Villages</b></p>
+                                            <p><i class="far fa-calendar"></i> Monday, 11 Jan 2020, 4 Hrs</p>
+                                            <p><i class="fas fa-map-marker-alt"></i> Fangane, Maharashtra</p>
+                                            <ul>
+                                                <li>
+                                                    <h2>53</h2> Volunteers
+                                                </li>
+                                                <li>
+                                                    <h2>4</h2> Lacs Money Raised
+                                                </li>
+                                                <li>
+                                                    <h2>100%</h2> Material
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="card-image">
+                                            <figure>
+                                                <img src="/resources/images/common/nikhil-goodness-timeline1.jpg"
+                                                     alt="Rations to Adivasi Families in 11 Villages"
+                                                     title="Rations to Adivasi Families in 11 Villages">
+                                            </figure>
+                                        </a>
+                                        <div class="content">
+                                            <p><b>Rations to Adivasi Families in 11 Villages</b></p>
+                                            <p><i class="far fa-calendar"></i> Monday, 11 Jan 2020, 4 Hrs</p>
+                                            <p><i class="fas fa-map-marker-alt"></i> Fangane, Maharashtra</p>
+                                            <ul>
+                                                <li>
+                                                    <h2>53</h2> Volunteers
+                                                </li>
+                                                <li>
+                                                    <h2>4</h2> Lacs Money Raised
+                                                </li>
+                                                <li>
+                                                    <h2>100%</h2> Material
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="card-image">
+                                            <figure>
+                                                <img src="/resources/images/common/nikhil-goodness-timeline1.jpg"
+                                                     alt="Rations to Adivasi Families in 11 Villages"
+                                                     title="Rations to Adivasi Families in 11 Villages">
+                                            </figure>
+                                        </a>
+                                        <div class="content">
+                                            <p><b>Rations to Adivasi Families in 11 Villages</b></p>
+                                            <p><i class="far fa-calendar"></i> Monday, 11 Jan 2020, 4 Hrs</p>
+                                            <p><i class="fas fa-map-marker-alt"></i> Fangane, Maharashtra</p>
+                                            <ul>
+                                                <li>
+                                                    <h2>53</h2> Volunteers
+                                                </li>
+                                                <li>
+                                                    <h2>4</h2> Lacs Money Raised
+                                                </li>
+                                                <li>
+                                                    <h2>100%</h2> Material
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>#}
+                                </ul>
+                            </li>
+                            {% endfor %}
+{#                            <li>#}
+{#                                <span class="year">2019</span>#}
+{#                                <ul class="timeline-list">#}
+{#                                    <li>#}
+{#                                        <a href="#" class="card-image">#}
+{#                                            <figure>#}
+{#                                                <img src="/resources/images/common/nikhil-goodness-timeline1.jpg"#}
+{#                                                     alt="Rations to Adivasi Families in 11 Villages"#}
+{#                                                     title="Rations to Adivasi Families in 11 Villages">#}
+{#                                            </figure>#}
+{#                                        </a>#}
+{#                                        <div class="content">#}
+{#                                            <p><b>Rations to Adivasi Families in 11 Villages</b></p>#}
+{#                                            <p><i class="far fa-calendar"></i> Monday, 11 Jan 2020, 4 Hrs</p>#}
+{#                                            <p><i class="fas fa-map-marker-alt"></i> Fangane, Maharashtra</p>#}
+{#                                            <ul>#}
+{#                                                <li>#}
+{#                                                    <h2>53</h2> Volunteers#}
+{#                                                </li>#}
+{#                                                <li>#}
+{#                                                    <h2>4</h2> Lacs Money Raised#}
+{#                                                </li>#}
+{#                                                <li>#}
+{#                                                    <h2>100%</h2> Material#}
+{#                                                </li>#}
+{#                                            </ul>#}
+{#                                        </div>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <a href="#" class="card-image">#}
+{#                                            <figure>#}
+{#                                                <img src="/resources/images/common/nikhil-goodness-timeline1.jpg"#}
+{#                                                     alt="Rations to Adivasi Families in 11 Villages"#}
+{#                                                     title="Rations to Adivasi Families in 11 Villages">#}
+{#                                            </figure>#}
+{#                                        </a>#}
+{#                                        <div class="content">#}
+{#                                            <p><b>Rations to Adivasi Families in 11 Villages</b></p>#}
+{#                                            <p><i class="far fa-calendar"></i> Monday, 11 Jan 2020, 4 Hrs</p>#}
+{#                                            <p><i class="fas fa-map-marker-alt"></i> Fangane, Maharashtra</p>#}
+{#                                            <ul>#}
+{#                                                <li>#}
+{#                                                    <h2>53</h2> Volunteers#}
+{#                                                </li>#}
+{#                                                <li>#}
+{#                                                    <h2>4</h2> Lacs Money Raised#}
+{#                                                </li>#}
+{#                                                <li>#}
+{#                                                    <h2>100%</h2> Material#}
+{#                                                </li>#}
+{#                                            </ul>#}
+{#                                        </div>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                            </li>#}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('resources/js/easy-responsive-tabs.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('resources/js/captcha.basic.min.js') }}"></script>
+    <script>
+        var ajaxEventLikeURL = "{{ path('event-like') }}";
+        var pathToEventShare = "{{ path('event-share') }}";
+
+        $(document).ready(function () {
+            $(".express-donate-parallax").css('background-image', function () {
+                var bg = ('url(' + $(this).data("image-src") + ')');
+                return bg;
+            });
+            $('body').addClass('details-page');
+            $('.owl-carousel').owlCarousel({
+                loop: false,
+                margin: 10,
+                nav: true,
+                dots: false,
+                navText: [
+                    "<i class='fas fa-arrow-left'></i>",
+                    "<i class='fas fa-arrow-right'></i>"
+                ],
+                autoplay: false,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 2
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
+            });
+
+            $('.comment-box').find('.author-box').show();
+
+            $(document).on('click','.circleLike',function(){
+                likeClick($(this));
+            });
+
+            function likeClick(elem) {
+                var data = {};
+                var circleId = data['id'] = $(elem).attr("circleId");
+                jQuery.ajax({
+                    url: "{{ path('circle-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        $(".circleLike_"+circleId).each(function () {
+                            $(this).text(data.count);
+                        });
+                    }
+                });
+            }
+
+            //eventTime
+            $("[name='eventTime']").change(function () {
+                getFilter();
+            });
+
+            $("[name='eventProductType']").change(function () {
+                getFilter();
+            });
+            $("#event-search-by").click(function () {
+                getFilter();
+            });
+
+            $(document).on('click','.eventLike',function(){
+                var data = {};
+                var eventId = data['id'] = $(this).attr("eventId");
+                jQuery.ajax({
+                    url: ajaxEventLikeURL,
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#eventLike_"+eventId).text(data.count);
+                    }
+                });
+            });
+
+        });
+        $(".testi-carousel").owlCarousel({
+            loop: true,
+            margin: 10,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: true,
+                },
+                600: {
+                    items: 1,
+                    nav: true,
+                },
+                1000: {
+                    items: 1,
+                    nav: true,
+                    loop: true,
+                },
+            },
+        });
+
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).siblings('.social-media').slideToggle();
+        });
+
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).parents('.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        $('.share-link').on('click', function (e) {
+            e.preventDefault();
+            $(this).siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        $('.fa-close').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent('.social-media').slideToggle();
+            $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+        });
+
+        $(".forward-list").hide();
+        $(".btn-forward-post").click(function (e) {
+            e.preventDefault();
+            $(this).siblings('.forward-list').fadeToggle();
+        });
+        $(".btn-reply").click(function (e) {
+            e.preventDefault();
+            $(this).toggleClass('disabled');
+            $(this).parents('.comment-box').siblings('#reply-popup').toggle();
+            $(this).parents('.comment-list').siblings('.reply-box').toggle();
+        });
+        $(".btn-close").click(function (e) {
+            e.preventDefault();
+            $(this).parents('#reply-popup').hide();
+            $(this).parents('#reply-popup').siblings('.comment-box').find('.btn-reply').removeClass('disabled');
+            $(this).parents('.comment-list').siblings('.reply-box').show();
+        });
+        $(".reply-btn").click(function (e) {
+            e.preventDefault();
+            $(this).parents('.like-reply-list').siblings('.reply-box').show();
+        });
+        $(".post-reply").click(function (e) {
+            e.preventDefault();
+            $(this).parents('.reply-area').hide();
+            $(this).parents('.comment-box').find('.author-box').show();
+            $(this).parents('.comment-box').find('.like-reply-list').show();
+        });
+
+        $('.no-form').removeClass('form-control no-form');
+
+        $('.reply-box').css('display', 'block');
+        $('.comment-box').find('.author-box').show();
+        $('.comment-box').find('.like-reply-list').show();
+        $('.replypostarea').hide();
+
+
+
+        $("#commentForm").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+            postComment('');
+        });
+
+        $(".replyFrm").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var formid = $(this)[0].id;
+            var commentid = formid.replace("replyForm-", "");
+            postComment(commentid);
+        });
+
+        function getLikeCount(commentId, spanupdateId) {
+            var data = {};
+            //var articleId = $("#article_id").val();
+            data['id'] = commentId;
+
+            var spanupdate = $("#"+spanupdateId);
+
+            jQuery.ajax({
+                url: "{{ path('circle-comment-like') }}",
+                data: data,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(spanupdate);
+                    spanupdate.text(data.count);
+                }
+            });
+        }
+
+        function getLoginMsg() {
+
+            var message = $("#loginMsg");
+
+            // message.text = "Please Login to post a comment";
+            message.slideDown(500, function(){
+                setTimeout(function(){
+                    message.slideUp(500);
+                },3000);
+            });
+        }
+
+        function postComment(commentid) {
+            var data = {};
+
+            data['commentId'] = commentid;
+            data['circleId'] = $('#circleId').val();
+            //data['commentId'] = $("#commentId").val();
+            //data['comment'] = $('#trn_user_comments_comment').val();
+
+            if (commentid !== '') {
+                var message = $('#replymessage'+commentid);
+                message.text('Posting your reply to comment......');
+                $('.replybutton').attr("disabled", "disabled");
+                data['comment'] = $('#reply_box_'+commentid).val();
+            } else {
+                var message = $("#cmtmessage");
+                message.text('Posting your comment......');
+                $('.commentbutton').attr("disabled", "disabled");
+                data['comment'] = $('#trn_user_comments_comment').val();
+            }
+            console.log(data);
+            $.ajax({
+                url: '{{ path('circle-comment') }}',
+                type: 'POST',
+                data: data,
+                success: (function (formdata) {
+
+                    // empty the text boxes
+                    if(commentid != '') {
+                        // hide current open reply box if replying
+                        $("#replypostarea"+commentid).hide();
+                        $('#reply_box_'+commentid).val('');
+                    } else {
+                        $('#trn_user_comments_comment').val('');
+                    }
+                    message.text('');
+                    message.text(formdata['message']);
+                    message.slideDown(500, function(){
+                        setTimeout(function(){
+                            message.text('');
+                            message.slideUp(500);
+                        },3000);
+                    });
+
+                    //$("#submitcomment").show();
+
+                    //enable all buttons
+                    $('.commentbutton').removeAttr("disabled");
+                    $('.replybutton').removeAttr("disabled");
+
+                    //window.location.reload();
+                })
+            });
+        }
+
+        function showReplyBlock(commentid) {
+            $("#replypostarea"+commentid).toggle();
+            //$("#replyarea"+commentid).toggle();
+        }
+
+
+        function getFilter() {
+            var eventTime = [];
+            var eventProductType = [];
+            $.each($("input[name='eventTime']:checked"), function(){
+                eventTime.push($(this).val());
+            });
+            $.each($("input[name='eventProductType']:checked"), function(){
+                eventProductType.push(parseInt($(this).val()));
+            });
+            var data = {};
+            if(eventTime.length > 0) {
+                data['eventTime'] = eventTime;
+            }
+            if(eventProductType.length > 0) {
+                data['eventProductType'] = eventProductType;
+            }
+            data["searchText"] = $.trim($("#searchText").val());
+            data['circleId'] = "{{ circle.id }}";
+            jQuery.ajax({
+                url: "{{ path('get-latest-circle-events-filter') }}",
+                data: data,
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    var result = $("#projectEvents");
+                    result.html('');
+                    result.html(data);
+                    AOS.init({
+                        delay: 50,
+                        duration: 800,
+                    });
+                }
+            });
+        }
+
+        var pathToCircleShare = "{{ path('circle-share') }}";
+
+        function requestToJoin(circleId) {
+            var data = {};
+            data['circleId'] = circleId;
+
+            window.location = '{{ path('circle-request-to-join', { 'id': circle.id}) }}';
+            /*jQuery.ajax({
+                url: "",
+                data: data,
+                type: "GET",
+                dataType: "JSON",
+                success: function (result) {
+                    if(result['status'] == 'redirect') {
+                        window.location = result['url'];
+                    }
+                }
+            });*/
+        }
+
+    </script>
+{% endblock %}

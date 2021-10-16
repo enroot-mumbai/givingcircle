@@ -1,0 +1,348 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+
+    {% set banners = get_cms_page_banner(pageContentByPage.id) %}
+    {% set otherBanners = [] %}
+    {% set hasTopBanner = false %}
+    {% set defaultBanner = asset('/resources/images/common/changemaker-listing-banner.jpg') %}
+    {% set defaultBannerTitle = pageContentByPage.pageTitle %}
+    {% set defaultBannerAlt = pageContentByPage.pageTitle %}
+
+    {% if banners|length > 0 and banners is not empty %}
+        {% for banner in banners %}
+            {% if banner.bannerPosition == 'top' %}
+                {% set hasTopBanner = true %}
+            {% else %}
+                {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {{ include('portal/page/_top_static_banner_with_search.html.twig') }}
+    {#<section class="static-banner">
+        <img src="{{ asset('/resources/images/common/changemaker-listing-banner.jpg') }}" alt="{{ pageContentByPage.pageTitle }}"
+             title="{{ pageContentByPage.pageTitle }}">
+        <div class="search-sec">
+            {{ include('portal/layout/_header_search.html.twig')  }}
+        </div>
+    </section>#}
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="row listing-page">
+                <div class="col-auto refine-search">
+                    <label><i class="fc-refine-search"></i> Refine Search <a href="javascript:void(0)" class="clearAll"
+                        ><i
+                                    class="fas
+                    fa-sync"></i> Clear
+                            All</a> </label>
+                    <ul class="categories">
+                        <li>
+                            <h5>Search By</h5>
+                            <div class="search-sec">
+                                <div class="input-group">
+                                    <input type="text" class="search-input" id="searchParam" name="searchParam" placeholder="Name, Location">
+                                    <a href="#" class="btn search-input-btn"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h5>Category</h5>
+                            <ul class="category">
+                                {% for interest in area_interests %}
+                                    <li>
+                                        <label class="checkbox-label" for="areaOfInterest{{ interest.id }}">{{
+                                            interest.areaInterest }}
+                                            <input type="checkbox" name="areaOfInterest" id="areaOfInterest{{
+                                            interest.id }}" value="{{ interest.id }}">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <section class="recommend-changemaker" data-aos="fade-down" data-aos-delay="200">
+                        <div class="content-box">
+                            <div class="image-sec">
+                                <figure>
+                                    <img src="/resources/images/common/icons/recommend-icon.png"
+                                         alt="Recommend a Change Maker around you"
+                                         title="Recommend a Change Maker around you">
+                                </figure>
+                            </div>
+                            <div class="content">
+                                {{ pageContentByPage.cmsPageContent[1].pageContent|raw }}
+                                <a href="{{ path('report-goodness') }}" class="btn btn-primary">Recommend a Change Maker</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {% if otherBanners|length > 0 and otherBanners['left'] is defined and otherBanners['left'] is not empty %}
+                        <div class="express-donate-parallax" data-image-src="{{ asset('images/files/') ~ otherBanners['right'].bannerDesktopImage}}">
+                            {{ otherBanners['left'].bannerDescription|default('<h2><br><br><br><br><br><br><br></h2>')|raw }}
+
+                            {% if otherBanners['left'].bannerUrl is not empty %}
+                                <a href="{{ otherBanners['left'].bannerUrl }}" class="btn btn-primary">Express
+                                    Donate</a>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+
+                    {#<div class="express-donate-parallax" data-aos="fade-down" data-aos-delay="200">
+                        <h2 data-aos="fade-down" data-aos-delay="200">Purvi raised <span class="price">&#x20B9;
+                                    23,78,790</span> for
+                            Pushpesh's <br>Cancer treatment in just 26 days.</h2>
+                        <a href="#" class="btn btn-primary" data-aos="fade-down" data-aos-delay="200">Express
+                            Donate</a>
+                    </div>#}
+                </div>
+                <div class="col right-list">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('get-inspired') }}">Get Inspired</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Change Makers</li>
+                        </ol>
+                    </nav>
+                    <section class="changeMakers" data-aos="fade-down" data-aos-delay="200">
+                        <div class="head-sec">
+                            <h2 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.pageTitle }}</h2>
+                            <p>
+                                {% set content = pageContentByPage.cmsPageContent[0] %}
+                                {% include 'portal/page/_page_content_display.html.twig' %}
+                            </p>
+                            <a href="{{ path('be-a-change-maker') }}" class="btn btn-primary">Be a Change Maker</a>
+                        </div>
+                        <div class="row" id="changemakers">
+
+                            {% for article in get_cms_articles(2, get_parameter('company_id')) %}
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" data-aos="fade-down" data-aos-delay="500">
+
+                                                {% set interestVal = '' %}
+                                                {% set seqNo = '' %}
+                                                {% set interestIcon = '' %}
+                                                {% for interest in article.mstAreaInterest %}
+
+                                                    {% if interest.mstAreaInterestPrimary is empty %}
+                                                        {% set seqNo = num_to_words(interest.sequenceNo) %}
+                                                        {% set interestIcon = interest.icon %}
+                                                    {% else %}
+                                                        {% set seqNo = num_to_words(interest.mstAreaInterestPrimary.sequenceNo) %}
+                                                        {% set interestIcon = interest.mstAreaInterestPrimary.icon %}
+                                                    {% endif %}
+
+                                                    {% if loop.first %}
+                                                        {% set interestVal = interestVal~interest.areaInterest %}
+                                                    {% else %}
+                                                        {% set interestVal = interestVal~', '~interest.areaInterest %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+
+
+                                                {% if interestIcon is not empty and interestIcon != '' and interestIcon != 'files/' %}
+                                                    <i class="icon-image">
+                                                        <img src="{{ asset('images') }}/{{ interestIcon }}" alt="{{ interestVal }}"
+                                                             title="{{ interestVal }}">
+                                                    </i>
+                                                {% endif %}
+
+                                            {% if article.articleIntroVideoPath is not empty %}
+                                                <iframe width="600" height="265" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            {% else %}
+                                                <figure>
+                                                    <img src="{{ asset('/images/') ~ article.articleIntroDesktopImagePath }}" class="img1" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">
+{#                                                    <img src="/resources/images/common/details-banner.jpg" class="img2" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}">#}
+                                                </figure>
+                                            {% endif %}
+                                        </a>
+                                        <div class="card-body">
+                                            <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" data-aos="fade-down" data-aos-delay="500">
+                                            <div class="quote" data-aos="fade-down" data-aos-delay="500">{{ article.articleIntro|striptags|truncate(130)|raw }}</div>
+                                            <h4 data-aos="fade-down" data-aos-delay="300">{{ article.articleFor }}</h4>
+                                            <h5 data-aos="fade-down" data-aos-delay="400"><i
+                                                        class="fas fa-map-marker-alt"></i>
+                                                {{ article.locationName }}, {{ article.cityName }}
+                                            </h5>
+                                            <h5 class="orange" data-aos="fade-down" data-aos-delay="500">
+                                                <em>{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %} {% endfor %}</em>
+                                            </h5>
+                                            <h6 data-aos="fade-down" data-aos-delay="500">{{ article.articleTitle }}</h6>
+                                            </a>
+                                            <ul class="share-view" data-aos="fade-down" data-aos-delay="500">
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fc-book-open"></i>
+                                                        <b>{{ article.articleViewCount|default('0') }}</b>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" class="clicklike" articleId = "{{ article.id }}" >
+                                                        <i class="far fa-thumbs-up"></i>
+                                                        <b id="bLikeArt_{{ article.id }}">{{ article.articleLikeCount|default('0') }}</b>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('change-maker-detail', {'articleSlugName':
+                                                        article.articleSlugName}) }}#comments">
+                                                        <i class="far fa-comment"></i>
+                                                        <b>{{ get_cms_article_comments_count(article.id, 1) }}</b>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" class="social-share-btn"><i
+                                                                class="fas fa-share-alt"></i></a>
+                                                </li>
+                                            </ul>
+                                            <div class="share-sec">
+                                                <div class="social-media">
+                                                    <a href="#" class="fa fa-close"></a>
+                                                    <ul>
+                                                        <li><a onclick="getCircleShareCount('{{ article.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~  path
+                                                                ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                        <li><a onclick="getCircleShareCount('{{ article.id }}')" href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~  path
+                                                                ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                        <li><a onclick="getCircleShareCount('{{ article.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path
+                                                                ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}&amp;title={{ article.articleTitle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                        <li><a onclick="getCircleShareCount('{{ article.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~  path
+                                                                ('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script>
+    var pathToCircleShare = "{{ path('article-share') }}";
+    $(document).ready(function () {
+
+        $('body').addClass('inspired-page');
+        $(document).on('click','.social-share-btn', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).siblings('.social-media').slideToggle();
+        });
+        $(document).on('click', '.share-link', function (e) {
+            e.preventDefault();
+            $(this).siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        $(document).on('click', '.fa-close', function (e) {
+            e.preventDefault();
+            $(this).parent('.social-media').slideToggle();
+            $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+        });
+        $(document).on('click', '.social-share-btn', function (e) {
+            e.preventDefault();
+            $(this).parents('ul.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+        });
+
+        $(document).on('click', '.search-input-btn', function() {
+            searchParams();
+        });
+
+        function searchParams() {
+            var data = {};
+            var areaOfInterest = [];
+            $.each($("input[name='areaOfInterest']:checked"), function(){
+                areaOfInterest.push(parseInt($(this).val()));
+            });
+            console.log(areaOfInterest);
+            if(areaOfInterest.length == 0) {
+                data['interestId'] = 'all';
+            } else {
+                data['interestId'] = areaOfInterest;
+            }
+
+            data['searchparam'] = $("#searchParam").val();
+            console.log(data['searchparam']);
+            getFilter(data);
+        }
+
+        $("[name='areaOfInterest']").change(function () {
+            var areaOfInterest = [];
+            $.each($("input[name='areaOfInterest']:checked"), function(){
+                areaOfInterest.push(parseInt($(this).val()));
+            });
+            console.log(areaOfInterest);
+            var data = {};
+            if(areaOfInterest.length == 0) {
+                data['interestId'] = 'all';
+            } else {
+                data['interestId'] = areaOfInterest;
+            }
+            data['searchparam'] = $("#searchParam").val();
+            getFilter(data);
+        });
+
+        $("#clearAll").on('click', function (e) {
+            $.each($("input:checked"), function(){
+                $(this).find('span').removeClass('checked');
+                $(this).attr('checked',false);
+                console.log(this);
+            });
+
+        });
+
+        $('.clearAll').on('click', function () {
+
+            $('input[type=checkbox]').each(function () {
+                $(this).prop('checked', false);
+            });
+            var data = {};
+            data['interestId'] = 'all';
+            $("#searchParam").val("");
+            data['searchparam'] = $("#searchParam").val();
+            getFilter(data);
+        });
+
+        $(document).on('click','.clicklike',function(){
+            var data = {};
+            var articleId = data['id'] = $(this).attr("articleId");
+            jQuery.ajax({
+                url: "{{ path('article-like') }}",
+                data: data,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $("#bLikeArt_"+articleId).text(data.count);
+                }
+            });
+        });
+    });
+
+    function getFilter(data) {
+        jQuery.ajax({
+            url: "{{ path('change-makers-filter') }}",
+            data: data,
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                var result = $("#changemakers");
+                result.html('');
+                result.html(data);
+                AOS.init({
+                    delay: 50,
+                    duration: 800,
+                });
+            }
+        });
+
+    }
+</script>
+{% endblock %}

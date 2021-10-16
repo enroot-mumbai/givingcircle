@@ -1,0 +1,136 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{asset('/resources/css/jquery.scrolling-tabs.css')}}">
+{% endblock %}
+{% block portal_content %}
+<!--Main Wrapper Starts-->
+<div class="wrapper">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                        class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ page_content.pageTitle }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <h2 data-aos="fade-right" data-aos-delay="200">Frequently Asked Questions</h2>
+            <p data-aos="fade-right" data-aos-delay="200">
+                {# Content Start from Cms #}
+                {% for content in page_content.cmsPageContent %}
+                {% include 'portal/page/_page_content_display.html.twig' %}
+                {% endfor %}
+                {# Content End from Cms #}
+            </p>
+
+            <div class="white-box">
+                <div class="contentWrapper">
+                    <div class="tabsWrapper">
+                        <ul class="tabs">
+                            {% for faqMain in faq %}
+                            <li data-id="content{{ faqMain.id }}" class="{% if loop.first %}active{% endif %}"><i
+                                    class="faq-icon{{ faqMain.id }}"></i>
+                                {{ faqMain.faq }}</li>
+                            {% endfor %}
+                        </ul>
+                        <span class="next"></span>
+                        <span class="previous"></span>
+                    </div>
+
+                    <div class="tabContent">
+                        {% for faqMain in faq %}
+                        <div class="content{{ faqMain.id }}">
+                            <div class="accordion" id="faqAccordion">
+                                {% for faq_detail in faqMain.cmsFaqDetail %}
+                                <div class="accordion-item">
+                                    <div class="accordion-header" id="heading{{ faqMain.id }}_{{ faq_detail.id }}">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ faqMain.id }}_{{ faq_detail.id }}"
+                                            aria-expanded="true"
+                                            aria-controls="collapse{{ faqMain.id }}_{{ faq_detail.id }}">
+                                            {{ faq_detail.faqQuestion }}
+                                        </button>
+                                    </div>
+                                    <div id="collapse{{ faqMain.id }}_{{ faq_detail.id }}"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="heading{{ faqMain.id }}_{{ faq_detail.id }}"
+                                        data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            {{ faq_detail.faqAnswer|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('resources/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('resources/js/jquery.scrolling-tabs.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('body').removeClass('inner-pg');
+        $('body').addClass('static faq');
+
+        // hide all contents accept from the first div
+        $('.white-box .tabContent > div:not(:first)').toggle();
+        // hide the previous button
+        $('.white-box .previous').hide();
+        $('.white-box .tabs li').click(function () {
+            if ($(this).is(':last-child')) {
+                $('.next').hide();
+            } else {
+                $('.next').show();
+            }
+            if ($(this).is(':first-child')) {
+                $('.previous').hide();
+            } else {
+                $('.previous').show();
+            }
+            var position = $(this).position();
+            var corresponding = $(this).data("id");
+            // scroll to clicked tab with a little gap left to show previous tabs
+            scroll = $('.white-box .tabs').scrollLeft();
+            $('.white-box .tabs').animate({
+                'scrollLeft': scroll + position.left
+            }, 200);
+            // hide all content divs
+            $('.tabContent > div').hide();
+            // show content of corresponding tab
+            $('.tabContent > div.' + corresponding).toggle();
+            // remove active class from currently not active tabs
+            $('.white-box .tabs li').removeClass('active');
+            // add active class to clicked tab
+            $(this).addClass('active');
+        });
+        $('.next').click(function (e) {
+            e.preventDefault();
+            $('li.active').next('li').trigger('click');
+        });
+        $('.previous').click(function (e) {
+            e.preventDefault();
+            $('li.active').prev('li').trigger('click');
+        });
+
+    });
+
+</script>
+{% endblock %}

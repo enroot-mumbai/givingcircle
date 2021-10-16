@@ -1,0 +1,83 @@
+{% set commentCount = get_event_comment_count(trnCircleEvents.id) %}
+<div class="head-sec crowdFund">
+    <div class="container">
+        <div class="row ">
+            <div class="col">
+                <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500" class="breadcrumb d-flex justify-content-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href=""><i class="fa fc-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page"><a
+                                    href="{{ path('express-donate-listing') }}" >Express Donate</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Crowdfunding</li>
+                    </ol>
+                </nav>
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <section class="gc-circle " data-aos="fade-down" data-aos-delay="200">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="tagline">
+                                        India's first crowdfunding platform designed for NGOs and Individual
+                                        Community Servers.
+                                    </div>
+                                    {% if trnCircleEvents.parentTrnCircleEvents is not empty %}
+                                    <div class="memberLine"><i class="fc-membericon"></i> This is a supporting fundraiser.
+                                        Contributions to fund will go towards
+                                        the <a href="{{ path('crowd-funding-event-details', {'id': trnCircleEvents.parentTrnCircleEvents.id}) }}">Main Fundraiser</a></div>
+                                    {% endif %}
+                                    <h2>{{ trnCircleEvents.name }}
+                                        <div class="share-sec">
+                                            <a href="javascript:;" class="social-share-btn"><i
+                                                        class="fas fa-share-alt"></i></a>
+                                            <div class="social-media">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <ul>
+                                                    <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': trnCircleEvents.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                                    <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://twitter.com/intent/tweet?text={{ trnCircleEvents.name }}&amp;url={{ app.request.schemeAndHttpHost ~  path('crowd-funding-event-details', {'id': trnCircleEvents.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                                    <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('crowd-funding-event-details', {'id': trnCircleEvents.id}) }}&amp;title={{ trnCircleEvents.name }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                                    <li><a onclick="getEventShareCount('{{ trnCircleEvents.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('crowd-funding-event-details', {'id': trnCircleEvents.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </h2>
+                                    <h5>by
+                                        {% if trnCircleEvents.parentTrnCircleEvents is empty %}
+                                            {{ trnCircleEvents.appUser.appUserInfo.name }}
+                                        {% else %}
+                                            {{ trnCircleEvents.parentTrnCircleEvents.appUser.appUserInfo.name }}
+                                        {% endif %}
+                                    </h5>
+                                    <div class="share-btn-section">
+                                        <ul class="share-view">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fc-book-open"></i>
+                                                    <b>{{ trnCircleEvents.readCount|default('0') }}</b>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="eventLike" eventId = "{{ trnCircleEvents.id
+                                                }}">
+                                                    <i class="far fa-thumbs-up"></i>
+                                                    <b class="eventLike_{{ trnCircleEvents.id }}">{{ trnCircleEvents
+                                                        .likeCount|default('0') }}</b>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('event-details', {'id' : trnCircleEvents.id }) }}#comments">
+                                                    <i class="far fa-comment"></i>
+                                                    <b>{{ commentCount|default('0') }}</b>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

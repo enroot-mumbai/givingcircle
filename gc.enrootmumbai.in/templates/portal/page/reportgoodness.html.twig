@@ -1,0 +1,107 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    {{ include('portal/page/_report_goodness_top_banner.html.twig') }}
+    <div class="wrapper login-container">
+        <div class="container">
+            <div class="row">
+                {# Breadcrump and common text content start #}
+                {{ include('portal/page/_report_goodness_left_content.html.twig') }}
+                {# Breadcrump and common text content end #}
+                <div class="col-lg-auto login-right" data-aos="fade-right">
+                    <div class="content">
+                        <h4 data-aos="fade-right" data-aos-delay="100"><i class="fc-reccomend-report"></i>{{ pageContentByPage.cmsPageContent[5].pageContent|raw }}</h4>
+                        <p data-aos="fade-right" data-aos-delay="100">{{ pageContentByPage.cmsPageContent[6].pageContent|raw }}</p>
+                        <form class="form" data-aos="fade-right" data-aos-delay="100">
+                            <div class="mandate-text"><span>*</span> Mandatory Fields </div>
+
+                            {% set selectedtye = '' %}
+                            {{ include('portal/page/_report_goodness_main_form.html.twig') }}
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Main Wrapper End-->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('report-goodness');
+
+            function formcontrol() {
+                $(".form-control").filter(function () {
+                    if (this.value.length !== 0) {
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+                $(this).siblings('input').focus();
+            });
+
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+            $('.form-group select').change(function () {
+                if (this.value.length !== 0) {
+                    $(this).parent().parent().find('label').addClass('clicked');
+                } else {
+                    $(this).parent().parent().find('label').removeClass('clicked');
+                }
+            });
+
+            $('.reporting-radio label').on('click', function () {
+                $(this).addClass('active').siblings('label').removeClass('active')
+            });
+            $('.digitalPresenceRadio label.yes').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.digitalPresence').show();
+            });
+            $('.digitalPresenceRadio label.no').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.digitalPresence').hide();
+            });
+            /*
+            $('.reporting-radio label.self').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.self-block').show();
+                $(this).parents('.main-form-group').siblings('.else-block').hide();
+            });
+             */
+            /*
+            $('.reporting-radio label.else').on('click', function () {
+                $(this).parents('.main-form-group').siblings('.self-block').hide();
+                $(this).parents('.main-form-group').siblings('.else-block').show();
+            });
+             */
+
+            $('.addDigitalPresence').click(function () {
+                var newRow = $(this).parent('.digitalPresence').children('.input-box:last').clone();
+                $('.digitalPresence .input-box:last').addClass('old');
+                $(newRow).insertAfter(".digitalPresence .input-box:last");
+                // $(this).focus();
+            });
+            $(document).on('click', '.removeInput', function (e) {
+                e.preventDefault();
+                $(this).parent('.old').remove();
+            });
+
+        });
+    </script>
+{% endblock %}

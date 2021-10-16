@@ -1,0 +1,35 @@
+<table class="table" id="example">
+    <thead>
+    <tr>
+        <th><label class="sort-order"><b>Name</b></label></th>
+        <th class="no-sort"><label class="sort-order">Mobile Number</label></th>
+        <th><label class="sort-order">Email ID</label></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for userContacts in  arrUserContacts  %}
+        <tr>
+            <td>
+                <ul class="member-list">
+                    <li>
+                        <span class="cap-letter">{{ userContacts.firstName | slice(0,1) }}</span>
+                        <span id="contactdetails_{{ userContacts.id }}">{{ userContacts.firstName | capitalize }} {{
+                            userContacts.lastName  | capitalize }}</span>
+                    </li>
+                </ul>
+            </td>
+            <td>{{ userContacts.mobileCountryCode }} {{ userContacts.mobileNumber }}</td>
+            <td>{{ userContacts.email }}</td>
+            <td>
+                <a href="{{ path('my-account-edit-contact', {'id' : userContacts.id}) }}"
+                   name="editContact" contactid="{{ userContacts.id }}"
+                   class="add-lead"><i class="fa fa-pencil-alt"></i></a>
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#selectAreaModal"
+                   name="deleteContact" contactid="{{ userContacts.id }}"  class="add-lead"><i class="fa
+                                                    fa-trash-alt"></i></a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

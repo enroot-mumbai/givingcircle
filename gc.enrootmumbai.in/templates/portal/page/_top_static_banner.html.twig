@@ -1,0 +1,29 @@
+<section class="static-banner">
+
+    {% if banners|length > 0 and banners is not empty %}
+        {% for banner in banners %}
+            {% if banner.bannerPosition == 'top' %}
+                {% if banner.bannerUrl is not empty %}
+                    {% set bannerTargetUrl = banner.bannerUrl %}
+                {% else %}
+                    {% set bannerTargetUrl = "#" %}
+                {% endif %}
+
+                {% set hasTopBanner = true %}
+                <a href="{{ bannerTargetUrl }}">
+                    <img class="desktop-purpose" src="{{ asset('images/files/') ~ banner.bannerDesktopImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                    <img class="tab-purpose" src="{{ asset('images/files/') ~ banner.bannerTabletImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                    <img class="mobile-purpose" src="{{ asset('images/files/') ~ banner.bannerMobileImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}">
+                </a>
+            {% else %}
+                {% set otherBanners = otherBanners|merge({ (banner.bannerPosition) : banner}) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if hasTopBanner == false %}
+        {# default banner if no banner added from backend #}
+        <img src="{{ asset('/images/common/') ~ defaultBanner }}" alt="{{ defaultBannerAlt }}" title="{{ defaultBannerTitle }}">
+    {% endif %}
+
+</section>

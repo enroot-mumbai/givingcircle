@@ -1,0 +1,221 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Search Result</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2 data-aos="fade-right" data-aos-delay="200">Search Result</h2>
+
+                {% if totalResultCount > 0 %}
+                <div class="white-box" data-aos="fade-right" data-aos-delay="200">
+                    <section class="changeMakers projects">
+                        <h4>Change Makers{# ({{ changeMakers|length }})#}</h4>
+                            {% if changeMakers|length > 0 %}
+                                <div class="row">
+                                {% for changeMaker in changeMakers  %}
+{#                                        {{ dump(changeMakers) }}#}
+                                    <div class="col-md-6">
+                                        <a href="{{ path('change-maker-detail', {'articleSlugName':
+                                                    changeMaker.articleSlugName}) }}">
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <figure>
+                                                        <img src="{{ asset('images/') ~ changeMaker.articleIntroDesktopImagePath }}"
+                                                                alt="{{ changeMaker.articleIntroImageAlt }}"
+                                                             title="{{ changeMaker.articleIntroImageAlt }}">
+                                                    </figure>
+                                                </div>
+                                                <div class="card-body">
+                                                        <h4>{{ changeMaker.articleFor }}</h4>
+                                                        <h5><i class="fas fa-map-marker-alt"></i>{{ changeMaker.locationName }}, {{ changeMaker.cityName }}</h5>
+                                                        <h5 class="orange">
+                                                            <em>{% for interest in changeMaker.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %} {% endfor %}</em>
+                                                        </h5>
+                                                        <h6>{{ changeMaker.articleTitle }}</h6>
+                                                        <p>{{ changeMaker.articleIntro|striptags|truncate(130)|raw }}</p>
+                                                    </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                <hr>
+                                <div>
+                                    <h6>No Result found</h6>
+                                </div>
+                            {% endif %}
+                    </section>
+                    <section class="changeMakers projects">
+                        <h4>Projects {#({{ projects|length }})#}</h4>
+                            {% if projects|length > 0 %}
+                                <div class="row">
+                                {% for circle in projects  %}
+                                    <div class="col-md-6">
+                                        <a href="{{ path('project-details', {'id': circle.id}) }}">
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <figure>
+                                                        <img src="{{ asset('images') }}/{{ circle.profileImagePath }}"
+                                                             alt="">
+                                                    </figure>
+                                                </div>
+                                                <div class="card-body">
+                                                <h4>{{ circle.circle }}</h4>
+                                                <h5><i class="fas fa-map-marker-alt"></i> {{ circle.mstCity }}, {{ circle.mstState }}, {{ circle.mstCountry }}</h5>
+                                                <h5 class="orange"><em>{% for interest in circle.trnAreaOfInterests %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</em></h5>
+                                                <p>{{ circle.impactStatement |truncate(180)|raw  }}</p>
+                                                {% set fundEventCount = get_fund_event_count(get_parameter('company_id'),circle.id ) %}
+                                                {% set nCount = get_circle_count_data(circle.id) %}
+                                                <ul class="member-event-list">
+                                                    <li>
+                                                        <i class="fc-member-icon"></i>
+                                                        <div class="number">{{ nCount.memberCount }}</div>
+                                                        <div class="task">Members</div>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fc-event-icon"></i>
+                                                        <div class="number">{{ nCount.eventCount }}</div>
+                                                        <div class="task">Events</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                <hr>
+                                <div>
+                                    <h6>No Result found</h6>
+                                </div>
+                            {% endif %}
+                    </section>
+                    <section class="changeMakers projects">
+                        <h4>Volunteer Diaries {#({{ volunteers|length }})#}</h4>
+                            {% if volunteers|length > 0 %}
+                                <div class="row">
+                                {% for volunteer in volunteers  %}
+{#                                    {{ dump(volunteer) }}#}
+                                    <div class="col-md-6">
+                                        <a href="{{ path('volunteer-diary-detail', {'articleSlugName':
+                                                    volunteer.articleSlugName}) }}">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                        <h4>{{ volunteer.articleFor }}</h4>
+                                                        <h5>{{ volunteer.articleCreator|raw }}</h5>
+                                                        <h5 class="orange font-weight-bolder">{{ volunteer.articleTitle }}</h5>
+                                                        <p>{{ volunteer.articleIntro|striptags|truncate(130)|raw }}</p>
+                                                    </div>
+                                                <div class="card-image">
+                                                    <figure>
+                                                        <img src="{{ asset('images/') ~ volunteer.articleIntroDesktopImagePath }}"
+                                                             alt="{{ volunteer.articleIntroImageAlt }}"
+                                                             title="{{ volunteer.articleIntroImageAlt }}">
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                <hr>
+                                <div>
+                                    <h6>No Result found</h6>
+                                </div>
+                            {% endif %}
+                    </section>
+                    <section class="latest-events">
+                        <h4>Events {#({{ events|length }})#}</h4>
+                        {% if events|length > 0 %}
+                            <div class="row">
+                                {% for eventData in events  %}
+                                    {#                                    {{ dump(eventData) }}#}
+                                    <div class="col-lg-3 col-md-6 col-sm-6">
+                                        <a href="{{ path('event-details', {'id': eventData.id}) }}">
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <figure>
+                                                        {% if eventData.profileImage is defined and  eventData.profileImage is not empty and
+                                                            eventData.profileImage != 'files/'  %}
+                                                            <img src="{{ asset('images') }}/{{ eventData.profileImage }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                                        {% elseif eventData.backgroundImagePath is defined and  eventData.backgroundImagePath is not empty and
+                                                            eventData.backgroundImagePath != 'files/' %}
+                                                            <img src="{{ asset('images') }}/{{ eventData.backgroundImagePath }}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                                        {% else %}
+                                                            {% set break = false %}
+                                                            {% for trnProductMedia in eventData.trnProductMedia %}
+                                                                {% if trnProductMedia.mediaType == 'image' and
+                                                                    break == false %}
+                                                                    {% set break = true %}
+                                                                    <img src="{{ asset('images') }}/{{ trnProductMedia.uploadedFilePath}}" alt="{{ eventData.name }}" title="{{ eventData.name }}">
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </figure>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4>{{ eventData.name }}</h4>
+                                                    <h5>by {{ eventData.trnCircle }}</h5>
+                                                    <h5 class="orange">{% for mstEventProductType in eventData
+                                                        .mstEventProductType %}{{ mstEventProductType
+                                                        .eventProductType }}{% if not loop.last %}, <br>{% endif %} {% endfor %}</h5>
+                                                    <h6 class="eventStatus">
+                                                        {% if eventData.trnCircle.mstJoinBy == 'Open' %}
+                                                            <i class="fa fa-unlock"></i> {{ eventData.trnCircle.mstJoinBy }}
+                                                        {% else %}
+                                                            <i class="fa fa-lock"></i> {{ eventData.trnCircle.mstJoinBy }}
+                                                        {% endif %}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <hr>
+                            <div>
+                                <h6>No Result found</h6>
+                            </div>
+                        {% endif %}
+                    </section>
+                </div>
+                {% else %}
+                <div class="white-box" data-aos="fade-right" data-aos-delay="200">
+                    <div>
+                        <h6>No Result found</h6>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </section>
+    </div>
+    <!--Main Wrapper End-->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static contribute-pg global-search');
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,256 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs events activated">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec">
+                            <h3>Participant View List</h3>
+                            <a href="{{ path('my-accounts-projects') }}" class="btn btn-primary-o"><i class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                        <div class="inline-elements event-dtls">
+                            <b>{{ circle.circle }}</b>
+                            <ul>
+                                <li>
+                                    {% if circle.mstJoinBy == 'Open' %}
+                                        <i class="fa fa-unlock"></i> {{ circle.mstJoinBy }}
+                                    {% else %}
+                                        <i class="fa fa-lock"></i> {{ circle.mstJoinBy }}
+                                    {% endif %}
+                                </li>
+                                <li class="orange-txt">{% for interest in circle.trnAreaOfInterests %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</li>
+                                <li><i class="far fa-calendar"></i> {{ circle.createdOn | date( 'F d, Y') }} </li>
+                                <li><i class="fas fa-map-marker-alt"></i> {{ circle.mstCity }}, {{ circle.mstState }}, {{ circle.mstCountry }}</li>
+                            </ul>
+                        </div>
+                        <div class="filter-panel typ2">
+                            <form>
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+                                        <div class="row row-sm justify-content-sm-start align-items-center">
+
+                                            <div class="col-md-8">
+                                                <div class="row row-xs justify-content-sm-start align-items-center">
+                                                    <div class="col-md-5">
+                                                        <h5 class="my-4">Total Members
+                                                            {% if arrProjectMemberListData is defined and
+                                                                arrProjectMemberListData is not empty and
+                                                                arrProjectMemberListData is not null and
+                                                                'totalMemberCount' in arrProjectMemberListData|keys  %}
+                                                                ({{ arrProjectMemberListData['totalMemberCount'] }})
+                                                            {% else %}
+                                                                (0)
+                                                            {% endif %}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-sm-2 text-right">
+                                                        <strong>Filter By :</strong>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="form-group">
+                                                            <label for="Resources" class="selectDDLabel">Resources</label>
+                                                            <div class="cust-select resources">
+                                                                <select class="form-control" required="" id="Resources">
+                                                                    <option></option>
+                                                                    {% for mstEventProductTypeObj in arrMstEventProductTypeObj  %}
+                                                                        <option value="{{ mstEventProductTypeObj.id }}">{{ mstEventProductTypeObj
+                                                                            }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="form-group">
+                                                            <label for="Status" class="selectDDLabel">Status</label>
+                                                            <div class="cust-select">
+                                                                <select class="form-control" required="" id="Status">
+                                                                    <option></option>
+                                                                    {% for mstMstStatus in arrMstStatus  %}
+                                                                        <option value="{{ mstMstStatus.id }}">{{ mstMstStatus }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4">
+                                                <div class="search-panel">
+                                                    <div class="input-group">
+                                                        <input type="text" class="search-input" placeholder="Search by Name, Mobile, Email">
+                                                        <button href="#" class="btn search-input-btn"><i class="fa fa-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="row row-sm">
+                                            <div class="col-md-6">
+                                                <div class="paricipant-status">
+                                                    <span class="accepted">Accepted :</span>
+                                                    <ul>
+                                                        <li>
+                                                            <i class="icn-volunteer"></i>
+                                                            Volunteer ({{ arrProjectMemberListData['accepted']['Volunteer (in Time)'] }})
+                                                        </li>
+                                                        <li>
+                                                            <i class="icn-material"></i>
+                                                            Material ({{ arrProjectMemberListData['accepted']['Material (in Kind)'] }})
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-rupee"></i>
+                                                            Funds ({{ arrProjectMemberListData['accepted']['Fundraiser'] +
+                                                            arrProjectMemberListData['accepted']['Crowdfunding']
+                                                            }})
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="paricipant-status">
+                                                    <span class="pending">Pending :</span>
+                                                    <ul>
+                                                        <li>
+                                                            <i class="icn-volunteer"></i>
+                                                            Volunteer ({{ arrProjectMemberListData['pending']['Volunteer (in Time)'] }})
+                                                        </li>
+                                                        <li>
+                                                            <i class="icn-material"></i>
+                                                            Material ({{ arrProjectMemberListData['pending']['Material (in Kind)'] }})
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-rupee"></i>
+                                                            Funds ({{ arrProjectMemberListData['pending']['Fundraiser'] +
+                                                            arrProjectMemberListData['pending']['Crowdfunding']
+                                                            }})
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive cust-tbl tbl-borderless">
+                            <table class="table participant-viewlist">
+                                <thead>
+                                <tr>
+                                    <th><label class="sort-order"><b>Name</b></label></th>
+                                    <th class="no-sort"><label class="sort-order">Mobile Number</label></th>
+                                    <th><label class="sort-order">Email ID</label></th>
+                                    <th class="col-status"><label class="sort-order"><span class="tl-resources">Resources</span>Status / Action</label></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for  appUserData in arrProjectMemberListData['arrAppUser'] %}
+                                        <tr>
+                                            <td>
+                                                <ul class="member-list">
+                                                    <li>
+                                                        <span class="cap-letter">{{ appUserData.appUserInfo.userFirstName | slice(0,1) }}</span>
+                                                        {{ appUserData.appUserInfo.userFirstName | capitalize }}
+                                                        {{ appUserData.appUserInfo.userLastName | capitalize }}
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>{{ appUserData.appUserInfo.mobileCountryCode }} {{ appUserData.appUserInfo.userMobileNumber }}</td>
+                                            <td>{{ appUserData.appUserInfo.userEmail }}</td>
+                                            <td class="merged-row">
+                                                <ul class="tbl-li-list">
+                                                    {% if arrProjectMemberListData is defined and
+                                                        arrProjectMemberListData is not empty and
+                                                        'participantData' in arrProjectMemberListData|keys and
+                                                        appUserData.id in arrProjectMemberListData['participantData']|keys
+                                                    %}
+                                                        {% for memberData in arrProjectMemberListData['participantData'][appUserData.id] %}
+                                                            <li>
+                                                                <div class="row row-xs">
+                                                                    <div class="col-md-6">
+                                                                        <label>{{ memberData.mstProductType }}</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <ul>
+                                                                            {% if memberData.mstStatus == 'Activated' %}
+                                                                                <li class="accepted">
+                                                                                    <i class="fa fa-check"></i> Accepted
+                                                                                </li>
+                                                                            {% else %}
+                                                                                <li class="pending">
+                                                                                    <i class="fa fa-circle"></i> Pending
+                                                                                </li>
+                                                                            {% endif %}
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    {% for  anamounsFundDonation in arrProjectMemberListData['anamounsFundDonation'] %}
+                                        <tr>
+                                            <td>
+                                                <ul class="member-list">
+                                                    <li>
+                                                        <span class="cap-letter">{{ anamounsFundDonation.firstName |
+                                                            slice(0,1) }}</span>
+                                                        {{ anamounsFundDonation.firstName }}
+                                                        {{ anamounsFundDonation.lastName }}
+
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>{{ anamounsFundDonation.mobileNo }}</td>
+                                            <td>{{ anamounsFundDonation.email }}</td>
+                                            <td class="merged-row">
+                                                <ul class="tbl-li-list">
+                                                    <li>
+                                                        <div class="row row-xs">
+                                                            <div class="col-md-6">
+                                                                <label>Fundraiser</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <ul>
+                                                                    <li class="accepted">
+                                                                        <i class="fa fa-check"></i> Accepted
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

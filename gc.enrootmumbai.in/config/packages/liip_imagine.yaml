@@ -1,0 +1,152 @@
+# See dos how to configure the bundle: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+    loaders:
+        flysystem_loader:
+            flysystem:
+                filesystem_service: oneup_flysystem.public_file_filesystem_filesystem
+    # default loader to use for all filter sets
+    data_loader: flysystem_loader
+
+    resolvers:
+        flysystem_resolvers:
+            flysystem:
+                filesystem_service: oneup_flysystem.public_file_filesystem_filesystem
+                cache_prefix: /media/cache
+                root_url: '%uploads_base_url%'
+
+    filter_sets:
+        resize_logo_120:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 120
+                    mode: outbound
+                    allow_upscale: true
+        resize_avatar_60:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 60
+                    mode: outbound
+                    allow_upscale: true
+        resize_avatar_30:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 30
+                    mode: outbound
+                    allow_upscale: true
+        resize_image_100:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 100
+                    mode: outbound
+                    allow_upscale: true
+        resize_image_h90:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    #widen: 90
+                    heighten: 90
+                    mode: outbound
+                    allow_upscale: true
+        resize_image_150:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 150
+                    mode: outbound
+                    allow_upscale: true
+        resize_image_200:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 200
+                    mode: outbound
+                    allow_upscale: true
+        resize_image_900:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                relative_resize:
+                    widen: 900
+                    mode: outbound
+                    allow_upscale: true
+                watermark_image:
+                    image: public/resources/images/embedded-logo.png
+                    size: 0.2
+                    position: topright
+        resize_image_scale_600_400:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                scale:
+                    dim: [ 600, 400 ]
+                    mode: outbound
+                    allow_upscale: true
+               # watermark_image:
+               #     image: public/resources/images/embedded-logo.png
+                   # size: 0.2
+               #     position: topright
+        resize_image_scale_730_310:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                thumbnail:
+                    size: [730,310]
+                    mode: outbound
+                    allow_upscale: true
+                watermark_image:
+                    image: public/resources/images/embedded-logo.png
+                   # size: 0.2
+                    position: topright
+        resize_image_scale_370_140:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                thumbnail:
+                    size: [370,140]
+                    mode: outbound
+                    allow_upscale: true
+        resize_image_scale_130_80:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                thumbnail:
+                    size: [130,80]
+                    mode: outbound
+                    allow_upscale: true
+        squared_thumbnail_200:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                thumbnail:
+                    size: [200,200]
+                    mode: outbound
+                    allow_upscale: true
+        squared_thumbnail_150:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                thumbnail:
+                    size: [150,150]
+                    mode: outbound
+                    allow_upscale: true
+        squared_thumbnail_283:
+            jpeg_quality: 85
+            png_compression_level: 7
+            filters:
+                thumbnail:
+                    size: [ 283,283 ]
+                    mode: outbound
+                    allow_upscale: true

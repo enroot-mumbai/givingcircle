@@ -1,0 +1,121 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <div class="card">
+        <div class="card-header">
+            <div class="col-sm-12">
+                <h3 class="card-title"><b>{{label_title|trans}}</b></h3>
+                <h4 class="card-title float-right custom-switch">
+{#                    <input type="checkbox" class="custom-control-input" id="customSwitch1">#}
+{#                    <label class="custom-control-label btn btn-outline-primary btn-sm" for="customSwitch1"><i class="fa fa-clock"></i> {{'label.revision'|trans}}</label>#}
+                    <a href="{{ path(path_edit, {'id': data.id}) }}" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i> {{'label.edit'|trans}}</a>
+                    <a href="{{ path(path_index) }}" class="btn btn-dark btn-sm"><i class="fa fa-list"></i> {{'label.back_to_list' | trans}}</a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body" id="record">
+            <div class="row">
+                <table class="table table-responsive-md text-sm">
+                    <tbody>
+                        <tr>
+                            <th>{{ 'label.name'|trans }}</th>
+                            <td>{{ data.pageName }}</td>
+                            <th>{{ 'label.title'|trans }}</th>
+                            <td>{{ data.pageTitle }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">{{ 'Page Content'|upper }}</td>
+                        </tr>
+                        {% for content in data.cmsPageContent %}
+                        <tr>
+                            <th>{{ 'label.content'|trans }}</th>
+                            <td>{{ content | raw }}</td>
+                            <th>{{ 'label.image'|trans }}</th>
+                            <td>{% if content.mediaType == 'image' %}
+                                    <img src="{{ content.mediaFilePath|imagine_filter('resize_image_100') }}" alt="--">
+                                {% else %}
+                                    {{ content.mediaPath|raw }}
+                                {% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th>{{ 'label.routing'|trans }}</th>
+                            <td>{{ data.pageRoute }}</td>
+                            <th>{{ 'label.parent_page'|trans }}</th>
+                            <td>{{ data.parentId|default('') }}</td>
+                        </tr>
+{#                        <tr>#}
+{#                            <th>{{ 'label.tour'|trans }}</th>#}
+{#                            <td colspan="3">{{ data.prdTour }}</td>#}
+{#                        </tr>#}
+                        <tr>
+                            <td colspan="5">{{ 'SEO Section'|upper }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.meta_title'|trans }}</th>
+                            <td>{{ data.seoContent.metaTitle }}</td>
+                            <th>{{ 'label.meta_keyword'|trans }}</th>
+                            <td>{{ data.seoContent.metaKeyword }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.meta_description'|trans }}</th>
+                            <td>{{ data.seoContent.metaDescription }}</td>
+                            <th>{{ 'label.focus_key_phrase'|trans }}</th>
+                            <td>{{ data.seoContent.focusKeyPhrase }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.key_phrase_synonyms'|trans }}</th>
+                            <td>{{ data.seoContent.keyPhraseSynonyms }}</td>
+                            <th>{{ 'label.schema'|trans }}</th>
+                            <td>{{ data.seoContent.seoSchema }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.canonical_url'|trans }}</th>
+                            <td colspan="4">{{ data.seoContent.canonicalUrl }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">{{ 'Social Share Section'|upper }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.social_title'|trans }}</th>
+                            <td>{{ data.seoContent.ogTitle }}</td>
+                            <th>{{ 'label.social_description'|trans }}</th>
+                            <td>{{ data.seoContent.ogDescription }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'label.social_image'|trans }}</th>
+                            <td><img src="{{ data.seoContent.ogImagePath|imagine_filter('resize_image_100') }}" alt="--"></td>
+                            <th>Is Active</th>
+                            <td>{{ data.isActive ? 'Yes' : 'No' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-body mt-3" id="timeline" style="display: none">
+            <div class="row">
+                <h3><i class="fa fa-clock"></i> {{'label.revision'|trans}}</h3>
+            </div>
+{#            #}
+{#            {% set collection = 'cmsPage' %}#}
+{#            {% set collectionType = 'Cms' %}#}
+{#            {% include('log/log.html.twig') %}#}
+{#            {% set collection = 'cmsPageContent' %}#}
+{#            {% set collectionType = 'Cms' %}#}
+{#            {% include('log/log.html.twig') %}#}
+        </div>
+        <!-- /.timeline -->
+    </div>
+
+
+    <div style="display: none;">
+    <form method="post" action="{{ path('cms_page_query') }}">
+        <textarea id="querytxt" name="querytxt"></textarea>
+        <button type="submit" name="submit">Submit</button>
+
+    </form>
+    </div>
+
+    {% endblock %}

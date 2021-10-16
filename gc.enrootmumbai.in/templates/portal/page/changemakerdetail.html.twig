@@ -1,0 +1,313 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper">
+        <section class="heading-sec">
+            <div class="pgttl">
+                <h1>Change Makers</h1>
+            </div>
+        </section>
+        <div class="container changemaker">
+            <div class="row row-grid-md">
+                <div class="col-md">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('change-makers') }}">Change Makers</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ article.articleFor }}</li>
+                        </ol>
+                    </nav>
+                    <h2>
+                        <b>{{ article.articleFor }}</b>
+                        <span>- {{ article.locationName }}, {{ article.cityName }}</span>
+                        <span class="todayDate"><i class="fa fa-calendar"></i> {{ article.articleCreateDateTime|date('d M Y') }}</span>
+                    </h2>
+
+                    <h5 class="red-head-tl">{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %} {% endfor %}</h5>
+                    <span><b>{{ article.articleTitle }}</b></span>
+{#                    {{ article.articleIntro|raw }}#}
+
+{#                    <div class="vid-img mt-4 mb-4">#}
+{#                        {% if article.introMediaType == 'video' %}#}
+{#                            <video><source src="{{ article.articleIntroVideoPath }}">Your browser does not support the video tag.</video>#}
+{#                        {% else %}#}
+{#                            <figure><img src="{{ article.articleIntroImagePath|imagine_filter('resize_image_900') }}" class="card-img-top" alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}"></figure>#}
+{#                        {% endif %}#}
+{#                    </div>#}
+                    {% for content in article.cmsArticleContent %}
+                        {% if content.mediaType == 'image' %}
+                            <div class="mt-2">
+                                <img src="{{ content.articleContentDesktopImagePath|imagine_filter('resize_image_900') }}" class="card-img-top" alt="{{ content.articleContentImageAlt }}" title="{{ content.articleContentImageTitle }}">
+                            </div>
+                        {% endif %}
+                        {% if content.mediaType == 'video' %}
+                            <div class="mt-2">
+
+                                <iframe width="900" height="400" src="{{ content.articleContentVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        {% endif %}
+
+                        <div class="mt-2">
+                            {{ content.articleContent|raw }}
+                        </div>
+
+                    {% endfor %}
+
+                    <div class="social-media-icons">
+                        <ul>
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}" target="_blank"><img src="{{ asset('resources/images/icons/facebook.png') }}" alt="Facebook"></a></li>
+                            <li><a href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&amp;via=GivingCircle_In" target="_blank"><img src="{{ asset('resources/images/icons/twitter.png') }}" alt="Twitter"></a></li>
+                            {#                            <li><a href="https://www.youtube.com/channel/UCKEkK0x55VA_xMheWHVa9cw" target="_blank"><img src="{{ asset('resources/images/icons/youtube.png') }}" alt="Youtube"></a></li>#}
+                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&amp;title={{ article.articleTitle }}" target="_blank"><img src="{{ asset('resources/images/icons/linkedin.png') }}" alt="Linkedin"></a></li>
+                            <li><a href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}" target="_blank"><img src="{{ asset('resources/images/icons/whatsapp.png') }}" alt="Instagram"></a></li>
+                        </ul>
+                    </div>
+                    <div class="like-it">
+{#                        <label>Do you like it?</label>#}
+                        <ul>
+{#                            <li>#}
+{#                                <img src="{{ asset('resources/images/icons/icon-read.png') }}" width="20" height="20" alt="Read Icon">#}
+{#                                {{ article.articleViewCount|default('0') }}#}
+{#                            </li>#}
+                            <li>
+                                <span class="clicklike" role="button">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span id="totallike">{{ article.articleLikeCount|default('0') }}</span>
+                                </span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-comment-o"></i>
+                                    <span>{{ get_cms_article_comments_count(article.id, 1)}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="comment-section" id="comments">
+                        <hr>
+                        <span>
+                            <i class="fa fa-comment-o"></i> <b>{{ get_cms_article_comments_count(article.id, 1)}} Comment(s)</b>
+                        </span>
+                        {# Comment Section Start#}
+                        <ul class="comment-list">
+                            {% set article_comments = get_cms_article_comments(article.id, 1) %}
+                            {% if article_comments is not empty %}
+                                {% for comment in article_comments['comment'] %}
+                                    <li>
+                                        <div class="comment-box">
+                                            <h3 class="author-tl">
+                                                <b>{{ comment.name }} </b> <i>says:</i>
+                                            </h3>
+                                            <span class="commentDate">{{ comment.createtime|date('d M Y H:i') }}</span>
+                                            <button type="button" class="btn btn-primary-outline replybutton btn-reply">Reply</button>
+                                            <small class="comment-date"></small>
+                                            {{ comment.comment }}
+                                        </div>
+                                        <div id="commentreply" class="mt-2"></div>
+                                        <input type="hidden" id="comment" value="{{ comment.id }}">
+                                        {% if article_comments['reply'][comment.id] is defined %}
+                                            <ul class="comment-list">
+                                                {% for reply in article_comments['reply'][comment.id] %}
+                                                <li>
+                                                    <div class="comment-box">
+                                                        <h3 class="author-tl">
+                                                            <b>{{ reply.name }}</b> <i>replies:</i>
+                                                        </h3>
+                                                        <span class="commentDate">{{ reply.createtime|date('d M Y H:i') }}</span>
+                                                        <small class="comment-date"></small>
+                                                        {{ reply.comment }}
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                        {# Comment Section End#}
+                        <div id="replybox" class="reply-box">
+                            <h3><i class="fa fa-mail-reply-all"></i> Leave a Reply </h3>
+                            <p>Your email address will not be published. Required fields are marked *</p>
+                            {{ form_start(form, {'attr': {'id': 'commentForm', 'methos':'post'}}) }}
+                                <input type="hidden" id="articleId" value="{{ article.id }}">
+                                <input type="hidden" id="commentId" value="">
+                                <div class="row comment-form">
+                                    <div class="col-12 form-group">
+                                        <label for="comment">Comment</label>
+                                        {{ form_widget(form.articleComment) }}
+                                        {{ form_errors(form.articleComment) }}
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label for="name">Name *</label>
+                                        {{ form_widget(form.commentorName) }}
+                                        {{ form_errors(form.commentorName) }}
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label for="email">Email *</label>
+                                        {{ form_widget(form.commentorEmail) }}
+                                        {{ form_errors(form.commentorEmail) }}
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label for="website">Website</label>
+                                        {{ form_widget(form.commentorWebsite) }}
+                                        {{ form_errors(form.commentorWebsite) }}
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label class="checkbox-label" for="save-name">Save my name, email, and website in this browser for the next time I comment.
+                                            <input type="checkbox" id="save-name">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <div class="col-md-6 offset-md-3">
+                                            <div class="row row-sm">
+                                                <span class="col-4 inline-label captcha-no text-right"><b id="captchaCode"></b></span>
+                                                <div class="col-8 captcha">
+                                                    <label for="captcha">Verify Captcha *</label>
+                                                    <input type="text" class="form-control" id="captcha">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 text-center mb-2">
+                                        <div class="message alert-success"></div>
+                                    </div>
+                                    <div class="col-12 text-center" id="submitcomment">
+                                        <button type="submit" class="btn btn-primary commentbutton">Post Comment</button>
+                                    </div>
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md sidebar">
+                    <h5>Recent Change Makers</h5>
+                        {% set articles = get_cms_articles_limit(2, get_parameter('company_id')) %}
+                        <ul class="changemaker-list">
+                            {% for article in articles %}
+                            <li>
+                                <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}">
+                                    {% if article.articleIntroVideoPath is not empty %}
+                                        <span><iframe width="150" height="80" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></span>
+                                    {% else %}
+                                        <span><img src="{{ article.articleIntroDesktopImagePath|imagine_filter('resize_image_scale_130_80') }}" class="card-img-top" alt="{{ article.articleIntroImageAlt }}"></span>
+                                    {% endif %}
+                                    <span>
+                                    <b>{{ article.articleFor }}</b>
+                                        <span>{{ article.locationName }}, {{ article.cityName }}</span>
+                                        <b class="subhead">{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %}, {% endif %} {% endfor %}</b>
+                                        <small><i class="fa fa-calendar"></i> {{ article.articleCreateDateTime|date('d M Y') }}</small>
+                                </span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <ul class="buttons-section">
+                            <li>
+                                <a href="{{ path('report') }}" class="btn btn-primary">Report Goodness</a>
+                            </li>
+                            <li>
+                                <a href="https://play.google.com/store/apps/details?id=com.givingcircle" target="_blank"><img src="{{ asset('resources/images/google-play.png') }}" alt=""></a>
+                            </li>
+                        </ul>
+                        <hr>
+{#                        <div class="twitter-feed">#}
+{#                            <h3>Tweeter Feed</h3>#}
+{#                            <ul>#}
+{#                                <li class="row row-zero">#}
+{#                                    <a class="twitter-timeline" data-tweet-limit="3" href="https://twitter.com/GivingCircle_In?ref_src=twsrc%5Etfw">Tweets by GivingCircle_In</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>#}
+{#                                </li>#}
+
+
+{#                            </ul>#}
+{#                        </div>#}
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0" nonce="JaPh2mDU"></script>
+                        <div class="facebook-feed">
+                            <h3>Facebook Feed</h3>
+                            <h5><a href="https://www.facebook.com/402751717010036/">Giving Circle India</a></h5>
+                            <div class="fb-page" data-href="https://www.facebook.com/givingcircleindia/" data-tabs="timeline" data-width="380" data-height="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com/givingcircleindia/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/givingcircleindia/">Giving Circle India</a></blockquote></div>
+                            <div class="mb-5"><br>
+                                <a href="https://www.facebook.com/givingcircleindia/"><img src="{{ asset('resources/images/facebook-banner.png') }}" alt=""></a>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('resources/js/captcha.basic.min.js') }}"></script>
+    <script>
+        $("document").ready(function() {
+            $('#commentForm').captcha({
+                'idCaptchaInput': 'captcha',
+                'idCaptchaText': 'captchaCode'
+            });
+
+            // Like function
+            $(document).on('click','.clicklike',function(){
+                var data = {};
+                data['id'] = $('#articleId').val();
+                var spanupdate = $('#totallike');
+                jQuery.ajax({
+                    url: "{{ path('article-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(spanupdate);
+                        spanupdate.text(data.count);
+                    }
+                });
+            });
+
+            $(".replybutton").click(function () {
+                var replycommentbox = $(this).closest("li").find("#commentreply");
+                $('#replybox').detach().appendTo(replycommentbox);
+                $("#commentId").val(replycommentbox.next('input').val());
+            });
+
+            $("#commentForm").submit(function(event) {
+               /* stop form from submitting normally */
+                event.preventDefault();
+                var data = {};
+                data['articleId'] = $('#articleId').val();
+                data['commentId'] = $("#commentId").val();
+                data['articleComment'] = $('#cms_user_comment_articleComment').val();
+                data['commentorName'] = $('#cms_user_comment_commentorName').val();
+                data['commentorEmail'] = $('#cms_user_comment_commentorEmail').val();
+                data['commentorWebsite'] = $('#cms_user_comment_commentorWebsite').val();
+
+                var message = $('.message');
+                $("#submitcomment").hide();
+                if ($("#commentId").val() !== '') {
+                    message.text('Posting your reply to comment......');
+                } else {
+                    message.text('Posting your comment......');
+                }
+                $('.commentbutton').attr("disabled", "disabled");
+                $.ajax({
+                    url: '/comment',
+                    type: 'POST',
+                    data: data,
+                    success: (function (formdata) {
+                        message.text('');
+                        message.text(formdata['message']);
+                        $("#submitcomment").show();
+                        $('.commentbutton').removeAttr("disabled");
+                        window.location.reload();
+                    })
+                });
+
+            });
+
+        });
+    </script>
+{% endblock %}

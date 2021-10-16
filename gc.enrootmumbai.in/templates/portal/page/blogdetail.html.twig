@@ -1,0 +1,529 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="row ">
+                <div class="col">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('blog') }}">{{ blog.pageTitle }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ article.articleTitle }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-sm-12 head-sec">
+                    <h2>{{ blog.pageTitle }}</h2>
+                    <p>
+                        {# Content Start from Cms  #}
+{#                        {% for content in blog.cmsPageContent %}#}
+                            {% set content = blog.cmsPageContent[0] %}
+                            {% include 'portal/page/_page_content_display.html.twig' %}
+{#                        {% endfor %}#}
+                        {# Content End from Cms  #}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col left-list">
+                    <div class="head">
+                        <h5><i class="fa fa-calendar-o"></i>{{ article.articleCreateDateTime|date('l, d M Y') }} {# Tuesday, 22 Dec 2020 #}</h5>
+                        <h2>{{ article.articleTitle }}</h2>
+                    </div>
+                    <div class="banner">
+                        {% if article.introMediaType == 'video' %}
+                            <video><source src="{{ article.articleIntroVideoPath }}">Your browser does not support the video tag.</video>
+                        {% else %}
+                            <figure><img src="{{ article.articleIntroDesktopImagePath|imagine_filter('resize_image_900') }}"
+                                         alt="{{ article.articleIntroImageAlt }}" title="{{ article.articleIntroImageTitle }}"></figure>
+                        {% endif %}
+                    </div>
+                    <div class="body-section">
+                        <div class="content">
+                            <p>{{ article.articleIntro|raw }}</p>
+                            {% for content in article.cmsArticleContent %}
+                                {#
+                                {% if content.articleContentDesktopImage is not empty %}
+                                    <div class="mt-2">
+                                        <img src="{{ content.articleContentDesktopImagePath|imagine_filter('resize_image_900') }}" class="card-img-top" alt="{{ content.articleContentImageAlt }}">
+                                    </div>
+                                {% endif %}
+                                #}
+                                <p>{{ content.articleContent|raw }}</p>
+
+                            {% endfor %}
+                        </div>
+                        <div class="social-media">
+                            <input type="hidden" id="article_id" value="{{ article.id }}">
+                            <ul>
+                                <li>
+                                    <a onclick="getShareCount()" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}"
+                                       target="_blank"><i class="fc-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a onclick="getShareCount()" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&amp;title={{ article.articleTitle }}"
+                                       target="_blank"><i class="fc-linkedin"></i></a>
+                                </li>
+                                <!--<li>
+                                    <a href="#" target="_blank"><i class="fc-instagram"></i></a>
+                                </li>-->
+                                <!--<li>
+                                    <a href="#" target="_blank"><i class="fc-youtube"></i></a>
+                                </li>-->
+                                <li>
+                                    <a onclick="getShareCount()" href="https://twitter.com/intent/tweet?text={{ article.articleTitle }}&amp;url={{ app.request.schemeAndHttpHost ~ app.request.requestUri }}&amp;via=GivingCircle_In"
+                                       target="_blank"><i class="fc-twitter"></i></a>
+                                </li>
+                                {# WhatsApp option not there in design #}
+                            </ul>
+                        </div>
+                        <section class="comment-section" data-aos="fade-right" data-aos-delay="200">
+                            <div class="comment-left">
+                                <div id="loginMsg" class="message alert-warning font-weight-bolder text-center" style="display: none;">Please Login to post a comment</div>
+                                <h2 id="#comments">Comments</h2>
+                                <ul class="comment-counter">
+                                    <li>
+                                        <a onclick="getLikeCount({{ article.id }},'totallike', 'article')" href="#">
+                                            <i class="far fa-thumbs-up"></i> <b><span id="totallike">{{ article.articleLikeCount|default('0') }}</span> Likes</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        {% if app.user %}
+                                            <a href="#">
+                                        {% else %}
+                                            <a href="#" onclick="getLoginMsg()">
+                                        {% endif %}
+                                            <i class="far fa-comment"></i> <b>{{ get_cms_article_comments_count(article.id, 1)}} Comments</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-share-alt"></i> <b><span id="totalshare">{{ article.articleShareCount|default('0') }}</span> Share</b>
+                                        </a>
+                                    </li>
+                                </ul>
+                                {% if app.user %}
+                                <div class="comment-area">
+                                    <div class="message alert-success" id="cmtmessage"></div>
+                                    <div class="input-group">
+                                         {{ form_start(form, {'attr': {'id': 'commentForm', 'methos':'post'}}) }}
+                                        <input type="hidden" id="articleId" value="{{ article.id }}">
+
+{#                                        <input type="text" class="search-input" id="comment_box" placeholder="Write a comment...">#}
+{#                                        <a href="#" onclick="postComment('')" class="btn btn-primary">Post</a>#}
+
+                                        {{ form_widget(form.articleComment) }}
+
+                                        <button type="submit" class="btn btn-primary commentbutton float-right">Post</button>
+
+                                        {{ form_row(form._token) }}
+                                        {{ form_end(form, {'render_rest': false}) }}
+
+                                    </div>
+                                </div>
+                                {#
+                                {% else %}
+                                <div class="comment-area">
+                                    <h4>Login to post a comment...</h4>
+                                </div>
+                                #}
+                                {% endif %}
+                                <ul class="comment-list">
+                                    {% set article_comments = get_cms_article_comments(article.id, 1) %}
+                                    {% if article_comments is not empty %}
+                                        {% for comment in article_comments['comment'] %}
+                                            <li>
+                                                <div class="image-sec">
+                                                    <figure>
+                                                        {% if(comment.userimage is not empty) %}
+                                                        <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                             alt="{{ comment.name }}" title="{{ comment.name }}">
+                                                        {% elseif(comment.userinitials is not empty) %}
+                                                            <div>{{ comment.userinitials }}</div>
+                                                        {% endif %}
+                                                    </figure>
+                                                </div>
+                                                <div class="comment-box" style="width: 100%">
+                                                    <div class="author-box">
+                                                        <h3 class="author-tl">
+                                                            <b>{{ comment.name }}</b>
+                                                        </h3>
+                                                        <p>{{ comment.comment }}</p>
+                                                    </div>
+                                                    <ul class="like-reply-list">
+                                                        <li><a onclick="getLikeCount({{ comment.id }}, 'comment_{{ comment.id }}','comment')" href="#">Like</a></li>
+                                                        {% if app.user %}
+                                                        <li><a href="#" onclick="showReplyBlock('{{ comment.id }}')" class="reply-btn">Reply</a></li>
+                                                        {% endif %}
+                                                        <li>{{ comment.createtime|time_diff}}</li>
+                                                    </ul>
+                                                    {# <div id="commentreply" class="mt-2"></div>
+                                                    <input type="hidden" id="comment" value="{{ comment.id }}">
+                                                    #}
+                                                    <div class="message alert-success" id="replymessage{{ comment.id }}"></div>
+                                                    <div class="reply-box" id="replybox{{ comment.id }}">
+                                                        <div id="replypostarea{{ comment.id }}" class="replypostarea" style="width: 100%; display: flow-root;">
+                                                            <div class="image-sec float-left">
+                                                                <figure>
+                                                                    {% if app.user %}
+                                                                    <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30')}}"
+                                                                         alt="{{ app.user.userName|default('') }}"
+                                                                         title="{{ app.user.userName|default('') }}">
+                                                                    {% endif %}
+                                                                </figure>
+                                                            </div>
+                                                            <div class="reply-area float-left" id="replyarea{{ comment.id }}" style="width: 90%;">
+                                                                <div class="input-group">
+
+                                                                    {% set rp_form =  reply_form.createView %}
+                                                                    {{ form_start(rp_form, {'attr': {'id': 'replyForm-'~comment.id, 'method':'post', 'class':'replyFrm' }}) }}
+                                                                    {{ form_widget(rp_form.articleComment, { 'id': 'reply_box_'~comment.id, 'attr': {'placeholder': 'Write your reply...' } } ) }}
+
+                                                                    <button type="submit" class="btn btn-primary replybutton">Post</button>
+
+                                                                    {{ form_row(rp_form._token) }}
+                                                                    {{ form_end(rp_form, {'render_rest': false}) }}
+{#                                                                    <input type="text" id="reply_box_{{ comment.id }}" class="search-input" placeholder="Write your reply...">#}
+{#                                                                    <a href="#" onclick="postComment('{{ comment.id }}')" class="btn btn-primary post-reply">Post</a>#}
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div style="width: 100%;  display: flow-root;">
+                                                        {% if article_comments['reply'][comment.id] is defined %}
+                                                        {% for reply in article_comments['reply'][comment.id] %}
+                                                            <div class="author-box" style="margin-top: 10px">
+                                                                <div class="image-sec">
+                                                                    <figure>
+                                                                        {% if(comment.userimage is not empty) %}
+                                                                            <img src="{{ comment.userimage|imagine_filter('resize_avatar_30') }}"
+                                                                                 alt="{{ comment.name }}" title="{{ comment.name }}">
+                                                                        {% elseif(comment.userinitials is not empty) %}
+                                                                            <div>{{ comment.userinitials }}</div>
+                                                                        {% endif %}
+                                                                    </figure>
+                                                                </div>
+                                                                <div class="comment-box">
+                                                                   <div class="author-box">
+                                                                        <h3 class="author-tl">
+                                                                            <b>{{ reply.name }}</b>
+                                                                        </h3>
+                                                                        <p>{{ reply.comment }}</p>
+                                                                    </div>
+                                                                    <ul class="like-reply-list">
+        {#                                                              <li><a href="#">Like</a></li>#}
+        {#                                                              <li><a href="#">Reply</a></li>#}
+                                                                        <li>{{ reply.createtime|time_diff}}</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="like-counter"><i class="far fa-thumbs-up"></i> <b><span id="comment_{{ comment.id }}">{{ comment.likecount }}</span></b>
+                                                </div>
+                                            </li>
+
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-auto right-list" data-aos="fade-right" data-aos-delay="200">
+                    <div class="recent-changemaker" data-aos="fade-right" data-aos-delay="200">
+                        <h3>Recent Blogs</h3>
+                        {% set recentarticles = get_cms_articles_limit(1, get_parameter('company_id')) %}
+                        <ul>
+                            {% for recentarticle in recentarticles %}
+                            <li>
+                                <a href="{{ path('blog-detail', {'articleSlugName': recentarticle.articleSlugName}) }}">
+                                    <div class="card-image">
+                                        {% if recentarticle.articleIntroVideoPath is not empty %}
+                                            <video><source src="{{ recentarticle.articleIntroVideoPath }}"></video>
+                                        {% else %}
+                                            <figure>
+                                                {# src="{{ asset('images/') }}{{ recentarticle.articleIntroDesktopImagePath }}" #}
+                                                <img src="{{ recentarticle.articleIntroDesktopImagePath|imagine_filter('resize_image_h90') }}"
+                                                     alt="{{ recentarticle.articleIntroImageAlt }}"
+                                                     title="{{ recentarticle.articleIntroImageTitle }}">
+                                            </figure>
+                                        {% endif %}
+                                    </div>
+                                    <div class="content">
+                                        <h5><i class="fa fa-calendar-o"></i> {{ recentarticle.articleCreateDateTime|date('l, d M Y') }}</h5>
+                                        <p><b>{{ recentarticle.articleTitle }}</b></p>
+                                    </div>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{{ path('blog') }}" class="btn btn btn-primary">Explore All Blogs</a>
+                    </div>
+                    <div class="facebook-box">
+                        <div class="heading">
+                            <h2>Facebook Feed</h2>
+                            <div class="gc-fb-logo">
+                                <a href="https://www.facebook.com/givingcircleindia/">
+                                    <img src="{{ asset('images/common') }}/fb-gc-logo.png" alt="Giving Cricle" title="Giving Cricle">
+                                </a>
+                            </div>
+                            {#<div>
+                                <h3>Giving Circle India</h3>
+                                <div class="links">
+                                    <a href="https://www.facebook.com/givingcircleindia/" class="link"><i class="fa fa-facebook-official"></i> Like Page</a>
+                                    <a href="https://www.facebook.com/givingcircleindia/" class="link"><b>##840</b> Likes</a>
+                                </div>
+                            </div>#}
+                        </div>
+                        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0" nonce="JaPh2mDU"></script>
+                        <div class="fb-post-container">
+                            <div id="fb-root"></div>
+                            <div class="fb-page" data-href="https://www.facebook.com/givingcircleindia/"
+                                 data-tabs="timeline" data-width="380" data-height=""
+                                 data-small-header="true" data-adapt-container-width="true"
+                                 data-hide-cover="true" data-show-facepile="false">
+{#                                <blockquote cite="https://www.facebook.com/givingcircleindia/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/givingcircleindia/">Giving Circle India</a></blockquote>#}
+                            </div>
+                            {#<iframe
+                                    id="fb_frame"
+                                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fgivingcircleindia&tabs=timeline&width=300&height=400&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId"
+                                    width="300" height="400" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                                    allowfullscreen="true"
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                            </iframe>#}
+                        </div>
+                    </div>
+                    <section class="recommend-changemaker" data-aos="fade-right" data-aos-delay="200">
+                        <div class="content-box">
+                            <div class="image-sec">
+                                <figure>
+                                    <img src="{{ asset('images/common/icons') }}/recommend-icon.png"
+                                         alt="Recommend a Change Maker around you"
+                                         title="Recommend a Change Maker around you">
+                                </figure>
+                            </div>
+                            <div class="content">
+                                {{ blog.cmsPageContent[1].pageContent|raw }}
+                                <a href="{{ path('report-goodness') }}" class="btn btn-primary">Recommend a Change Maker</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script>
+        $("document").ready(function() {
+
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static blog details-page cm-details');
+
+            $('.no-form').removeClass('form-control no-form');
+
+            $('.reply-box').css('display', 'block');
+            $('.comment-box').find('.author-box').show();
+            $('.comment-box').find('.like-reply-list').show();
+            $('.replypostarea').hide();
+
+            $('.owl-carousel').owlCarousel({
+                loop: false,
+                margin: 10,
+                nav: true,
+                dots: false,
+                navText: [
+                    "<i class='fas fa-arrow-left'></i>",
+                    "<i class='fas fa-arrow-right'></i>"
+                ],
+                autoplay: false,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 3
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 3
+                    }
+                }
+            });
+        });
+
+        $("#commentForm").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+            postComment('');
+        });
+
+        $(".replyFrm").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var formid = $(this)[0].id;
+            var commentid = formid.replace("replyForm-", "");
+            postComment(commentid);
+        });
+
+		function getLoginMsg() {
+
+			var message = $("#loginMsg");
+		
+			// message.text = "Please Login to post a comment";
+			message.slideDown(500, function(){
+				setTimeout(function(){
+                    message.slideUp(500);
+                 },3000);
+            });
+		}
+		
+        function postComment(commentid) {
+            var data = {};
+
+            data['articleId'] = $('#articleId').val();
+            data['commentId'] = commentid;
+
+            if (commentid !== '') {
+                var message = $('#replymessage'+commentid);
+                message.text('Posting your reply to comment......');
+                $('.replybutton').attr("disabled", "disabled");
+                data['articleComment'] = $('#reply_box_'+commentid).val();
+            } else {
+                var message = $("#cmtmessage");
+                message.text('Posting your comment......');
+                $('.commentbutton').attr("disabled", "disabled");
+                data['articleComment'] = $('#cms_user_comment_articleComment').val();
+            }
+
+            $.ajax({
+                url: '{{ path('comment') }}',
+                type: 'POST',
+                data: data,
+                success: (function (formdata) {
+
+                    // empty the text boxes
+                    if(commentid != '') {
+                        // hide current open reply box if replying
+                        $("#replypostarea"+commentid).hide();
+                        $('#reply_box_'+commentid).val('');
+                    } else {
+                        $('#cms_user_comment_articleComment').val('');
+                    }
+                    message.text('');
+                    message.text(formdata['message']);
+                    message.slideDown(500, function(){
+                        setTimeout(function(){
+                            message.text('');
+                            message.slideUp(500);
+                        },3000);
+                    });
+
+                    //$("#submitcomment").show();
+
+                    //enable all buttons
+                    $('.commentbutton').removeAttr("disabled");
+                    $('.replybutton').removeAttr("disabled");
+
+                    //window.location.reload();
+                })
+            });
+        }
+
+        function getLikeCount(articleId, spanupdateId, source) {
+            var data = {};
+            //var articleId = $("#article_id").val();
+            data['id'] = articleId;
+
+            var spanupdate = $("#"+spanupdateId);
+            if(source == 'article') {
+                jQuery.ajax({
+                    url: "{{ path('article-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(spanupdate);
+                        spanupdate.text(data.count);
+                    }
+                });
+            } else {
+                jQuery.ajax({
+                    url: "{{ path('comment-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(spanupdate);
+                        spanupdate.text(data.count);
+                    }
+                });
+            }
+        }
+
+        function getShareCount() {
+            var data = {};
+            var articleId = $("#article_id").val();
+            data['id'] = articleId;
+
+            var spanupdate = $("#totalshare");
+            jQuery.ajax({
+                url: "{{ path('article-share') }}",
+                data: data,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    // console.log(spanupdate);
+                    spanupdate.text(data.count);
+                }
+            });
+        }
+
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).siblings('.social-media').slideToggle();
+        });
+
+        $('.social-share-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).children('.fa-share-alt').addClass('toggle');
+            $(this).parents('.share-view').siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        $('.share-link').on('click', function (e) {
+            e.preventDefault();
+            $(this).siblings('.share-sec').find('.social-media').slideToggle();
+        });
+        $('.fa-close').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent('.social-media').slideToggle();
+            $(this).parents('.share-sec').find('.fa-share-alt').removeClass('toggle');
+        });
+
+        function showReplyBlock(commentid) {
+            $("#replypostarea"+commentid).toggle();
+            //$("#replyarea"+commentid).toggle();
+        }
+
+        $(".price-block li a").click(function (e) {
+            e.preventDefault();
+            $(".price-block li a").removeClass('active');
+            $(this).addClass('active');
+        });
+
+    </script>
+{% endblock %}

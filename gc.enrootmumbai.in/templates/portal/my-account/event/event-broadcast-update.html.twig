@@ -1,0 +1,107 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/datatables.min.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs events activated">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec">
+                            <h3>Broadcast / Updates</h3>
+                            <a href="{{ path('event-info') }}" class="btn btn-primary-o"><i class="fa fa-arrow-left"></i> Back</a>
+                        </div>
+                        {{ include('portal/my-account/event/event-inline-details.html.twig') }}
+
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <p class="text-center">Send a message or update to all your members regarding an upcoming event.</p>
+                                <form method="post" id="frmBroadCastUpdate" enctype="multipart/form-data">
+                                    <div class="main-form-group">
+                                        <textarea name="textBroadCastMessage" id="textBroadCastMessage"
+                                        class="form-control lg-height" placeholder="e .g. There is an event you might like to be a part"  onkeyup='checkWordLen(this);'></textarea>
+                                        <div class="textarea-instru">
+                                            <small>A maximum of 50 words only </small>
+                                            <small class="text-right ml-auto">Word count - <b class="words-left">0</b><b>/50</b>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="uploadedDocument">
+                                        <label>Upload Image</label>
+
+                                        <div class="custom-file-upload">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="customFile"
+                                                       name="filename">
+                                                <label class="custom-file-label" for="customFile">Image format - jpg, png and size 40 KB</label>
+                                            </div>
+                                        </div>
+                                        <div class="divPreviewImg" style="display: none;">
+                                            <img class="previewImg" style="height: 100px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-sec mt-3 mb-5 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                                        <a href="#" id="all-members-tbl-dtls" class="btn btn-primary">Send to all Members</a>
+                                        <a href="#" id="participant-tbl-dtls" class="btn btn-primary">Send to all Participants</a>
+                                    </div>
+                                    <input type="hidden" name="hdnBroadCastMembers" id="hdnBroadCastMembers" value="" />
+                                    <input type="hidden" name="hdnSentTo" id="hdnSentTo" value="" />
+                                </form>
+                            </div>
+                        </div>
+                        {{ include('portal/my-account/event/participant-dtls.html.twig') }}
+                        {{ include('portal/my-account/event/members-dtls.html.twig') }}
+                        <h5 class="my-2">Past Messages List</h5>
+                        <div class="table-responsive cust-tbl tbl-borderless tbl-messgelist">
+                            <table class="table example">
+                                <thead>
+                                <tr>
+                                    <th class="col-sr-no no-sort"><label class="sort-order">Sr. No.</label></th>
+                                    <th class="col-date"><label class="sort-order">Date</label></th>
+                                    <th class="col-message no-sort"><label class="sort-order">Message</label></th>
+                                    <th class="col-to"><label class="sort-order">To</label></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for message in  arrBroadCastMessages  %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ message.createdOn | date('d M Y') }}</td>
+                                            <td>
+                                                {{ message.message }}
+                                            </td>
+                                            {% if message.sentTo == 'Individual' %}
+                                                <td>Individual Members</td>
+                                            {% else %}
+                                                <td>All Members</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script src="{{ asset('resources/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/portal/my-account/event-broadcast-update.js') }}"></script>
+{% endblock %}

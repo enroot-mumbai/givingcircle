@@ -1,0 +1,75 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <div class="wrapper login-container login-other">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                         class="breadcrumb d-flex justify-content-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Register</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-8 col-md-8 col-12 mx-auto">
+                    <div class="text-center">
+                        <div class="login-head" data-aos="fade-right" data-aos-delay="100"><img
+                                    src="../resources/images/common/icons/icon-submitted.png">
+                        </div>
+                        <h2>Thank you!</h2>
+                        <h3 class="mt-5 pb-5">You have successfully registered your account.</h3>
+                    </div>
+
+                    <div class="verfication-box">
+                        <form class="form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <a href="{{ path('login-email') }}"
+                                           class="btn btn-primary btn-next">Login</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").addClass("login-page");
+            let timerOn = true;
+            function timer(remaining) {
+                var m = Math.floor(remaining / 60);
+                var s = remaining % 60;
+                m = m < 10 ? '0' + m : m;
+                s = s < 10 ? '0' + s : s;
+                document.getElementById('timer').innerHTML = m + ':' + s;;
+                remaining -= 1;
+                if (remaining >= 0 && timerOn) {
+                    setTimeout(function () {
+                        timer(remaining);
+                    }, 1000);
+                    return;
+                }
+                if (!timerOn) {
+                    // Do validate stuff here
+                    return;
+                }
+                // Do timeout stuff here
+                // alert('Timeout for otp');
+                document.getElementById('resendLink').style.display = 'block';
+                document.getElementById('timerBlock').style.display = 'none';
+            }
+            timer(119);
+        });
+    </script>
+{% endblock %}

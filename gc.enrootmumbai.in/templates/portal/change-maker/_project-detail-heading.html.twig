@@ -1,0 +1,254 @@
+{% set isUserJoined = false %}
+{% set requestStatus = '' %}
+{% if app.user %}
+    {% set isUserJoined = get_user_join_status( get_parameter('company_id'), app.user.id, circle.id) %}
+    {% set requestStatus = get_pending_request_status( get_parameter('company_id'), app.user.id, circle.id) %}
+
+{% endif %}
+
+<div class="head-sec">
+    <div class="container">
+        <div class="row ">
+            <div class="col">
+                <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                     class="breadcrumb d-flex justify-content-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa
+                                fc-home"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="{{ path('change-makers-project-list') }}">Change
+                                Maker Projects</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ circle.circle }}
+                        </li>
+                    </ol>
+                </nav>
+                <section class="gc-circle" data-aos="fade-down" data-aos-delay="200">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure><img src="{{ asset('images') }}/{{ circle.profileImagePath }}"
+                                         alt="">
+                            </figure>
+                            <span class="ngo-type">NGO <br>80G - Tax Benefit</span>
+                        </div>
+                        <div class="card-body">
+                            <h2>{{ circle.circle }}
+                                <div class="share-sec">
+                                    <a href="javascript:;" class="social-share-btn"><i
+                                                class="fas fa-share-alt"></i></a>
+                                    <div class="social-media">
+                                        <a href="#" class="fa fa-close"></a>
+                                        <ul>
+                                            <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                            <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                            <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                            <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </h2>
+                            <h3 class="orange">
+                                {% for interest in circle.trnAreaOfInterests %}
+                                    <em>{{ interest }}</em>
+                                {% endfor %}
+                            </h3>
+                            <h5><i class="fas fc-user"></i> {{ circle.appUser.appUserInfo.userFirstName }} {{ circle.appUser.appUserInfo.userLastName }}</h5>
+                            <h5><i class="fas fa-map-marker-alt"></i>  {{ circle.mstCity }}, {{ circle.mstState }}, {{ circle.mstCountry }}</h5>
+                            <h4><i class="far fa-calendar"></i> Since {{ circle.createdOn|date('F d, Y') }}</h4>
+{#                            {% set nCount = get_circle_count_data(circle.id) %}#}
+                            <div class="share-btn-section">
+                                <ul class="share-view">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fc-book-open"></i>
+                                            <b>{{ nCount.readCount }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" class="circleLike" circleId="{{ circle.id}}">
+                                            <i class="far fa-thumbs-up"></i>
+                                            <b class="circleLike_{{ circle.id }}">{{ nCount.likeCount }}</b>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#comments">
+                                            <i class="far fa-comment"></i>
+                                            <b>{{ nCount.commentCount }}</b>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <ul class="inline-links">
+
+                                <li>
+                                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                        {% if app.user is not defined or app.user is null %}
+                                            <a href="javascript:void(0)" onclick="requestToJoin('{{ circle.id }}')" class="btn-primary">Join</a>
+                                        {% else %}
+                                            {% if isUserJoined == true %}
+                                            {% else %}
+                                                {# project is open but not yet joined, give him button to join #}
+                                                <a href="javascript:void(0)" onclick="requestToJoin('{{ circle.id }}')" class="btn-primary">Join</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% if isUserJoined == true %}
+                                        {% else %}
+                                            {% for message in app.flashes('requestjoinsuccess') %}
+                                                <div class="alert alert-success">
+                                                    {{ message }}
+                                                </div>
+                                            {% endfor %}
+                                            {% if requestStatus == '' %}
+                                                <a href="javascript:void(0);" onclick="requestToJoin('{{ circle.id }}')" class="btn-primary">Request To Join</a>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    {% endif %}
+                                </li>
+                                {% if fundEventCount > 0 %}
+                                    {# if fund event exists #}
+
+                                    {% if fundEventCount > 1 %}
+                                        {# if more than 1 fund event exists #}
+
+                                        {% if app.user %}
+                                            {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                {% set isUserJoined = true %}
+                                            {% else %}
+                                                {% set isUserJoined = get_user_join_status( get_parameter('company_id'), app.user.id, circle.id) %}
+                                            {% endif %}
+                                            {% if isUserJoined == true %}
+                                                {# if user logged in and joined - show button - throw to list #}
+                                                <li>
+                                                    <a href="{{ path('event-listing', { 'project_name':circle.circle }) }}">Donate</a>
+                                                </li>
+                                            {% else %}
+                                                {# if user logged in and not joined project - don't show button #}
+                                            {% endif %}
+                                        {% else %}
+                                            {# if user not logged in - show button - throw to list #}
+                                            <li>
+                                            {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                <a href="{{ path('donate-before-login', { 'circle': circle.id, 'type': circle.mstJoinBy.joinBy, 'project_name':circle.circle }) }}">Donate</a>
+                                            {% else %}
+                                                <a href="javascript:void(0);" onclick="alert('Please submit Request to Join inorder to proceed')">Donate</a>
+                                            {% endif %}
+                                            </li>
+                                        {% endif %}
+
+                                    {% else %}
+                                        {# if only one fund event - get event id #}
+                                        {% set fundEventId = get_fund_event_id(get_parameter('company_id'),circle.id ) %}
+
+                                        {% if app.user %}
+                                            {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                {% set isUserJoined = true %}
+                                            {% else %}
+                                                {% set isUserJoined = get_user_join_status( get_parameter('company_id'), app.user.id, circle.id) %}
+                                            {% endif %}
+                                            {% if isUserJoined == true %}
+                                                {# if user logged in and joined - show button - throw to detail page #}
+                                                <li>
+                                                    <a href="{{ path('event-details', { 'id': fundEventId }) }}">Donate</a>
+                                                </li>
+                                            {% else %}
+                                                {# if user logged in and not joined project - don't show button #}
+                                            {% endif %}
+                                        {% else %}
+                                            {# if user not logged in - show button - throw to detail page #}
+                                            <li>
+                                                {% if circle.mstJoinBy.joinBy == 'Open' %}
+                                                    <a href="{{ path('donate-before-login', { 'circle': circle.id, 'type': circle.mstJoinBy.joinBy, 'id': fundEventId }) }}">Donate</a>
+                                                {% else %}
+                                                    <a href="javascript:void(0);" onclick="alert('Please submit Request to Join inorder to proceed')">Donate</a>
+                                                {% endif %}
+
+                                            </li>
+                                        {% endif %}
+
+                                    {% endif %}
+                                {% else %}
+                                    {# if no fund event created - don't show button  #}
+                                {% endif %}
+                                {#<li>
+                                    <a href="{{ path('be-a-change-maker') }}">Be A Change Maker</a>
+                                </li>#}
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="gc-details-fixed">
+        <div class="container gc-circle">
+            <h3>{{ circle.circle }}</h3>
+            <ul class="gc-fixed-list">
+                <li class="share-btns">
+                    <div class="share-btn-section">
+                        <ul class="share-view">
+                            <li>
+                                <a href="#">
+                                    <i class="fc-book-open"></i>
+                                    <b>{{ nCount.readCount | default(0)  }}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="circleLike" circleId = "{{ circle.id
+                                }}">
+                                    <i class="far fa-thumbs-up"></i>
+                                    <b class="circleLike_{{ circle.id }}">{{ nCount.likeCount | default(0)  }}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#comments">
+                                    <i class="far fa-comment"></i>
+                                    <b>{{ nCount.commentCount | default(0)  }}</b>
+                                </a>
+                            </li>
+                            <li class="share-sec">
+                                <a href="javascript:;" class="social-share-btn"><i
+                                            class="fas fa-share-alt"></i></a>
+                                <div class="social-media">
+                                    <a href="#" class="fa fa-close"></a>
+                                    <ul>
+                                        <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})}}" target="_blank"><i class="fc-facebook"></i></a></li>
+                                        <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://twitter.com/intent/tweet?text={{ circle.circle }}&amp;url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;via=GivingCircle_In" target="_blank"><i class="fc-twitter"></i></a></li>
+                                        <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.schemeAndHttpHost ~  path('project-details', {'id': circle.id}) }}&amp;title={{ circle.circle }}" target="_blank"><i class="fc-linkedin"></i></a></li>
+                                        <li><a onclick="getCircleShareCount('{{ circle.id }}')" href="https://api.whatsapp.com/send?phone={{ get_whatsapp_number(true) }}&text={{ app.request.schemeAndHttpHost ~ path('project-details', {'id': circle.id})  }}" target="_blank"><i class="fc-whatsapp"></i></a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    {% if circle.mstJoinBy.joinBy == 'Open' %}
+                        {% if app.user is not defined or app.user is null %}
+                            <a href="javascript:void(0)" onclick="requestToJoin('{{ circle.id }}')" class="btn-primary">Join</a>
+                        {% else %}
+                            {% if isUserJoined == true %}
+                            {% else %}
+                                {# project is open but not yet joined, give him button to join #}
+                                <a href="javascript:void(0)" onclick="requestToJoin('{{ circle.id }}')" class="btn-primary">Join</a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if isUserJoined == true %}
+                        {% else %}
+                            {% for message in app.flashes('requestjoinsuccess') %}
+                                <div class="alert alert-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                            {% if requestStatus == '' %}
+                                <a href="javascript:void(0);" onclick="requestToJoin('{{ circle.id }}')" class="btn-primary">Request To Join</a>
+                            {% endif %}
+                        {% endif %}
+
+                    {% endif %}
+                    {#<a href="{{ path('be-a-change-maker') }}" class="btn btn-secondary">Be A Change Maker</a>#}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+            </div>
+            <nav class="card-content collapse show">
+                <div class="card-body card-dashboard ">
+                    <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                        <thead>
+                        <tr>
+                            <th>{{ 'label.name'|trans|upper }}</th>
+                            <th>{{ 'label.iso3'|trans|upper }}</th>
+                            <th>{{ 'label.is_active'|trans|upper }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for mst_currency in mst_currencies %}
+                        <tr>
+                            <td>{{ mst_currency.currency }}</td>
+                            <td>{{ mst_currency.iso3 }}</td>
+                            <td>{{ mst_currency.isActive ? 'Yes':'No' }}</td>
+                            <td>
+                                <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                    <a href="{{ path(path_edit, {'id': mst_currency.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">{{'info.no_record_found'|trans}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody></table>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="text-muted">{{ 'info.total_records'|trans }} {{ mst_currencies.getTotalItemCount }}</div>
+                        </div>
+                        <div class="col-sm-7">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    {{ knp_pagination_render(mst_currencies) }}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

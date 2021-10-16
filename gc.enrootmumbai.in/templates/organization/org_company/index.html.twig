@@ -1,0 +1,67 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><a href="{{ path(path_add) }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+            </div>
+            <nav class="card-content collapse show">
+                <div class="card-body card-dashboard ">
+                    <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                        <thead>
+                        <tr>
+                            <th>{{ 'label.id'|trans|upper }}</th>
+                            <th>{{ 'label.company_logo'|trans|upper }}</th>
+                            <th>{{ 'label.name'|trans|upper }}</th>
+                            <th>{{ 'label.website'|trans|upper }}</th>
+                            <th>{{ 'label.fiscal_year'|trans|upper }}</th>
+                            <th>{{ 'label.currency'|trans|upper }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for org_company in org_companies %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><img src="{{ org_company.companyLogoFilePath|imagine_filter('resize_logo_120') }}" alt="{{ org_company.company }}"></td>
+                            <td>{{ org_company.company }}</td>
+                            <td>{{ org_company.companyWebsite }}</td>
+                            <td>{{ org_company.companyFiscalStartMonth|date('d M') }} - {{ org_company.companyFiscalEndMonth|date('d M') }}</td>
+                            <td>{{ org_company.mstcurrency }}</td>
+                            <td>
+                                <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                    <a href="{{ path(path_show, {'id': org_company.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>&nbsp;
+                                    <a href="{{ path(path_edit, {'id': org_company.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                    <a href="{{ path('org_company_office_index', {'company_id': org_company.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-building"></i></button></a>&nbsp
+                                    <a href="{{ path('org_company_user_index', {'company_id': org_company.id}) }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-users"></i></button></a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody></table>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="text-muted">{{ 'info.total_records'|trans }} {{ org_companies.getTotalItemCount }}</div>
+                        </div>
+                        <div class="col-sm-7">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    {{ knp_pagination_render(org_companies) }}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

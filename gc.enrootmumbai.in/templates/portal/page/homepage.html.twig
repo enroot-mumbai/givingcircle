@@ -1,0 +1,323 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+<!--Main Wrapper Starts-->
+<div class="wrapper">
+    {% for page in get_cms_page(get_parameter('company_id')) %}
+        {% if app.request.get('_route') == page.pageRoute%}
+            {% set banners = get_cms_page_banner(page.id) %}
+            {% if banners is not empty %}
+    <section class="banner-carousel slider-item">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            {% if banners|length > 1 %}
+                <ol class="carousel-indicators">
+                    {% set counter = 0 %}
+                    {% for banner in banners %}
+                        <li data-target="#carouselExampleCaptions" data-slide-to="{{ counter }}" {% if banner.sequenceNo == 1 %} class="active" {% endif %}></li>
+                        {% set counter = counter + 1 %}
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            <div class="carousel-inner">
+                {% for banner in banners %}
+                    <div class="carousel-item {% if banner.sequenceNo == 1 %}active{% endif %}">
+                       {%  if (banner.bannerMediaType == 'image') %}
+                        <figure><img src="{{ asset('images/files') }}/{{ banner.bannerDesktopImage}}" alt="{{ banner.bannerImageAlt }}" title="{{ banner.bannerImageTitle }}"></figure>
+                        <div class="container">
+                            <div class="carousel-caption d-md-block">
+                                <div class="caption">
+                            {{ banner.bannerDescription|raw }}
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                           {{ banner.bannerVideoPath|raw }}
+                            {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% if banners|length > 1 %}
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+                </a>
+            {% endif %}
+        </div>
+    </section>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <section class="about-sec gray-bg">
+        <div class="about-wrapper">
+            <h2>Impact So Far And Counting </h2>
+            <ul class="counting-sec">
+                <li>
+                    <span class="count-no count">77</span>
+                    <a href="#" class="count-text">
+                        <span><i class="fa fa-calendar"></i> Events Created</span>
+                    </a>
+                </li>
+                <li>
+                    <span class="count-no count">66</span>
+                    <a href="#" class="count-text">
+                        <span><i class="fa fa-cust-circle"></i> Circles Created</span>
+                    </a>
+                </li>
+                <li>
+                    <span class="count-no count">191</span>
+                    <a href="#" class="count-text">
+                        <span><i class="fa fa-user-o"></i> Members Connected</span>
+                    </a>
+                </li>
+            </ul>
+            <h2 class="hrz-divider"><span>About Giving Circle</span></h2>
+            <p>We are a circle, a group that welcomes like-minded people, who are willing to engage in the art of giving, sharing and serving. Giving is a journey. An act that gratifies one’s consciousness to maintain the balance of life, especially, when you Give to a cause that is close to the heart. Every human being has a side that believes in giving back to society. Here we step in to unite participatory philanthropists by giving them a platform that offers credibility and gratification. </p>
+            <div class="btn-block text-center">
+                <a href="{{ path('about-us') }}" class="btn btn-primary-outline mt-2">Read More</a>
+            </div>
+        </div>
+    </section>
+    <section class="pt-0"  data-aos="fade-down" data-aos-easing="linear" data-aos-duration="700">
+        <div class="container">
+            <h2>Change Makers</h2>
+            <p>The ones that are crazy enough to think they can change the world are the ones that eventually do.</p>
+            <p>As <b>Mahatma Gandhi</b> once said ‘you must be the change that you wish to see in the world”.  And our change makers are doing exactly that.  Leading the path with awe inspiring projects that are focused towards creating long term impact for the community and world as a whole.</p>
+        </div>
+    </section>
+    {% set articles = get_cms_articles_limit(2, get_parameter('company_id')) %}
+    <section class="gray-bg">
+        <div class="container">
+            <div id="ChildVerticalTab_1" class="cust-ver-tabs">
+                <div class="resp-tabs-container ver_1" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">
+                    {% for article in articles %}
+                        <div data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">
+                        {% if article.articleIntroVideoPath is not empty %}
+                            <span class="vid-wrapper"><iframe width="748" height="310" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></span>
+                        {% else %}
+                            <span class="vid-wrapper"><img src="{{ article.articleIntroDesktopImagePath|imagine_filter('resize_image_scale_730_310') }}" class="card-img-top" alt="{{ article.articleIntroDesktopImage }}"></span>
+                        {% endif %}
+                            <div class="info-dsc">
+                                <h2>{{ article.articleFor }} <span>- {{ article.locationName }}, {{ article.cityName }}</span> <small><i class="fa fa-calendar"></i> {{ article.articleCreateDateTime|date('d M Y') }}</small></h2>
+                                <b class="subhead">{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</b><br>
+                                <b>{{ article.articleTitle }}</b><br>
+                                {{ article.articleIntro|truncate(180)|raw }}<br>
+
+                                <a href="{{ path('change-maker-detail', {'articleSlugName': article.articleSlugName}) }}" class="btn btn-primary-outline" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">Read The Story</a>
+                                <div class="like-it">
+{#                                            <label>Do you like it?</label>#}
+                                            <ul>
+{#                                                <li>#}
+{#                                                    <img src="{{ asset('resources/images/icons/icon-read.png') }}" width="20" height="20" alt="Read Icon">#}
+{#                                                    <span>{{ article.articleViewCount|default('0') }}</span>#}
+{#                                                </li>#}
+                                                <li>
+                                                    <input type="hidden" id="article" value="{{ article.id }}">
+                                                    <span class="clicklike" role="button">
+                                                        <i class="fa fa-heart-o"></i>
+                                                        <span id="totallike">{{ article.articleLikeCount|default('0') }}</span>
+                                                    </span>
+                                                </li>
+
+                                             </ul>
+                                        </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <ul class="resp-tabs-list ver_1">
+                    {% set duration = 300 %}
+                    {% for article in articles %}
+
+                    <li  data-aos="fade-down" data-aos-easing="linear" data-aos-duration="{{ duration + 100 }}">
+                        {% if article.articleIntroVideoPath is not empty %}
+                            <span><iframe width="150" height="80" src="{{ article.articleIntroVideoPath|raw }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></span>
+                        {% else %}
+                        <span><img src="{{ article.articleIntroDesktopImagePath|imagine_filter('resize_image_scale_130_80') }}" class="card-img-top" alt="{{ article.articleIntroDesktopImage }}"></span>
+                        {% endif %}
+
+                        <span>
+                        <b>{{ article.articleFor }}</b>
+                        <span>{{ article.locationName }}, {{ article.cityName }}</span>
+                        <b class="subhead">{% for interest in article.mstAreaInterest %}{{ interest }}{% if not loop.last %},{% endif %} {% endfor %}</b>
+                        <small><i class="fa fa-calendar"></i> {{ article.articleCreateDateTime|date('d M Y') }}</small>
+                    </span>
+                    </li>
+                        {% set duration = duration + 100 %}
+                    {% endfor %}
+                </ul>
+                <span class="read-story"><a href="{{ path('change-makers') }}" class="btn btn-primary-outline btn-xl" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">Explore All Change Makers Stories</a></span>
+
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 data-aos="fade-down" data-aos-easing="linear" data-aos-duration="300">Circles Of Goodness <a href="https://play.google.com/store/apps/details?id=com.givingcircle" target="_blank" class="google-play"><img src="resources/images/google-play.png" alt=""></a></h2>
+            <p data-aos="fade-down" data-aos-easing="linear" data-aos-duration="400">The circle is long… it has no end. Once initiated it can go spreading goodness infinitely. </p>
+            <p data-aos="fade-down" data-aos-easing="linear" data-aos-duration="500">Our circles of goodness are <b>curated collaborative philanthropical</b> programs that support people to come together and be the change they want to see in the world. Through these support systems our changemaker and change collaborators are able to bring about long term impact which was impossible to be achieved individually. </p>
+            <div class="card-deck cust-cards">
+                <div class="card" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="300">
+                    <div class="card-body">
+                        <img src="resources/images/circle-img-nasik.png" alt="">
+                        <h5 class="card-title">Swapnil's SANGHARSH Circle</h5>
+                        <b>Nasik</b>
+                        <b class="subhead">Higher Education</b>
+                        <p class="card-text">Operational since November 14, 2019</p>
+{#                        <ul class="circle-dtls">#}
+{#                            <li><i class="fa fa-user-o"></i> <b>7</b> Members</li>#}
+{#                            <li><i class="fa fa-calendar"></i> <b>6</b> Events</li>#}
+{#                            <li><i class="fa fa-thumbs-up"></i> <b>0</b> Like</li>#}
+{#                        </ul>#}
+                        <div class="btn-block">
+                            <a href="https://app.givingcircle.in/circle-details/94" target="_blank" class="btn btn-primary-outline">View Details</a>
+                            <a href="https://play.google.com/store/apps/details?id=com.givingcircle" target="_blank" class="btn btn-primary">Join Circle</a>
+                        </div>
+                        <a href="https://app.givingcircle.in/circle-details/94" target="_blank" class="card-text text-affiliated">Affiliated <i class="fa fa-lock"></i></a>
+                    </div>
+                </div>
+                <div class="card" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="700">
+                    <div class="card-body">
+                        <img src="resources/images/circle-img2-mumbai.png" alt="">
+                        <h5 class="card-title">Saaraakassh's Daanam Circle</h5>
+                        <b>Mumbai City</b>
+                        <b class="subhead">Rural Development</b>
+                        <p class="card-text">Operational since August 8, 2019</p>
+{#                        <ul class="circle-dtls">#}
+{#                            <li><i class="fa fa-user-o"></i> <b>17</b> Members</li>#}
+{#                            <li><i class="fa fa-calendar"></i> <b>1</b> Events</li>#}
+{#                            <li><i class="fa fa-thumbs-up"></i> <b>0</b> Like</li>#}
+{#                        </ul>#}
+                        <div class="btn-block">
+                            <a href="https://app.givingcircle.in/circle-details/43" target="_blank" class="btn btn-primary-outline">View Details</a>
+                            <a href="https://play.google.com/store/apps/details?id=com.givingcircle" target="_blank" class="btn btn-primary">Join Circle</a>
+                        </div>
+{#                        <a href="https://app.givingcircle.in/circle-details/43" target="_blank" class="card-text text-affiliated">Affiliated <i class="fa fa-lock"></i></a>#}
+                    </div>
+                </div>
+                <div class="card" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1200">
+                    <div class="card-body">
+                        <img src="resources/images/circle-img-nasik.png" alt="">
+                        <h5 class="card-title">Suraj's Nurturing Minds-Qua</h5>
+                        <b>Nasik</b>
+                        <b class="subhead">Primary Education</b>
+                        <p class="card-text">Operational since November 14, 2019</p>
+{#                        <ul class="circle-dtls">#}
+{#                            <li><i class="fa fa-user-o"></i> <b>6</b> Members</li>#}
+{#                            <li><i class="fa fa-calendar"></i> <b>5</b> Events</li>#}
+{#                            <li><i class="fa fa-thumbs-up"></i> <b>0</b> Like</li>#}
+{#                        </ul>#}
+                        <div class="btn-block">
+                            <a href="https://app.givingcircle.in/circle-details/82" target="_blank" class="btn btn-primary-outline">View Details</a>
+                            <a href="https://play.google.com/store/apps/details?id=com.givingcircle" target="_blank" class="btn btn-primary">Join Circle</a>
+                        </div>
+                        <a  href="https://app.givingcircle.in/circle-details/82" target="_blank" class="card-text text-affiliated">Affiliated <i class="fa fa-lock"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-block text-center" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">
+                <a href="https://app.givingcircle.in" target="_blank" class="btn btn-primary-outline btn-lg mb-4">Explore All Circles</a>
+            </div>
+        </div>
+    </section>
+    <section class="gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="300">
+                    <h2>How It Works</h2>
+                    <p><b>At Giving Circle, we aim to simplify the process of giving in an effort to create a movement based on giving. </b></p>
+                    <p>Giving Circle app and website equip you with a complete toolkit to establish, organise and execute a plan to bring about social change. Why take our word for it? Download our app and experience the goodness of Giving right away.</p>
+                    <p>It really has never been this easy to Give. It also has never been more gratifying to experience being a part of this special Circle. Make a start now, there truly will be no better way to live than to give.</p>
+                    <a href="{{ path('how-it-works') }}" class="btn btn-primary-outline" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">Know more</a>
+                </div>
+                <div class="col-md-6 col-sm-12" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">
+                    <!--img src="resources/images/video-bg.png" alt="" class="vid-img"-->
+                    <iframe class="vid-img" width="100%" height="300" src="https://www.youtube.com/embed/zXqnao9WG9M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="300">
+                    <h2>Report Goodness</h2>
+                    <p>Celebrate a change maker around you as roots of goodness lie in the soil of appreciation.</p>
+                    <p>Our circles of goodness are curated collaborative philanthropical programs that support people to come together and be the change they want to see in the world. Through these support systems our change maker and change collaborators are able to bring about long term impact which was impossible to be achieved individually.</p>
+                    <a href="{{ path('report') }}" class="btn btn-primary-outline btn-md mb-3" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">Report Goodness</a>
+                </div>
+                <div class="col-md-4" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="600">
+                    <span class="img-tag"><img src="resources/images/goodness-bg.png" alt=""></span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+</div>
+<!--Main Wrapper End-->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#ChildVerticalTab_1').easyResponsiveTabs({
+            type: 'vertical',
+            width: 'auto',
+            fit: true,
+            tabidentify: 'ver_1', // The tab groups identifier
+            activetab_bg: '#fff', // background color for active tabs in this group
+            inactive_bg: '#F5F5F5', // background color for inactive tabs in this group
+            active_border_color: '#c1c1c1', // border color for active tabs heads in this group
+            active_content_border_color: '#5AB1D0' // border color for active tabs contect in this group so that it matches the tab head border
+        });
+
+        /*Counter*/
+        $(document).ready(function() {
+
+            // Like function
+            $(document).on('click','.clicklike',function(){
+                var data = {};
+                data['id'] = $(this).prev('input').val();
+                var spanupdate = $(this).find('span');
+                jQuery.ajax({
+                    url: "{{ path('article-like') }}",
+                    data: data,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(spanupdate);
+                        spanupdate.text(data.count);
+                    }
+                });
+            });
+
+
+            var counters = $(".count");
+            var countersQuantity = counters.length;
+            var counter = [];
+
+            for (i = 0; i < countersQuantity; i++) {
+                counter[i] = parseInt(counters[i].innerHTML);
+            }
+
+            var count = function(start, value, id) {
+                var localStart = start;
+                setInterval(function() {
+                    if (localStart < value) {
+                        localStart++;
+                        counters[id].innerHTML = localStart;
+                    }
+                }, 40);
+            }
+
+            for (j = 0; j < countersQuantity; j++) {
+                count(0, counter[j], j);
+            }
+        });
+        /*Counter*/
+    </script>
+{% endblock %}

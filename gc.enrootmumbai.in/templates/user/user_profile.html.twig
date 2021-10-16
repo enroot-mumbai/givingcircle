@@ -1,0 +1,47 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/css/fileinput.min.css')}}">
+{% endblock %}
+{% block cms_content %}
+
+    {% set back_to_list = app.request.server.get('HTTP_REFERER') %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title"><i class="fa fa-edit"></i> {{label_title|trans}}</h5>
+        </div>
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.userAvatarImage) }}
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {{ form_row(form.userEmail) }}
+                            {{ form_row(form.userFirstName) }}
+                            {{ form_row(form.userMiddleName) }}
+                            {{ form_row(form.userLastName) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="{{ button_css|default("btn btn-dark btn-sm") }}">
+            <i class="fa fa-save" aria-hidden="true"></i> {{ label_button|trans }}
+        </button>
+        <a href="{{ back_to_list }}" class="btn btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'action.back_to_list'|trans }}</a>
+    </div>
+    {{ form_end(form) }}
+<br>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/js/fileinput.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/kartik-v/bootstrap-fileinput/themes/fa/theme.min.js')}}"></script>
+    <script src="{{ asset('assets/js/user/index.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    {% if app.request.get('_route') == 'product_circle_comment_index' %}
+                        {% set circleParams = "?circle_id=" ~ app.request.get('circle_id')  %}
+                    {% endif %}
+
+                    <h4 class="card-title"><a href="{{ path(path_add) }}/{{ circleParams }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+                </div>
+                <div class="card-header">
+                    <h4 class="card-title">{{ label_heading|trans|upper }} : {{ circle.circle  }}</h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.parent'|trans|upper }} {{ 'label.comment'|trans|upper }}</th>
+                                <th>{{ 'label.comment'|trans|upper }}</th>
+                                <th>{{ 'label.name'|trans|upper }}</th>
+                                {#<th>{{ 'label.email'|trans|upper }}</th>
+                                <th>{{ 'label.website'|trans|upper }}</th>#}
+                                <th>{{ 'label.date'|trans|upper }}</th>
+                                <th>{{ 'label.is_approved'|trans|upper }}</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for trn_circle_comment in trn_circle_comments %}
+                            <tr>
+                                <td>{{ trn_circle_comment.parentComment.comment|default('-') }}</td>
+                                <td>{{ trn_circle_comment.comment }}</td>
+                                <td>{{ trn_circle_comment.commentorName }}</td>
+                                {#<td>{{ trn_circle_comment.commentorEmail }}</td>
+                                <td>{{ trn_circle_comment.commentorWebsite }}</td>#}
+                                <td>{{ trn_circle_comment.CommentDatetime ? trn_circle_comment.CommentDatetime|date('d M Y H:i:s') : '' }}</td>
+                                <td>
+                                    <div class="commentstatus">
+                                        <input type="hidden" class="comment" id="comment_id" name="comment_id" value="{{ trn_circle_comment.id }}">
+                                    {% if trn_circle_comment.isApproved == true %}
+                                        <button class="btn status bg-green btn-sm"><i class="fa fa-thumbs-up"></i></button> <span class="unapprove">Approved</span>
+                                    {% else %}
+                                        <button class="btn status bg-red btn-sm"><i class="fa fa-thumbs-down"></i></button> <span class="approve">Un-Approved</span>
+                                    {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                     <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                        <a href="{{ path(path_edit, {'id': trn_circle_comment.id}) }}/{{ circleParams }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/transaction/circle_comment/index.js') }}" type="text/javascript"></script>
+{% endblock %}

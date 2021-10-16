@@ -1,0 +1,64 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><a href="{{ path(path_add) }}/?company_id={{ app.request.get('company_id') }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i> {{label_title|trans}}</a></h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>{{ 'label.name'|trans|upper }}</th>
+                                <th>{{ 'label.office_category'|trans|upper }}</th>
+                                <th>{{ 'label.address'|trans|upper }}</th>
+                                <th>{{ 'label.city'|trans|upper }}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for org_company_office in org_company_offices %}
+                                <tr>
+                                    <td>{{ org_company_office.office }}</td>
+                                    <td>{{ org_company_office.mstOfficeCategory }}</td>
+                                    <td>{{ org_company_office.officeAddressOne }}, {{ org_company_office.officeAddressTwo }} <br>
+                                        {{ org_company_office.mstCity }} - {{ org_company_office.officePincode }}<br>
+                                        {{ org_company_office.mstState }} - {{ org_company_office.mstCountry }}
+                                    </td>
+                                    <td>{{ org_company_office.mstcity }}</td>
+                                    <td>
+                                        <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                            <a href="{{ path(path_show, {'id': org_company_office.id}) }}/?company_id={{ app.request.get('company_id') }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i></button></a>&nbsp;
+                                            <a href="{{ path(path_edit, {'id': org_company_office.id}) }}/?company_id={{ app.request.get('company_id') }}"><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></button></a>&nbsp;
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5">{{'info.no_record_found'|trans}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted">{{ 'info.total_records'|trans }} {{ org_company_offices.getTotalItemCount }}</div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        {{ knp_pagination_render(org_company_offices) }}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}

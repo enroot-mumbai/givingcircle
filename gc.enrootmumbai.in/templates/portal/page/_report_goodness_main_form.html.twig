@@ -1,0 +1,31 @@
+<div class="main-form-group">
+    <label>
+        <span>{{ pageContentByPage.cmsPageContent[7].pageContent|raw }}</span>
+    </label>
+    <div class="reporting-radio">
+        {% set clsclass = '' %}
+        {% if selectedtye == 'self' %}
+            {% set clsclass = 'active' %}
+        {% endif %}
+        <label for="self" class="self {{ clsclass }}"
+               onclick="window.location.href='{{ path('report-goodness-self') }}'">
+                                        <span>
+                                            Self
+                                            <input type="radio" id="self" name="reporting">
+                                            <span class="checkmark"></span>
+                                        </span>
+        </label>
+        {% set clsclass = '' %}
+        {% if selectedtye == 'else' %}
+            {% set clsclass = 'active' %}
+        {% endif %}
+        <label for="SomeoneElse" class="else {{ clsclass }}"
+               onclick="window.location.href='{{ path('report-goodness-else') }}'">
+                                        <span>
+                                            Someone Else
+                                            <input type="radio" id="SomeoneElse" name="reporting">
+                                            <span class="checkmark"></span>
+                                        </span>
+        </label>
+    </div>
+</div>

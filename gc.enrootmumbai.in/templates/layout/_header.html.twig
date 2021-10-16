@@ -1,0 +1,85 @@
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-gray-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{path('core_home')}}" class="nav-link"><i class="fas fa-home"></i></a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+              <li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                    <i class="fas fa-th-large"></i>
+                </a>
+            </li>
+            <!-- User Account Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    {% if app.user.appUserInfo.userAvatarImage is empty  %}
+                    <span><i class="fas fa-user"></i></span>
+                    {% else %}
+                        <div class="image">
+                            <img src="{{ app.user.appUserInfo.userAvatarImagePath|imagine_filter('resize_avatar_30') }}" class="img-circle elevation-2" alt="{{ app.user.appUserInfo.userFirstName|default('') }}">
+                        </div>
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                    <span class="dropdown-header bg-gradient-gray"><b>{{ app.user.appUserInfo.userFirstName|default('') }} {{ app.user.appUserInfo.userMiddleName|default('') }} {{ app.user.appUserInfo.userLastName|default('') }}</b></span>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('user_profile') }}" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span class="text-muted text-sm">My Profile</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('logout') }}" class="dropdown-item">
+                        <i class="fas fa-power-off"></i>
+                        <span class="text-muted text-sm">Logout</span>
+                    </a>
+
+                </div>
+            </li>
+            {% set notificationArray = get_unread_notification_data(app.user.id) %}
+            <li data-aos="fade-right" data-aos-delay="600" class="logged"><a href="#" class="notification"><i
+                            class="far fa-bell"></i> <span class="badge badge-primary">{{ notificationArray | length }}</span>
+                </a>
+
+                <div class="notification_popup"  style="display:none">
+                    <div class="notification_popup_box">
+
+                        <h2>Notification <span class="badge badge-primary">{{ notificationArray | length }}</span></h2>
+                        <button type="button" class="close" id="close-notification">
+                            <span>×</span>
+                        </button>
+                        <ul>
+                            {% for notificationData in notificationArray %}
+                                <li style="cursor: pointer" notificationid="{{ notificationData.id }}"
+                                    id="liNotification_h_{{ notificationData.id }}" name="liNotification_h">
+                                    <div>
+                                        {% if notificationData.trnCircle is defined and notificationData
+                                            .trnCircle is not empty and notificationData.trnCircle is not null %}
+                                            <b>{{ notificationData.trnCircle }}</b>
+                                        {% endif %}
+                                        <span>
+                                                {{ notificationData.notification|length > 30 ? notificationData.notification|slice(0,
+                                                    30) ~ '...' : notificationData.notification  }}
+                                            </span>
+                                        <span class="date">{{ notificationData.date | date('d M Y') }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="btn-sec">
+                        <a href="{{ path('product_notifications_index') }}" class="btn btn-primary-o">View
+                            All</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </nav>
+

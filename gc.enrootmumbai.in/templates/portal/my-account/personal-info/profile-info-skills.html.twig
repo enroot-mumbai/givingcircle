@@ -1,0 +1,111 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <h3>{% if bIsOrganization is defined and bIsOrganization is not empty and bIsOrganization is not
+                            null and bIsOrganization == 1  %}Organization{% else %}Personal{% endif %} Info</h3>
+
+                    <div class="progerss-status">
+                        <ul>
+                            <li>
+                                <h4>Your Profile Completeness</h4>
+                                <span class="progress-bar-sec">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{
+                                        profileCompleteness }}%" aria-valuenow="{{
+                                        profileCompleteness }}"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="number">{{ profileCompleteness }}%</div>
+                                </span>
+                            </li>
+                            <li>
+                                <span>Account Status</span>
+                                <span class="active">
+                                    <i class="fa fa-check"></i>Active
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    {{ render(controller(
+                        'App\\Controller\\Portal\\MyAccountController::myAccountProfileSteps',
+                        { 'active': 'skills' }
+                    )) }}
+
+                    <form class="form" id="frmSkillSets" method="post">
+                        <h5>Skills</h5>
+                        <p>Click on the skills that are most applicable to you.</p>
+                        <div class="create-element">
+                            <div class="start-project">
+                                <div class="skills">
+                                    <ul class="select-interest">
+                                        {% for mstSkillSet in mstSkillSetArr %}
+                                            <li data-aos="fade-right" data-aos-delay="200" name="liSkillSet" skillsetid = "{{ mstSkillSet.id }}">
+                                                <a href="javascript:void(0);" id="anchSkillSet_{{ mstSkillSet.id }}"
+                                                    {% if arrMstSkillSet is defined and arrMstSkillSet is not empty
+                                                        and mstSkillSet.id in  arrMstSkillSet %}
+                                                        class="active"
+                                                    {% endif %}
+
+                                                >
+                                                    <input type="checkbox" value="{{ mstSkillSet.id }}" id="skillSet_{{ mstSkillSet.id }}" name="skillSet[]"
+                                                        {% if arrMstSkillSet is defined and arrMstSkillSet is not empty
+                                                            and mstSkillSet.id in  arrMstSkillSet %}
+                                                            checked
+                                                        {% endif %}
+                                                    />
+                                                    <div class="icon">
+                                                    <span class="img">
+                                                        <img class="icon-img" src="{{ asset('images') }}/{{ mstSkillSet.icon }}" alt="{{ mstSkillSet.skillSet }}" title="{{ mstSkillSet.skillSet }}">
+                                                        <img class="icon-img-hover" src="{{ asset('images') }}/{{ mstSkillSet.iconWhite }}" alt="{{ mstSkillSet.skillSet }}" title="{{ mstSkillSet.skillSet }}">
+                                                    </span>
+                                                    </div>
+                                                    <div class="text">
+                                                        {{ mstSkillSet.skillSet }}
+                                                        <div class="txt-normal">
+                                                            <i class="fa fa-user"></i>
+                                                            {% if mstSkillSetCountArr is defined and
+                                                                mstSkillSetCountArr is not empty and mstSkillSet.id in
+                                                                mstSkillSetCountArr|keys %}
+                                                                {{ mstSkillSetCountArr[mstSkillSet.id] }}
+                                                            {% else  %}
+                                                                0
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-sec mt-3 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+                            <a href="{{ path('edit-personal-info') }}" class="back-link">Back</a>
+                            <a href="javascript:void(0);" class="btn btn-primary btn-continue">Continue</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('resources/js/easy-responsive-tabs.js')}}"></script>
+    <script src="{{asset('resources/js/jquery-ui.js')}}"></script>
+    <script src="{{asset('resources/js/image-uploader.min.js')}}"></script>
+    <script src="{{ asset('assets/js/portal/my-account/profile-info-skills.js') }}"></script>
+{% endblock %}

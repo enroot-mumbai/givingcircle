@@ -1,0 +1,1511 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="title.app">
+                <source>title.app</source>
+                <target>Giving Circle</target>
+            </trans-unit>
+            <trans-unit id="title.login">
+                <source>title.login</source>
+                <target>Secure Sign in</target>
+            </trans-unit>
+            <trans-unit id="label.name">
+                <source>label.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="label.username">
+                <source>label.username</source>
+                <target>Username</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Password</target>
+            </trans-unit>
+            <trans-unit id="title.forgot_password">
+                <source>title.forgot_password</source>
+                <target>Forgot Password</target>
+            </trans-unit>
+            <trans-unit id="action.sign_in">
+                <source>action.sign_in</source>
+                <target>Sign in</target>
+            </trans-unit>
+            <trans-unit id="label.remember_me">
+                <source>label.remember_me</source>
+                <target>Remember me</target>
+            </trans-unit>
+            <trans-unit id="action.forgot_password">
+                <source>action.forgot_password</source>
+                <target>Forgot password</target>
+            </trans-unit>
+            <trans-unit id="action.reset_password">
+                <source>action.reset_password</source>
+                <target>Reset Password</target>
+            </trans-unit>
+            <trans-unit id="action.create_password">
+                <source>action.create_password</source>
+                <target>Create Password</target>
+            </trans-unit>
+            <trans-unit id="action.register">
+                <source>action.register</source>
+                <target>Register</target>
+            </trans-unit>
+            <trans-unit id="action.user_profile">
+                <source>action.user_profile</source>
+                <target>Profile</target>
+            </trans-unit>
+            <trans-unit id="action.user_logout">
+                <source>action.user_logout</source>
+                <target>Sign out</target>
+            </trans-unit>
+            <trans-unit id="label.change_password">
+                <source>label.change_password</source>
+                <target>Change Password</target>
+            </trans-unit>
+            <trans-unit id="label.reset_password">
+                <source>label.reset_password</source>
+                <target>Reset Password</target>
+            </trans-unit>
+            <trans-unit id="label.register">
+                <source>label.register</source>
+                <target>Register</target>
+            </trans-unit>
+            <trans-unit id="info.change_password">
+                <source>info.change_password</source>
+                <target>After changing your password, you will be logged out of the application.</target>
+            </trans-unit>
+            <trans-unit id="info.create_password">
+                <source>info.create_password</source>
+                <target>After creating your password, you will be redirected to login page.</target>
+            </trans-unit>
+            <trans-unit id="label.my_profile">
+                <source>label.my_profile</source>
+                <target>My Profile</target>
+            </trans-unit>
+            <trans-unit id="label.current_password">
+                <source>label.current_password</source>
+                <target>Current Password</target>
+            </trans-unit>
+            <trans-unit id="label.new_password">
+                <source>label.new_password</source>
+                <target>New Password</target>
+            </trans-unit>
+            <trans-unit id="label.confirm_new_password">
+                <source>label.confirm_new_password</source>
+                <target>Confirm New Password</target>
+            </trans-unit>
+            <trans-unit id="label.access_denied">
+                <source>label.access_denied</source>
+                <target>Access Denied</target>
+            </trans-unit>
+            <trans-unit id="label.parent">
+                <source>label.parent</source>
+                <target>Parent</target>
+            </trans-unit>
+            <trans-unit id="label.parentId">
+                <source>label.parentId</source>
+                <target>Parent ID</target>
+            </trans-unit>
+            <trans-unit id="label.parent_category">
+                <source>label.parent_category</source>
+                <target>Parent Category</target>
+            </trans-unit>
+            <trans-unit id="label.slug_name">
+                <source>label.slug_name</source>
+                <target>Slug Name</target>
+            </trans-unit>
+            <trans-unit id="label.canonical_url">
+                <source>label.canonical_url</source>
+                <target>Canonical Url</target>
+            </trans-unit>
+            <trans-unit id="label.create">
+                <source>label.create</source>
+                <target>Create</target>
+            </trans-unit>
+            <trans-unit id="label.update">
+                <source>label.update</source>
+                <target>Update</target>
+            </trans-unit>
+            <trans-unit id="label.reply">
+                <source>label.reply</source>
+                <target>Reply</target>
+            </trans-unit>
+            <trans-unit id="label.add">
+                <source>label.add</source>
+                <target>Add</target>
+            </trans-unit>
+            <trans-unit id="label.edit">
+                <source>label.edit</source>
+                <target>Edit</target>
+            </trans-unit>
+            <trans-unit id="label.delete">
+                <source>label.delete</source>
+                <target>Delete</target>
+            </trans-unit>
+            <trans-unit id="label.view">
+                <source>label.view</source>
+                <target>View</target>
+            </trans-unit>
+            <trans-unit id="label.value">
+                <source>label.value</source>
+                <target>Value</target>
+            </trans-unit>
+            <trans-unit id="label.detail">
+                <source>label.detail</source>
+                <target>Detail</target>
+            </trans-unit>
+            <trans-unit id="label.description">
+                <source>label.description</source>
+                <target>Description</target>
+            </trans-unit>
+            <trans-unit id="action.back_to_list">
+                <source>action.back_to_list</source>
+                <target>Back to the list</target>
+            </trans-unit>
+            <trans-unit id="label.back_to_list">
+                <source>label.back_to_list</source>
+                <target>Back to list</target>
+            </trans-unit>
+            <trans-unit id="info.no_record_found">
+                <source>info.no_record_found</source>
+                <target>No record(s) found.</target>
+            </trans-unit>
+            <trans-unit id="info.total_records">
+                <source>info.total_records</source>
+                <target>Total records(s):</target>
+            </trans-unit>
+            <trans-unit id="form.created_successfully">
+                <source>form.created_successfully</source>
+                <target>Form Data Submitted Successfully</target>
+            </trans-unit>
+            <trans-unit id="form.updated_successfully">
+                <source>form.updated_successfully</source>
+                <target>Form Data Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="label.id">
+                <source>label.id</source>
+                <target>ID</target>
+            </trans-unit>
+            <trans-unit id="label.seq_no">
+                <source>label.seq_no</source>
+                <target>Sequence No</target>
+            </trans-unit>
+            <trans-unit id="label.display_sequence">
+                <source>label.display_sequence</source>
+                <target>Display Sequence</target>
+            </trans-unit>
+            <trans-unit id="label.position">
+                <source>label.position</source>
+                <target>Position</target>
+            </trans-unit>
+            <trans-unit id="label.media_display_position">
+                <source>label.media_display_position</source>
+                <target>Media Display Position</target>
+            </trans-unit>
+            <trans-unit id="label.is_active">
+                <source>label.is_active</source>
+                <target>Active</target>
+            </trans-unit>
+            <trans-unit id="label.is_publish">
+                <source>label.is_publish</source>
+                <target>Publish</target>
+            </trans-unit>
+            <trans-unit id="label.is_approved">
+                <source>label.is_approved</source>
+                <target>Approved</target>
+            </trans-unit>
+            <trans-unit id="label.is_child">
+                <source>label.is_child</source>
+                <target>Is Child</target>
+            </trans-unit>
+            <trans-unit id="help.form.select_multi">
+                    <source>help.form.select_multi</source>
+                    <target>Select one or more from the list</target>
+                </trans-unit>
+            <trans-unit id="help.form.select">
+                <source>help.form.select</source>
+                <target>Select from the list</target>
+            </trans-unit>
+            <trans-unit id="placeholder.form.select_multi">
+                <source>placeholder.form.select_multi</source>
+                <target>Select one or more from the list</target>
+            </trans-unit>
+            <trans-unit id="placeholder.form.select">
+                <source>placeholder.form.select</source>
+                <target>Select..</target>
+            </trans-unit>
+            <trans-unit id="label.group">
+                <source>label.group</source>
+                <target>Groups</target>
+            </trans-unit>
+            <trans-unit id="label.module">
+                    <source>label.module</source>
+                    <target>Modules</target>
+                </trans-unit>
+            <trans-unit id="label.submodule">
+                    <source>label.submodule</source>
+                    <target>Sub Modules</target>
+                </trans-unit>
+            <trans-unit id="label.submodule.access">
+                <source>label.submodule.access</source>
+                <target>Sub Module User(s) Access</target>
+            </trans-unit>
+            <trans-unit id="label.submodule.subModuleParentValue">
+                <source>label.submodule.subModuleParentValue</source>
+                <target>Parent Params</target>
+            </trans-unit>
+            <trans-unit id="label.submodule.subModuleStatic">
+                <source>label.submodule.subModuleStatic</source>
+                <target>Static Module</target>
+            </trans-unit>
+            <trans-unit id="label.submodule.subModuleDisplayMenu">
+                <source>label.submodule.subModuleDisplayMenu</source>
+                <target>Display in Menu</target>
+            </trans-unit>
+            <trans-unit id="label.submodule.subModuleParentId">
+                <source>label.submodule.subModuleParentId</source>
+                <target>Parent Sub Module ID</target>
+            </trans-unit>
+            <trans-unit id="label.role">
+                <source>label.role</source>
+                <target>Roles</target>
+            </trans-unit>
+            <trans-unit id="label.usercategory">
+                <source>label.usercategory</source>
+                <target>User Category</target>
+            </trans-unit>
+            <trans-unit id="label.user">
+                <source>label.user</source>
+                <target>User</target>
+            </trans-unit>
+            <trans-unit id="label.firstName">
+                <source>label.firstName</source>
+                <target>First Name</target>
+            </trans-unit>
+            <trans-unit id="label.lastName">
+                <source>label.lastName</source>
+                <target>Last Name</target>
+            </trans-unit>
+            <trans-unit id="label.middleName">
+                <source>label.middleName</source>
+                <target>Middle Name</target>
+            </trans-unit>
+            <trans-unit id="label.designation">
+                <source>label.designation</source>
+                <target>Designation</target>
+            </trans-unit>
+            <trans-unit id="label.uploadImage">
+                <source>label.uploadImage</source>
+                <target>Upload Image</target>
+            </trans-unit>
+            <trans-unit id="label.ipaccess">
+                <source>label.ipaccess</source>
+                <target>IP Restriction</target>
+            </trans-unit>
+            <trans-unit id="label.lastLogin">
+                <source>label.lastLogin</source>
+                <target>Last login</target>
+            </trans-unit>
+            <trans-unit id="label.website">
+                <source>label.website</source>
+                <target>Website</target>
+            </trans-unit>
+            <trans-unit id="label.organization">
+                <source>label.organization</source>
+                <target>Organization</target>
+            </trans-unit>
+            <trans-unit id="label.company">
+                <source>label.company</source>
+                <target>Company</target>
+            </trans-unit>
+            <trans-unit id="label.office">
+                <source>label.office</source>
+                <target>Office</target>
+            </trans-unit>
+            <trans-unit id="label.address">
+                <source>label.address</source>
+                <target>Address</target>
+            </trans-unit>
+            <trans-unit id="label.addressOne">
+                <source>label.addressOne</source>
+                <target>Address One</target>
+            </trans-unit>
+            <trans-unit id="label.addressTwo">
+                <source>label.addressTwo</source>
+                <target>Address Two</target>
+            </trans-unit>
+            <trans-unit id="label.pincode">
+                <source>label.pincode</source>
+                <target>Pincode</target>
+            </trans-unit>
+            <trans-unit id="label.location">
+                <source>label.location</source>
+                <target>Location</target>
+            </trans-unit>
+            <trans-unit id="label.city">
+                <source>label.city</source>
+                <target>City</target>
+            </trans-unit>
+            <trans-unit id="label.latitude">
+                <source>label.latitude</source>
+                <target>Latitude</target>
+            </trans-unit>
+            <trans-unit id="label.longitude">
+                <source>label.longitude</source>
+                <target>Longitude</target>
+            </trans-unit>
+            <trans-unit id="label.state">
+                <source>label.state</source>
+                <target>State / Region</target>
+            </trans-unit>
+            <trans-unit id="label.fips_code">
+                <source>label.fips_code</source>
+                <target>Fips Code</target>
+            </trans-unit>
+            <trans-unit id="label.country">
+                <source>label.country</source>
+                <target>Country</target>
+            </trans-unit>
+            <trans-unit id="label.telephone">
+                <source>label.telephone</source>
+                <target>Telephone</target>
+            </trans-unit>
+            <trans-unit id="label.phone">
+                <source>label.phone</source>
+                <target>Phone</target>
+            </trans-unit>
+            <trans-unit id="label.fax">
+                <source>label.fax</source>
+                <target>Fax</target>
+            </trans-unit>
+            <trans-unit id="label.type">
+                <source>label.type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="label.intro_media_type">
+                <source>label.intro_media_type</source>
+                <target>Intro Media Type</target>
+            </trans-unit>
+            <trans-unit id="label.content_media_type">
+                <source>label.content_media_type</source>
+                <target>Content Media Type</target>
+            </trans-unit>
+            <trans-unit id="label.media_type">
+                <source>label.media_type</source>
+                <target>Media Type</target>
+            </trans-unit>
+            <trans-unit id="label.alt">
+                <source>label.alt</source>
+                <target>Alternate Text</target>
+            </trans-unit>
+            <trans-unit id="label.start_date">
+                <source>label.start_date</source>
+                <target>Start Date</target>
+            </trans-unit>
+            <trans-unit id="label.end_date">
+                <source>label.end_date</source>
+                <target>End Date</target>
+            </trans-unit>
+            <trans-unit id="label.actual_cost">
+                <source>label.actual_cost</source>
+                <target>Actual Cost</target>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <source>label.email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.email_primary">
+                <source>label.email_primary</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.email_secondary">
+                <source>label.email_secondary</source>
+                <target>Secondary Email</target>
+            </trans-unit>
+            <trans-unit id="label.is_email_opt_out">
+                <source>label.is_email_opt_out</source>
+                <target>Email Opt Out</target>
+            </trans-unit>
+            <trans-unit id="label.timezone">
+                <source>label.timezone</source>
+                <target>Time Zone</target>
+            </trans-unit>
+            <trans-unit id="label.tax_category">
+                <source>label.tax_category</source>
+                <target>Tax Category</target>
+            </trans-unit>
+            <trans-unit id="label.product">
+                <source>label.product</source>
+                <target>Product</target>
+            </trans-unit>
+            <trans-unit id="label.enable_for_organization">
+                <source>label.enable_for_organization</source>
+                <target>Enable for Organization</target>
+            </trans-unit>
+            <trans-unit id="label.code">
+                <source>label.code</source>
+                <target>Code</target>
+            </trans-unit>
+            <trans-unit id="label.currency">
+                <source>label.currency</source>
+                <target>Currency</target>
+            </trans-unit>
+            <trans-unit id="label.capital">
+                <source>label.capital</source>
+                <target>Capital</target>
+            </trans-unit>
+            <trans-unit id="label.iso3">
+                <source>label.iso3</source>
+                <target>ISO 3</target>
+            </trans-unit>
+            <trans-unit id="label.iso2">
+                <source>label.iso2</source>
+                <target>ISO 2</target>
+            </trans-unit>
+            <trans-unit id="label.rating">
+                <source>label.rating</source>
+                <target>Rating</target>
+            </trans-unit>
+            <trans-unit id="label.like">
+                <source>label.like</source>
+                <target>Like</target>
+            </trans-unit>
+            <trans-unit id="label.mobile">
+                <source>label.mobile</source>
+                <target>Mobile Number</target>
+            </trans-unit>
+            <trans-unit id="label.calling_code">
+                <source>label.calling_code</source>
+                <target>Calling Code</target>
+            </trans-unit>
+            <trans-unit id="label.industry">
+                <source>label.industry</source>
+                <target>Industry</target>
+            </trans-unit>
+            <trans-unit id="label.account_category">
+                <source>label.account_category</source>
+                <target>Account Category</target>
+            </trans-unit>
+            <trans-unit id="label.salutation">
+                <source>label.salutation</source>
+                <target>Salutation</target>
+            </trans-unit>
+            <trans-unit id="label.lead">
+                <source>label.lead</source>
+                <target>Lead</target>
+            </trans-unit>
+            <trans-unit id="label.lead_source">
+                <source>label.lead_source</source>
+                <target>Lead Source</target>
+            </trans-unit>
+            <trans-unit id="label.lead_status">
+                <source>label.lead_status</source>
+                <target>Lead Status</target>
+            </trans-unit>
+            <trans-unit id="label.lead_description">
+                <source>label.lead_description</source>
+                <target>Lead Description</target>
+            </trans-unit>
+            <trans-unit id="label.sale_stage">
+                <source>label.sale_stage</source>
+                <target>Sale Stage</target>
+            </trans-unit>
+            <trans-unit id="label.office_category">
+                <source>label.office_category</source>
+                <target>Office Category</target>
+            </trans-unit>
+            <trans-unit id="label.fiscal_year">
+                <source>label.fiscal_year</source>
+                <target>Fiscal Year</target>
+            </trans-unit>
+            <trans-unit id="label.company_logo">
+                <source>label.company_logo</source>
+                <target>Company Logo</target>
+            </trans-unit>
+            <trans-unit id="label.company_office">
+                <source>label.company_office</source>
+                <target>Company Office</target>
+            </trans-unit>
+            <trans-unit id="label.company_user">
+                <source>label.company_user</source>
+                <target>Company User</target>
+            </trans-unit>
+            <trans-unit id="label.office_email">
+                <source>label.office_email</source>
+                <target>Office Email</target>
+            </trans-unit>
+            <trans-unit id="help.company">
+                <source>help.company</source>
+                <target>Enter your company legal name</target>
+            </trans-unit>
+            <trans-unit id="help.company_website">
+                <source>help.company_website</source>
+                <target>Enter your company official website</target>
+            </trans-unit>
+            <trans-unit id="help.company_office">
+                <source>help.company_office</source>
+                <target>Enter your office name</target>
+            </trans-unit>
+            <trans-unit id="label.contact_detail">
+                <source>label.contact_detail</source>
+                <target>Contact Detail</target>
+            </trans-unit>
+            <trans-unit id="label.contact">
+                <source>label.contact</source>
+                <target>Contact</target>
+            </trans-unit>
+            <trans-unit id="label.account_owner">
+                <source>label.account_owner</source>
+                <target>Account Owner</target>
+            </trans-unit>
+            <trans-unit id="label.address_category">
+                <source>label.address_category</source>
+                <target>Address Category</target>
+            </trans-unit>
+            <trans-unit id="label.job_title">
+                <source>label.job_title</source>
+                <target>Job Title</target>
+            </trans-unit>
+            <trans-unit id="label.department">
+                <source>label.department</source>
+                <target>Department</target>
+            </trans-unit>
+            <trans-unit id="label.office_tel">
+                <source>label.office_tel</source>
+                <target>Office Number</target>
+            </trans-unit>
+            <trans-unit id="label.status">
+                <source>label.status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="label.source">
+                <source>label.source</source>
+                <target>Source</target>
+            </trans-unit>
+            <trans-unit id="label.target">
+                <source>label.target</source>
+                <target>Target</target>
+            </trans-unit>
+            <trans-unit id="label.account">
+                <source>label.account</source>
+                <target>Account</target>
+            </trans-unit>
+            <trans-unit id="label.member_account">
+                <source>label.member_account</source>
+                <target>Member Account</target>
+            </trans-unit>
+            <trans-unit id="label.account_number">
+                <source>label.account_number</source>
+                <target>Account Number</target>
+            </trans-unit>
+            <trans-unit id="label.is_primary">
+                <source>label.is_primary</source>
+                <target>Primary</target>
+            </trans-unit>
+            <trans-unit id="label.convert">
+                <source>label.convert</source>
+                <target>Convert</target>
+            </trans-unit>
+            <trans-unit id="label.duplicate">
+                <source>label.duplicate</source>
+                <target>Duplicate</target>
+            </trans-unit>
+            <trans-unit id="label.print">
+                <source>label.print</source>
+                <target>Print</target>
+            </trans-unit>
+            <trans-unit id="label.ownership">
+                <source>label.ownership</source>
+                <target>Ownership</target>
+            </trans-unit>
+            <trans-unit id="label.page">
+                <source>label.page</source>
+                <target>Page</target>
+            </trans-unit>
+            <trans-unit id="label.faq">
+                <source>label.faq</source>
+                <target>Faq</target>
+            </trans-unit>
+            <trans-unit id="label.target_url">
+                <source>label.target_url</source>
+                <target>Target Url</target>
+            </trans-unit>
+            <trans-unit id="label.banner">
+                <source>label.banner</source>
+                <target>Banner</target>
+            </trans-unit>
+            <trans-unit id="label.title">
+                <source>label.title</source>
+                <target>Title</target>
+            </trans-unit>
+            <trans-unit id="label.image_title">
+                <source>label.image_title</source>
+                <target>Image Title</target>
+            </trans-unit>
+            <trans-unit id="label.delete_image">
+                <source>label.delete_image</source>
+                <target>Remove Image</target>
+            </trans-unit>
+            <trans-unit id="label.content">
+                <source>label.content</source>
+                <target>Content</target>
+            </trans-unit>
+            <trans-unit id="label.content_block">
+                <source>label.content_block</source>
+                <target>Content Block</target>
+            </trans-unit>
+            <trans-unit id="label.video">
+                <source>label.video</source>
+                <target>Video Name</target>
+            </trans-unit>
+            <trans-unit id="label.embedded_url">
+                <source>label.embedded_url</source>
+                <target>Embedded URL</target>
+            </trans-unit>
+            <trans-unit id="label.routing">
+                <source>label.routing</source>
+                <target>Page Routing</target>
+            </trans-unit>
+            <trans-unit id="label.meta_tag">
+                <source>label.meta_tag</source>
+                <target>Meta Tags</target>
+            </trans-unit>
+            <trans-unit id="label.meta_title">
+                <source>label.meta_title</source>
+                <target>Meta Title</target>
+            </trans-unit>
+            <trans-unit id="label.schema">
+                <source>label.schema</source>
+                <target>Schema</target>
+            </trans-unit>
+            <trans-unit id="label.meta_keyword">
+                <source>label.meta_keyword</source>
+                <target>Meta Keyword</target>
+            </trans-unit>
+            <trans-unit id="label.meta_description">
+                <source>label.meta_description</source>
+                <target>Meta Description</target>
+            </trans-unit>
+            <trans-unit id="label.social_title">
+                <source>label.social_title</source>
+                <target>Social Title</target>
+            </trans-unit>
+            <trans-unit id="label.social_description">
+                <source>label.social_description</source>
+                <target>Social Description</target>
+            </trans-unit>
+            <trans-unit id="label.social_type">
+                <source>label.social_type</source>
+                <target>Social Type</target>
+            </trans-unit>
+            <trans-unit id="label.social_image">
+                <source>label.social_image</source>
+                <target>Social Image</target>
+            </trans-unit>
+            <trans-unit id="label.focus_key_phrase">
+                <source>label.focus_key_phrase</source>
+                <target>Focus Key Phrase</target>
+            </trans-unit>
+            <trans-unit id="label.key_phrase_synonyms">
+                <source>label.key_phrase_synonyms</source>
+                <target>Key Phrase Synonyms</target>
+            </trans-unit>
+            <trans-unit id="label.parent_page">
+                <source>label.parent_page</source>
+                <target>Parent Page</target>
+            </trans-unit>
+            <trans-unit id="label.valid_from_date">
+                <source>label.valid_from_date</source>
+                <target>Valid From Date</target>
+            </trans-unit>
+            <trans-unit id="label.valid_to_date">
+                <source>label.valid_to_date</source>
+                <target>Valid To Date</target>
+            </trans-unit>
+            <trans-unit id="label.question">
+                <source>label.question</source>
+                <target>Question</target>
+            </trans-unit>
+            <trans-unit id="label.answer">
+                <source>label.answer</source>
+                <target>Answer</target>
+            </trans-unit>
+            <trans-unit id="label.faq_detail">
+                <source>label.faq_detail</source>
+                <target>Faq Detail</target>
+            </trans-unit>
+            <trans-unit id="label.pressroom">
+                <source>label.pressroom</source>
+                <target>Press Room</target>
+            </trans-unit>
+            <trans-unit id="label.date">
+                <source>label.date</source>
+                <target>Date</target>
+            </trans-unit>
+            <trans-unit id="label.subscription">
+                <source>label.subscription</source>
+                <target>Subscription</target>
+            </trans-unit>
+            <trans-unit id="label.testimonial">
+                <source>label.testimonial</source>
+                <target>Testimonial</target>
+            </trans-unit>
+            <trans-unit id="label.blog">
+                <source>label.blog</source>
+                <target>Blog</target>
+            </trans-unit>
+            <trans-unit id="label.brief">
+                <source>label.brief</source>
+                <target>Brief</target>
+            </trans-unit>
+            <trans-unit id="label.article">
+                <source>label.article</source>
+                <target>Article</target>
+            </trans-unit>
+            <trans-unit id="label.articleby">
+                <source>label.articleby</source>
+                <target>Article By</target>
+            </trans-unit>
+            <trans-unit id="label.article_creator_url">
+                <source>label.article_creator_url</source>
+                <target>Article Creator Url</target>
+            </trans-unit>
+            <trans-unit id="label.image">
+                <source>label.image</source>
+                <target>Image</target>
+            </trans-unit>
+            <trans-unit id="label.file_name">
+                <source>label.file_name</source>
+                <target>Image File Name</target>
+            </trans-unit>
+            <trans-unit id="label.intro">
+                <source>label.intro</source>
+                <target>Intro</target>
+            </trans-unit>
+            <trans-unit id="label.createby">
+                <source>label.createby</source>
+                <target>Created By</target>
+            </trans-unit>
+            <trans-unit id="label.createtime">
+                <source>label.createtime</source>
+                <target>Create Time</target>
+            </trans-unit>
+            <trans-unit id="label.updateby">
+                <source>label.updateby</source>
+                <target>Updated By</target>
+            </trans-unit>
+            <trans-unit id="label.updatetime">
+                <source>label.updatetime</source>
+                <target>Update Time</target>
+            </trans-unit>
+            <trans-unit id="label.comment">
+                <source>label.comment</source>
+                <target>Comment</target>
+            </trans-unit>
+            <trans-unit id="label.article_category">
+                <source>label.article_category</source>
+                <target>Article Category</target>
+            </trans-unit>
+            <trans-unit id="label.article_for">
+                <source>label.article_for</source>
+                <target>Article For</target>
+            </trans-unit>
+            <trans-unit id="label.category">
+                <source>label.category</source>
+                <target>Category</target>
+            </trans-unit>
+            <trans-unit id="label.subcategory">
+                <source>label.subcategory</source>
+                <target>Sub Category</target>
+            </trans-unit>
+            <trans-unit id="label.media">
+                <source>label.media</source>
+                <target>Media</target>
+            </trans-unit>
+            <trans-unit id="label.keyword">
+                <source>label.keyword</source>
+                <target>Keyword</target>
+            </trans-unit>
+            <trans-unit id="label.tag">
+                <source>label.tag</source>
+                <target>Tags</target>
+            </trans-unit>
+            <trans-unit id="label.specification">
+                <source>label.specification</source>
+                <target>Specification</target>
+            </trans-unit>
+            <trans-unit id="label.area_interest">
+                <source>label.area_interest</source>
+                <target>Area of Interest</target>
+            </trans-unit>
+            <trans-unit id="label.change_maker">
+                <source>label.change_maker</source>
+                <target>Change Maker</target>
+            </trans-unit>
+            <trans-unit id="label.volunteer">
+                <source>label.volunteer</source>
+                <target>Volunteer</target>
+            </trans-unit>
+            <trans-unit id="label.volunteer_diaries">
+                <source>label.volunteer_diaries</source>
+                <target>Volunteer Diaries</target>
+            </trans-unit>
+            <trans-unit id="label.help_type">
+                <source>label.help_type</source>
+                <target>Help Type</target>
+            </trans-unit>
+            <trans-unit id="label.message">
+                <source>label.message</source>
+                <target>Message</target>
+            </trans-unit>
+            <trans-unit id="label.digital_presence">
+                <source>label.digital_presence</source>
+                <target>Digital Presence</target>
+            </trans-unit>
+            <trans-unit id="label.shared_collateral">
+                <source>label.shared_collateral</source>
+                <target>Shared Collateral</target>
+            </trans-unit>
+            <trans-unit id="label.self">
+                <source>label.self</source>
+                <target>Self</target>
+            </trans-unit>
+            <trans-unit id="label.Other">
+                <source>label.other</source>
+                <target>Someone Else</target>
+            </trans-unit>
+            <trans-unit id="label.changemaker">
+                <source>label.changemaker</source>
+                <target>Change Maker</target>
+            </trans-unit>
+            <trans-unit id="label.area_city">
+                <source>label.area_city</source>
+                <target>Area in City</target>
+            </trans-unit>
+            <trans-unit id="label.user_query_type">
+                <source>label.user_query_type</source>
+                <target>User Query Type</target>
+            </trans-unit>
+            <trans-unit id="label.upload_document_type">
+                <source>label.upload_document_type</source>
+                <target>Upload Document Type</target>
+            </trans-unit>
+            <trans-unit id="label.document">
+                <source>label.document</source>
+                <target>Document</target>
+            </trans-unit>
+            <trans-unit id="label.document_file_name">
+                <source>label.document_file_name</source>
+                <target>Document File Name</target>
+            </trans-unit>
+            <trans-unit id="label.type_of_organization">
+                <source>label.type_of_organization</source>
+                <target>Type Of Organization</target>
+            </trans-unit>
+            <trans-unit id="label.organization_logo">
+                <source>label.organization_logo</source>
+                <target>Organization Logo</target>
+            </trans-unit>
+            <trans-unit id="label.source_of_information">
+                <source>label.source_of_information</source>
+                <target>Source Of Information</target>
+            </trans-unit>
+            <trans-unit id="label.recurring_by">
+                <source>label.recurring_by</source>
+                <target>Recurring By</target>
+            </trans-unit>
+            <trans-unit id="label.place_of_work">
+                <source>label.place_of_work</source>
+                <target>Place Of Work</target>
+            </trans-unit>
+            <trans-unit id="label.notification_status">
+                <source>label.notification_status</source>
+                <target>Notification Status</target>
+            </trans-unit>
+            <trans-unit id="label.marital_status">
+                <source>label.marital_status</source>
+                <target>Marital Status</target>
+            </trans-unit>
+            <trans-unit id="label.join_by">
+                <source>label.join_by</source>
+                <target>Join By</target>
+            </trans-unit>
+            <trans-unit id="label.gender">
+                <source>label.gender</source>
+                <target>Gender</target>
+            </trans-unit>
+            <trans-unit id="label.event_product_type">
+                <source>label.event_product_type</source>
+                <target>Resource Required</target>
+            </trans-unit>
+            <trans-unit id="label.event_occurrence">
+                <source>label.event_occurrence</source>
+                <target>Event Occurrence</target>
+            </trans-unit>
+            <trans-unit id="label.days_of_week">
+                <source>label.days_of_week</source>
+                <target>Days Of Week</target>
+            </trans-unit>
+            <trans-unit id="label.bank_account_type">
+                <source>label.bank_account_type</source>
+                <target>Bank Account Type</target>
+            </trans-unit>
+            <trans-unit id="label.activity_types">
+                <source>label.activity_types</source>
+                <target>Activity Types</target>
+            </trans-unit>
+            <trans-unit id="label.user_member_type">
+                <source>label.user_member_type</source>
+                <target>User Member Type</target>
+            </trans-unit>
+            <trans-unit id="label.collection_centre">
+                <source>label.collection_centre</source>
+                <target>Collection Centre</target>
+            </trans-unit>
+            <trans-unit id="label.circle">
+                <source>label.circle</source>
+                <target>Project Name</target>
+            </trans-unit>
+            <trans-unit id="label.circle_event">
+                <source>label.circle_event</source>
+                <target>Event</target>
+            </trans-unit>
+            <trans-unit id="label.serial_number">
+                <source>label.serial_number</source>
+                <target>Sr No.</target>
+            </trans-unit>
+            <trans-unit id="label.collection_centre_open_on_days">
+                <source>label.collection_centre_open_on_days</source>
+                <target>Collection Centre Open On Days</target>
+            </trans-unit>
+            <trans-unit id="label.start_time">
+                <source>label.start_time</source>
+                <target>Start Time</target>
+            </trans-unit>
+            <trans-unit id="label.end_time">
+                <source>label.end_time</source>
+                <target>End Time</target>
+            </trans-unit>
+            <trans-unit id="label.impact_statement">
+                <source>label.impact_statement</source>
+                <target>Any Additional Information</target>
+            </trans-unit>
+            <trans-unit id="info.impact_statement">
+                <source>info.impact_statement</source>
+                <target>e.g. Participants will also receive a certificate showing their contribution</target>
+            </trans-unit>
+            <trans-unit id="label.information_about_circle">
+                <source>label.information_about_circle</source>
+                <target>About Me</target>
+            </trans-unit>
+            <trans-unit id="info.information_about_circle">
+                <source>info.information_about_circle</source>
+                <target>e.g. Tell about yourself</target>
+            </trans-unit>
+            <trans-unit id="label.how_goal_will_be_achieved">
+                <source>label.how_goal_will_be_achieved</source>
+                <target>My Goal &amp; Plans</target>
+            </trans-unit>
+            <trans-unit id="info.how_goal_will_be_achieved">
+                <source>info.how_goal_will_be_achieved</source>
+                <target>e.g. My goal is to raise Rs 50,000 by the end of August 2021</target>
+            </trans-unit>
+            <trans-unit id="info.suggested_keywords">
+                <source>info.suggested_keywords</source>
+                <target>e.g. Poverty, Urban, Rural</target>
+            </trans-unit>
+            <trans-unit id="label.area_interest_primary">
+                <source>label.area_interest_primary</source>
+                <target>Primary Area of Interest</target>
+            </trans-unit>
+            <trans-unit id="label.area_interest_secondary">
+                <source>label.area_interest_secondary</source>
+                <target>Secondary Area of Interest</target>
+            </trans-unit>
+            <trans-unit id="label.type_of_circle">
+                <source>label.type_of_circle</source>
+                <target>Project Type</target>
+            </trans-unit>
+            <trans-unit id="label.circle_link">
+                <source>label.circle_link</source>
+                <target>Project Link</target>
+            </trans-unit>
+            <trans-unit id="label.circle_event_product_type">
+                <source>label.circle_event_product_type</source>
+                <target>Resource Required</target>
+            </trans-unit>
+            <trans-unit id="label.circle_event_type_of_event">
+                <source>label.circle_event_type_of_event</source>
+                <target>Type of Event</target>
+            </trans-unit>
+            <trans-unit id="label.event_purpose">
+                <source>label.event_purpose</source>
+                <target>Event Purpose</target>
+            </trans-unit>
+            <trans-unit id="label.highlights_of_event">
+                <source>label.highlights_of_event</source>
+                <target>Highlights of Event</target>
+            </trans-unit>
+            <trans-unit id="label.event_goal">
+                <source>label.event_goal</source>
+                <target>Event Goal</target>
+            </trans-unit>
+            <trans-unit id="label.reason_to_reject">
+                <source>label.reason_to_reject</source>
+                <target>Reason to Reject / Deactivate</target>
+            </trans-unit>
+            <trans-unit id="label.event_link">
+                <source>label.event_link</source>
+                <target>Event Link</target>
+            </trans-unit>
+            <trans-unit id="label.beneficiary_bank_name">
+                <source>label.beneficiary_bank_name</source>
+                <target>Beneficiary Bank Name</target>
+            </trans-unit>
+            <trans-unit id="label.beneficiary_account_holder_name">
+                <source>label.beneficiary_account_holder_name</source>
+                <target>Beneficiary Account Holder Name</target>
+            </trans-unit>
+            <trans-unit id="label.beneficiary_bank_account_number">
+                <source>label.beneficiary_bank_account_number</source>
+                <target>Beneficiary Bank Account Number</target>
+            </trans-unit>
+            <trans-unit id="label.beneficiary_ifsc_code">
+                <source>label.beneficiary_ifsc_code</source>
+                <target>Beneficiary IFSC Code</target>
+            </trans-unit>
+            <trans-unit id="label.beneficiary_account_type">
+                <source>label.beneficiary_account_type</source>
+                <target>Beneficiary Account Type</target>
+            </trans-unit>
+            <trans-unit id="label.work_description">
+                <source>label.work_description</source>
+                <target>Board Skills</target>
+            </trans-unit>
+            <trans-unit id="label.volunteer_in_time">
+                <source>label.volunteer_in_time</source>
+                <target>Volunteer (In Time)</target>
+            </trans-unit>
+            <trans-unit id="label.key_responsibility">
+                <source>label.key_responsibility</source>
+                <target>Key Responsibilities</target>
+            </trans-unit>
+            <trans-unit id="label.targetnumber_of_volunters_required">
+                <source>label.targetnumber_of_volunters_required</source>
+                <target>Target No. of Volunteers Required</target>
+            </trans-unit>
+            <trans-unit id="label.skill_set">
+                <source>label.skill_set</source>
+                <target>Skill Set</target>
+            </trans-unit>
+            <trans-unit id="label.site_address">
+                <source>label.site_address</source>
+                <target>Volunteer (In Time) Site Address</target>
+            </trans-unit>
+            <trans-unit id="label.from_date">
+                <source>label.from_date</source>
+                <target>Event Start Date</target>
+            </trans-unit>
+            <trans-unit id="label.to_date">
+                <source>label.to_date</source>
+                <target>Event End Date</target>
+            </trans-unit>
+            <trans-unit id="label.number_of_days">
+                <source>label.number_of_days</source>
+                <target>Number of Days</target>
+            </trans-unit>
+            <trans-unit id="label.days_of_the_week">
+                <source>label.days_of_the_week</source>
+                <target>Days of the Week</target>
+            </trans-unit>
+            <trans-unit id="label.dates_of_month">
+                <source>label.dates_of_month</source>
+                <target>Dates Of Month</target>
+            </trans-unit>
+            <trans-unit id="label.subevent_name">
+                <source>label.subevent_name</source>
+                <target>Specific Skills</target>
+            </trans-unit>
+            <trans-unit id="label.number_of_hours">
+                <source>label.number_of_hours</source>
+                <target>Number of Hours</target>
+            </trans-unit>
+            <trans-unit id="label.item_name">
+                <source>label.item_name</source>
+                <target>Item Name</target>
+            </trans-unit>
+            <trans-unit id="label.unit">
+                <source>label.unit</source>
+                <target>Unit</target>
+            </trans-unit>
+            <trans-unit id="label.item_quantity">
+                <source>label.item_quantity</source>
+                <target>Item Quantity</target>
+            </trans-unit>
+            <trans-unit id="label.material_in_kind">
+                <source>label.material_in_kind</source>
+                <target>Material (In kind)</target>
+            </trans-unit>
+            <trans-unit id="label.cause_of_fundraiser">
+                <source>label.cause_of_fundraiser</source>
+                <target>Write about the Cause</target>
+            </trans-unit>
+            <trans-unit id="label.for_whom_raising_fund_for">
+                <source>label.for_whom_raising_fund_for</source>
+                <target>Whom are you raising Funds for?</target>
+            </trans-unit>
+            <trans-unit id="label.tell_a_story">
+                <source>label.tell_a_story</source>
+                <target>Tell a Story</target>
+            </trans-unit>
+            <trans-unit id="label.target_amount">
+                <source>label.target_amount</source>
+                <target>Amount</target>
+            </trans-unit>
+            <trans-unit id="label.target_currency">
+                <source>label.target_currency</source>
+                <target>Currency</target>
+            </trans-unit>
+            <trans-unit id="label.set_up_minimum_contribution_limit">
+                <source>label.set_up_minimum_contribution_limit</source>
+                <target>Set Up Minimum Contribution Limit</target>
+            </trans-unit>
+            <trans-unit id="label.how_much_funds_do_you_want_to_raise">
+                <source>label.how_much_funds_do_you_want_to_raise</source>
+                <target>How Much Funds do you want to Raise</target>
+            </trans-unit>
+            <trans-unit id="label.fund_raiser">
+                <source>label.fund_raiser</source>
+                <target>Fund Raiser</target>
+            </trans-unit>
+            <trans-unit id="label.geo_code">
+                <source>label.geo_code</source>
+                <target>Geo Codes</target>
+            </trans-unit>
+            <trans-unit id="label.cause_of_event">
+                <source>label.cause_of_event</source>
+                <target>Cause Of Event</target>
+            </trans-unit>
+            <trans-unit id="label.items_required">
+                <source>label.items_required</source>
+                <target>Items Required</target>
+            </trans-unit>
+            <trans-unit id="label.upload_image">
+                <source>label.upload_image</source>
+                <target>Upload Image/Video</target>
+            </trans-unit>
+            <trans-unit id="label.media_file_path">
+                <source>label.media_file_path</source>
+                <target>Media File Path</target>
+            </trans-unit>
+            <trans-unit id="label.media_file_type">
+                <source>label.media_file_type</source>
+                <target>Media File Type</target>
+            </trans-unit>
+            <trans-unit id="label.media_file_name">
+                <source>label.media_file_name</source>
+                <target>Media File Name</target>
+            </trans-unit>
+            <trans-unit id="label.media_name">
+                <source>label.media_name</source>
+                <target>Media Name</target>
+            </trans-unit>
+            <trans-unit id="label.media_alt_text">
+                <source>label.media_alt_text</source>
+                <target>Media Alt Text</target>
+            </trans-unit>
+            <trans-unit id="label.media_title">
+                <source>label.media_title</source>
+                <target>Media Title</target>
+            </trans-unit>
+            <trans-unit id="label.media_url">
+                <source>label.media_url</source>
+                <target>Media URL</target>
+            </trans-unit>
+            <trans-unit id="label.circle_parent_event">
+                <source>label.circle_parent_event</source>
+                <target>Parent Event</target>
+            </trans-unit>
+            <trans-unit id="label.circle_child_event">
+                <source>label.circle_child_event</source>
+                <target>Event Name</target>
+            </trans-unit>
+            <trans-unit id="label.is_distributed_event">
+                <source>label.is_distributed_event</source>
+                <target>Is Crowd Funding</target>
+            </trans-unit>
+            <trans-unit id="label.member_name">
+                <source>label.member_name</source>
+                <target>Member Name</target>
+            </trans-unit>
+            <trans-unit id="label.circle_button">
+                <source>label.circle_button</source>
+                <target>Project</target>
+            </trans-unit>
+            <trans-unit id="label.target_amount_name">
+                <source>label.target_amount_name</source>
+                <target>Target Amount</target>
+            </trans-unit>
+            <trans-unit id="label.target_currency_name">
+                <source>label.target_currency_name</source>
+                <target>Target Currency</target>
+            </trans-unit>
+            <trans-unit id="label.min_amount_name">
+                <source>label.min_amount_name</source>
+                <target>Minimum Amount</target>
+            </trans-unit>
+            <trans-unit id="label.min_currency_name">
+                <source>label.min_currency_name</source>
+                <target>Minimum Currency</target>
+            </trans-unit>
+            <trans-unit id="label.purpose_of_raising_funds">
+                <source>label.purpose_of_raising_funds</source>
+                <target>e.g. Help the children in Mokhamal village with their primary education. Your funds will be used to purchase school bags, books and school stationary.</target>
+            </trans-unit>
+            <trans-unit id="label.purpose_of_event">
+                <source>label.purpose_of_event</source>
+                <target>Purpose of Event</target>
+            </trans-unit>
+            <trans-unit id="label.mobile_country_code">
+                <source>label.mobile_country_code</source>
+                <target>Mobile Country</target>
+            </trans-unit>
+            <trans-unit id="label.org_company">
+                <source>label.org_company</source>
+                <target>Company</target>
+            </trans-unit>
+            <trans-unit id="label.date_of_birth">
+                <source>label.date_of_birth</source>
+                <target>Date Of Birth</target>
+            </trans-unit>
+            <trans-unit id="label.individual_pan_card">
+                <source>label.individual_pan_card</source>
+                <target>Individual Pan Card No</target>
+            </trans-unit>
+            <trans-unit id="label.pan_card">
+                <source>label.pan_card</source>
+                <target>Pan Card No</target>
+            </trans-unit>
+            <trans-unit id="label.about_organization">
+                <source>label.about_organization</source>
+                <target>About Your Organization</target>
+            </trans-unit>
+            <trans-unit id="label.registration_certificate_trust_deed">
+                <source>label.registration_certificate_trust_deed</source>
+                <target>Registration Certificate/ Trust Deed</target>
+            </trans-unit>
+            <trans-unit id="label.incorporated_on_date">
+                <source>label.incorporated_on_date</source>
+                <target>Incorporated On Date</target>
+            </trans-unit>
+            <trans-unit id="label.registration_date_80g">
+                <source>label.registration_date_80g</source>
+                <target>80G Registration Date</target>
+            </trans-unit>
+            <trans-unit id="label.registration_no_80g">
+                <source>label.registration_no_80g</source>
+                <target>80G Registration No</target>
+            </trans-unit>
+            <trans-unit id="label.account_holder_name">
+                <source>label.account_holder_name</source>
+                <target>Account Holder Name</target>
+            </trans-unit>
+            <trans-unit id="label.ifsc_code">
+                <source>label.ifsc_code</source>
+                <target>IFSC Code</target>
+            </trans-unit>
+            <trans-unit id="label.organization_name">
+                <source>label.organization_name</source>
+                <target>Organization Name</target>
+            </trans-unit>
+            <trans-unit id="label.facebook_link">
+                <source>label.facebook_link</source>
+                <target>Facebook Link</target>
+            </trans-unit>
+            <trans-unit id="label.google_plus_link">
+                <source>label.google_plus_link</source>
+                <target>Google Plus Link</target>
+            </trans-unit>
+            <trans-unit id="label.twitter_handle_link">
+                <source>label.twitter_handle_link</source>
+                <target>Twitter Handle Link</target>
+            </trans-unit>
+            <trans-unit id="label.is_Subscribed_To_NewLetter">
+                <source>label.is_Subscribed_To_NewLetter</source>
+                <target>I'd like to receive communications from Giving Circle</target>
+            </trans-unit>
+            <trans-unit id="label.app_user">
+                <source>label.app_user</source>
+                <target>Organization / Member Name</target>
+            </trans-unit>
+            <trans-unit id="label.bank_name">
+                <source>label.bank_name</source>
+                <target>Bank Name</target>
+            </trans-unit>
+            <trans-unit id="label.account_status">
+                <source>label.account_status</source>
+                <target>Account Status</target>
+            </trans-unit>
+            <trans-unit id="label.social">
+                <source>label.social</source>
+                <target>Social</target>
+            </trans-unit>
+            <trans-unit id="label.social_post">
+                <source>label.social_post</source>
+                <target>Social Post</target>
+            </trans-unit>
+            <trans-unit id="label.link">
+                <source>label.link</source>
+                <target>Link</target>
+            </trans-unit>
+            <trans-unit id="label.caption">
+                <source>label.caption</source>
+                <target>Caption</target>
+            </trans-unit>
+            <trans-unit id="label.is_affiliated">
+                <source>label.is_affiliated</source>
+                <target>Is Affiliated</target>
+            </trans-unit>
+            <trans-unit id="label.media_button">
+                <source>label.media_button</source>
+                <target>Product Media</target>
+            </trans-unit>
+            <trans-unit id="label.creation_date">
+                <source>label.creation_date</source>
+                <target>Creation Date</target>
+            </trans-unit>
+            <trans-unit id="label.highlights">
+                <source>label.highlights</source>
+                <target>Highlights</target>
+            </trans-unit>
+            <trans-unit id="action.login_in">
+                <source>action.login_in</source>
+                <target>Login</target>
+            </trans-unit>
+            <trans-unit id="label.primary_area_of_interest">
+                <source>label.primary_area_of_interest</source>
+                <target>Primary Area Of Interest (If Any)</target>
+            </trans-unit>
+            <trans-unit id="label.icon">
+                <source>label.icon</source>
+                <target>Icon (If Any)</target>
+            </trans-unit>
+            <trans-unit id="label.suggested_keywords">
+                <source>label.suggested_keywords</source>
+                <target>Suggested Keywords</target>
+            </trans-unit>
+            <trans-unit id="label.is_crowd_funding">
+                <source>label.is_crowd_funding</source>
+                <target>Is crowd funding</target>
+            </trans-unit>
+            <trans-unit id="label.select_project">
+                <source>label.select_project</source>
+                <target>Select Project</target>
+            </trans-unit>
+            <trans-unit id="label.event_name_place_holder">
+                <source>label.event_name_place_holder</source>
+                <target>e.g. Fruit Distribution, Pashan Lake Cleaning</target>
+            </trans-unit>
+            <trans-unit id="label.event_goal_place_holder">
+                <source>label.event_goal_place_holder</source>
+                <target>e.g. Lorem Ipsum Dummy Text</target>
+            </trans-unit>
+            <trans-unit id="label.event_highlights_place_holder">
+                <source>label.event_highlights_place_holder</source>
+                <target>e.g. Lorem Ipsum Dummy Text</target>
+            </trans-unit>
+            <trans-unit id="label.event_work_description">
+                <source>label.event_work_description</source>
+                <target>e.g. Organisational skills</target>
+            </trans-unit>
+            <trans-unit id="label.event_key_responsibility">
+                <source>label.event_key_responsibility</source>
+                <target>e.g. Handling volunteer intake and on-the-field requirements</target>
+            </trans-unit>
+            <trans-unit id="label.date_format_dd_mm_yyyy">
+                <source>label.date_format_dd_mm_yyyy</source>
+                <target>DD/MM/YYYY</target>
+            </trans-unit>
+            <trans-unit id="label.date_format_yyyy_mm_dd">
+                <source>label.date_format_yyyy_mm_dd</source>
+                <target>YYYY-MM-DD</target>
+            </trans-unit>
+            <trans-unit id="label.news_title">
+                <source>label.news_title</source>
+                <target>News Title</target>
+            </trans-unit>
+            <trans-unit id="label.news_detail">
+                <source>label.news_detail</source>
+                <target>News Detail</target>
+            </trans-unit>
+            <trans-unit id="label.payment_gateway">
+                <source>label.payment_gateway</source>
+                <target>Payment Gateway</target>
+            </trans-unit>
+            <trans-unit id="label.environment">
+                <source>label.environment</source>
+                <target>Environment</target>
+            </trans-unit>
+            <trans-unit id="label.key">
+                <source>label.key</source>
+                <target>Key</target>
+            </trans-unit>
+            <trans-unit id="label.employment_status">
+                <source>label.employment_status</source>
+                <target>Employment Status</target>
+            </trans-unit>
+            <trans-unit id="label.remarks">
+                <source>label.remarks</source>
+                <target>Remarks</target>
+            </trans-unit>
+            <trans-unit id="label.amount_required">
+                <source>label.amount_required</source>
+                <target>Amount Required</target>
+            </trans-unit>
+            <trans-unit id="label.no_of_beneficiaries_supported">
+                <source>label.no_of_beneficiaries_supported</source>
+                <target>No of Beneficiaries Supported</target>
+            </trans-unit>
+            <trans-unit id="label.time_period_supported">
+                <source>label.time_period_supported</source>
+                <target>Time Period Supported</target>
+            </trans-unit>
+            <trans-unit id="label.notifications">
+                <source>label.notifications</source>
+                <target>Notification</target>
+            </trans-unit>
+            <trans-unit id="label.notification_name">
+                <source>label.notification_name</source>
+                <target>Notification Name</target>
+            </trans-unit>
+            <trans-unit id="label.email_subject">
+                <source>label.email_subject</source>
+                <target>Email Subject</target>
+            </trans-unit>
+            <trans-unit id="label.whats_app_message">
+                <source>label.whats_app_message</source>
+                <target>Whatsapp Message</target>
+            </trans-unit>
+            <trans-unit id="label.text_message">
+                <source>label.text_message</source>
+                <target>Text Message</target>
+            </trans-unit>
+            <trans-unit id="label.push_notification">
+                <source>label.push_notification</source>
+                <target>Push Notification</target>
+            </trans-unit>
+            <trans-unit id="label.email_content">
+                <source>label.email_content</source>
+                <target>Email Content</target>
+            </trans-unit>
+            <trans-unit id="label.system_notification">
+                <source>label.system_notification</source>
+                <target>System Notification</target>
+            </trans-unit>
+            <trans-unit id="label.action">
+                <source>label.action</source>
+                <target>Action</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

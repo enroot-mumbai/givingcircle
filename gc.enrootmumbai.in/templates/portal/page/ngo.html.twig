@@ -1,0 +1,241 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block portal_content %}
+    <!--Main Wrapper Starts-->
+    <div class="wrapper ngo">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb" data-aos="fade-right" data-aos-delay="500"
+                             class="breadcrumb d-flex justify-content-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="fa fc-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ pageContentByPage.pageTitle }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <h2 data-aos="fade-right" data-aos-delay="200">{{ pageContentByPage.pageTitle }}</h2>
+
+                {% set content = pageContentByPage.cmsPageContent[0] %}
+
+                <div data-aos="fade-right" data-aos-delay="400">
+                    {% include 'portal/page/_page_content_display.html.twig' %}
+                </div>
+                <ul class="piller-boxes">
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[1] %}
+
+                        <h3><i>
+                                {% if content.mediaType != '' %}
+                                    <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                {% endif %}
+                            </i>Technology
+                        </h3>
+                        {{ content.pageContent|raw }}
+                    </li>
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[2] %}
+
+                        <h3><i>
+                                {% if content.mediaType != '' %}
+                                    <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                {% endif %}
+                            </i>Marketing
+                        </h3>
+                        {{ content.pageContent|raw }}
+                    </li>
+                    <li>
+                        {% set content = pageContentByPage.cmsPageContent[3] %}
+                        <h3><i>
+                                {% if content.mediaType != '' %}
+                                    <img src="{{ asset('images/')~content.mediaFilePath }}">
+                                {% endif %}
+                            </i>Advisory
+                        </h3>
+                        {{ content.pageContent|raw }}
+                    </li>
+                </ul>
+                    {# Content End from Cms  #}
+
+            </div>
+        </section>
+
+        <section class="orange-box">
+            <div class="container">
+                <span class="on-off-platform">
+                    {{ pageContentByPage.cmsPageContent[4].pageContent|raw }}
+                </span>
+                <div class="white-box">
+                    {{ pageContentByPage.cmsPageContent[5].pageContent|raw }}
+                    <ul class="features">
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[6] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[7] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[8] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[9] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[10] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="pricing-sec">
+                        <div class="pricing">
+                            {{ pageContentByPage.cmsPageContent[11].pageContent|raw }}
+                        </div>
+                        {{ pageContentByPage.cmsPageContent[12].pageContent|raw }}
+                    </div>
+
+                    {{ pageContentByPage.cmsPageContent[13].pageContent|raw }}
+                    <ul class="features">
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[14] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[15] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[16] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[17] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% set content = pageContentByPage.cmsPageContent[18] %}
+                            {% if(content.mediaType) == '' %}
+                                <span>{{ content.pageContent|raw }}</span>
+                            {% else %}
+                                {% if(content.mediaPosition) == 'left' %}
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                    <span>{{ content.pageContent|raw }}</span>
+                                {% else %}
+                                    <span>{{ content.pageContent|raw }}</span>
+                                    <span class="icon"><img src="{{ asset('images/')~content.mediaFilePath }}"></span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!--Main Wrapper End-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('body').removeClass('inner-pg');
+            $('body').addClass('static about');
+        });
+    </script>
+{% endblock %}

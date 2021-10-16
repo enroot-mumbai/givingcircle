@@ -1,0 +1,130 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    {% if app.request.get('_route') == 'product_event_donation_index' %}
+                        {% set eventParams = "?event_id=" ~ app.request.get('event_id')  %}
+                    {% endif %}
+                </div>
+                <div class="card-header">
+                    {#<h4 class="card-title">{{ label_heading|trans|upper }} : {{ event.name  }}</h4>#}
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="dataTable" class="table table-responsive-md table-sm text-sm">
+                            <thead>
+                            <tr>
+                                {#<th>Sr. No.</th>#}
+                                <th>{{ 'Event Name'|trans|upper }}</th>
+                                <th id="dateCell">Date</th>
+                                <th>{{ 'Amount'|trans|upper }}</th>
+                                <th>{{ 'Transaction Id'|trans|upper }}</th>
+                                <th>{{ 'Status'|trans|upper }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for donationData in trn_orders %}
+                            <tr>
+                                {#<td>{{ loop.index }}</td>#}
+                                <td>
+                                    {% if donationData.trnCircleEvent is not empty %}
+                                        <a href="{{ path('product_event_show', {'id': donationData.trnCircleEvent.id}) }}"
+                                           alt="View Event - {{ donationData.trnCircleEvent }}"
+                                           title="View Event - {{ donationData.trnCircleEvent }}">
+                                            <button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i>
+                                            </button>
+                                        </a>
+                                        &nbsp;
+                                        {{ donationData.trnCircleEvent }}
+                                    {% else %}
+                                        {{ donationData.isGivingCircleDonation == 1 ? 'Giving Circle Donation' : ''  }}
+                                    {% endif %}
+
+                                    <span style="display: none;">{{ donationData.id|default('NA') }}</span>
+
+                                </td>
+                                <td>{{ donationData.orderDateTime | date('d M Y H:i:s') }}</td>
+                                <td><i class="fa fa-rupee"></i> {{ donationData.transactionAmount | number_format(2, '.', ',') }}</td>
+                                <td>{{ donationData.transactionId }}
+                                    <div class="tooltip">
+                                        <i style="color: #F05235;" class="fas fa-info-circle"></i>
+                                        <span class="tooltiptext">{{ donationData.textNote }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ donationData.transactionStatus|default('Fail') }}</td>
+                                {#<td>
+                                    {% if arrEventUpComingOrOnGoingDetails is defined and
+                                        arrEventUpComingOrOnGoingDetails is not empty and
+                                        arrEventUpComingOrOnGoingDetails[donationData.trnCircleEvent.id] is defined and
+                                        arrEventUpComingOrOnGoingDetails[donationData.trnCircleEvent.id] is not empty
+                                        and arrEventUpComingOrOnGoingDetails[donationData.trnCircleEvent.id] != '' %}
+                                        {{ arrEventUpComingOrOnGoingDetails[donationData.trnCircleEvent.id]['eventUpComingOrOnGoing'] }}
+                                    {% endif %}
+                                </td>#}
+                                <td>
+                                     <div class="btn-group-toggle" role="group" aria-label="Action Buttons">
+                                         {#<a href="{{ path('product_event_donation_show', {'id': donationData.id}) }}"
+                                            alt="View Order Details"
+                                            title="View Order Details">
+                                             <button type="button" class="btn btn-dark btn-sm"><i class="fa fa-expand"></i>
+                                             </button>
+                                         </a>#}
+                                         <i class="fa fa-file-pdf-o"></i>
+                                         {% if donationData.transactionId is defined and donationData.transactionId is not null %}
+                                         <a href="{{ path('print-receipt',{'transaction':donationData.transactionId}) }}" alt="Payment Receipt" title="Payment Receipt">
+                                             Payment Receipt
+                                         </a>
+                                        {% if donationData.trnCircleEvent is not empty and donationData.trnCircleEvent.trnCircle.appUser.appUserInfo.mstUserMemberType == 'Organization' and
+                                            donationData.trnCircleEvent.trnCircle.appUser.trnOrganizationDetails[0].registrationNo80G is not empty %}
+                                             / <a href="{{ path('print-eighty-g-certificate', {'transaction' : donationData.transactionId}) }}" alt="80G Certificate" title="80G Certificate">
+                                                     80G Certificate
+                                                 </a>
+                                             {% endif %}
+
+
+                                         {% else %}
+                                             --
+                                         {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">{{'info.no_record_found'|trans}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="{{ asset('assets/js/transaction/circle_event_comment/index.js') }}" type="text/javascript"></script>#}
+    <script>
+    $(document).ready(function () {
+        $('#dateCell').click(); // change sort order to desc
+    });
+    </script>
+{% endblock %}
