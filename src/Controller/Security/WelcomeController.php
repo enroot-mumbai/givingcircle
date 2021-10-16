@@ -41,6 +41,7 @@ class WelcomeController extends AbstractController
      * @Route("/form", name="form")
      * @Route("/product", name="product")
      * @Route("/registration", name="registration")
+     * @Route("/reports", name="reports")
       */
 
     public function index()

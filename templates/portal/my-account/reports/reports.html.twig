@@ -14,7 +14,16 @@
                 <div class="tab-content">
                     <div class="changeMakers projects">
                         <div class="head-sec mb-0">
-                            <h3>Coming Soon</h3>
+                            <h3>Reports</h3>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-cf-calculator') }}">Crowdfunding Calculator</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-fund-detail') }}">CF or Funds Detailed Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-impact-report') }}">Impact Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-member-wise') }}">Member Wise Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-event-performance') }}">Event Performance</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -31,6 +40,7 @@
     <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
     <script>
         $(document).ready(function () {
+
             $('body').addClass('inner-pg logged my-account');
             $( ".datepicker" ).datepicker({
                 showOn: "both",
@@ -58,11 +68,6 @@
                 $(this).parents('.avatar-edit').find('.avatar-preview').addClass('imageadded');
                 readURL(this);
             });
-
-
-
-
-
 
             function bannerImg(input) {
                 if (input.files && input.files[0]) {
@@ -109,10 +114,7 @@
                 }
             });
 
-
         });
-
-
 
     </script>
 {% endblock %}

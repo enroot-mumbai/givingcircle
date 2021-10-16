@@ -94,4 +94,40 @@ class EventService
         return $resultArr;
 
     }
+
+    function getEventsByDetails($event_id, $circle_id, $from_date, $to_date, $appUser = null) {
+
+        $repository = $this->em->getRepository(TrnCircleEvents::class);
+        $query = $repository->createQueryBuilder('e')
+            ->andWhere('e.isActive = :active')
+            ->setParameter('active', 1)
+            ->andWhere('e.isCrowdFunding = :is_crowdfunding')
+            ->setParameter('is_crowdfunding', 0);
+
+        if($appUser != null) {
+            $query = $query->andWhere('e.appUser = :user')
+                ->setParameter('user', $appUser);
+        }
+
+        if(!empty($event_id)) {
+            $query = $query->andWhere('e.id = :event_id OR e.parentTrnCircleEvents = :event_id')
+                ->setParameter('event_id', $event_id);
+        }
+        if(!empty($circle_id)) {
+            $query = $query->andWhere('e.trnCircle = :circle_id')
+                ->setParameter('circle_id', $circle_id);
+        }
+        if(!empty($from_date)) {
+            /*$query = $query->andWhere('e.fromDate >= :from_date')
+                ->setParameter('from_date', $from_date);*/
+        }
+
+        if(!empty($to_date)) {
+            /*$query = $query->andWhere('e.toDate <= :to_date')
+                ->setParameter('to_date', $to_date);*/
+        }
+
+        return $query->getQuery()->getResult();
+
+    }
 }

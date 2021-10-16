@@ -1,0 +1,111 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+
+    {% set paymentGatewayCharges = 0 %}
+    {% set platformFees = 0 %}
+    {% set alreadyWithdrawn = 0 %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ label_title }}</h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="reportTable" class="table table-responsive table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>Sr No.
+                                    <input type="hidden" name="filename" id="filename" value="Crowdfunding Calculator">
+                                    <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A1">
+                                </th>
+                                <th>Project Name</th>
+                                <th>Name of Campaign / Event Name</th>
+                                <th>No of Child Campaigns</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>No of Days left </th>
+                                <th>Target Amount</th>
+                                <th>Achievement </th>
+                                <th>Payment Gateway Charges</th>
+                                <th>Net of Payment Gateway Charges</th>
+                                <th>Platform Fee</th>
+                                <th>Net Payable</th>
+                                <th>Already Withdrawn (Settled)</th>
+                                <th>Corpus Available</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for data in details %}
+
+                            {% set crowdFundingData = crowd_funding_data(data.id) %}
+                            {% set targetAmount = data.trnCrowdFundEvents[0].targetAmount %}
+                            {% set achievement = crowdFundingData.totalTransactionAmount %}
+                            {#{% set percentage = ((crowdFundingData.totalTransactionAmount/targetAmount) * 100)|round %}#}
+
+                            {% set validToDate = data.toDate|date('U') %}
+                            {% set today = date()|date('U') %}
+                            {% set difference = date(today).diff(date(validToDate)) %}
+                            {% set leftDays = difference.days %}
+
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ data.trnCircle }}</td>
+                                <td>{{ data.name }}</td>
+                                <td>{{ data.trnCrowdFundEvents[0].trnCrowdFundEventDistributedDetails|length }}</td>
+                                <td>{{ data.fromDate|date('d-m-Y') }}</td>
+                                <td>{{ data.toDate|date('d-m-Y') }}</td>
+                                <td>
+                                    {{ today < validToDate and leftDays > 0 ? leftDays ~ ' days' : '' }}
+                                </td>
+                                <td>₹ {{ data.trnCrowdFundEvents[0].targetAmount }}</td>
+                                <td>₹ {{ achievement }}</td>
+                                <td>₹ {{ paymentGatewayCharges }}</td>
+                                <td>₹ {{ achievement - paymentGatewayCharges }}</td>
+                                <td>₹ {{ platformFees }}</td>
+                                <td>₹ {{ achievement - paymentGatewayCharges - platformFees }}</td>
+                                <td>₹ {{ alreadyWithdrawn }}</td>
+                                <td>₹ {{ achievement - paymentGatewayCharges - platformFees - alreadyWithdrawn }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{'info.no_record_found'|trans}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}

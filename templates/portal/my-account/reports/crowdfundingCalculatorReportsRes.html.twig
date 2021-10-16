@@ -1,0 +1,256 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" media="all" type="text/css" />
+    <link rel="stylesheet"  href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" media="all" type="text/css" />
+    <style>
+        ul > li { margin-top: 2rem;}
+    </style>
+{% endblock %}
+{% block portal_content %}
+    {% set paymentGatewayCharges = 0 %}
+    {% set platformFees = 0 %}
+    {% set alreadyWithdrawn = 0 %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec mb-0">
+                            <h3>Reports</h3>
+                        </div>
+                        <div class="card">
+                            <div class="card-body my-story">
+                                <a class="btn btn-primary-o mt-3 active" href="{{ path('my-account-reports-cf-calculator') }}">Crowdfunding Calculator</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-fund-detail') }}">CF or Funds Detailed Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-impact-report') }}">Impact Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-member-wise') }}">Member Wise Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-event-performance') }}">Event Performance</a>
+
+                                <div class="mt-5" style="overflow-x: auto;">
+                                    <table id="reportTable" class="table table-responsive table-sm text-sm">
+                                        <thead>
+                                        <tr>
+                                            <th>Sr No.
+                                                <input type="hidden" name="filename" id="filename" value="Crowdfunding Calculator">
+                                                <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A1">
+                                            </th>
+                                            <th>Project Name</th>
+                                            <th>Name of Campaign / Event Name</th>
+                                            <th>No of Child Campaigns</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>No of Days left </th>
+                                            <th>Target Amount</th>
+                                            <th>Achievement </th>
+                                            <th>Payment Gateway Charges</th>
+                                            <th>Net of Payment Gateway Charges</th>
+                                            <th>Platform Fee</th>
+                                            <th>Net Payable</th>
+                                            <th>Already Withdrawn (Settled)</th>
+                                            <th>Corpus Available</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for data in details %}
+
+                                            {% set crowdFundingData = crowd_funding_data(data.id) %}
+                                            {% set targetAmount = data.trnCrowdFundEvents[0].targetAmount %}
+                                            {% set achievement = crowdFundingData.totalTransactionAmount %}
+                                            {#{% set percentage = ((crowdFundingData.totalTransactionAmount/targetAmount) * 100)|round %}#}
+
+                                            {% set validToDate = data.toDate|date('U') %}
+                                            {% set today = date()|date('U') %}
+                                            {% set difference = date(today).diff(date(validToDate)) %}
+                                            {% set leftDays = difference.days %}
+
+                                            <tr>
+                                                <td>{{ loop.index }}</td>
+                                                <td>{{ data.trnCircle }}</td>
+                                                <td>{{ data.name }}</td>
+                                                <td>{{ data.trnCrowdFundEvents[0].trnCrowdFundEventDistributedDetails|length }}</td>
+                                                <td>{{ data.fromDate|date('d-m-Y') }}</td>
+                                                <td>{{ data.toDate|date('d-m-Y') }}</td>
+                                                <td>
+                                                    {{ today < validToDate and leftDays > 0 ? leftDays ~ ' days' : '' }}
+                                                </td>
+                                                <td>₹ {{ data.trnCrowdFundEvents[0].targetAmount }}</td>
+                                                <td>₹ {{ achievement }}</td>
+                                                <td>₹ {{ paymentGatewayCharges }}</td>
+                                                <td>₹ {{ achievement - paymentGatewayCharges }}</td>
+                                                <td>₹ {{ platformFees }}</td>
+                                                <td>₹ {{ achievement - paymentGatewayCharges - platformFees }}</td>
+                                                <td>₹ {{ alreadyWithdrawn }}</td>
+                                                <td>₹ {{ achievement - paymentGatewayCharges - platformFees - alreadyWithdrawn }}</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td>{{'info.no_record_found'|trans}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+
+    <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').addClass('inner-pg logged my-account');
+            $( ".datepicker" ).datepicker({
+                showOn: "both",
+                buttonImage: "/resources/images/common/icons/icon_calender.png",
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            });
+            $('.input-images-3').imageUploader({
+                label: 'Upload Documentation',
+                label2: 'Add More Images'
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                        $('#imagePreview').hide();
+                        $('#imagePreview').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload").change(function() {
+                //alert('profile image');
+                $(this).parents('.avatar-edit').find('.avatar-preview').addClass('imageadded');
+                readURL(this);
+            });
+
+
+            if ($('#reportTable').length) {
+                var report = $("#reportTable").DataTable({
+                    "paging": false,
+                    "lengthChange": true,
+                    "order": [],
+                    "ordering": false,
+                    "info": true,
+                    "searching": false,
+                    "autoWidth": true,
+                    "dom": 'Bfrtip',
+                    /*"buttons": [
+                        'excel', 'pdf'
+                    ]*/
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            title: $("#filename").val()+ '-Report-GivingCircle',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: $("#filename").val()+ '-Report-GivingCircle',
+                            pageSize : $("#pdfFileSize").val(),
+                        }
+                    ]
+                });
+                /*report.buttons().container()
+                    .appendTo( $('.col-sm-6:eq(0)', report.table().container() ) );*/
+            }
+
+            $("#reportTable_info").hide();
+
+
+
+            function bannerImg(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview2').css('background-image', 'url('+e.target.result +')');
+                        $('#imagePreview2').hide();
+                        $('#imagePreview2').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload2").change(function() {
+                //alert('banner image');
+                $(this).parents('.banner-image').find('.banner-preview').addClass('imageadded');
+                $(this).parents().find('.profile-bg').hide();
+                bannerImg(this);
+            });
+
+
+            function formcontrol(){
+                $(".form-control").filter(function() {
+                    if (this.value.length !==0){
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+            });
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+
+
+        });
+
+
+
+    </script>
+{% endblock %}

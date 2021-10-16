@@ -1,0 +1,96 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+{% endblock %}
+{% block cms_content %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ label_title }}</h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <form method="post" name="mwreport" id="mwreport" action="{{ path('report_event_performance_result') }}">
+                            <div class="row">
+                                <div class="col-sm-1">Project Name</div>
+                                <div class="col-sm-3">
+                                    <select name="project" id="project" class="form-control" onchange="ChangeMembers()">
+                                        <option value="">Select</option>
+                                        {% for project in allActiveProjects %}
+                                            <option value="{{ project.id }}">{{ project }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-1">Event</div>
+                                <div class="col-sm-3">
+                                    <select name="event" id="event" class="form-control">
+                                        <option value="">Select</option>
+                                        {% for event in allActiveEvents %}
+                                            <option value="{{ event.id }}">{{ event.name }}{% if event.parentTrnCircleEvents is not null %} (child) {% endif %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-3">
+                                    <button type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script>
+
+        function ChangeMembers() {
+
+            var data = {};
+            data['q'] = $("#project").val();
+            console.log(data);
+
+            $.ajax({
+                url: '{{ path("report_impact_report_event_list") }}',
+                data: data,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    var product = $("#event");
+                    product.html('');
+                    product.append('<option value="" >Select...</option>');
+                    // add options
+                    $.each(data, function (id, result) {
+                        product.append('<option value="'+ result.id +'">'+ result.name + '</option>');
+                    });
+                }
+            });
+        }
+
+    </script>
+{% endblock %}

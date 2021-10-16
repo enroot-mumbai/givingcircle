@@ -1,0 +1,159 @@
+{% extends 'layout/content.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        table td, table th { text-align: center; }
+    </style>
+{% endblock %}
+{% block cms_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="">
+                <div class="">
+                    <h4>{{ label_title }}</h4>
+                </div>
+                <nav class="collapse show">
+                    <div class="card-dashboard ">
+                        <table id="reportTable" class="table table-responsive table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th colspan="11">Volunteer Event Report</th>
+                                <th colspan="8">Material Event Report</th>
+                                <th colspan="8">Fund Raiser Event Report</th>
+                            </tr>
+                            <tr>
+                                <th>Sr No.
+                                    <input type="hidden" name="filename" id="filename" value="Impact Report">
+                                    <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A0">
+                                </th>
+                                <th>Project Name</th>
+                                <th>Event Name</th>
+                                <th>Resource Required</th>
+
+                                {# Volunteer Details - start #}
+                                <th>Event Start Date</th>
+                                <th>Event End Date</th>
+                                <th>Place Of Work</th>
+                                <th>Total Hours Asked</th>
+                                <th>Total Hours Achieved</th>
+                                <th>Sr No.</th>
+                                <th>Specific Skills</th>
+                                <th>Hours Asked</th>
+                                <th>Participant / Member Name</th>
+                                <th>Date</th>
+                                <th>Hours Achieved</th>
+                                {# Volunteer Details - end #}
+
+                                {# Material Details - start #}
+                                <th>Event Start Date</th>
+                                <th>Event End Date</th>
+                                <th>Sr No.</th>
+                                <th>Items</th>
+                                <th>Quantity Required</th>
+                                <th>Participant / Member Name</th>
+                                <th>Quantity Received</th>
+                                <th>Collection Center</th>
+                                {# Material Details - end #}
+
+                                {# Fund Details - start #}
+                                <th>Event Start Date</th>
+                                <th>Event End Date</th>
+                                <th>Total Funds Required</th>
+                                <th>Total Funds Received</th>
+                                <th>Sr No.</th>
+                                <th>Date of Donation</th>
+                                <th>Donor Name</th>
+                                <th>Donation Amount</th>
+                                {# Fund Details - end #}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for eventId,detail in details %}
+                            {% for data in detail %}
+
+                            <tr>
+                                <td>{{ data.esr_no }}</td>
+                                <td>{{ data.circleName|default('') }}</td>
+                                <td>{{ data.eventName|default('') }}</td>
+                                <td>{{ data.resourceRequired|default('') }}</td>
+
+                                {# Volunteer Details - start #}
+                                <td>{{ data.volunteer_start_date is empty ? '' : data.volunteer_start_date|date('d-m-Y') }}</td>
+                                <td>{{ data.volunteer_end_date is empty ? '' : data.volunteer_end_date|date('d-m-Y') }}</td>
+                                <td>{{ data.place_of_work }}</td>
+                                <td>{{ data.total_hours_asked }}</td>
+                                <td>{{ data.total_hours_asked is empty ? '' : volunteer_ttl_hours_achieved[eventId]|default('') }}</td>
+                                <td>{{ data.vsr_no }}</td>
+                                <td>{{ data.skill }}</td>
+                                <td>{{ data.hours_asked }}</td>
+                                <td>{{ data.v_participant_name }}</td>
+                                <td>{{ data.date_of_service is empty ? '' : data.date_of_service|date('d-m-Y') }}</td>
+                                <td>{{ data.hours_achieved }}</td>
+                                {# Volunteer Details - end #}
+
+                                {# Material Details - start #}
+                                <td>{{ data.material_start_date is empty ? '' : data.material_start_date|date('d-m-Y') }}</td>
+                                <td>{{ data.material_end_date is empty ? '' : data.material_end_date|date('d-m-Y') }}</td>
+                                <td>{{ data.msr_no }}</td>
+                                <td>{{ data.item }}</td>
+                                <td>{{ data.qty_required }}</td>
+                                <td>{{ data.m_participant_name }}</td>
+                                <td>{{ data.qty_received }}</td>
+                                <td>{{ data.collection_center }}</td>
+                                {# Material Details - end #}
+
+                                {# Fund Details - start #}
+                                <td>{{ data.fund_start_date is empty ? '' : data.fund_start_date|date('d-m-Y') }}</td>
+                                <td>{{ data.fund_end_date is empty ? '' : data.fund_end_date|date('d-m-Y') }}</td>
+                                <td>{{ data.total_funds_required }}</td>
+                                <td>{{ data.total_funds_received }}</td>
+                                <td>{{ data.fsr_no }}</td>
+                                <td>{{ data.date_of_donation is empty ? '' : data.date_of_donation|date('d-m-Y') }}</td>
+                                <td>{{ data.donor_name }}</td>
+                                <td>{{ data.donation_amount }}</td>
+                                {# Fund Details - end #}
+
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>{{'info.no_record_found'|trans}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $("document").ready(function() {
+        $("#reportTable_info").hide();
+    });
+</script>
+{% endblock %}

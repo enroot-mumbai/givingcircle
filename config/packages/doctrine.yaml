@@ -1,5 +1,4 @@
 doctrine:
-
     dbal:
         default_connection: default
         connections:

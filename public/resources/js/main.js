@@ -44,6 +44,7 @@ $(document).ready(function () {
     });
 
     var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+
     $('.main-nav li a').each(function () {
         if (this.href === path) {
             $(this).parent().addClass('active');
@@ -56,7 +57,15 @@ $(document).ready(function () {
         }
     });
     $('.sidebar-menu li a').each(function () {
-        if (this.href === path) {
+
+        $("#report").removeClass('activated');
+        if ($(this).data('parent') === 'report' && this.href === path) {
+
+            $('.report-sub-nav').show();
+            $("#report").addClass('activated');
+            $(this).parent().addClass('active');
+
+        } else if (this.href === path) {
             $(this).parent().addClass('active');
         }
     });

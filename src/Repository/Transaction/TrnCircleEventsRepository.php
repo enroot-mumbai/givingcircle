@@ -42,6 +42,56 @@ class TrnCircleEventsRepository extends ServiceEntityRepository
         $this->mstStatusRepository = $mstStatusRepository;
     }
 
+    public function getEventCreatorList($circleId = null, $appUser = null) {
+        $sql = $this->createQueryBuilder('e')
+            ->select('distinct(e.appUser) as user, u.userName as userName')
+            ->leftJoin('e.appUser', 'u')
+            ->andWhere('e.isActive  = :active')
+            ->setParameter('active', 1)
+            ->orderBy('e.id', 'DESC');
+
+        if($circleId != null) {
+            $sql = $sql->andWhere('e.trnCircle  = :trnCircle_id')
+                ->setParameter('trnCircle_id', $circleId);
+        }
+
+        if($appUser != null) {
+            $sql = $sql->andWhere('e.appUser  = :user')
+                ->setParameter('user', $appUser);
+        }
+
+        return $sql->getQuery()->getResult();
+    }
+
+    public function getEventsByName($eventName, $onlyCrowdfunding = false, $parentEvents = true, $appUser = null) {
+        $sql = $this->createQueryBuilder('e')
+            ->andWhere('e.name  like :event_name')
+            ->andWhere('e.isActive  = :active')
+            ->setParameter('event_name', '%'.$eventName.'%')
+            ->setParameter('active', 1)
+            ->orderBy('e.id', 'DESC');
+
+        if($onlyCrowdfunding == true) {
+            $sql = $sql->andWhere('e.isCrowdFunding  = :isCrowdFunding')
+                    ->setParameter('isCrowdFunding', 1);
+        }
+
+        if($appUser != null) {
+            $sql = $sql->andWhere('e.appUser  = :user')
+                ->setParameter('user', $appUser);
+        }
+
+        if($parentEvents == true) {
+            $sql = $sql->andWhere('e.parentTrnCircleEvents  is null');
+        } else {
+            // only child events will come
+            $sql = $sql->andWhere('e.parentTrnCircleEvents  is not null');
+        }
+
+        return $sql->getQuery()->getResult();
+
+    }
+
     public function getPrimaryAreaInterestList($company_id, $activeEventsOnly = false)
     {
         $sql = $this->createQueryBuilder('a')
@@ -118,15 +168,23 @@ class TrnCircleEventsRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getCircleEventList($circle_id)
+    public function getCircleEventList($circle_id, $active = null, $appUser = null)
     {
-        return $this->createQueryBuilder('e')
+        $sql = $this->createQueryBuilder('e')
             ->select('e.id', 'e.name')
             ->andWhere('e.trnCircle =:circle')
             ->setParameter('circle', $circle_id)
-            ->orderBy('e.name', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('e.name', 'ASC');
+
+        if($active != null) {
+            $sql = $sql->andWhere('e.isActive = :active')->setParameter('active', $active);
+        }
+
+        if($appUser != null) {
+            $sql = $sql->andWhere('e.appUser = :user')->setParameter('user', $appUser);
+        }
+
+        return $sql->getQuery()->getResult();
 
     }
 

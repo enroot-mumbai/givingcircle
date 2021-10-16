@@ -343,3 +343,5 @@ header .donate-btn { right: 10px; }
 }
 
 /*css updated by sandeep*/
+
+.myaccount .tab-content .btn.btn-primary-o.active { background-color: #333E69; color: #fff; }

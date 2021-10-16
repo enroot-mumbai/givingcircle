@@ -1,0 +1,128 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ label_title }}</h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="reportTable" class="table table-responsive table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th colspan="7"></th>
+                                <th colspan="4">Time Contribution</th>
+                                <th colspan="4">Material Contribution</th>
+                                <th colspan="3">Funds Contribution</th>
+                            </tr>
+                            <tr>
+                                <th>Sr No.
+                                    <input type="hidden" name="filename" id="filename" value="Event Performance">
+                                    <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A2">
+                                </th>
+                                <th>Project Name</th>
+                                <th>Event Name</th>
+                                <th>No. of Invitation Sent</th>
+                                <th>No. of Members Joined</th>
+                                <th>No. of Members No Response</th>
+
+                                <th>No. of Participants</th>
+                                <th>Specific Skills</th>
+                                <th>Hours Asked</th>
+                                <th>Hours Achieved</th>
+
+                                <th>No. of Participants</th>
+                                <th>Items</th>
+                                <th>Quantity Required</th>
+                                <th>Quantity Received</th>
+
+                                <th>No. of Participants</th>
+                                <th>Target Amount</th>
+                                <th>Amount Received</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        {% for detail in details %}
+                            {% for data in detail %}
+                            <tr>
+                                <td>{{ data.sr_no }}</td>
+                                <td>{{ data.circleName }}</td>
+                                <td>{{ data.eventName }}</td>
+                                <td>{{ data.no_of_invitation }}</td>
+                                <td>{{ data.members_joined }}</td>
+                                <td>{{ data.members_pending }}</td>
+
+                                <td>{{ data.v_participant_count }}</td>
+                                <td>{{ data.specific_skill }}</td>
+                                <td>{{ data.hours_asked }}</td>
+                                <td>{{ data.hours_achieved }}</td>
+
+                                <td>{{ data.memberCnt }}</td>
+                                <td>{{ data.item }}</td>
+                                <td>{{ data.qtyRequired }}</td>
+                                <td>{{ data.qtyReceived }}</td>
+
+                                <td>{{ data.fund_no_of_participant }}</td>
+                                <td>{{ data.fund_total_amt_required }}</td>
+                                <td>{{ data.fund_total_amt_received }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>{{'info.no_record_found'|trans}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $("document").ready(function() {
+        $("#ttlVolunteer").text($("#totalV").val());
+        $("#ttlMaterial").text($("#totalM").val());
+        $("#ttlFunds").text($("#totalF").val());
+        $("#ttlCrowdfunding").text($("#totalCF").val());
+    });
+</script>
+{% endblock %}

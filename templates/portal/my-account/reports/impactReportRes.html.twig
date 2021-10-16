@@ -1,0 +1,295 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <style>
+
+    </style>
+{% endblock %}
+{% block portal_content %}
+    {% set paymentGatewayCharges = 0 %}
+    {% set platformFees = 0 %}
+    {% set alreadyWithdrawn = 0 %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec mb-0">
+                            <h3>Reports</h3>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-cf-calculator') }}">Crowdfunding Calculator</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-fund-detail') }}">CF or Funds Detailed Report</a>
+                                <a class="btn btn-primary-o mt-3 active" href="{{ path('my-account-reports-impact-report') }}">Impact Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-member-wise') }}">Member Wise Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-event-performance') }}">Event Performance</a>
+
+                                <div class="mt-5" style="overflow-x: auto;">
+                                    <table id="reportTable" class="table table-responsive table-sm text-sm" style="overflow-x: unset">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="4"></th>
+                                            <th colspan="11">Volunteer Event Report</th>
+                                            <th colspan="8">Material Event Report</th>
+                                            <th colspan="8">Fund Raiser Event Report</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Sr No.
+                                                <input type="hidden" name="filename" id="filename" value="Impact Report">
+                                                <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A0">
+                                            </th>
+                                            <th>Project Name</th>
+                                            <th>Event Name</th>
+                                            <th>Resource Required</th>
+
+                                            {# Volunteer Details - start #}
+                                            <th>Event Start Date</th>
+                                            <th>Event End Date</th>
+                                            <th>Place Of Work</th>
+                                            <th>Total Hours Asked</th>
+                                            <th>Total Hours Achieved</th>
+                                            <th>Sr No.</th>
+                                            <th>Specific Skills</th>
+                                            <th>Hours Asked</th>
+                                            <th>Participant / Member Name</th>
+                                            <th>Date</th>
+                                            <th>Hours Achieved</th>
+                                            {# Volunteer Details - end #}
+
+                                            {# Material Details - start #}
+                                            <th>Event Start Date</th>
+                                            <th>Event End Date</th>
+                                            <th>Sr No.</th>
+                                            <th>Items</th>
+                                            <th>Quantity Required</th>
+                                            <th>Participant / Member Name</th>
+                                            <th>Quantity Received</th>
+                                            <th>Collection Center</th>
+                                            {# Material Details - end #}
+
+                                            {# Fund Details - start #}
+                                            <th>Event Start Date</th>
+                                            <th>Event End Date</th>
+                                            <th>Total Funds Required</th>
+                                            <th>Total Funds Received</th>
+                                            <th>Sr No.</th>
+                                            <th>Date of Donation</th>
+                                            <th>Donor Name</th>
+                                            <th>Donation Amount</th>
+                                            {# Fund Details - end #}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for eventId,detail in details %}
+                                            {% for data in detail %}
+
+                                                <tr>
+                                                    <td>{{ data.esr_no }}</td>
+                                                    <td>{{ data.circleName|default('') }}</td>
+                                                    <td>{{ data.eventName|default('') }}</td>
+                                                    <td>{{ data.resourceRequired|default('') }}</td>
+
+                                                    {# Volunteer Details - start #}
+                                                    <td>{{ data.volunteer_start_date is empty ? '' : data.volunteer_start_date|date('d-m-Y') }}</td>
+                                                    <td>{{ data.volunteer_end_date is empty ? '' : data.volunteer_end_date|date('d-m-Y') }}</td>
+                                                    <td>{{ data.place_of_work }}</td>
+                                                    <td>{{ data.total_hours_asked }}</td>
+                                                    <td>{{ data.total_hours_asked is empty ? '' : volunteer_ttl_hours_achieved[eventId]|default('') }}</td>
+                                                    <td>{{ data.vsr_no }}</td>
+                                                    <td>{{ data.skill }}</td>
+                                                    <td>{{ data.hours_asked }}</td>
+                                                    <td>{{ data.v_participant_name }}</td>
+                                                    <td>{{ data.date_of_service is empty ? '' : data.date_of_service|date('d-m-Y') }}</td>
+                                                    <td>{{ data.hours_achieved }}</td>
+                                                    {# Volunteer Details - end #}
+
+                                                    {# Material Details - start #}
+                                                    <td>{{ data.material_start_date is empty ? '' : data.material_start_date|date('d-m-Y') }}</td>
+                                                    <td>{{ data.material_end_date is empty ? '' : data.material_end_date|date('d-m-Y') }}</td>
+                                                    <td>{{ data.msr_no }}</td>
+                                                    <td>{{ data.item }}</td>
+                                                    <td>{{ data.qty_required }}</td>
+                                                    <td>{{ data.m_participant_name }}</td>
+                                                    <td>{{ data.qty_received }}</td>
+                                                    <td>{{ data.collection_center }}</td>
+                                                    {# Material Details - end #}
+
+                                                    {# Fund Details - start #}
+                                                    <td>{{ data.fund_start_date is empty ? '' : data.fund_start_date|date('d-m-Y') }}</td>
+                                                    <td>{{ data.fund_end_date is empty ? '' : data.fund_end_date|date('d-m-Y') }}</td>
+                                                    <td>{{ data.total_funds_required }}</td>
+                                                    <td>{{ data.total_funds_received }}</td>
+                                                    <td>{{ data.fsr_no }}</td>
+                                                    <td>{{ data.date_of_donation is empty ? '' : data.date_of_donation|date('d-m-Y') }}</td>
+                                                    <td>{{ data.donor_name }}</td>
+                                                    <td>{{ data.donation_amount }}</td>
+                                                    {# Fund Details - end #}
+
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td>{{'info.no_record_found'|trans}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+
+    <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('body').addClass('inner-pg logged my-account');
+            $( ".datepicker" ).datepicker({
+                showOn: "both",
+                buttonImage: "/resources/images/common/icons/icon_calender.png",
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            });
+            $('.input-images-3').imageUploader({
+                label: 'Upload Documentation',
+                label2: 'Add More Images'
+            });
+
+            if ($('#reportTable').length) {
+                var report = $("#reportTable").DataTable({
+                    "paging": false,
+                    "lengthChange": true,
+                    "order": [],
+                    "ordering": false,
+                    "info": true,
+                    "searching": false,
+                    "autoWidth": true,
+                    "dom": 'Bfrtip',
+                    /*"buttons": [
+                        'excel', 'pdf'
+                    ]*/
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            title: $("#filename").val()+ '-Report-GivingCircle',
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: $("#filename").val()+ '-Report-GivingCircle',
+                            pageSize : $("#pdfFileSize").val(),
+                        }
+                    ]
+                });
+                /*report.buttons().container()
+                    .appendTo( $('.col-sm-6:eq(0)', report.table().container() ) );*/
+            }
+            $("#reportTable_info").hide();
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                        $('#imagePreview').hide();
+                        $('#imagePreview').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload").change(function() {
+                //alert('profile image');
+                $(this).parents('.avatar-edit').find('.avatar-preview').addClass('imageadded');
+                readURL(this);
+            });
+
+
+
+
+
+
+            function bannerImg(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview2').css('background-image', 'url('+e.target.result +')');
+                        $('#imagePreview2').hide();
+                        $('#imagePreview2').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload2").change(function() {
+                //alert('banner image');
+                $(this).parents('.banner-image').find('.banner-preview').addClass('imageadded');
+                $(this).parents().find('.profile-bg').hide();
+                bannerImg(this);
+            });
+
+
+            function formcontrol(){
+                $(".form-control").filter(function() {
+                    if (this.value.length !==0){
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+            });
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+
+
+        });
+
+
+
+    </script>
+{% endblock %}

@@ -70,13 +70,21 @@
 .cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav > a:after, .cust-tabs.crowdfunding > ul> li>.events-nav>li.crowdfunding-nav > a:hover:after {content: '';border-top: 10px solid transparent;display: inline-block;width: 10px;right: -20px;position: absolute;border-right: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #f05235;top: 50%;transform: translateY(-50%);z-index: 99;}
 .cust-tabs.projects > ul> li.project-nav > a,
 .cust-tabs > ul> li > ul.events-nav.active > a{color: #F05235;}
+
+.cust-tabs > ul> li > ul >li.active a:before,
+.cust-tabs > ul> li > ul >li a:hover:before {content:'';width: 10px;height: 100%;background: #f05235;display: inline-block;position: absolute;right: 0;top: 0;}
+.cust-tabs > ul> li > ul >li.active a:after,
+.cust-tabs > ul> li > ul >li a:hover:after {content:'';border-top: 10px solid transparent;display: inline-block;width: 10px;right: -20px;position: absolute;border-right: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #f05235;top: 50%;transform: translateY(-50%);z-index: 99;}
+
+.cust-tabs > ul> li > ul.report-sub-nav {display: none;}
+
 .cust-tabs > ul> li.active a:after,
 .cust-tabs > ul> li a:hover:after {content:'';border-top: 10px solid transparent;display: inline-block;width: 10px;right: -20px;position: absolute;border-right: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 10px solid #f05235;top: 50%;transform: translateY(-50%);z-index: 99;}
 .cust-tabs > ul> li a:hover{color:#F05235}
 .cust-tabs > ul> li > a {display: table;color:#303030;padding: 20px 0;position: relative;width: 100%;}
 .cust-tabs > ul> li > a > span {font-weight:600;display: table-cell;line-height: 30px;padding-left: 10px;}
 .cust-tabs > ul> li > a > i {display: table-cell;}
-.cust-tabs .tab-content {background: #fff;border-radius: 20px;margin-top:10px;padding: 30px 35px 30px 50px;box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.15);min-height: 500px;position: relative;}
+.cust-tabs .tab-content {background: #fff;border-radius: 20px;margin-top:10px;padding: 30px 35px 30px 50px;box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.15);min-height: 700px;position: relative;}
 
 .fc-user2{background: url('/resources/images/my-account/icon-individual-black.png');width: 27px;height: 30px; transition: all 0.5s ease;}
 .fc-social-profile{background: url('/resources/images/my-account/icon-socialprofile.png');width: 30px;height: 30px;transition: all 0.5s ease;}

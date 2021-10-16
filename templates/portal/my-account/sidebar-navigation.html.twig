@@ -53,13 +53,20 @@
         </a>
 
     </li>
-    <li>
+    <li id="report">
         <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and
             isMandatoryFilled == true %} href="{{ path('my-account-reports') }}" {% else %} href="javascript:void(0);"
             onclick="alert('Please update the Personal Info mandatory fields inorder to proceed');" {% endif %}>
             <i class="fa fa-bar-chart"></i>
             <span>Reports</span>
         </a>
+        <ul class="report-sub-nav">
+            <li><a data-parent="report" href="{{ path('my-account-reports-cf-calculator') }}">Crowdfunding Calculator</li></a>
+            <li><a data-parent="report" href="{{ path('my-account-reports-fund-detail') }}">CF or Funds Detailed Report</li></a>
+            <li><a data-parent="report" href="{{ path('my-account-reports-impact-report') }}">Impact Report</li></a>
+            <li><a data-parent="report" href="{{ path('my-account-reports-member-wise') }}">Member Wise Report</li></a>
+            <li><a data-parent="report" href="{{ path('my-account-reports-event-performance') }}">Event Performance</li></a>
+        </ul>
     </li>
     <li>
         <a {% if isMandatoryFilled is defined and isMandatoryFilled is not empty and

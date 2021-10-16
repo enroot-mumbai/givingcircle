@@ -30,11 +30,16 @@ use App\Repository\SystemApp\AppUserRepository;
 use App\Repository\Transaction\TrnAppUserContactsRepository;
 use App\Repository\Transaction\TrnCircleEventsRepository;
 use App\Repository\Transaction\TrnCircleRepository;
+use App\Repository\Transaction\TrnOrderRepository;
 use App\Repository\Transaction\TrnVolunterInterestRepository;
+use App\Service\EventService;
 use App\Service\FileUploaderHelper;
 use App\Service\Mailer;
 use App\Service\MyAccountService;
 use App\Service\NotificationService;
+use App\Service\OrderDetails;
+use App\Service\ProjectService;
+use App\Service\ReportService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -1377,6 +1382,386 @@ class MyAccountController extends AbstractController
         $appUser = $tokenStorage->getToken()->getUser();
         return $this->render('portal/my-account/reports/reports.html.twig', [
             'appUser'=> $appUser
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/crowdfunding_calculator", name="my-account-reports-cf-calculator", methods={"GET"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @return Response
+     */
+    public function myAccountReportsCFCalculator(Request $request, TokenStorageInterface $tokenStorage,
+                                                 TrnCircleEventsRepository $trnCircleEventsRepository) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $allActiveEvents = $trnCircleEventsRepository->findBy(['isActive' => 1, 'isCrowdFunding' => 1, 'appUser' => $appUser]);
+
+        return $this->render('portal/my-account/reports/crowdfundingCalculatorReports.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Crowdfunding Calculator',
+            'allActiveEvents' => $allActiveEvents,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/crowdfunding_calculator", name="my-account-reports-cf-calculator-result", methods={"GET", "POST"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @return Response
+     */
+    public function myAccountReportsCFCalculatorResult(Request $request, TokenStorageInterface $tokenStorage,
+                                                 TrnCircleEventsRepository $trnCircleEventsRepository) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $eventName = $request->get('event');
+
+        $details = $trnCircleEventsRepository->getEventsByName($eventName, true, true, $appUser);
+
+        return $this->render('portal/my-account/reports/crowdfundingCalculatorReportsRes.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Crowdfunding Calculator',
+            'details' => $details,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/fund_detail", name="my-account-reports-fund-detail", methods={"GET"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleRepository $trnCircleRepository
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @param TrnOrderRepository $trnOrderRepository
+     * @return Response
+     */
+    public function myAccountReportsFundDetail(Request $request, TokenStorageInterface $tokenStorage,
+                                                 TrnCircleRepository $trnCircleRepository,
+                                                 TrnCircleEventsRepository $trnCircleEventsRepository,
+                                               TrnOrderRepository $trnOrderRepository) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $allActiveProjects = $trnCircleRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+        $allActiveEvents = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+        $allDonorList = $trnOrderRepository->getDonors($appUser);
+        $allDonorList[] = ['id' => 'anonymous', 'name' => 'Anonymous'];
+
+        /*return $this->render('reports/fund_detail/index.html.twig', [
+            'label_title' => 'Crowdfunding or Funds Detailed Report',
+            'allActiveEvents' => $allActiveEvents,
+            'allActiveProjects' => $allActiveProjects,
+            'allDonorList' => $allDonorList,
+        ]);*/
+
+        return $this->render('portal/my-account/reports/fundDetail.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Crowdfunding Calculator',
+            'allActiveEvents' => $allActiveEvents,
+            'allActiveProjects' => $allActiveProjects,
+            'allDonorList' => $allDonorList,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/fund_detail", name="my-account-reports-fund-detail-result", methods={"GET", "POST"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param OrderDetails $orderDetailService
+     * @param ReportService $reportService
+     * @return Response
+     */
+    public function myAccountReportsFundDetailResult(Request $request, TokenStorageInterface $tokenStorage,
+                                                     OrderDetails $orderDetailService, ReportService $reportService) :Response {
+
+
+        $projectId = $request->get('project');
+        $eventId = $request->get('event');
+        $volunteerId = $request->get('volunteer');
+        $donorName = $request->get('donor');
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $details = $orderDetailService->getDonationsByDetails($projectId, $eventId, $volunteerId, $donorName, $appUser);
+
+        $resultArr = array();
+
+        $returnArr = $reportService->prepareFundDetailResult($details);
+        $resultArr = $returnArr['resultDetail'];
+        $totalDonationReceivedArr = $returnArr['donationDetail'];
+
+//dd($resultArr);
+
+        return $this->render('portal/my-account/reports/fundDetailRes.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Crowdfunding or Funds Detailed Report',
+            'details' => $resultArr,
+            'donationArr' => $totalDonationReceivedArr,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/impact_report", name="my-account-reports-impact-report", methods={"GET"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleRepository $trnCircleRepository
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @return Response
+     */
+    public function myAccountReportsImpactReport(Request $request, TokenStorageInterface $tokenStorage,
+                                                 TrnCircleRepository $trnCircleRepository,
+                                                 TrnCircleEventsRepository $trnCircleEventsRepository) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $allActiveProjects = $trnCircleRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+        $allActiveEvents = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+
+        return $this->render('portal/my-account/reports/impactReport.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Impact Report',
+            'allActiveEvents' => $allActiveEvents,
+            'allActiveProjects' => $allActiveProjects,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/filter_event_list", name="filter_report_event_list", methods={"GET","POST"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @return Response
+     */
+    public function filterEventList(Request $request, TokenStorageInterface $tokenStorage, TrnCircleEventsRepository $trnCircleEventsRepository): Response
+    {
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $circleId = $request->query->get('q');
+        $allActiveEvents = $trnCircleEventsRepository->getCircleEventList($circleId, 1, $appUser);
+        return $this->json($allActiveEvents);
+    }
+
+    /**
+     * @Route("/my-account/reports/filter_member_list", name="filter_report_member_list", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function filterMemberList(Request $request, TokenStorageInterface $tokenStorage, TrnCircleEventsRepository $trnCircleEventsRepository): Response
+    {
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $circleId = $request->query->get('q');
+        $allMembers = $trnCircleEventsRepository->getEventCreatorList($circleId, $appUser);
+        return $this->json($allMembers);
+    }
+
+    /**
+     * @Route("/my-account/reports/impact_report", name="my-account-reports-impact-report-result", methods={"GET", "POST"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @param EventService $eventService
+     * @param ReportService $reportService
+     * @return Response
+     */
+    public function myAccountReportsImpactReportResult(Request $request, TokenStorageInterface $tokenStorage,
+                                                       TrnCircleEventsRepository $trnCircleEventsRepository,
+                                                       EventService $eventService,
+                                                       ReportService $reportService) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $projectId = $request->get('project');
+        $eventId = $request->get('event');
+        $from_date = $request->get('from_date'); // mm-dd-yyyy
+        $to_date = $request->get('to_date'); // mm-dd-yyyy
+
+        $fromDateArr = array();
+        $toDateArr = array();
+        $finalFromDate = '';
+        $finalToDate = '';
+
+        if(!empty($from_date)) {
+            $fromDateArr = explode('/',$from_date);
+            $fromDate_timestamp = strtotime($fromDateArr[2]. '-' .$fromDateArr[0]. '-' .$fromDateArr[1]); // Y-m-d
+            $finalFromDate = date('Y-m-d', $fromDate_timestamp);
+        }
+
+        if(!empty($to_date)) {
+            $toDateArr = explode('/',$to_date);
+            $toDate_timestamp = strtotime($toDateArr[2]. '-' .$toDateArr[0]. '-' .$toDateArr[1]); // Y-m-d
+            $finalToDate = date('Y-m-d', $toDate_timestamp);
+        }
+
+        $details = $eventService->getEventsByDetails($eventId, $projectId, $finalFromDate, $finalToDate, $appUser);
+
+        $returnArr = $reportService->prepareImpactReportResult($details);
+        $resultArr = $returnArr['resultArr'];
+        $volunteerTotalHoursAchieved = $returnArr['volunteerHrsAchieved'];
+
+        return $this->render('portal/my-account/reports/impactReportRes.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Impact Report',
+            'details' => $resultArr,
+            'volunteer_ttl_hours_achieved' => $volunteerTotalHoursAchieved,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/member_wise", name="my-account-reports-member-wise", methods={"GET"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleRepository $trnCircleRepository
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @param TrnOrderRepository $trnOrderRepository
+     * @return Response
+     */
+    public function myAccountReportsMemberWise(Request $request, TokenStorageInterface $tokenStorage,
+                                               TrnCircleRepository $trnCircleRepository,
+                                               TrnCircleEventsRepository $trnCircleEventsRepository,
+                                               TrnOrderRepository $trnOrderRepository) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $allActiveProjects = $trnCircleRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+        $allMembers = $trnCircleEventsRepository->getEventCreatorList(null, $appUser);
+
+        return $this->render('portal/my-account/reports/memberWise.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Member Wise Report',
+            'allMembers' => $allMembers,
+            'allActiveProjects' => $allActiveProjects,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/member_wise", name="my-account-reports-member-wise-result", methods={"GET", "POST"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @param ProjectService $projectService
+     * @param ReportService $reportService
+     * @return Response
+     */
+    public function myAccountReportsMemberWiseResult(Request $request, TokenStorageInterface $tokenStorage,
+                                                     TrnCircleEventsRepository $trnCircleEventsRepository,
+                                                     ProjectService $projectService, ReportService $reportService) :Response {
+
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $projectId = $request->get('project');
+        //$appUserId = $request->get('member'); // users who have created events or crowdfunding
+        $appUserId = $appUser->getId();
+
+        if(!empty($projectId) && !empty($appUserId)) {
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'trnCircle' => $projectId, 'appUser' => $appUserId]);
+        } else if(!empty($projectId)){
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'trnCircle' => $projectId]);
+        } else if(!empty($appUserId)){
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUserId]);
+        } else {
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1]);
+        }
+
+        $resultArr = array();
+
+        foreach ($details as $detail) {
+            $tempArr = array();
+
+            $circle_id = $detail->getTrnCircle()->getId();
+            $user_id = $detail->getAppUser()->getId();
+
+            $resultArrKey = $circle_id.'_'.$user_id;
+
+            if(!array_key_exists($resultArrKey, $resultArr)) {
+
+                $tempArr = $projectService->getEventCountByProductType($circle_id, $user_id);
+
+                $tempArr['circleName'] = $detail->getTrnCircle()->getCircle();
+                $tempArr['circleId'] = $circle_id;
+                $tempArr['memberName'] = $detail->getAppUser()->getAppUserInfo()->getName();
+                $tempArr['memberId'] = $user_id;
+
+                $resultArr[$resultArrKey] = $tempArr;
+            }
+        }
+
+//dd($resultArr);
+
+        return $this->render('portal/my-account/reports/memberWiseRes.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Member Wise Report',
+            'details' => $resultArr,
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/my-account/reports/event_performance", name="my-account-reports-event-performance", methods={"GET"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleRepository $trnCircleRepository
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @param TrnOrderRepository $trnOrderRepository
+     * @return Response
+     */
+    public function myAccountReportsEventPerformance(Request $request, TokenStorageInterface $tokenStorage,
+                                               TrnCircleRepository $trnCircleRepository,
+                                               TrnCircleEventsRepository $trnCircleEventsRepository,
+                                               TrnOrderRepository $trnOrderRepository) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $allActiveProjects = $trnCircleRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+        $allActiveEvents = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+
+        return $this->render('portal/my-account/reports/eventPerformance.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Event Performance',
+            'allActiveEvents' => $allActiveEvents,
+            'allActiveProjects' => $allActiveProjects,
+        ]);
+    }
+
+    /**
+     * @Route("/my-account/reports/event_performance", name="my-account-reports-event-performance-result", methods={"GET", "POST"})
+     * @param Request $request
+     * @param TokenStorageInterface $tokenStorage
+     * @param TrnCircleEventsRepository $trnCircleEventsRepository
+     * @param ReportService $reportService
+     * @return Response
+     */
+    public function myAccountReportsEventPerformanceResult(Request $request, TokenStorageInterface $tokenStorage,
+                                                     TrnCircleEventsRepository $trnCircleEventsRepository, ReportService $reportService) :Response {
+
+        $appUser = $tokenStorage->getToken()->getUser();
+
+        $projectId = $request->get('project');
+        $eventId = $request->get('event');
+
+        if(!empty($projectId) && !empty($eventId)) {
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser, 'trnCircle' => $projectId, 'id' => $eventId]);
+        } else if(!empty($projectId)){
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser, 'trnCircle' => $projectId]);
+        } else if(!empty($eventId)){
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser, 'id' => $eventId]);
+        } else {
+            $details = $trnCircleEventsRepository->findBy(['isActive' => 1, 'appUser' => $appUser]);
+        }
+
+        $resultArr = $reportService->prepareEventPerformanceResult($details);
+
+//dd($resultArr);
+
+        return $this->render('portal/my-account/reports/eventPerformanceRes.html.twig', [
+            'appUser'=> $appUser,
+            'label_title' => 'Event Performance',
+            'details' => $resultArr,
         ]);
     }
 

@@ -1,0 +1,144 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+
+    {% set paymentGatewayCharges = 0 %}
+    {% set platformFees = 0 %}
+    {% set alreadyWithdrawn = 0 %}
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ label_title }}</h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="reportTable" class="table table-responsive table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>Sr No.
+                                    <input type="hidden" name="filename" id="filename" value="Crowdfunding or Funds Detailed Report">
+                                    <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A1">
+                                </th>
+                                <th>Project Name</th>
+                                <th>Name of Campaign / Event Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Total Target Amount</th>
+                                <th>Campaign Target Amount</th>
+                                <th>Campaign Amount Achieved</th>
+                                <th>Balance to be Achieved</th>
+                                <th>Achievement</th>
+                                <th>Payment Gateway Charges</th>
+                                <th>Net of Payment Gateway Charges</th>
+                                <th>Platform Fee</th>
+                                <th>Net Payable</th>
+                                <th>Already Withdrawn (Settled)</th>
+                                <th>Corpus Available</th>
+                                <th>Sr No.</th>
+                                <th>Volunteer Name</th>
+                                <th>Donor Name</th>
+                                <th>Donation Amount</th>
+                                <th>Is Donor Anonymous</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for key,donationDetails in details %}
+
+                            {% for data in donationDetails %}
+
+                                {% set achievement = donationArr[key] %}
+
+                                {% if data.isCFEvent == 1 %}
+                                    {% set crowdFundingData = crowd_funding_data(data.event.id) %}
+                                    {% set targetAmount = data.event.trnCrowdFundEvents[0].targetAmount %}
+
+                                {#{% set percentage = ((crowdFundingData.totalTransactionAmount/targetAmount) * 100)|round %}#}
+
+                                {% else %}
+                                    {% if data.event.trnFundRaiserCircleEventDetails is not empty and data.event.trnFundRaiserCircleEventDetails[0] is defined %}
+                                        {% set targetAmount = data.event.trnFundRaiserCircleEventDetails[0].targetAmount %}
+                                    {% else %}
+                                        {% set targetAmount = 0 %}
+                                    {% endif %}
+                                {% endif %}
+
+                                <tr>
+                                    <td>{{ data.msr_no }}</td>
+                                    <td>{{ data.circleName }}</td>
+                                    <td>{{ data.eventName }}</td>
+                                    <td>{{ data.start_date is empty ? '' : data.start_date|date('d-m-Y') }}</td>
+                                    <td>{{ data.end_date is empty ? '' : data.end_date|date('d-m-Y') }}</td>
+                                    <td>{{ data.circleName is empty ? '' : targetAmount }}</td>
+                                    <td>{{ data.circleName is empty ? '' : targetAmount }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~  achievement}}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ (targetAmount - achievement) }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ achievement }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ paymentGatewayCharges }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ (achievement - paymentGatewayCharges) }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ platformFees }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ (achievement - paymentGatewayCharges - platformFees) }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ alreadyWithdrawn }}</td>
+                                    <td>{{ data.circleName is empty ? '' : '₹ ' ~ (achievement - paymentGatewayCharges - platformFees - alreadyWithdrawn) }}</td>
+                                    <td>{{ data.sr_no }}</td>
+                                    <td>{{ data.volunteerName }}</td>
+                                    <td>{{ data.donorName }}</td>
+                                    <td>{{ data.donationAmount }}</td>
+                                    <td>{{ data.isDonorAnonymous }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>{{'info.no_record_found'|trans}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("document").ready(function() {
+            $("#reportTable_info").hide();
+        });
+    </script>
+{% endblock %}

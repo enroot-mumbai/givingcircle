@@ -98,4 +98,61 @@ class OrderDetails
             ->setParameter('transactionStatus', 'success')
             ->getQuery()->getResult();
     }
+
+    public function getDonationsByDetails($circle_id, $eventId, $volunteerId, $donorName, $appUser = null) {
+
+        $repository = $this->em->getRepository(TrnOrder::class);
+        $query = $repository->createQueryBuilder('o')
+                    ->andWhere('o.isGivingCircleDonation = :gc_donation')
+                    ->setParameter('gc_donation', 0);
+
+        if(!empty($circle_id) || !empty($eventId) || !empty($volunteerId)) {
+            $query = $query->leftJoin('o.trnCircleEvent', 'e');
+
+            if($appUser != null) {
+                $query = $query->andWhere('e.appUser = :user')
+                    ->setParameter('user', $appUser);
+            }
+
+            if(!empty($circle_id)) {
+                $query = $query->andWhere('e.trnCircle = :circle_id')
+                    ->setParameter('circle_id', $circle_id);
+            }
+
+            if(!empty($eventId)) {
+                $query = $query->andWhere('e.id = :event_id OR e.parentTrnCircleEvents = :event_id ')
+                    ->setParameter('event_id', $eventId);
+            }
+
+            if(!empty($volunteerId)) {
+                $query = $query->andWhere('e.appUser = :user_id')
+                    ->setParameter('user_id', $volunteerId);
+            }
+        } else if ($appUser != null) {
+            $query = $query->leftJoin('o.trnCircleEvent', 'e');
+            $query = $query->andWhere('e.appUser = :user')
+                        ->setParameter('user', $appUser);
+        }
+
+        if(!empty($donorName)) {
+
+            if($donorName == 'Anonymous') {
+
+                $query = $query->andWhere('o.isAnonymousDonation = :anonymous')
+                    ->setParameter('anonymous', 1);
+            } else {
+
+                $donorNameArr = explode($donorName, '');
+                /*$query = $query->andWhere('o.userFirstName like :name_1 or o.userFirstName like :name_2')
+                    ->andWhere('o.userLastName like :name_1 or o.userLastName like :name_2')
+                    ->setParameter('name_1', $donorNameArr[0])
+                    ->setParameter('name_2', $donorNameArr[1]);*/
+                $query = $query->andWhere('o.userFirstName like :name')
+                    ->setParameter('name', $donorName);
+            }
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
 }

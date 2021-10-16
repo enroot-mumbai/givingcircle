@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Master\MstEventProductType;
 use App\Entity\Master\MstStatus;
 use App\Entity\Organization\OrgCompany;
 use App\Entity\SystemApp\AppUser;
@@ -371,5 +372,37 @@ class ProjectService
         rsort($yearArray);
 
         return array('yearArray' => $yearArray, 'goodnessDetails' => $goodnessList);
+    }
+
+    public function getEventCountByProductType($circle_id, $user_id) {
+
+        $arrMstEventProductType = $this->em->getRepository(MstEventProductType::class)->findBy(["isActive" => true]);
+        foreach ($arrMstEventProductType as $MstEventProductType) {
+            if ($MstEventProductType->getEventProductType() == 'Crowdfunding')
+                continue;
+            $arrProductType[] = $MstEventProductType->getId();
+        }
+
+        $arrCountData = array();
+        foreach ($arrMstEventProductType as $objMstEventProductType) {
+            if (stripos($objMstEventProductType->getEventProductType(), 'time') !== false)
+                $strEventName = $objMstEventProductType->getEventProductType();
+
+            $query = $this->em->getRepository(TrnCircleEvents::class)->createQueryBuilder('e')
+                ->innerJoin('e.mstEventProductType', 'p')
+                ->andWhere('p.id = :mstEventProductType_id')
+                ->andWhere('e.isActive = :active')
+                ->andWhere('e.trnCircle = :circle_id')
+                ->andWhere('e.appUser = :user_id')
+                ->setParameter('mstEventProductType_id', $objMstEventProductType)
+                ->setParameter('active', 1)
+                ->setParameter('circle_id', $circle_id)
+                ->setParameter('user_id', $user_id)
+                ->getQuery()->getResult();
+            $strEventProductType = str_ireplace(array("(", ")", " "), array("", "", ""), strtolower
+            ($objMstEventProductType->getEventProductType()));
+            $arrCountData[$strEventProductType] = count($query);
+        }
+        return $arrCountData;
     }
 }

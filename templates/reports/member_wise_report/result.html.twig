@@ -1,0 +1,103 @@
+{% extends 'layout/content.html.twig' %}
+{% block cms_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ label_title }}</h4>
+                </div>
+                <nav class="card-content collapse show">
+                    <div class="card-body card-dashboard ">
+                        <table id="reportTable" class="table table-responsive table-sm text-sm">
+                            <thead>
+                            <tr>
+                                <th>Sr No.
+                                    <input type="hidden" name="filename" id="filename" value="Member Wise Report">
+                                    <input type="hidden" name="pdfFileSize" id="pdfFileSize" value="A3">
+                                </th>
+                                <th>Project Name</th>
+                                <th>Member Name</th>
+                                <th>Total No. of Time Event < <span id="ttlVolunteer"></span> > </th>
+                                <th>Total No. of Material Event < <span id="ttlMaterial"></span> ></th>
+                                <th>Total No. of Fund Event < <span id="ttlFunds"></span> ></th>
+                                <th>Total No. of Crowdfunding < <span id="ttlCrowdfunding"></span> ></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% set totalVolunteer = 0 %}
+                        {% set totalMaterial = 0 %}
+                        {% set totalFunds = 0 %}
+                        {% set totalCrowdfunding = 0 %}
+
+                        {% for data in details %}
+                            {% set totalVolunteer = totalVolunteer + data.volunteerintime %}
+                            {% set totalMaterial = totalMaterial + data.materialinkind %}
+                            {% set totalFunds = totalFunds + data.fundraiser %}
+                            {% set totalCrowdfunding = totalCrowdfunding + data.crowdfunding %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ data.circleName }}</td>
+                                <td>{{ data.memberName }}</td>
+                                <td>{{ data.volunteerintime }}</td>
+                                <td>{{ data.materialinkind }}</td>
+                                <td>{{ data.fundraiser }}</td>
+                                <td>{{ data.crowdfunding }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{'info.no_record_found'|trans}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        <tr style="display:none;">
+                            <td>
+                                <input type="hidden" name="totalV" id="totalV" value="{{ totalVolunteer }}">
+                                <input type="hidden" name="totalM" id="totalM" value="{{ totalMaterial }}">
+                                <input type="hidden" name="totalF" id="totalF" value="{{ totalFunds }}">
+                                <input type="hidden" name="totalCF" id="totalCF" value="{{ totalCrowdfunding }}">
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody></table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="text-muted"><span class="domrecord"></span></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="dompage"></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $("document").ready(function() {
+        $("#ttlVolunteer").text($("#totalV").val());
+        $("#ttlMaterial").text($("#totalM").val());
+        $("#ttlFunds").text($("#totalF").val());
+        $("#ttlCrowdfunding").text($("#totalCF").val());
+    });
+</script>
+{% endblock %}

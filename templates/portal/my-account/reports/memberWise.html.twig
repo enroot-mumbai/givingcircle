@@ -1,0 +1,177 @@
+{% extends 'portal/layout/index.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('resources/css/my-account.css')}}">
+    <link rel="stylesheet" href="{{asset('resources/css/jquery-ui.css')}}">
+    <style>
+
+    </style>
+{% endblock %}
+{% block portal_content %}
+    {{ include('portal/my-account/my-account-banner.html.twig') }}
+    <div class="wrapper myaccount">
+        <div class="container">
+            {{ include('portal/my-account/activity-button.html.twig') }}
+            <div class="cust-tabs">
+                {{ include('portal/my-account/sidebar-navigation.html.twig') }}
+                <div class="tab-content">
+                    <div class="changeMakers projects">
+                        <div class="head-sec mb-0">
+                            <h3>Reports</h3>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-cf-calculator') }}">Crowdfunding Calculator</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-fund-detail') }}">CF or Funds Detailed Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-impact-report') }}">Impact Report</a>
+                                <a class="btn btn-primary-o mt-3 active" href="{{ path('my-account-reports-member-wise') }}">Member Wise Report</a>
+                                <a class="btn btn-primary-o mt-3" href="{{ path('my-account-reports-event-performance') }}">Event Performance</a>
+
+                                <div class="mt-3">
+                                    <form method="post" name="mwreport" id="mwreport" action="{{ path('my-account-reports-member-wise-result') }}">
+                                        <div class="row">
+                                            <div class="col-sm-1">Project Name</div>
+                                            <div class="col-sm-3">
+                                                <select name="project" id="project" class="form-control" > {# onchange="ChangeMembers()" #}
+                                                    <option value="">Select</option>
+                                                    {% for project in allActiveProjects %}
+                                                        <option value="{{ project.id }}">{{ project }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm-2">Member Name</div>
+                                            <div class="col-sm-3">{{ appUser }}
+                                                {#<select name="member" id="member" class="form-control">
+                                                    <option value="">Select</option>
+                                                    {% for member in allMembers %}
+                                                        <option value="{{ member.user }}">{{ member.userName }}</option>
+                                                    {% endfor %}
+                                                </select>#}
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="submit">Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('resources/js/easy-responsive-tabs.js') }}"></script>
+    <script src="{{ asset('resources/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('resources/js/image-uploader.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('body').addClass('inner-pg logged my-account');
+            $( ".datepicker" ).datepicker({
+                showOn: "both",
+                buttonImage: "/resources/images/common/icons/icon_calender.png",
+                buttonImageOnly: true,
+                buttonText: "Select date"
+            });
+            $('.input-images-3').imageUploader({
+                label: 'Upload Documentation',
+                label2: 'Add More Images'
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                        $('#imagePreview').hide();
+                        $('#imagePreview').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload").change(function() {
+                //alert('profile image');
+                $(this).parents('.avatar-edit').find('.avatar-preview').addClass('imageadded');
+                readURL(this);
+            });
+
+
+            function bannerImg(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview2').css('background-image', 'url('+e.target.result +')');
+                        $('#imagePreview2').hide();
+                        $('#imagePreview2').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#imageUpload2").change(function() {
+                //alert('banner image');
+                $(this).parents('.banner-image').find('.banner-preview').addClass('imageadded');
+                $(this).parents().find('.profile-bg').hide();
+                bannerImg(this);
+            });
+
+
+            function formcontrol(){
+                $(".form-control").filter(function() {
+                    if (this.value.length !==0){
+                        $(this).siblings('label').addClass('clicked');
+                    }
+                });
+            }
+
+            formcontrol();
+            $('.form-group label').click(function () {
+                $(this).addClass('clicked');
+            });
+            $('.form-control').click(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').keyup(function () {
+                $(this).siblings('label').addClass('clicked');
+            });
+            $('.form-control').blur(function () {
+                if ($(this).val()) {
+                    $(this).siblings('label').addClass('clicked');
+                } else if (!$(this).val()) {
+                    $(this).siblings('label').removeClass('clicked');
+                }
+            });
+
+
+        });
+
+        function ChangeMembers() {
+
+            var data = {};
+            data['q'] = $("#project").val();
+            console.log(data);
+
+            $.ajax({
+                url: '{{ path("filter_report_member_list") }}',
+                data: data,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    var product = $("#member");
+                    product.html('');
+                    product.append('<option value="" >Select...</option>');
+                    // add options
+                    $.each(data, function (id, result) {
+                        product.append('<option value="'+ result.user +'">'+ result.userName + '</option>');
+                    });
+                }
+            });
+        }
+
+    </script>
+{% endblock %}

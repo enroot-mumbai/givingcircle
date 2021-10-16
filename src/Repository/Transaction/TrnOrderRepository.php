@@ -132,6 +132,33 @@ class TrnOrderRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getDonors($appUser = null)
+    {
+        $query = $this->createQueryBuilder('o')
+//            ->select('o.id',"CONCAT(CASE WHEN o.userFirstName IS NULL THEN '' ELSE o.userFirstName END,' ',
+//                        CASE WHEN o.userLastName IS NULL THEN '' ELSE o.userLastName END) AS name")
+            ->select('o.id',"o.userFirstName AS name")
+            ->andWhere('o.transactionStatus = :tstatus')
+            ->andWhere('o.isAnonymousDonation = :anonymous')
+            ->setParameter('tstatus', 'success')
+            ->setParameter('anonymous', 0);
+
+        if($appUser != null) {
+            $query = $query->leftJoin('o.trnCircleEvent', 'e')
+                ->andWhere('e.appUser =:user')
+                ->setParameter('user', $appUser);
+        }
+
+        $query = $query->orderBy('o.id', 'DESC')
+            ->getQuery();
+
+        /*echo '<pre>';
+        print_r($query->getParameters());
+        dd($query->getSQL());*/
+
+        return $query->getResult();
+    }
+
     /**
      * @param string $transactionStatus
      * @param TrnCircleEvents $trnCircleEvents
